@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "Git hook pre commit spotless"
+
+cd ../Kustom-Alarm || return
+
+#./gradlew spotlessApply
+#STATUS=$?
+## return 1 exit code if running checks fails
+#[ $STATUS -ne 0 ] && exit 1
+
+./gradlew spotlessCheck
+STATUS=$?
+
+if [ $STATUS -ne 0 ]
+then
+  ./gradlew spotlessApply
+fi
+
+# return 1 exit code if running checks fails
+[ $STATUS -ne 0 ] && exit 1
+
+exit 0
