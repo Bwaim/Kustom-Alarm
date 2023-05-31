@@ -63,17 +63,17 @@ android {
                 "proguard-rules.pro"
             )
         }
-//        create("benchmark") {
-//            // Enable all the optimizations from release build through initWith(release).
-//            initWith(release)
-//            matchingFallbacks.add("release")
-//            // Debug key signing is available to everyone.
-//            signingConfig = signingConfigs.getByName("debug")
-//            // Only use benchmark proguard rules
-//            proguardFiles("benchmark-rules.pro")
-//            isMinifyEnabled = true
-//            applicationIdSuffix = ".benchmark"
-//        }
+        create("benchmark") {
+            // Enable all the optimizations from release build through initWith(release).
+            initWith(release)
+            matchingFallbacks.add("release")
+            // Debug key signing is available to everyone.
+            signingConfig = signingConfigs.getByName("debug")
+            // Only use benchmark proguard rules
+            proguardFiles("benchmark-rules.pro")
+            isMinifyEnabled = true
+            applicationIdSuffix = ".benchmark"
+        }
     }
 
     packaging {
@@ -86,26 +86,10 @@ android {
 dependencies {
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.profile.installer)
 
     implementation(libs.compose.material3)
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
-
-//    implementation 'androidx.core:core-ktx:1.8.0'
-//    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-//    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-//    implementation 'androidx.activity:activity-compose:1.5.1'
-//    implementation platform('androidx.compose:compose-bom:2022.10.00')
-//    implementation 'androidx.compose.ui:ui'
-//    implementation 'androidx.compose.ui:ui-graphics'
-//    implementation 'androidx.compose.ui:ui-tooling-preview'
-//    implementation 'androidx.compose.material3:material3'
-//    testImplementation 'junit:junit:4.13.2'
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-//    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-//    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-//    debugImplementation 'androidx.compose.ui:ui-tooling'
-//    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }

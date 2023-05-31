@@ -29,6 +29,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KustomAlarm"
         tools:targetApi="tiramisu">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
