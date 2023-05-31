@@ -29,10 +29,10 @@ gradlePlugin {
             id = "kustomalarm.android.application.jacoco"
             implementationClass = "AndroidApplicationJacocoConventionPlugin"
         }
-//        register("androidBenchmark") {
-//            id = "loteriamexicana.android.benchmark"
-//            implementationClass = "BenchmarkConventionPlugin"
-//        }
+        register("androidBenchmark") {
+            id = "kustomalarm.android.benchmark"
+            implementationClass = "BenchmarkConventionPlugin"
+        }
         register("androidFeature") {
             id = "kustomalarm.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
@@ -45,7 +45,6 @@ gradlePlugin {
             id = "kustomalarm.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
-
         register("androidLibraryJacoco") {
             id = "kustomalarm.android.library.jacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"

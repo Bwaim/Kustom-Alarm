@@ -17,3 +17,5 @@ dependencyResolutionManagement {
 rootProject.name = "Kustom-Alarm"
 
 include(":app")
+
+include(":benchmarks")
