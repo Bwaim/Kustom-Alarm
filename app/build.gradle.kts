@@ -20,9 +20,9 @@ plugins {
     id("kustomalarm.android.test.compose")
 //    id("kustomalarm.hilt")
     id("kustomalarm.spotless")
-//    id("com.google.gms.google-services")
-//    id("com.google.firebase.crashlytics")
-//    id("com.google.firebase.firebase-perf")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
 }
 
 android {
@@ -43,18 +43,18 @@ android {
 
     buildTypes {
         val debug by getting {
-//            extra.set("enableCrashlytics", false)
+            extra.set("enableCrashlytics", false)
 
             applicationIdSuffix = ".debug"
 
-//            withGroovyBuilder {
-//                "FirebasePerformance" {
-//                    invokeMethod("setInstrumentationEnabled", false)
-//                }
-//            }
+            withGroovyBuilder {
+                "FirebasePerformance" {
+                    invokeMethod("setInstrumentationEnabled", false)
+                }
+            }
         }
         val release by getting {
-//            extra.set("enableCrashlytics", true)
+            extra.set("enableCrashlytics", true)
 
             isMinifyEnabled = true
             isShrinkResources = true
@@ -92,4 +92,6 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
+
+    implementation(libs.firebase.perf.library)
 }

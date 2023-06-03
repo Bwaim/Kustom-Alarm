@@ -8,9 +8,9 @@ buildscript {
         classpath(libs.android.gradle)
         classpath(libs.kotlin.gradle)
         classpath(libs.hilt.gradle)
-//        classpath(libs.google.gms)
-//        classpath(libs.firebase.crashlytics.gradle)
-//        classpath(libs.firebase.perf.gradle)
+        classpath(libs.google.gms)
+        classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.firebase.perf.gradle)
     }
 }
 

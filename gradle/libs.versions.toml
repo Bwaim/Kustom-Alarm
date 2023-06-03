@@ -18,6 +18,11 @@ compose = "1.5.0-beta01"
 composeCompiler = "1.4.7"
 coroutines = "1.7.1"
 dagger = "2.46.1"
+firebaseCrashlytics = "18.3.7"
+firebaseCrashlyticsGradle = "2.9.5"
+firebasePerf = "20.3.2"
+firebasePerfGradle = "1.4.2"
+googleGms = "4.3.15"
 jacoco = "0.8.8"
 junit4 = "4.13.2"
 kotlin = "1.8.21"
@@ -51,6 +56,13 @@ compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref =
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-ui-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle"}
+firebase-crashlytics-library = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlytics" }
+firebase-perf-gradle = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerfGradle"}
+firebase-perf-library = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebasePerf" }
+
+google-gms = { module = "com.google.gms:google-services", version.ref = "googleGms"}
 
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger" }
