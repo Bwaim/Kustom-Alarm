@@ -19,3 +19,5 @@ rootProject.name = "Kustom-Alarm"
 include(":app")
 
 include(":benchmarks")
+
+include(":common:initializers")
