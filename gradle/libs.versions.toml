@@ -2,7 +2,7 @@
 accompanist = "0.32.0"
 androidCacheFix = "2.8.0"
 androidDesugarJdkLibs = "2.0.3"
-androidGradlePlugin = "8.0.2"
+androidGradlePlugin = "8.1.1"
 androidxActivity = "1.7.2"
 androidxBenchmarkMacro = "1.2.0-alpha15"
 androidxComposeMaterial3 = "1.1.1"
