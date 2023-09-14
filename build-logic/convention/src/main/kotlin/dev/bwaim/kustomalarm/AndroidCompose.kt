@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.getByType
  * Configure Compose-specific options
  */
 fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
