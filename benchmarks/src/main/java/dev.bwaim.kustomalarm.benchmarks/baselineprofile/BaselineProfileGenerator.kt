@@ -14,7 +14,7 @@ internal class BaselineProfileGenerator {
 
     @Test
     fun generate() =
-        baselineProfileRule.collectBaselineProfile("dev.bwaim.kustomalarm.benchmark") {
+        baselineProfileRule.collect("dev.bwaim.kustomalarm.benchmark") {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll
             // through your most important UI.
