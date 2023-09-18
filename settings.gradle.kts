@@ -21,3 +21,4 @@ include(":app")
 include(":benchmarks")
 
 include(":common:initializers")
+include(":common:ui-resources")
