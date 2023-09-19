@@ -86,10 +86,13 @@ android {
 dependencies {
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime)
     implementation(libs.androidx.profile.installer)
 
-    implementation(libs.compose.material3)
+    implementation(libs.compose.animation)
     implementation(libs.compose.foundation)
+    implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
 
