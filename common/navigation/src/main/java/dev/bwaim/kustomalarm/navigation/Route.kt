@@ -17,7 +17,16 @@
 package dev.bwaim.kustomalarm.navigation
 
 import android.net.Uri
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 
 /** For a route like that example_route/{arg1}/{arg2}?arg3={arg3},arg4={arg4}
  *  baseRoutePattern = example_route/{arg1}/{arg2}
@@ -45,6 +54,31 @@ public interface Route {
         }
 
         return finalRoute
+    }
+
+    context(NavGraphBuilder)
+    public fun composable(
+        deepLinks: List<NavDeepLink> = emptyList(),
+        enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,
+        exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = null,
+        popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+            enterTransition,
+        popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
+            exitTransition,
+        content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
+    ) {
+        composable(
+            route = this@Route.route,
+            arguments = mandatoryArguments + optionalArguments,
+            deepLinks = deepLinks,
+            enterTransition = enterTransition,
+            exitTransition = exitTransition,
+            popEnterTransition = popEnterTransition,
+            popExitTransition = popExitTransition,
+            content = {
+                content(it)
+            },
+        )
     }
 
     private fun addOptionalParameters(): String =

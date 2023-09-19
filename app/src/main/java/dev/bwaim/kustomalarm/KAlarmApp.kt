@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package dev.bwaim.kustomalarm
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import dev.bwaim.kustomalarm.features.alarm.navigation.ALARM_NAVIGATION_ROUTE
 import dev.bwaim.kustomalarm.navigation.KAlarmNavHost
 import dev.bwaim.kustomalarm.state.KAlarmAppState
 import dev.bwaim.kustomalarm.state.rememberKAlarmAppState
@@ -32,7 +39,13 @@ internal fun KAlarmApp(
             label = "Animated NxNavHost",
             targetState = contentPadding,
         ) { targetContentPadding ->
-            KAlarmNavHost(navController = kAlarmAppState.navController, startRoute = "")
+            KAlarmNavHost(
+                navController = kAlarmAppState.navController,
+                startRoute = ALARM_NAVIGATION_ROUTE,
+                modifier = Modifier
+                    .padding(targetContentPadding)
+                    .consumeWindowInsets(targetContentPadding),
+            )
         }
     }
 }

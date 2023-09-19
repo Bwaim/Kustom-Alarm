@@ -33,8 +33,6 @@ timber = "5.0.1"
 turbine = "1.0.0"
 
 [libraries]
-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
-
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 

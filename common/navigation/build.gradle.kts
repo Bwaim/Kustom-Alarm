@@ -15,6 +15,7 @@
  */
 plugins {
     id("kustomalarm.android.library")
+    id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.spotless")
 }
@@ -29,4 +30,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.navigation.common)
+    implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.compose.animation)
 }

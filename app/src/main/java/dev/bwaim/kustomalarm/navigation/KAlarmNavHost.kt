@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
 
 @Composable
 internal fun KAlarmNavHost(
@@ -32,5 +33,6 @@ internal fun KAlarmNavHost(
         startDestination = startRoute,
         modifier = modifier,
     ) {
+        alarmScreen()
     }
 }

@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm
+package dev.bwaim.kustomalarm.features.alarm
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import dev.bwaim.kustomalarm.ui.theme.KustomAlarmTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 
-internal class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            KustomAlarmTheme {
-                KAlarmApp()
-            }
-        }
-    }
+@Composable
+public fun AlarmRoute() {
+    AlarmScreen()
+}
+
+@Composable
+private fun AlarmScreen() {
+    Text(
+        text = "AlarmScreen",
+    )
 }
