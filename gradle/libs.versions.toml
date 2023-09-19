@@ -42,6 +42,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidxBenchmarkMacro" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
+androidx-navigation-common = { module = "androidx.navigation:navigation-common", version.ref = "androidxNavigation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
 androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime", version.ref = "androidxNavigation" }
 androidx-profile-installer = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidxProfileInstaller" }

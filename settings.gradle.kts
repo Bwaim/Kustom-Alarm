@@ -21,6 +21,7 @@ include(":app")
 include(":benchmarks")
 
 include(":common:initializers")
+include(":common:navigation")
 include(":common:ui-resources")
 
 include(":features:alarm")
