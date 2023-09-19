@@ -22,3 +22,5 @@ include(":benchmarks")
 
 include(":common:initializers")
 include(":common:ui-resources")
+
+include(":features:alarm")

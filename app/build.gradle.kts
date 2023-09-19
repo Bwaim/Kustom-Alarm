@@ -84,6 +84,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.features.alarm)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
