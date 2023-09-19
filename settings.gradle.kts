@@ -20,6 +20,7 @@ include(":app")
 
 include(":benchmarks")
 
+include(":common:compose")
 include(":common:initializers")
 include(":common:navigation")
 include(":common:ui-resources")
