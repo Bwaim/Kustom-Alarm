@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
     name = "1_light theme",
     group = "themes",
     showBackground = true,
-    backgroundColor = 0xff1d1516,
+    backgroundColor = 0xffeeebe8,
     device = "spec:shape=Normal,width=360,height=720,unit=dp,dpi=480",
 )
 public annotation class LightPreview

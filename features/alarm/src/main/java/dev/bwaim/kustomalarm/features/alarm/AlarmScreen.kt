@@ -16,8 +16,10 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import dev.bwaim.kustomalarm.compose.Header
+import dev.bwaim.kustomalarm.ui.resources.R.drawable
 
 @Composable
 public fun AlarmRoute() {
@@ -26,7 +28,9 @@ public fun AlarmRoute() {
 
 @Composable
 private fun AlarmScreen() {
-    Text(
-        text = "AlarmScreen",
+    Header(
+        title = "Alarms",
+        imageRes = drawable.alarm_background,
+        backgroundColor = Color.Red,
     )
 }

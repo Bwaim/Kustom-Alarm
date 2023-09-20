@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation(projects.common.localisation)
+    implementation(projects.common.uiResources)
 
     implementation(libs.androidx.core)
 
