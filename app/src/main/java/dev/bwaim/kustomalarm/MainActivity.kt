@@ -18,16 +18,44 @@ package dev.bwaim.kustomalarm
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.DisposableEffect
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 
 internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
         setContent {
-            KustomAlarmTheme {
+            val darkTheme = isSystemInDarkTheme()
+
+            DisposableEffect(darkTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.auto(
+                        android.graphics.Color.TRANSPARENT,
+                        android.graphics.Color.TRANSPARENT,
+                    ) { darkTheme },
+                    navigationBarStyle = SystemBarStyle.auto(
+                        lightScrim,
+                        darkScrim,
+                    ) { darkTheme },
+                )
+                onDispose {}
+            }
+
+            KustomAlarmTheme(
+                darkTheme = darkTheme,
+            ) {
                 KAlarmApp()
             }
         }
     }
 }
+
+private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
+private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
