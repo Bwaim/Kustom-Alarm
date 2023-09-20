@@ -19,7 +19,7 @@ package dev.bwaim.kustomalarm
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import dev.bwaim.kustomalarm.ui.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 
 internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

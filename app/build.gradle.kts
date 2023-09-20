@@ -84,6 +84,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.compose)
+
     implementation(projects.features.alarm)
 
     implementation(libs.androidx.activity.compose)

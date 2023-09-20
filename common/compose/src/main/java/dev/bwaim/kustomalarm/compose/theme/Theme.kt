@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.ui.theme
+package dev.bwaim.kustomalarm.compose.theme
 
 import android.app.Activity
 import android.os.Build
