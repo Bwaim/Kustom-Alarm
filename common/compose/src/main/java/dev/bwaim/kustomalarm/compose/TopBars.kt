@@ -24,7 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
 public fun KaCenterAlignedTopAppBar(
@@ -49,7 +51,7 @@ private fun DefaultNavigationIcon(
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Menu,
-            contentDescription = null,
+            contentDescription = stringResource(id = string.menu_content_description),
         )
     }
 }

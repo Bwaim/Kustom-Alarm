@@ -15,23 +15,9 @@
  */
 plugins {
     id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
     id("kustomalarm.spotless")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.compose"
-}
-
-dependencies {
-    implementation(projects.common.localisation)
-
-    implementation(libs.androidx.core)
-
-    implementation(libs.compose.material3)
-    implementation(libs.compose.runtime)
-    implementation(libs.compose.ui.tooling.preview)
-
-    debugImplementation(libs.compose.ui.tooling)
+    namespace = "dev.bwaim.kustomalarm.localisation"
 }
