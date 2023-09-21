@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -67,6 +68,8 @@ public fun Header(
 @KAlarmPreviews
 private fun PreviewHeader() {
     KustomAlarmTheme {
-        Header(title = "Header", imageRes = drawable.alarm_background)
+        Surface {
+            Header(title = "Header", imageRes = drawable.alarm_background)
+        }
     }
 }

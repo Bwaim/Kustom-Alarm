@@ -16,8 +16,13 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import dev.bwaim.kustomalarm.compose.Header
+import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 
 @Composable
@@ -28,7 +33,17 @@ public fun AlarmRoute() {
 @Composable
 private fun AlarmScreen() {
     Header(
-        title = "Alarms",
+        title = stringResource(id = string.alarm_screen_titre),
         imageRes = drawable.alarm_background,
     )
+}
+
+@Composable
+@KAlarmPreviews
+private fun PreviewAlarmScreen() {
+    KustomAlarmTheme {
+        Surface {
+            AlarmScreen()
+        }
+    }
 }
