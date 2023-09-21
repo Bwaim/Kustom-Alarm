@@ -18,7 +18,6 @@ package dev.bwaim.kustomalarm.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,11 +39,9 @@ public fun Header(
     title: String,
     @DrawableRes imageRes: Int,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = MaterialTheme.colorScheme.background,
 ) {
     Box(
         modifier = modifier
-            .background(backgroundColor)
             .fillMaxWidth()
             .height(128.dp)
             .padding(16.dp),

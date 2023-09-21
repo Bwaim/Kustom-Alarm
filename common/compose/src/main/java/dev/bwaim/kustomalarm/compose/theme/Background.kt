@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.features.alarm
+package dev.bwaim.kustomalarm.compose.theme
 
-import androidx.compose.runtime.Composable
-import dev.bwaim.kustomalarm.compose.Header
-import dev.bwaim.kustomalarm.ui.resources.R.drawable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
-@Composable
-public fun AlarmRoute() {
-    AlarmScreen()
-}
+@Immutable
+internal data class BackgroundTheme(
+    val color: Color = Color.Unspecified,
+    val tonalElevation: Dp = Dp.Unspecified,
+)
 
-@Composable
-private fun AlarmScreen() {
-    Header(
-        title = "Alarms",
-        imageRes = drawable.alarm_background,
-    )
-}
+internal val LocalBackgroundTheme = staticCompositionLocalOf { BackgroundTheme() }
