@@ -29,12 +29,24 @@ internal val PurpleGrey40 = Color(0xFF625b71)
 internal val Pink40 = Color(0xFF7D5260)
 
 internal val BlueSky = Color(0xFF98CBF0)
+internal val BlueSky30 = Color(0xFF3197e1)
+internal val BlueSky60 = Color(0xFF145889)
+
 internal val BlueNight = Color(0xFF0D224A)
+
+internal val NeutralVariant30 = Color(red = 73, green = 69, blue = 79)
+internal val NeutralVariant50 = Color(red = 121, green = 116, blue = 126)
+internal val NeutralVariant70 = Color(red = 174, green = 169, blue = 180)
+internal val NeutralVariant80 = Color(red = 202, green = 196, blue = 208)
+internal val NeutralVariant90 = Color(red = 231, green = 224, blue = 236)
+internal val NeutralVariant95 = Color(red = 245, green = 238, blue = 250)
 
 internal val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
+    background = BlueNight,
+    outlineVariant = NeutralVariant30,
 )
 
 internal val LightColorScheme = lightColorScheme(
@@ -42,6 +54,7 @@ internal val LightColorScheme = lightColorScheme(
     secondary = PurpleGrey40,
     tertiary = Pink40,
     background = BlueSky,
+    outlineVariant = NeutralVariant80,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
