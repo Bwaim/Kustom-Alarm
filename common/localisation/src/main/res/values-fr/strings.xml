@@ -16,5 +16,7 @@
 -->
 <resources>
     <string name="menu.content_description">menu</string>
-    <string name="alarm.screen.titre">alarmes</string>
+    <string name="alarm.screen.titre">Alarmes</string>
+    <string name="alarm.screen.no_alarm.msg">Aucune alarme créée</string>
+    <string name="alarm.screen.no_alarm.add_button">Ajouter</string>
 </resources>

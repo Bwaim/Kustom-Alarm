@@ -16,11 +16,21 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.Header
+import dev.bwaim.kustomalarm.compose.HorizontalDivider
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
@@ -32,9 +42,30 @@ public fun AlarmRoute() {
 
 @Composable
 private fun AlarmScreen() {
-    Header(
-        title = stringResource(id = string.alarm_screen_titre),
-        imageRes = drawable.alarm_background,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        HorizontalDivider()
+        Header(
+            title = stringResource(id = string.alarm_screen_titre),
+            imageRes = drawable.alarm_background,
+        )
+        HorizontalDivider(modifier = Modifier.padding(bottom = 30.dp))
+        NoAlarm()
+    }
+}
+
+@Composable
+private fun ColumnScope.NoAlarm() {
+    Text(
+        text = stringResource(id = string.alarm_screen_no_alarm_msg),
+        style = MaterialTheme.typography.headlineSmall,
+    )
+
+    PrimaryButton(
+        text = stringResource(id = string.alarm_screen_no_alarm_add_button),
+        onClick = {},
+        modifier = Modifier.padding(top = 60.dp),
     )
 }
 
@@ -42,7 +73,7 @@ private fun AlarmScreen() {
 @KAlarmPreviews
 private fun PreviewAlarmScreen() {
     KustomAlarmTheme {
-        Surface {
+        KaBackground {
             AlarmScreen()
         }
     }
