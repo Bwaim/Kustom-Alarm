@@ -88,6 +88,7 @@ dependencies {
     implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)
+    implementation(projects.features.settings)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
