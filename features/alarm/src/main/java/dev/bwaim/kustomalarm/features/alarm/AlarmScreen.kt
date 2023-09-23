@@ -18,7 +18,8 @@ package dev.bwaim.kustomalarm.features.alarm
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +51,8 @@ private fun AlarmScreen() {
             title = stringResource(id = string.alarm_screen_titre),
             imageRes = drawable.alarm_background,
         )
-        HorizontalDivider(modifier = Modifier.padding(bottom = 30.dp))
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(30.dp))
         NoAlarm()
     }
 }
@@ -61,11 +63,10 @@ private fun ColumnScope.NoAlarm() {
         text = stringResource(id = string.alarm_screen_no_alarm_msg),
         style = MaterialTheme.typography.headlineSmall,
     )
-
+    Spacer(modifier = Modifier.height(60.dp))
     PrimaryButton(
         text = stringResource(id = string.alarm_screen_no_alarm_add_button),
         onClick = {},
-        modifier = Modifier.padding(top = 60.dp),
     )
 }
 
