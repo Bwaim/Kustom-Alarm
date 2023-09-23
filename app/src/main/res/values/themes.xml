@@ -14,7 +14,17 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.KustomAlarm" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="NightAdjusted.Theme.Ka" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.Ka" parent="NightAdjusted.Theme.Ka" />
+
+    <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+    </style>
+    <style name="Theme.Ka.Splash" parent="NightAdjusted.Theme.Splash">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ka</item>
+    </style>
 </resources>

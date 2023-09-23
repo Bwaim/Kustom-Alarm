@@ -1,5 +1,6 @@
 
 import com.android.build.gradle.LibraryExtension
+import dev.bwaim.kustomalarm.configureFeatureAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -18,6 +19,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.kapt")
             }
             extensions.configure<LibraryExtension> {
+                configureFeatureAndroid(this)
+
 //                defaultConfig {
 //                    testInstrumentationRunner =
 //                        "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
@@ -31,13 +34,16 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-//                add("implementation", project(":common:navigation"))
+                add("implementation", project(":common:compose"))
+                add("implementation", project(":common:navigation"))
+                add("implementation", project(":common:localisation"))
+                add("implementation", project(":common:ui-resources"))
 
                 add("implementation", libs.findLibrary("androidx.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
-                add("implementation", libs.findLibrary("accompanist.navigation.animation").get())
+                add("implementation", libs.findLibrary("compose.material3").get())
 
                 add("implementation", libs.findLibrary("kotlin.coroutines.android").get())
 

@@ -20,4 +20,10 @@ include(":app")
 
 include(":benchmarks")
 
+include(":common:compose")
 include(":common:initializers")
+include(":common:localisation")
+include(":common:navigation")
+include(":common:ui-resources")
+
+include(":features:alarm")

@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    id("kustomalarm.android.library")
+    id("kustomalarm.android.feature")
+    id("kustomalarm.android.library.compose")
+    id("kustomalarm.android.library.jacoco")
+    id("kustomalarm.spotless")
+}
 
-package dev.bwaim.kustomalarm.ui.theme
+android {
+    namespace = "dev.bwaim.kustomalarm.features.alarm"
+}
 
-import androidx.compose.ui.graphics.Color
-
-internal val Purple80 = Color(0xFFD0BCFF)
-internal val PurpleGrey80 = Color(0xFFCCC2DC)
-internal val Pink80 = Color(0xFFEFB8C8)
-
-internal val Purple40 = Color(0xFF6650a4)
-internal val PurpleGrey40 = Color(0xFF625b71)
-internal val Pink40 = Color(0xFF7D5260)
+dependencies {
+}
