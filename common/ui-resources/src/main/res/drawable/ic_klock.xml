@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2023 Dev Bwaim team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="28.575"
+    android:viewportHeight="28.575">
+    <path
+        android:fillColor="#98CBF0"
+        android:pathData="M0 0h108v108H0z" />
+    <path
+        android:fillAlpha="0.986"
+        android:fillColor="#000000"
+        android:pathData="M14.023 6.879a0.265 0.265 0 1 1 0.529 0 0.265 0.265 0 1 1-0.529 0m-7.409 7.409a0.265 0.265 0 1 1 0.529 0 0.265 0.265 0 1 1-0.529 0m7.409 7.937a0.265 0.265 0 1 1 0.529 0 0.265 0.265 0 1 1-0.529 0m7.937-7.937a0.265 0.265 0 1 1 0.529 0 0.265 0.265 0 1 1-0.529 0"
+        android:strokeWidth="0.177674" />
+    <path
+        android:fillAlpha="0.986"
+        android:pathData="M5.43 14.288a8.858 8.858 0 1 1 17.716 0 8.858 8.858 0 1 1-17.716 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="0.27525" />
+    <path
+        android:fillAlpha="0.986"
+        android:fillColor="#000000"
+        android:pathData="M19.604 8.752a0.265 0.265 90 1 1 0.374 0.374 0.265 0.265 90 1 1-0.374-0.374m-10.477 0a0.265 0.265 0 1 1 0.374 0.374 0.265 0.265 90 1 1-0.374-0.374M8.752 19.604a0.265 0.265 90 1 1 0.374 0.374 0.265 0.265 90 1 1-0.374-0.374m11.226 0a0.265 0.265 0 1 1 0.374 0.374 0.265 0.265 0 1 1-0.374-0.374"
+        android:strokeWidth="0.177674" />
+    <path
+        android:fillAlpha="0.986"
+        android:fillColor="#000000"
+        android:pathData="M17.628 18.951H16.53l-2.517-4.153-0.632 0.99v3.163h-0.846V9.624h0.846v4.867l3.089-4.867h1.025l-2.841 4.384z"
+        android:strokeColor="#000000"
+        android:strokeWidth="0.199" />
+</vector>

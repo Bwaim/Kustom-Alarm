@@ -85,6 +85,7 @@ android {
 
 dependencies {
     implementation(projects.common.compose)
+    implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)
 
