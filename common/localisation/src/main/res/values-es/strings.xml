@@ -19,4 +19,5 @@
     <string name="alarm.screen.titre">Alarmas</string>
     <string name="alarm.screen.no_alarm.msg">Ninguna alarma creada</string>
     <string name="alarm.screen.no_alarm.add_button">Agregar</string>
+    <string name="settings.screen.label">Configuraciones</string>
 </resources>

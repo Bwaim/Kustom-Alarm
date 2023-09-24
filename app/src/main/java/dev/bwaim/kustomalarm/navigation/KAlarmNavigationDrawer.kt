@@ -24,8 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue.Open
 import androidx.compose.material3.Icon
@@ -36,6 +34,9 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,37 +44,48 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import dev.bwaim.kustomalarm.R.string
 import dev.bwaim.kustomalarm.compose.HorizontalDivider
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.settings.navigation.SettingsNavigationDrawerItem
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun KaNavigationDrawer(
+    navigationDrawerItems: List<NavigationDrawerItem>,
+    navController: NavController,
     drawerState: DrawerState,
     scope: CoroutineScope,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
+    val selectedItem: MutableState<NavigationDrawerItem?> = remember { mutableStateOf(null) }
+
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
                 AppDrawerItem()
                 HorizontalDivider()
-                // TODO replace by real item
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Outlined.Settings, contentDescription = null) },
-                    label = { Text(text = "Settings") },
-                    selected = false,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                    },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                )
+
+                navigationDrawerItems.forEach { item ->
+                    NavigationDrawerItem(
+                        icon = { Icon(item.icon, contentDescription = null) },
+                        label = { Text(text = stringResource(id = item.labelRes)) },
+                        selected = item == selectedItem.value,
+                        onClick = {
+                            selectedItem.value = item
+                            item.action(navController)
+                            scope.launch { drawerState.close() }
+                        },
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    )
+                }
             }
         },
         modifier = modifier,
@@ -111,6 +123,10 @@ private fun AppDrawerItem() {
 private fun PreviewKaNavigationDrawer() {
     KustomAlarmTheme {
         KaNavigationDrawer(
+            navigationDrawerItems = listOf(
+                SettingsNavigationDrawerItem(),
+            ),
+            navController = rememberNavController(),
             drawerState = DrawerState(Open),
             scope = rememberCoroutineScope(),
         ) {

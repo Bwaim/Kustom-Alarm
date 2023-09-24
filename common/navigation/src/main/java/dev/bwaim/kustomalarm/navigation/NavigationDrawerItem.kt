@@ -13,25 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
+package dev.bwaim.kustomalarm.navigation
 
-dependencies {
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavController
 
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
+public interface NavigationDrawerItem {
+    public val labelRes: Int
+    public val icon: ImageVector
+    public val action: (NavController) -> Unit
 }

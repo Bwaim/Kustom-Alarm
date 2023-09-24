@@ -13,25 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
+
+package dev.bwaim.kustomalarm.settings
+
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+
+@Composable
+internal fun SettingsRoute() {
+    SettingsScreen()
 }
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
+@Composable
+private fun SettingsScreen() {
+    Text(text = "SettingsScreen")
+}
+
+@Composable
+@KAlarmPreviews
+private fun PreviewSettingsScreen() {
+    KustomAlarmTheme {
+        KaBackground {
+            SettingsScreen()
+        }
     }
-}
-
-dependencies {
-
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
 }
