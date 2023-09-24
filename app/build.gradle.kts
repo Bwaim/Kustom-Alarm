@@ -18,7 +18,7 @@ plugins {
     id("kustomalarm.android.application.compose")
     id("kustomalarm.android.application.jacoco")
     id("kustomalarm.android.test.compose")
-//    id("kustomalarm.hilt")
+    id("kustomalarm.hilt")
     id("kustomalarm.spotless")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -85,6 +85,7 @@ android {
 
 dependencies {
     implementation(projects.common.compose)
+    implementation(projects.common.navigation)
     implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)

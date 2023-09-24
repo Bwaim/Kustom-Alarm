@@ -23,8 +23,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.DisposableEffect
+import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 
+@AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

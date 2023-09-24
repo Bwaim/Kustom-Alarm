@@ -19,6 +19,7 @@
     android:installLocation="auto">
 
     <application
+        android:name=".KAlarmApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
