@@ -29,8 +29,12 @@ public object AlarmRoute : Route {
     override val optionalArguments: List<NamedNavArgument> = emptyList()
 }
 
-public fun NavGraphBuilder.alarmScreen() {
+public fun NavGraphBuilder.alarmScreen(
+    openDrawer: () -> Unit,
+) {
     AlarmRoute.composable {
-        AlarmRoute()
+        AlarmRoute(
+            openDrawer = openDrawer,
+        )
     }
 }

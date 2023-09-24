@@ -21,18 +21,24 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
+import dev.bwaim.kustomalarm.settings.navigation.settingsScreen
 
 @Composable
 internal fun KAlarmNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     startRoute: String,
+    openDrawer: () -> Unit,
 ) {
     NavHost(
         navController = navController,
         startDestination = startRoute,
         modifier = modifier,
     ) {
-        alarmScreen()
+        alarmScreen(
+            openDrawer = openDrawer,
+        )
+
+        settingsScreen()
     }
 }

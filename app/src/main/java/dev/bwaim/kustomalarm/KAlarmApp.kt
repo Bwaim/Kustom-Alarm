@@ -54,6 +54,8 @@ internal fun KAlarmApp(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
+    val openDrawer: () -> Unit = remember(scope) { { scope.launch { drawerState.open() } } }
+
     KaNavigationDrawer(
         navigationDrawerItems = navigationDrawerItems,
         navController = kAlarmAppState.navController,
@@ -65,11 +67,6 @@ internal fun KAlarmApp(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 contentWindowInsets = WindowInsets(0, 0, 0, 0),
-                topBar = {
-                    KaCenterAlignedTopAppBar(
-                        onClickNavigation = { scope.launch { drawerState.open() } },
-                    )
-                },
             ) { padding ->
                 Row(
                     Modifier
@@ -85,6 +82,7 @@ internal fun KAlarmApp(
                     KAlarmNavHost(
                         navController = kAlarmAppState.navController,
                         startRoute = ALARM_NAVIGATION_ROUTE,
+                        openDrawer = openDrawer,
                     )
                 }
             }
