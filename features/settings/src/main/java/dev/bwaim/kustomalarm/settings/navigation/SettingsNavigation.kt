@@ -45,7 +45,7 @@ public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDraw
 }
 
 public fun NavController.navigateToSettings(
-    navOptions: NavOptions? = null,
+    navOptions: NavOptions? = buildSettingsNavOptions(),
 ) {
     this.navigate(
         SettingsRoute.buildRoute(params = emptyList(), optionalParams = emptyList()),
@@ -62,3 +62,7 @@ public fun NavGraphBuilder.settingsScreen(
         )
     }
 }
+
+private fun buildSettingsNavOptions(): NavOptions = NavOptions.Builder()
+    .setLaunchSingleTop(true)
+    .build()

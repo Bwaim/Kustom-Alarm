@@ -74,13 +74,17 @@ internal fun KaNavigationDrawer(
                 HorizontalDivider()
 
                 navigationDrawerItems.forEach { item ->
+                    val selected = item == selectedItem.value
+
                     NavigationDrawerItem(
                         icon = { Icon(item.icon, contentDescription = null) },
                         label = { Text(text = stringResource(id = item.labelRes)) },
-                        selected = item == selectedItem.value,
+                        selected = selected,
                         onClick = {
-                            selectedItem.value = item
-                            item.action(navController)
+                            if (selected.not()) {
+                                selectedItem.value = item
+                                item.action(navController)
+                            }
                             scope.launch { drawerState.close() }
                         },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
