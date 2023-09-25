@@ -18,6 +18,7 @@ package dev.bwaim.kustomalarm.compose
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
@@ -50,13 +51,42 @@ public fun KaCenterAlignedTopAppBar(
 }
 
 @Composable
+public fun KaCloseCenterAlignedTopAppBar(
+    modifier: Modifier = Modifier,
+    onClickNavigation: () -> Unit = {},
+    title: @Composable () -> Unit = {},
+    navigationIcon: @Composable () -> Unit = { CloseNavigationIcon(onClick = onClickNavigation) },
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    KaCenterAlignedTopAppBar(
+        modifier = modifier,
+        onClickNavigation = onClickNavigation,
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+    )
+}
+
+@Composable
 private fun DefaultNavigationIcon(
     onClick: () -> Unit = {},
 ) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Menu,
-            contentDescription = stringResource(id = string.menu_content_description),
+            contentDescription = stringResource(id = string.navigation_menu_content_description),
+        )
+    }
+}
+
+@Composable
+private fun CloseNavigationIcon(
+    onClick: () -> Unit = {},
+) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Filled.Close,
+            contentDescription = stringResource(id = string.navigation_close_content_description),
         )
     }
 }
@@ -66,5 +96,13 @@ private fun DefaultNavigationIcon(
 private fun PreviewKaCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaCenterAlignedTopAppBar()
+    }
+}
+
+@Composable
+@KAlarmPreviews
+private fun PreviewKaCloseCenterAlignedTopAppBar() {
+    KustomAlarmTheme {
+        KaCloseCenterAlignedTopAppBar()
     }
 }
