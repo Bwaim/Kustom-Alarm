@@ -53,8 +53,12 @@ public fun NavController.navigateToSettings(
     )
 }
 
-public fun NavGraphBuilder.settingsScreen() {
+public fun NavGraphBuilder.settingsScreen(
+    onClose: () -> Unit,
+) {
     SettingsRoute.composable {
-        SettingsRoute()
+        SettingsRoute(
+            onClose = onClose,
+        )
     }
 }

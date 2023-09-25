@@ -83,6 +83,7 @@ internal fun KAlarmApp(
                         navController = kAlarmAppState.navController,
                         startRoute = ALARM_NAVIGATION_ROUTE,
                         openDrawer = openDrawer,
+                        navigateUp = kAlarmAppState.navController::navigateUp,
                     )
                 }
             }

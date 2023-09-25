@@ -29,6 +29,7 @@ internal fun KAlarmNavHost(
     modifier: Modifier = Modifier,
     startRoute: String,
     openDrawer: () -> Unit,
+    navigateUp: () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -39,6 +40,8 @@ internal fun KAlarmNavHost(
             openDrawer = openDrawer,
         )
 
-        settingsScreen()
+        settingsScreen(
+            onClose = navigateUp,
+        )
     }
 }

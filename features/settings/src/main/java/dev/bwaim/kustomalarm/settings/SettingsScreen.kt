@@ -16,20 +16,41 @@
 
 package dev.bwaim.kustomalarm.settings
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.KaCloseCenterAlignedTopAppBar
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 
 @Composable
-internal fun SettingsRoute() {
-    SettingsScreen()
+internal fun SettingsRoute(
+    onClose: () -> Unit,
+) {
+    SettingsScreen(onClose = onClose)
 }
 
 @Composable
-private fun SettingsScreen() {
-    Text(text = "SettingsScreen")
+private fun SettingsScreen(
+    onClose: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            KaCloseCenterAlignedTopAppBar(
+                onClickNavigation = onClose,
+            )
+        },
+    ) { padding ->
+        Column(
+            modifier = Modifier.padding(padding),
+        ) {
+            Text(text = "SettingsScreen")
+        }
+    }
 }
 
 @Composable
@@ -37,7 +58,9 @@ private fun SettingsScreen() {
 private fun PreviewSettingsScreen() {
     KustomAlarmTheme {
         KaBackground {
-            SettingsScreen()
+            SettingsScreen(
+                onClose = {},
+            )
         }
     }
 }
