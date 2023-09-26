@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.navigation
+package dev.bwaim.kustomalarm.navigation.state
 
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.staticCompositionLocalOf
 
-public interface NavigationDrawerItem {
-    public val id: String
-    public val labelRes: Int
-    public val icon: ImageVector
-    public val action: (NavController) -> Unit
-}
+public data class MenuAppState(
+    val selectedNavigationDrawerId: String? = null,
+)
+
+public val LocalMenuAppStateSetter: ProvidableCompositionLocal<(MenuAppState) -> Unit> =
+    staticCompositionLocalOf { {} }

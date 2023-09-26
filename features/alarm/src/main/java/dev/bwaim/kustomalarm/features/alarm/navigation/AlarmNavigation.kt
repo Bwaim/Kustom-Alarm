@@ -20,6 +20,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import dev.bwaim.kustomalarm.features.alarm.AlarmRoute
 import dev.bwaim.kustomalarm.navigation.Route
+import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 
 public const val ALARM_NAVIGATION_ROUTE: String = "alarm"
 
@@ -27,6 +28,8 @@ public object AlarmRoute : Route {
     override val baseRoutePattern: String = ALARM_NAVIGATION_ROUTE
     override val mandatoryArguments: List<NamedNavArgument> = emptyList()
     override val optionalArguments: List<NamedNavArgument> = emptyList()
+
+    override val menuAppState: MenuAppState = MenuAppState()
 }
 
 public fun NavGraphBuilder.alarmScreen(

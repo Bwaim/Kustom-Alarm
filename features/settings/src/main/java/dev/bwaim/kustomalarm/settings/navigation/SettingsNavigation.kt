@@ -26,18 +26,25 @@ import androidx.navigation.NavOptions
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.navigation.Route
+import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import dev.bwaim.kustomalarm.settings.SettingsRoute
 import javax.inject.Inject
 
 private const val SETTINGS_NAVIGATION_ROUTE: String = "settings"
+private const val NAVIGATION_DRAWER_SETTINGS_ID: String = "NavDrawerSettings"
 
 public object SettingsRoute : Route {
     override val baseRoutePattern: String = SETTINGS_NAVIGATION_ROUTE
     override val mandatoryArguments: List<NamedNavArgument> = emptyList()
     override val optionalArguments: List<NamedNavArgument> = emptyList()
+
+    override val menuAppState: MenuAppState = MenuAppState(
+        selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,
+    )
 }
 
 public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDrawerItem {
+    override val id: String = NAVIGATION_DRAWER_SETTINGS_ID
     override val labelRes: Int = string.settings_screen_label
     override val icon: ImageVector = Icons.Filled.Settings
     override val action: (NavController) -> Unit =
@@ -48,7 +55,7 @@ public fun NavController.navigateToSettings(
     navOptions: NavOptions? = buildSettingsNavOptions(),
 ) {
     this.navigate(
-        SettingsRoute.buildRoute(params = emptyList(), optionalParams = emptyList()),
+        SettingsRoute.buildRoute(),
         navOptions,
     )
 }

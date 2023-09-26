@@ -34,9 +34,6 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,14 +56,13 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun KaNavigationDrawer(
     navigationDrawerItems: List<NavigationDrawerItem>,
+    selectedNavigationDrawerId: String?,
     navController: NavController,
     drawerState: DrawerState,
     scope: CoroutineScope,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    val selectedItem: MutableState<NavigationDrawerItem?> = remember { mutableStateOf(null) }
-
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
@@ -74,7 +70,7 @@ internal fun KaNavigationDrawer(
                 HorizontalDivider()
 
                 navigationDrawerItems.forEach { item ->
-                    val selected = item == selectedItem.value
+                    val selected = item.id == selectedNavigationDrawerId
 
                     NavigationDrawerItem(
                         icon = { Icon(item.icon, contentDescription = null) },
@@ -82,7 +78,6 @@ internal fun KaNavigationDrawer(
                         selected = selected,
                         onClick = {
                             if (selected.not()) {
-                                selectedItem.value = item
                                 item.action(navController)
                             }
                             scope.launch { drawerState.close() }
@@ -130,6 +125,7 @@ private fun PreviewKaNavigationDrawer() {
             navigationDrawerItems = listOf(
                 SettingsNavigationDrawerItem(),
             ),
+            selectedNavigationDrawerId = null,
             navController = rememberNavController(),
             drawerState = DrawerState(Open),
             scope = rememberCoroutineScope(),
