@@ -30,11 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.Header
-import dev.bwaim.kustomalarm.compose.HorizontalDivider
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
 import dev.bwaim.kustomalarm.compose.PrimaryButton
+import dev.bwaim.kustomalarm.compose.SurfaceCard
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
@@ -58,15 +58,16 @@ private fun AlarmScreen(
         },
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding),
+            modifier = Modifier.padding(padding)
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            HorizontalDivider()
-            Header(
-                title = stringResource(id = string.alarm_screen_titre),
-                imageRes = drawable.alarm_background,
-            )
-            HorizontalDivider()
+            SurfaceCard {
+                Header(
+                    title = stringResource(id = string.alarm_screen_titre),
+                    imageRes = drawable.alarm_background,
+                )
+            }
             Spacer(modifier = Modifier.height(30.dp))
             NoAlarm()
         }

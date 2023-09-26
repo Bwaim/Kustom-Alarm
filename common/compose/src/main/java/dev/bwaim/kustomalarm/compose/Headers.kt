@@ -57,8 +57,8 @@ public fun Header(
 
         Text(
             text = title,
-            modifier = Modifier.align(Alignment.Center),
-            textAlign = TextAlign.Center,
+            modifier = Modifier.align(Alignment.CenterStart),
+            textAlign = TextAlign.Start,
             style = MaterialTheme.typography.headlineLarge,
         )
     }
