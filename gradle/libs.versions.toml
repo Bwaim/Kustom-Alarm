@@ -74,6 +74,8 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-ui-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle"}
 firebase-crashlytics-library = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlytics" }
 firebase-perf-gradle = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerfGradle"}

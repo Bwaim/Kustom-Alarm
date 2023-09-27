@@ -85,6 +85,7 @@ android {
 
 dependencies {
     implementation(projects.common.compose)
+    implementation(projects.common.core.coreAndroid)
     implementation(projects.common.navigation)
     implementation(projects.common.settings.settingsImpl)
     implementation(projects.common.uiResources)

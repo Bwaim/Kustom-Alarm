@@ -21,6 +21,8 @@ include(":app")
 include(":benchmarks")
 
 include(":common:compose")
+include(":common:core:core")
+include(":common:core:core-android")
 include(":common:initializers")
 include(":common:localisation")
 include(":common:navigation")
