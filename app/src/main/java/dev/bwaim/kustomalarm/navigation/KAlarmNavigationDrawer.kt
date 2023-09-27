@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.navigation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -60,13 +61,19 @@ internal fun KaNavigationDrawer(
     navController: NavController,
     drawerState: DrawerState,
     scope: CoroutineScope,
+    navigateHome: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-                AppDrawerItem()
+                AppDrawerItem(
+                    onClick = {
+                        navigateHome()
+                        scope.launch { drawerState.close() }
+                    },
+                )
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     thickness = 2.dp,
@@ -85,7 +92,8 @@ internal fun KaNavigationDrawer(
                             }
                             scope.launch { drawerState.close() }
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        modifier = Modifier
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
                             .padding(top = 12.dp),
                     )
                 }
@@ -98,10 +106,13 @@ internal fun KaNavigationDrawer(
 }
 
 @Composable
-private fun AppDrawerItem() {
+private fun AppDrawerItem(
+    onClick: () -> Unit = {},
+) {
     Row(
         modifier = Modifier
             .height(56.dp)
+            .clickable { onClick() }
             .padding(NavigationDrawerItemDefaults.ItemPadding)
             .padding(start = 16.dp, end = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -133,6 +144,7 @@ private fun PreviewKaNavigationDrawer() {
             navController = rememberNavController(),
             drawerState = DrawerState(Open),
             scope = rememberCoroutineScope(),
+            navigateHome = {},
         ) {
             KaBackground {
                 Text(text = "Test Navigation Drawer")

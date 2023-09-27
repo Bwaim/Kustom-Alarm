@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.features.alarm.navigation.ALARM_NAVIGATION_ROUTE
+import dev.bwaim.kustomalarm.features.alarm.navigation.AlarmRoute
 import dev.bwaim.kustomalarm.navigation.KAlarmNavHost
 import dev.bwaim.kustomalarm.navigation.KaNavigationDrawer
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
@@ -64,6 +65,9 @@ internal fun KAlarmApp(
     }
 
     val openDrawer: () -> Unit = remember(scope) { { scope.launch { drawerState.open() } } }
+    val navigateHome: () -> Unit = remember {
+        { kAlarmAppState.navController.popBackStack(AlarmRoute.route, inclusive = false) }
+    }
     val menuAppStateSetter: (MenuAppState) -> Unit = remember {
         { menuAppStateNew ->
             menuAppState = menuAppStateNew
@@ -76,6 +80,7 @@ internal fun KAlarmApp(
             selectedNavigationDrawerId = menuAppState.selectedNavigationDrawerId,
             navController = kAlarmAppState.navController,
             drawerState = drawerState,
+            navigateHome = navigateHome,
             scope = scope,
         ) {
             KaBackground {
