@@ -18,7 +18,7 @@ plugins {
     id("kustomalarm.android.application.compose")
     id("kustomalarm.android.application.jacoco")
     id("kustomalarm.android.test.compose")
-//    id("kustomalarm.hilt")
+    id("kustomalarm.hilt")
     id("kustomalarm.spotless")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
@@ -85,12 +85,16 @@ android {
 
 dependencies {
     implementation(projects.common.compose)
+    implementation(projects.common.navigation)
+    implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)
+    implementation(projects.features.settings)
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime)
     implementation(libs.androidx.profile.installer)

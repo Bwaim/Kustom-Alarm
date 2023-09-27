@@ -13,25 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
+package dev.bwaim.kustomalarm.navigation.state
 
-dependencies {
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.staticCompositionLocalOf
 
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
+public data class MenuAppState(
+    val selectedNavigationDrawerId: String? = null,
+)
 
-    implementation(libs.compose.animation)
-}
+public val LocalMenuAppStateSetter: ProvidableCompositionLocal<(MenuAppState) -> Unit> =
+    staticCompositionLocalOf { {} }

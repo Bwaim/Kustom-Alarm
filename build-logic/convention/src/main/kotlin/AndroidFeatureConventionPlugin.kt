@@ -8,7 +8,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
-import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -16,7 +15,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.kapt")
+                apply("com.google.devtools.ksp")
             }
             extensions.configure<LibraryExtension> {
                 configureFeatureAndroid(this)
@@ -25,10 +24,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 //                    testInstrumentationRunner =
 //                        "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
 //                }
-
-                extensions.configure<KaptExtension> {
-                    correctErrorTypes = true
-                }
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
@@ -48,7 +43,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("kotlin.coroutines.android").get())
 
                 add("implementation", libs.findLibrary("hilt.library").get())
-                add("kapt", libs.findLibrary("hilt.compiler").get())
+                add("ksp", libs.findLibrary("hilt.compiler").get())
 
 //                add("androidTestImplementation", project(":common:test:android"))
             }

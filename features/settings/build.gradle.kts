@@ -15,23 +15,15 @@
  */
 plugins {
     id("kustomalarm.android.library")
+    id("kustomalarm.android.feature")
     id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.spotless")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
+    namespace = "dev.bwaim.kustomalarm.settings"
 }
 
 dependencies {
-
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
 }

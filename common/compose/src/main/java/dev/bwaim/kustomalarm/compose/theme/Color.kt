@@ -19,6 +19,8 @@ package dev.bwaim.kustomalarm.compose.theme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
+import dev.bwaim.kustomalarm.compose.theme.color.ColorDarkTokens
+import dev.bwaim.kustomalarm.compose.theme.color.ColorLightTokens
 
 internal val Purple80 = Color(0xFFD0BCFF)
 internal val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -42,27 +44,65 @@ internal val NeutralVariant90 = Color(red = 231, green = 224, blue = 236)
 internal val NeutralVariant95 = Color(red = 245, green = 238, blue = 250)
 
 internal val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
-    background = BlueNight,
-    outlineVariant = NeutralVariant30,
+    primary = ColorDarkTokens.Primary,
+    onPrimary = ColorDarkTokens.OnPrimary,
+    primaryContainer = ColorDarkTokens.PrimaryContainer,
+    onPrimaryContainer = ColorDarkTokens.OnPrimaryContainer,
+    inversePrimary = ColorDarkTokens.InversePrimary,
+    secondary = ColorDarkTokens.Secondary,
+    onSecondary = ColorDarkTokens.OnSecondary,
+    secondaryContainer = ColorDarkTokens.SecondaryContainer,
+    onSecondaryContainer = ColorDarkTokens.OnSecondaryContainer,
+    tertiary = ColorDarkTokens.Tertiary,
+    onTertiary = ColorDarkTokens.OnTertiary,
+    tertiaryContainer = ColorDarkTokens.TertiaryContainer,
+    onTertiaryContainer = ColorDarkTokens.OnTertiaryContainer,
+    background = ColorDarkTokens.Background,
+    onBackground = ColorDarkTokens.OnBackground,
+    surface = ColorDarkTokens.Surface,
+    onSurface = ColorDarkTokens.OnSurface,
+    surfaceVariant = ColorDarkTokens.SurfaceVariant,
+    onSurfaceVariant = ColorDarkTokens.OnSurfaceVariant,
+    surfaceTint = ColorDarkTokens.SurfaceTint,
+    inverseSurface = ColorDarkTokens.InverseSurface,
+    inverseOnSurface = ColorDarkTokens.InverseOnSurface,
+    error = ColorDarkTokens.Error,
+    onError = ColorDarkTokens.OnError,
+    errorContainer = ColorDarkTokens.ErrorContainer,
+    onErrorContainer = ColorDarkTokens.OnErrorContainer,
+    outline = ColorDarkTokens.Outline,
+    outlineVariant = ColorDarkTokens.OutlineVariant,
+    scrim = ColorDarkTokens.Scrim,
 )
 
 internal val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
-    background = BlueSky,
-    outlineVariant = NeutralVariant80,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = ColorLightTokens.Primary,
+    onPrimary = ColorLightTokens.OnPrimary,
+    primaryContainer = ColorLightTokens.PrimaryContainer,
+    onPrimaryContainer = ColorLightTokens.OnPrimaryContainer,
+    inversePrimary = ColorLightTokens.InversePrimary,
+    secondary = ColorLightTokens.Secondary,
+    onSecondary = ColorLightTokens.OnSecondary,
+    secondaryContainer = ColorLightTokens.SecondaryContainer,
+    onSecondaryContainer = ColorLightTokens.OnSecondaryContainer,
+    tertiary = ColorLightTokens.Tertiary,
+    onTertiary = ColorLightTokens.OnTertiary,
+    tertiaryContainer = ColorLightTokens.TertiaryContainer,
+    onTertiaryContainer = ColorLightTokens.OnTertiaryContainer,
+    background = ColorLightTokens.Background,
+    onBackground = ColorLightTokens.OnBackground,
+    surface = ColorLightTokens.Surface,
+    onSurface = ColorLightTokens.OnSurface,
+    surfaceVariant = ColorLightTokens.SurfaceVariant,
+    onSurfaceVariant = ColorLightTokens.OnSurfaceVariant,
+    surfaceTint = ColorLightTokens.SurfaceTint,
+    inverseSurface = ColorLightTokens.InverseSurface,
+    inverseOnSurface = ColorLightTokens.InverseOnSurface,
+    error = ColorLightTokens.Error,
+    onError = ColorLightTokens.OnError,
+    errorContainer = ColorLightTokens.ErrorContainer,
+    onErrorContainer = ColorLightTokens.OnErrorContainer,
+    outline = ColorLightTokens.Outline,
+    outlineVariant = ColorLightTokens.OutlineVariant,
+    scrim = ColorLightTokens.Scrim,
 )

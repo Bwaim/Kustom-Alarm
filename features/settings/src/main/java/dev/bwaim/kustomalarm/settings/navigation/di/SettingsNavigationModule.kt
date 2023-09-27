@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
+package dev.bwaim.kustomalarm.settings.navigation.di
 
-dependencies {
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoSet
+import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
+import dev.bwaim.kustomalarm.settings.navigation.SettingsNavigationDrawerItem
 
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface SettingsNavigationModule {
 
-    implementation(libs.compose.animation)
+    @Binds
+    @IntoSet
+    abstract fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
 }

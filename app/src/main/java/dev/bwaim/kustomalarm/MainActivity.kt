@@ -23,9 +23,17 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.DisposableEffect
+import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
+import javax.inject.Inject
 
+@AndroidEntryPoint
 internal class MainActivity : ComponentActivity() {
+
+    @Inject
+    internal lateinit var navigationDrawerItems: Set<@JvmSuppressWildcards NavigationDrawerItem>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,7 +59,9 @@ internal class MainActivity : ComponentActivity() {
             KustomAlarmTheme(
                 darkTheme = darkTheme,
             ) {
-                KAlarmApp()
+                KAlarmApp(
+                    navigationDrawerItems = navigationDrawerItems.toList(),
+                )
             }
         }
     }

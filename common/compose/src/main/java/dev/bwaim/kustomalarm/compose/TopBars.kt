@@ -18,10 +18,12 @@ package dev.bwaim.kustomalarm.compose
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -50,13 +52,42 @@ public fun KaCenterAlignedTopAppBar(
 }
 
 @Composable
+public fun KaBackTopAppBar(
+    modifier: Modifier = Modifier,
+    onClickNavigation: () -> Unit = {},
+    title: @Composable () -> Unit = {},
+    navigationIcon: @Composable () -> Unit = { BackNavigationIcon(onClick = onClickNavigation) },
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    KaCenterAlignedTopAppBar(
+        modifier = modifier,
+        onClickNavigation = onClickNavigation,
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+    )
+}
+
+@Composable
 private fun DefaultNavigationIcon(
     onClick: () -> Unit = {},
 ) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Menu,
-            contentDescription = stringResource(id = string.menu_content_description),
+            contentDescription = stringResource(id = string.navigation_menu_content_description),
+        )
+    }
+}
+
+@Composable
+private fun BackNavigationIcon(
+    onClick: () -> Unit = {},
+) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Filled.ArrowBack,
+            contentDescription = stringResource(id = string.navigation_close_content_description),
         )
     }
 }
@@ -66,5 +97,17 @@ private fun DefaultNavigationIcon(
 private fun PreviewKaCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaCenterAlignedTopAppBar()
+    }
+}
+
+@Composable
+@KAlarmPreviews
+private fun PreviewKaCloseCenterAlignedTopAppBar() {
+    KustomAlarmTheme {
+        KaBackTopAppBar(
+            title = {
+                Text(text = "TopBar title ")
+            },
+        )
     }
 }

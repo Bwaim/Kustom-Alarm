@@ -27,3 +27,4 @@ include(":common:navigation")
 include(":common:ui-resources")
 
 include(":features:alarm")
+include(":features:settings")

@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.navigation
 
 import android.net.Uri
+import android.os.Bundle
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
@@ -26,7 +27,11 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
+import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 
 /** For a route like that example_route/{arg1}/{arg2}?arg3={arg3},arg4={arg4}
  *  baseRoutePattern = example_route/{arg1}/{arg2}
@@ -36,6 +41,8 @@ public interface Route {
     public val baseRoutePattern: String
     public val mandatoryArguments: List<NamedNavArgument>
     public val optionalArguments: List<NamedNavArgument>
+
+    public val menuAppState: MenuAppState
 
     public val route: String
         get() = "$baseRoutePattern${addOptionalParameters()}"
@@ -49,9 +56,10 @@ public interface Route {
             finalRoute = finalRoute.replace("{$argName}", value.encodedValue())
         }
 
-        finalRoute += optionalParams.joinToString(prefix = "?", separator = "&") {
-            "${it.first}=${it.second.encodedValue()}"
-        }
+        finalRoute += (optionalParams + generateAppParameters())
+            .joinToString(prefix = "?", separator = "&") {
+                "${it.first}=${it.second.encodedValue()}"
+            }
 
         return finalRoute
     }
@@ -69,20 +77,36 @@ public interface Route {
     ) {
         composable(
             route = this@Route.route,
-            arguments = mandatoryArguments + optionalArguments,
+            arguments = mandatoryArguments + optionalArguments + getAppParameters(),
             deepLinks = deepLinks,
             enterTransition = enterTransition,
             exitTransition = exitTransition,
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
             content = {
+                it.arguments?.let { args ->
+                    LocalMenuAppStateSetter.current.invoke(args.toMenuAppState())
+                }
+
                 content(it)
             },
         )
     }
 
+    private fun getAppParameters(): List<NamedNavArgument> =
+        listOf(
+            navArgument(NAVIGATION_DRAWER_ITEM_ID) {
+                type = NavType.StringType
+                nullable = true
+            },
+        )
+
+    private fun generateAppParameters() = listOfNotNull(
+        menuAppState.selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
+    )
+
     private fun addOptionalParameters(): String =
-        optionalArguments.joinToString(separator = "&", prefix = "?") {
+        (optionalArguments + getAppParameters()).joinToString(separator = "&", prefix = "?") {
             "${it.name}={${it.name}}"
         }
 
@@ -90,4 +114,13 @@ public interface Route {
         is String -> Uri.encode(this)
         else -> this.toString()
     }
+}
+
+private const val NAVIGATION_DRAWER_ITEM_ID = "navigationDrawerItemId"
+
+private fun Bundle.toMenuAppState(): MenuAppState {
+    val navigationDrawerId = Uri.decode(getString(NAVIGATION_DRAWER_ITEM_ID))
+    return MenuAppState(
+        selectedNavigationDrawerId = navigationDrawerId,
+    )
 }

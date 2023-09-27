@@ -13,25 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
+package dev.bwaim.kustomalarm
 
-dependencies {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
-}
+@HiltAndroidApp
+internal class KAlarmApplication : Application()
