@@ -22,10 +22,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.KaBackTopAppBar
 import dev.bwaim.kustomalarm.compose.KaBackground
-import dev.bwaim.kustomalarm.compose.KaCloseCenterAlignedTopAppBar
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
 internal fun SettingsRoute(
@@ -40,15 +42,17 @@ private fun SettingsScreen(
 ) {
     Scaffold(
         topBar = {
-            KaCloseCenterAlignedTopAppBar(
+            KaBackTopAppBar(
                 onClickNavigation = onClose,
+                title = {
+                    Text(text = stringResource(id = string.settings_screen_label))
+                },
             )
         },
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding),
         ) {
-            Text(text = "SettingsScreen")
         }
     }
 }
