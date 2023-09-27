@@ -24,6 +24,8 @@ include(":common:compose")
 include(":common:initializers")
 include(":common:localisation")
 include(":common:navigation")
+include(":common:settings:settings")
+include(":common:settings:settings-impl")
 include(":common:ui-resources")
 
 include(":features:alarm")
