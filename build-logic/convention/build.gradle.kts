@@ -12,6 +12,7 @@ java {
 dependencies {
     implementation(libs.android.gradle)
     implementation(libs.kotlin.gradle)
+    implementation(libs.protobuf.gradle)
     implementation(libs.spotless.gradlePlugin)
 }
 
@@ -68,6 +69,10 @@ gradlePlugin {
         register("kotlinJacoco") {
             id = "kustomalarm.kotlin.library.jacoco"
             implementationClass = "KotlinLibraryJacocoConventionPlugin"
+        }
+        register("protobuf") {
+            id = "kustomalarm.protobuf"
+            implementationClass = "ProtobufConventionPlugin"
         }
         register("spotless") {
             id = "kustomalarm.spotless"
