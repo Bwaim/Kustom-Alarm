@@ -20,6 +20,9 @@
     android:viewportWidth="35.19"
     android:viewportHeight="35.19">
     <path
+        android:fillColor="#0D224A"
+        android:pathData="M0 0h108v108H0z" />
+    <path
         android:fillAlpha="0.986"
         android:fillColor="#fafe2c"
         android:pathData="M17.176 7.673a9.922 9.922 0 0 0-1.463 0.113 7.938 7.938 0 0 1 6.377 7.782 7.938 7.938 0 0 1-7.938 7.938 7.938 7.938 0 0 1-6.585-3.523 9.922 9.922 0 0 0 9.609 7.534 9.922 9.922 0 0 0 9.922-9.922 9.922 9.922 0 0 0-9.922-9.922z"

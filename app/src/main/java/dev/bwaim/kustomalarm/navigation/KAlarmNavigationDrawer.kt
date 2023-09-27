@@ -67,7 +67,10 @@ internal fun KaNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
                 AppDrawerItem()
-                HorizontalDivider()
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    thickness = 2.dp,
+                )
 
                 navigationDrawerItems.forEach { item ->
                     val selected = item.id == selectedNavigationDrawerId
@@ -82,7 +85,8 @@ internal fun KaNavigationDrawer(
                             }
                             scope.launch { drawerState.close() }
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                            .padding(top = 12.dp),
                     )
                 }
             }
