@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.hilt")
-    id("kustomalarm.protobuf")
-    id("kustomalarm.spotless")
-    id("kustomalarm.test")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.settings.impl"
+package dev.bwaim.kustomalarm.settings.domain
 
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
+public enum class Theme(public val value: String) {
+    LIGHT("light"),
+    DARK("dark"),
+    SYSTEM("system"),
+    BATTERY_SAVER("battery_saver"),
+    ;
+
+    public companion object {
+        public fun from(value: String): Theme {
+            return values().first { it.value == value }
+        }
     }
-}
-
-dependencies {
-    implementation(projects.common.settings.settings)
-
-    implementation(libs.androidx.datastore)
 }

@@ -86,6 +86,7 @@ android {
 dependencies {
     implementation(projects.common.compose)
     implementation(projects.common.navigation)
+    implementation(projects.common.settings.settingsImpl)
     implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)
@@ -105,5 +106,8 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
 
-    implementation(libs.firebase.perf.library)
+    implementation(libs.firebase.perf.library) {
+        // TODO : check if we can remve this when firebase version > 20.4.1
+        exclude(group = "androidx.datastore", module = "datastore-preferences")
+    }
 }
