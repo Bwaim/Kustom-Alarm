@@ -15,13 +15,9 @@
  */
 plugins {
     id("kustomalarm.kotlin.library")
-    id("kustomalarm.kotlin.library.jacoco")
     id("kustomalarm.spotless")
-    id("kustomalarm.test")
 }
 
 dependencies {
-    implementation(projects.common.core.core)
-
-    implementation(libs.dagger)
+    implementation(projects.common.settings.settings)
 }

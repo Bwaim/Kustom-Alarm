@@ -29,6 +29,7 @@ include(":common:navigation")
 include(":common:settings:settings")
 include(":common:settings:settings-impl")
 include(":common:test:android")
+include(":common:test:testing")
 include(":common:ui-resources")
 
 include(":features:alarm")
