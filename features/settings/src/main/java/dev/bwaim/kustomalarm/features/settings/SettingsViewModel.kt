@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.navigation.di
+package dev.bwaim.kustomalarm.features.settings
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
-import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import dev.bwaim.kustomalarm.settings.navigation.SettingsNavigationDrawerItem
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.bwaim.kustomalarm.settings.SettingsService
+import javax.inject.Inject
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface SettingsNavigationModule {
-
-    @Binds
-    @IntoSet
-    abstract fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
-}
+@HiltViewModel
+internal class SettingsViewModel @Inject constructor(
+    private val settingsService: SettingsService,
+) : ViewModel()

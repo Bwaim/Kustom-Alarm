@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
-import dev.bwaim.kustomalarm.settings.navigation.settingsScreen
+import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
 
 @Composable
 internal fun KAlarmNavHost(

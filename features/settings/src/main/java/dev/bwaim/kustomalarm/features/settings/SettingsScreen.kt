@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings
+package dev.bwaim.kustomalarm.features.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
