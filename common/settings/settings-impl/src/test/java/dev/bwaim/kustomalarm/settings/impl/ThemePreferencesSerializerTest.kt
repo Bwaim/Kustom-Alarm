@@ -17,9 +17,9 @@
 package dev.bwaim.kustomalarm.settings.impl
 
 import androidx.datastore.core.CorruptionException
-import dev.bwaim.kustomalarm.settings.domain.Theme
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
 import dev.bwaim.kustomalarm.settings.impl.theme.themePreferences
+import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test

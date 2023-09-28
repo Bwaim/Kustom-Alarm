@@ -28,6 +28,7 @@ include(":common:localisation")
 include(":common:navigation")
 include(":common:settings:settings")
 include(":common:settings:settings-impl")
+include(":common:test:android")
 include(":common:ui-resources")
 
 include(":features:alarm")

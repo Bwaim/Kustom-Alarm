@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.domain
+package dev.bwaim.kustomalarm.settings.theme
 
-public enum class Theme(public val value: String) {
-    LIGHT("light"),
-    DARK("dark"),
-    SYSTEM("system"),
-    BATTERY_SAVER("battery_saver"),
-    ;
+import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import kotlinx.coroutines.flow.Flow
 
-    public companion object {
-        public fun from(value: String): Theme {
-            return values().first { it.value == value }
-        }
-    }
+public interface ThemeRepository {
+    public fun observeTheme(): Flow<Theme>
+
+    public suspend fun setTheme(theme: Theme)
 }

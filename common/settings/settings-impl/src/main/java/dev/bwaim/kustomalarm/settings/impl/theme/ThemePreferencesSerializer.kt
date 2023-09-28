@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.settings.impl.theme
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
@@ -23,7 +24,8 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-internal class ThemePreferencesSerializer @Inject constructor() : Serializer<ThemePreferences> {
+@VisibleForTesting
+public class ThemePreferencesSerializer @Inject constructor() : Serializer<ThemePreferences> {
     override val defaultValue: ThemePreferences get() = ThemePreferences.getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): ThemePreferences =

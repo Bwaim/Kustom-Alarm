@@ -17,26 +17,17 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.hilt")
-    id("kustomalarm.protobuf")
     id("kustomalarm.spotless")
-    id("kustomalarm.test")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.settings.impl"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
-    }
+    namespace = "dev.bwaim.kustomalarm.test.android"
 }
 
 dependencies {
-    implementation(projects.common.core.core)
-    implementation(projects.common.core.coreAndroid)
-    implementation(projects.common.settings.settings)
+    implementation(projects.common.settings.settingsImpl)
+
+    implementation(libs.hilt.testing)
 
     implementation(libs.androidx.datastore)
-
-    testImplementation(projects.common.test.android)
-    testImplementation(libs.mockk)
 }
