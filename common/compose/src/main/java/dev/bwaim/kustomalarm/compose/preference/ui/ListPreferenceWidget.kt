@@ -39,6 +39,7 @@ import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import kotlinx.collections.immutable.persistentMapOf
 
 @Composable
 public fun <T> ListPreferenceWidget(
@@ -157,7 +158,7 @@ private fun <T> ListPreferenceDialog(
 @KAlarmPreviews
 private fun PreviewListPreference() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
-    val preferences = mapOf(
+    val preferences = persistentMapOf(
         "pref1" to Preference(label = "pref1", value = "pref1Value"),
         "pref2" to currentValue,
         "pref3" to Preference(label = "pref3", value = "pref3Value"),
@@ -179,7 +180,7 @@ private fun PreviewListPreference() {
 @KAlarmPreviews
 private fun PreviewAlertListPref() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
-    val preferences = mapOf(
+    val preferences = persistentMapOf(
         "pref1" to Preference(label = "pref1", value = "pref1Value"),
         "pref2" to currentValue,
         "pref3" to Preference(label = "pref3", value = "pref3Value"),

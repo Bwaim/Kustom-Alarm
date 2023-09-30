@@ -21,4 +21,9 @@
     <string name="alarm.screen.no_alarm.msg">No alarm created</string>
     <string name="alarm.screen.no_alarm.add_button">Add</string>
     <string name="settings.screen.label">Settings</string>
+    <string name="settings.screen.theme.light_label">Light</string>
+    <string name="settings.screen.theme.dark_label">Dark</string>
+    <string name="settings.screen.theme.battery_label">Set by battery saver</string>
+    <string name="settings.screen.theme.system_label">Use system default</string>
+    <string name="settings.screen.theme.title">Choose a theme</string>
 </resources>

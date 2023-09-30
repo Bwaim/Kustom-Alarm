@@ -28,6 +28,8 @@ import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 
 private const val SETTINGS_NAVIGATION_ROUTE: String = "settings"
@@ -35,8 +37,8 @@ private const val NAVIGATION_DRAWER_SETTINGS_ID: String = "NavDrawerSettings"
 
 public object SettingsRoute : Route {
     override val baseRoutePattern: String = SETTINGS_NAVIGATION_ROUTE
-    override val mandatoryArguments: List<NamedNavArgument> = emptyList()
-    override val optionalArguments: List<NamedNavArgument> = emptyList()
+    override val mandatoryArguments: ImmutableList<NamedNavArgument> = persistentListOf()
+    override val optionalArguments: ImmutableList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState(
         selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,

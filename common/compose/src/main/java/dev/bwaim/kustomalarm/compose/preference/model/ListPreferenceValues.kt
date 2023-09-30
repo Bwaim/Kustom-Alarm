@@ -16,6 +16,9 @@
 
 package dev.bwaim.kustomalarm.compose.preference.model
 
+import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.persistentMapOf
+
 public data class Preference<T>(
     val label: String,
     val value: T,
@@ -23,5 +26,5 @@ public data class Preference<T>(
 
 public data class ListPreferenceValues<T>(
     val title: String = "",
-    val entries: Map<String, Preference<T>> = emptyMap(),
+    val entries: ImmutableMap<String, Preference<T>> = persistentMapOf(),
 )

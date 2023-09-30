@@ -91,9 +91,12 @@ dependencies {
     implementation(projects.features.alarm)
     implementation(projects.features.settings)
 
+    implementation(libs.kotlinx.collections.immutable)
+
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.datastore)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime)
@@ -104,4 +107,6 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
+
+    implementation(libs.firebase.perf.library)
 }

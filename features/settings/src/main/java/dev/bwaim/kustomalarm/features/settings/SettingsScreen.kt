@@ -21,24 +21,44 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackTopAppBar
 import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
+import dev.bwaim.kustomalarm.compose.preference.model.Preference
+import dev.bwaim.kustomalarm.compose.preference.ui.ListPreferenceWidget
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import kotlinx.collections.immutable.persistentMapOf
 
 @Composable
 internal fun SettingsRoute(
     onClose: () -> Unit,
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    SettingsScreen(onClose = onClose)
+    val selectedTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val themes = viewModel.themes.value
+
+    SettingsScreen(
+        selectedTheme = selectedTheme,
+        themes = themes,
+        onClose = onClose,
+        onThemeChanged = viewModel::setTheme,
+    )
 }
 
 @Composable
 private fun SettingsScreen(
+    selectedTheme: Preference<Theme>,
+    themes: ListPreferenceValues<Theme>,
     onClose: () -> Unit,
+    onThemeChanged: (Preference<Theme>) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -53,6 +73,11 @@ private fun SettingsScreen(
         Column(
             modifier = Modifier.padding(padding),
         ) {
+            ListPreferenceWidget(
+                preferences = themes,
+                currentValue = selectedTheme,
+                onValueChanged = onThemeChanged,
+            )
         }
     }
 }
@@ -62,8 +87,21 @@ private fun SettingsScreen(
 private fun PreviewSettingsScreen() {
     KustomAlarmTheme {
         KaBackground {
+            val currentValue = Preference(label = "dark", value = Theme.DARK)
+            val preferences = persistentMapOf(
+                "light" to Preference(label = "light", value = Theme.LIGHT),
+                "dark" to currentValue,
+                "system" to Preference(label = "system", value = Theme.SYSTEM),
+            )
+            val listPreference = ListPreferenceValues(
+                title = "Theme",
+                entries = preferences,
+            )
             SettingsScreen(
+                selectedTheme = currentValue,
+                themes = listPreference,
                 onClose = {},
+                onThemeChanged = {},
             )
         }
     }

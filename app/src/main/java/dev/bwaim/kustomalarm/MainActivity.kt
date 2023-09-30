@@ -26,6 +26,7 @@ import androidx.compose.runtime.DisposableEffect
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
+import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,7 +61,7 @@ internal class MainActivity : ComponentActivity() {
                 darkTheme = darkTheme,
             ) {
                 KAlarmApp(
-                    navigationDrawerItems = navigationDrawerItems.toList(),
+                    navigationDrawerItems = navigationDrawerItems.toImmutableList(),
                 )
             }
         }
