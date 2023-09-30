@@ -47,10 +47,8 @@ android {
 
             applicationIdSuffix = ".debug"
 
-            withGroovyBuilder {
-                "FirebasePerformance" {
-                    invokeMethod("setInstrumentationEnabled", false)
-                }
+            configure<com.google.firebase.perf.plugin.FirebasePerfExtension> {
+                setInstrumentationEnabled(false)
             }
         }
         val release by getting {
@@ -106,9 +104,4 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
-
-    implementation(libs.firebase.perf.library) {
-        // TODO : check if we can remve this when firebase version > 20.4.1
-        exclude(group = "androidx.datastore", module = "datastore-preferences")
-    }
 }

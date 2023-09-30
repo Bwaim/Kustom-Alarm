@@ -25,10 +25,12 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.theme.color.PaletteTokens
 
-private val LightBackgroundTheme = BackgroundTheme(color = BlueSky)
+private val LightBackgroundTheme = BackgroundTheme(color = PaletteTokens.Neutral99)
 
-private val DarkBackgroundTheme = BackgroundTheme(color = BlueNight)
+private val DarkBackgroundTheme = BackgroundTheme(color = PaletteTokens.Neutral10)
 
 @Composable
 public fun KustomAlarmTheme(
@@ -60,3 +62,18 @@ public fun KustomAlarmTheme(
 
 @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
 private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+@Composable
+public fun KustomAlarmThemePreview(
+    content: @Composable () -> Unit,
+) {
+    KustomAlarmTheme {
+        CompositionLocalProvider(
+            LocalBackgroundTheme provides BackgroundTheme(color = MaterialTheme.colorScheme.background),
+        ) {
+            KaBackground {
+                content()
+            }
+        }
+    }
+}
