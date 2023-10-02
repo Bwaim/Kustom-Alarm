@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 
 public class SettingsService @Inject public constructor(
@@ -42,4 +43,10 @@ public class SettingsService @Inject public constructor(
     }
 
     public fun getThemes(): List<Theme> = Theme.values().toList()
+
+    public fun getLocales(): List<Locale> = listOf(
+        Locale("es"),
+        Locale.ENGLISH,
+        Locale.FRENCH,
+    )
 }
