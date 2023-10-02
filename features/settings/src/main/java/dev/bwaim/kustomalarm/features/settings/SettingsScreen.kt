@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.settings
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -36,6 +37,7 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.collections.immutable.persistentMapOf
+import java.util.Locale
 
 @Composable
 internal fun SettingsRoute(
@@ -44,10 +46,12 @@ internal fun SettingsRoute(
 ) {
     val selectedTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val themes = viewModel.themes.value
+    val locales = viewModel.locales.value
 
     SettingsScreen(
         selectedTheme = selectedTheme,
         themes = themes,
+        locales = locales,
         onClose = onClose,
         onThemeChanged = viewModel::setTheme,
     )
@@ -57,6 +61,7 @@ internal fun SettingsRoute(
 private fun SettingsScreen(
     selectedTheme: Preference<Theme>,
     themes: ListPreferenceValues<Theme>,
+    locales: ListPreferenceValues<Locale>,
     onClose: () -> Unit,
     onThemeChanged: (Preference<Theme>) -> Unit,
 ) {
@@ -78,9 +83,19 @@ private fun SettingsScreen(
                 currentValue = selectedTheme,
                 onValueChanged = onThemeChanged,
             )
+
+            ListPreferenceWidget(
+                preferences = locales,
+                currentValue = getCurrentLocale(),
+                onValueChanged = {},
+            )
         }
     }
 }
+
+@Composable
+private fun getCurrentLocale(): Preference<Locale> =
+    (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
 
 @Composable
 @KAlarmPreviews
@@ -88,6 +103,7 @@ private fun PreviewSettingsScreen() {
     KustomAlarmTheme {
         KaBackground {
             val currentValue = Preference(label = "dark", value = Theme.DARK)
+
             val preferences = persistentMapOf(
                 "light" to Preference(label = "light", value = Theme.LIGHT),
                 "dark" to currentValue,
@@ -97,9 +113,22 @@ private fun PreviewSettingsScreen() {
                 title = "Theme",
                 entries = preferences,
             )
+
+            val locales = persistentMapOf(
+                "English" to Preference(label = "english", value = Locale.ENGLISH),
+                "Français" to Preference(label = "Français", value = Locale.FRENCH),
+                "Español" to Preference(label = "Español", value = Locale("es")),
+            )
+
+            val listLocalesPreference = ListPreferenceValues(
+                title = "Choose language",
+                entries = locales,
+            )
+
             SettingsScreen(
                 selectedTheme = currentValue,
                 themes = listPreference,
+                locales = listLocalesPreference,
                 onClose = {},
                 onThemeChanged = {},
             )

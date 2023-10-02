@@ -28,4 +28,6 @@ android {
 dependencies {
     implementation(projects.common.core.coreAndroid)
     implementation(projects.common.settings.settings)
+
+    implementation(libs.androidx.appcompat)
 }

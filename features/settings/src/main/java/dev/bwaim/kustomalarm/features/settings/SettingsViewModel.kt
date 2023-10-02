@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.features.settings
 import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,6 +56,10 @@ internal class SettingsViewModel @Inject constructor(
             SharingStarted.WhileSubscribed(5_000),
             Theme.LIGHT.toPreference(appContext),
         )
+
+    val locales: State<ListPreferenceValues<Locale>> = mutableStateOf(
+        settingsService.getLocales().toLocaleListPreferences(appContext),
+    )
 
     public fun setTheme(theme: Preference<Theme>) {
         viewModelScope.launch {
@@ -92,3 +98,25 @@ private fun Theme.isAvailable(): Boolean =
         Theme.SYSTEM -> BuildWrapper.isAtLeastQ
         Theme.BATTERY_SAVER -> BuildWrapper.isAtLeastQ.not()
     }
+
+private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
+    val applicationLocales = LocaleListCompat.create(
+        *(this.toTypedArray()),
+    )
+    val locales: MutableMap<String, Preference<Locale>> = mutableMapOf()
+    for (i in 0 until applicationLocales.size()) {
+        with(applicationLocales[i]) {
+            this?.run {
+                val locale = this.toPreference()
+                locales.put(locale.label, locale)
+            }
+        }
+    }
+    return ListPreferenceValues(
+        title = context.getString(string.settings_screen_locale_title),
+        entries = locales.toImmutableMap(),
+    )
+}
+
+internal fun Locale.toPreference(): Preference<Locale> =
+    Preference(label = getDisplayLanguage(this), value = this)
