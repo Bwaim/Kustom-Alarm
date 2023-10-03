@@ -26,4 +26,5 @@
     <string name="settings.screen.theme.battery_label">Establecido por ahorro de battería</string>
     <string name="settings.screen.theme.system_label">Usar sistema predeterminado</string>
     <string name="settings.screen.theme.title">Escoge un tema</string>
+    <string name="settings.screen.locale.title">Escoge idioma</string>
 </resources>

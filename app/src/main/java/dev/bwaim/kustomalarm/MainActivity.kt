@@ -17,11 +17,11 @@
 package dev.bwaim.kustomalarm
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -37,7 +37,7 @@ import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class MainActivity : ComponentActivity() {
+internal class MainActivity : AppCompatActivity() {
 
     @Inject
     internal lateinit var navigationDrawerItems: Set<@JvmSuppressWildcards NavigationDrawerItem>

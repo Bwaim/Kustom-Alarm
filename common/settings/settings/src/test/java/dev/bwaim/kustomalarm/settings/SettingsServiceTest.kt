@@ -27,6 +27,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.util.Locale
 
 internal class SettingsServiceTest {
     private lateinit var subject: SettingsService
@@ -55,6 +56,19 @@ internal class SettingsServiceTest {
         val expectedResult = listOf(Theme.LIGHT, Theme.DARK, Theme.SYSTEM, Theme.BATTERY_SAVER)
 
         val result = subject.getThemes()
+
+        Assert.assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun localeService_getLocales_returnAllLocales() {
+        val expectedResult = listOf(
+            Locale("es"),
+            Locale.ENGLISH,
+            Locale.FRENCH,
+        )
+
+        val result = subject.getLocales()
 
         Assert.assertEquals(expectedResult, result)
     }
