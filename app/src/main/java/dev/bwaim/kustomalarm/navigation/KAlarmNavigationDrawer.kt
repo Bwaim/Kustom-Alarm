@@ -49,7 +49,7 @@ import dev.bwaim.kustomalarm.compose.HorizontalDivider
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
-import dev.bwaim.kustomalarm.settings.navigation.SettingsNavigationDrawerItem
+import dev.bwaim.kustomalarm.features.settings.navigation.SettingsNavigationDrawerItem
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

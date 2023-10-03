@@ -28,6 +28,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.androidx.navigation.common)
     implementation(libs.androidx.navigation.compose)

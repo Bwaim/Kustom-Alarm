@@ -47,10 +47,8 @@ android {
 
             applicationIdSuffix = ".debug"
 
-            withGroovyBuilder {
-                "FirebasePerformance" {
-                    invokeMethod("setInstrumentationEnabled", false)
-                }
+            configure<com.google.firebase.perf.plugin.FirebasePerfExtension> {
+                setInstrumentationEnabled(false)
             }
         }
         val release by getting {
@@ -85,15 +83,21 @@ android {
 
 dependencies {
     implementation(projects.common.compose)
+    implementation(projects.common.core.coreAndroid)
     implementation(projects.common.navigation)
+    implementation(projects.common.settings.settings)
+    implementation(projects.common.settings.settingsImpl)
     implementation(projects.common.uiResources)
 
     implementation(projects.features.alarm)
     implementation(projects.features.settings)
 
+    implementation(libs.kotlinx.collections.immutable)
+
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.datastore)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime)

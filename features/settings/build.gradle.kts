@@ -22,8 +22,10 @@ plugins {
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.settings"
+    namespace = "dev.bwaim.kustomalarm.features.settings"
 }
 
 dependencies {
+    implementation(projects.common.core.coreAndroid)
+    implementation(projects.common.settings.settings)
 }

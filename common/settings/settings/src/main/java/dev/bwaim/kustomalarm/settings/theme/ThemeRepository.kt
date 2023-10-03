@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.navigation.di
+package dev.bwaim.kustomalarm.settings.theme
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import dagger.multibindings.IntoSet
-import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import dev.bwaim.kustomalarm.settings.navigation.SettingsNavigationDrawerItem
+import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import kotlinx.coroutines.flow.Flow
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface SettingsNavigationModule {
+public interface ThemeRepository {
+    public fun observeTheme(): Flow<Theme>
 
-    @Binds
-    @IntoSet
-    abstract fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
+    public suspend fun setTheme(theme: Theme)
 }

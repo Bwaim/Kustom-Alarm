@@ -28,6 +28,8 @@ dependencies {
     implementation(projects.common.localisation)
     implementation(projects.common.uiResources)
 
+    implementation(libs.kotlinx.collections.immutable)
+
     implementation(libs.androidx.core)
 
     implementation(libs.compose.material3)

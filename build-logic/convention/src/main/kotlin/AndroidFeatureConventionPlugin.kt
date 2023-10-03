@@ -36,11 +36,13 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("androidx.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
 
                 add("implementation", libs.findLibrary("compose.material3").get())
 
                 add("implementation", libs.findLibrary("kotlin.coroutines.android").get())
+                add("implementation", libs.findLibrary("kotlinx.collections.immutable").get())
 
                 add("implementation", libs.findLibrary("hilt.library").get())
                 add("ksp", libs.findLibrary("hilt.compiler").get())

@@ -51,11 +51,12 @@ import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import dev.bwaim.kustomalarm.state.KAlarmAppState
 import dev.bwaim.kustomalarm.state.rememberKAlarmAppState
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun KAlarmApp(
-    navigationDrawerItems: List<NavigationDrawerItem>,
+    navigationDrawerItems: ImmutableList<NavigationDrawerItem>,
     kAlarmAppState: KAlarmAppState = rememberKAlarmAppState(),
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
