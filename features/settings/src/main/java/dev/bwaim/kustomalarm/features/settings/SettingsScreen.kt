@@ -25,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
@@ -54,6 +55,7 @@ internal fun SettingsRoute(
         locales = locales,
         onClose = onClose,
         onThemeChanged = viewModel::setTheme,
+        onLocaleChanged = { AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it.value)) },
     )
 }
 
@@ -64,6 +66,7 @@ private fun SettingsScreen(
     locales: ListPreferenceValues<Locale>,
     onClose: () -> Unit,
     onThemeChanged: (Preference<Theme>) -> Unit,
+    onLocaleChanged: (Preference<Locale>) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -87,7 +90,7 @@ private fun SettingsScreen(
             ListPreferenceWidget(
                 preferences = locales,
                 currentValue = getCurrentLocale(),
-                onValueChanged = {},
+                onValueChanged = onLocaleChanged,
             )
         }
     }
@@ -131,6 +134,7 @@ private fun PreviewSettingsScreen() {
                 locales = listLocalesPreference,
                 onClose = {},
                 onThemeChanged = {},
+                onLocaleChanged = {},
             )
         }
     }
