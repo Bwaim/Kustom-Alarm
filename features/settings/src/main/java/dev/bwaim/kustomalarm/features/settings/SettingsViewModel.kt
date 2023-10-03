@@ -16,24 +16,16 @@
 
 package dev.bwaim.kustomalarm.features.settings
 
-import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
-import dev.bwaim.kustomalarm.core.android.BuildWrapper
-import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import kotlinx.collections.immutable.toImmutableMap
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -41,25 +33,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
-    @ApplicationContext appContext: Context,
     private val settingsService: SettingsService,
 ) : ViewModel() {
 
-    val themes: State<ListPreferenceValues<Theme>> = mutableStateOf(
-        settingsService.getThemes().toThemeListPreferences(appContext),
-    )
+    val themes: State<List<Theme>> = mutableStateOf(settingsService.getThemes())
 
-    val currentTheme: StateFlow<Preference<Theme>> = settingsService.observeTheme()
-        .map { it.toPreference(appContext) }
+    val currentTheme: StateFlow<Theme> = settingsService.observeTheme()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5_000),
-            Theme.LIGHT.toPreference(appContext),
+            Theme.LIGHT,
         )
 
-    val locales: State<ListPreferenceValues<Locale>> = mutableStateOf(
-        settingsService.getLocales().toLocaleListPreferences(appContext),
-    )
+    val locales: State<List<Locale>> = mutableStateOf(settingsService.getLocales())
 
     public fun setTheme(theme: Preference<Theme>) {
         viewModelScope.launch {
@@ -67,56 +53,3 @@ internal class SettingsViewModel @Inject constructor(
         }
     }
 }
-
-private fun Theme.getLabel(context: Context): String =
-    when (this) {
-        Theme.LIGHT -> context.getString(string.settings_screen_theme_light_label)
-        Theme.DARK -> context.getString(string.settings_screen_theme_dark_label)
-        Theme.SYSTEM -> context.getString(string.settings_screen_theme_system_label)
-        Theme.BATTERY_SAVER -> context.getString(string.settings_screen_theme_battery_label)
-    }
-
-private fun Theme.toPreference(context: Context): Preference<Theme> =
-    Preference(label = this.getLabel(context), value = this)
-
-private fun List<Theme>.toThemeListPreferences(context: Context): ListPreferenceValues<Theme> =
-    ListPreferenceValues(
-        title = context.getString(string.settings_screen_theme_title),
-        entries = this
-            .filter { it.isAvailable() }
-            .associate {
-                val preference = it.toPreference(context)
-                preference.label to preference
-            }
-            .toImmutableMap(),
-    )
-
-private fun Theme.isAvailable(): Boolean =
-    when (this) {
-        Theme.LIGHT -> true
-        Theme.DARK -> true
-        Theme.SYSTEM -> BuildWrapper.isAtLeastQ
-        Theme.BATTERY_SAVER -> BuildWrapper.isAtLeastQ.not()
-    }
-
-private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
-    val applicationLocales = LocaleListCompat.create(
-        *(this.toTypedArray()),
-    )
-    val locales: MutableMap<String, Preference<Locale>> = mutableMapOf()
-    for (i in 0 until applicationLocales.size()) {
-        with(applicationLocales[i]) {
-            this?.run {
-                val locale = this.toPreference()
-                locales.put(locale.label, locale)
-            }
-        }
-    }
-    return ListPreferenceValues(
-        title = context.getString(string.settings_screen_locale_title),
-        entries = locales.toImmutableMap(),
-    )
-}
-
-internal fun Locale.toPreference(): Preference<Locale> =
-    Preference(label = getDisplayLanguage(this), value = this)
