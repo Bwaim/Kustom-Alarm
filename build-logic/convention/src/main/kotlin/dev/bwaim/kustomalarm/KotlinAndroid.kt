@@ -56,11 +56,6 @@ private fun Project.configureKotlin() {
                 // Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
-                "-opt-in=kotlin.Experimental",
-                // Enable experimental kotlinx serialization APIs
-                "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
-                // Enable experimental material 3 APIs
-                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
             )
         }
     }
