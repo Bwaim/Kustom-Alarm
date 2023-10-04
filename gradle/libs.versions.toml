@@ -61,6 +61,7 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime", version.ref = "androidxNavigation" }
 androidx-profile-installer = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidxProfileInstaller" }
 androidx-room-common = { module = "androidx.room:room-common", version.ref = "androidxRoom" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidxRoom" }
 androidx-startup = { group = "androidx.startup", name = "startup-runtime", version.ref = "androidxStartup" }
 androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "androidxEspresso" }
@@ -112,6 +113,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+android-room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "androidxRoom" }
 firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 firebase-performance-gradlePlugin = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -122,6 +124,7 @@ protobuf-gradlePlugin = { module = "com.google.protobuf:protobuf-gradle-plugin",
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-cache-fix = { id = "org.gradle.android.cache-fix", version.ref = "androidCacheFix"}
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-room = { id = "androidx.room", version.ref = "androidxRoom" }
 android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 ben-manes-version = { id = "com.github.ben-manes.versions", version.ref = "benManesVersion"}
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }

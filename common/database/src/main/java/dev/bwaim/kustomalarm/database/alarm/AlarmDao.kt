@@ -24,5 +24,5 @@ import kotlinx.coroutines.flow.Flow
 public abstract class AlarmDao {
 
     @Query("SELECT * FROM ALARM_ENTITY")
-    public abstract suspend fun observeAlarms(): Flow<AlarmEntity>
+    public abstract fun observeAlarms(): Flow<AlarmEntity>
 }

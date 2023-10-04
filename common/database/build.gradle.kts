@@ -17,16 +17,13 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.hilt")
+    id("kustomalarm.room")
 }
 
 android {
     namespace = "dev.bwaim.kustomalarm.database"
 
 }
-
-//room {
-//    schemaDirectory("$projectDir/schemas/")
-//}
 
 dependencies {
     implementation(projects.common.core.core)

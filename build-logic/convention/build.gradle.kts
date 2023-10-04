@@ -18,6 +18,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.android.room.gradlePlugin)
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.firebase.performance.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
@@ -87,9 +88,10 @@ gradlePlugin {
             id = "kustomalarm.protobuf"
             implementationClass = "ProtobufConventionPlugin"
         }
-//        register("room") {
-//            id = "kustomalarm.room"
-//        }
+        register("room") {
+            id = "kustomalarm.room"
+            implementationClass = "RoomConventionPlugin"
+        }
         register("unitTest") {
             id = "kustomalarm.test"
             implementationClass = "UnitTestConventionPlugin"
