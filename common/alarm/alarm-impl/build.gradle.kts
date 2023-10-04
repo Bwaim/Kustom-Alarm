@@ -15,15 +15,15 @@
  */
 plugins {
     id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
+    id("kustomalarm.hilt")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
+    namespace = "dev.bwaim.kustomalarm.alarm.impl"
 }
 
 dependencies {
     implementation(projects.common.alarm.alarm)
+    implementation(projects.common.database)
 }

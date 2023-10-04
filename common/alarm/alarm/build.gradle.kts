@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-}
-
-android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
+    id("kustomalarm.kotlin.library")
+    id("kustomalarm.kotlin.library.jacoco")
 }
 
 dependencies {
-    implementation(projects.common.alarm.alarm)
+    implementation(libs.dagger)
 }

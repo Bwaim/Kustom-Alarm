@@ -80,6 +80,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.alarm.alarmImpl)
     implementation(projects.common.compose)
     implementation(projects.common.core.coreAndroid)
     implementation(projects.common.database)
