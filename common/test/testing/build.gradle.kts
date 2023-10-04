@@ -15,7 +15,6 @@
  */
 plugins {
     id("kustomalarm.kotlin.library")
-    id("kustomalarm.spotless")
 }
 
 dependencies {

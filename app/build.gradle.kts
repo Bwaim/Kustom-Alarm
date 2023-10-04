@@ -16,13 +16,11 @@
 plugins {
     id("kustomalarm.android.application")
     id("kustomalarm.android.application.compose")
+    id("kustomalarm.android.application.firebase")
     id("kustomalarm.android.application.jacoco")
     id("kustomalarm.android.test.compose")
     id("kustomalarm.hilt")
-    id("kustomalarm.spotless")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
@@ -109,6 +107,4 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
-
-    implementation(libs.firebase.perf.library)
 }

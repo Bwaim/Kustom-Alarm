@@ -1,8 +1,9 @@
+
+import dev.bwaim.kustomalarm.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 class KotlinLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -11,9 +12,7 @@ class KotlinLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.jvm")
             }
 
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
-            extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension>("kotlin") {
+            extensions.configure<KotlinJvmProjectExtension>("kotlin") {
                 explicitApi()
             }
 

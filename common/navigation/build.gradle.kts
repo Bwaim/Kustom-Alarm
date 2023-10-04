@@ -17,7 +17,6 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.spotless")
 }
 
 android {
