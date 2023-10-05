@@ -38,7 +38,7 @@ mockk = "1.13.8"
 protobufGradle = "0.9.4"
 protobufKotlinLite = "3.24.3"
 protobufProtoc = "3.24.0-RC2"
-spotless = "6.21.0"
+spotless = "6.22.0"
 timber = "5.0.1"
 turbine = "1.0.0"
 
