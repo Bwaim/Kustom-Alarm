@@ -26,6 +26,10 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
+                add("implementation", project(":common:core:core"))
+
+                add("implementation", libs.findLibrary("kotlin.coroutines.core").get())
+
                 configurations.configureEach {
                     resolutionStrategy {
                         force(libs.findLibrary("junit-library").get())

@@ -3,6 +3,7 @@ import dev.bwaim.kustomalarm.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 
 class KotlinLibraryConventionPlugin : Plugin<Project> {
@@ -17,8 +18,11 @@ class KotlinLibraryConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
+                add("implementation", project(":common:core:core"))
+
                 add("implementation", libs.findLibrary("kotlin.stdlib").get())
                 add("implementation", libs.findLibrary("kotlin.coroutines.core").get())
+                add("implementation", libs.findLibrary("dagger").get())
             }
         }
     }

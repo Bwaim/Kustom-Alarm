@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-    id("kustomalarm.kotlin.library.jacoco")
-}
 
-dependencies {
+package dev.bwaim.kustomalarm.core
+
+public sealed class DomainException(
+    message: String? = null,
+) : Exception(message) {
+
+    public open class AppException(message: String? = null) : DomainException(message)
 }
