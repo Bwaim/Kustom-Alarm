@@ -26,4 +26,6 @@ public data class AlarmEntity(
     @ColumnInfo(name = "_id")
     val id: Int,
     @ColumnInfo(name = "NAME") val name: String,
+    @ColumnInfo(name = "ALARM_TIME") val time: String,
+    @ColumnInfo(name = "WEEKDAYS", typeAffinity = ColumnInfo.BLOB) val weekDays: ByteArray,
 )
