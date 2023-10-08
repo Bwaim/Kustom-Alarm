@@ -18,6 +18,7 @@ package dev.bwaim.kustomalarm.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
 
@@ -31,6 +32,7 @@ internal const val DATABASE_VERSION = 1
     exportSchema = true,
     autoMigrations = [],
 )
+@TypeConverters(KustomAlarmTypeConverters::class)
 internal abstract class KustomAlarmRoomDatabase : RoomDatabase() {
     abstract fun alarmDao(): AlarmDao
 

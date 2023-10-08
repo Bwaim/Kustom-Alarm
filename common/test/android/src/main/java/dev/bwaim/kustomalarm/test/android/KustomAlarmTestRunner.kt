@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-    id("kustomalarm.kotlin.library.jacoco")
-}
 
-dependencies {
-    implementation(projects.common.core.core)
+package dev.bwaim.kustomalarm.test.android
+
+import android.app.Application
+import android.content.Context
+import androidx.test.runner.AndroidJUnitRunner
+import dagger.hilt.android.testing.HiltTestApplication
+
+public class KustomAlarmTestRunner : AndroidJUnitRunner() {
+    override fun newApplication(
+        cl: ClassLoader?,
+        className: String?,
+        context: Context?,
+    ): Application {
+        return super.newApplication(cl, HiltTestApplication::class.java.name, context)
+    }
 }

@@ -29,4 +29,5 @@ dependencies {
     implementation(libs.hilt.testing)
 
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.test.runner)
 }

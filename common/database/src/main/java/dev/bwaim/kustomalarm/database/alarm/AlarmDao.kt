@@ -18,11 +18,21 @@ package dev.bwaim.kustomalarm.database.alarm
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-public abstract class AlarmDao {
+public interface AlarmDao {
 
     @Query("SELECT * FROM ALARM_ENTITY")
-    public abstract fun observeAlarms(): Flow<AlarmEntity>
+    public fun observeAlarms(): Flow<List<AlarmEntity>>
+
+    @Query("SELECT * FROM ALARM_ENTITY WHERE _id = :id")
+    public suspend fun getAlarm(id: Int): AlarmEntity?
+
+    @Upsert
+    public suspend fun upsertAlarm(alarmEntity: AlarmEntity)
+
+    @Query("DELETE FROM ALARM_ENTITY WHERE _id = :alarmId")
+    public suspend fun deleteAlarm(alarmId: Int)
 }

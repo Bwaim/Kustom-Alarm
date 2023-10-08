@@ -19,10 +19,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureFeatureAndroid(this)
 
-//                defaultConfig {
-//                    testInstrumentationRunner =
-//                        "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
-//                }
+                defaultConfig {
+                    testInstrumentationRunner =
+                        "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
+                }
             }
 
             dependencies {

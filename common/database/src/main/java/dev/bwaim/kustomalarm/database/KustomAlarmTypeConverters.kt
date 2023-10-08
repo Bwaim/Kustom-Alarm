@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-    id("kustomalarm.kotlin.library.jacoco")
-}
 
-dependencies {
-    implementation(projects.common.core.core)
+package dev.bwaim.kustomalarm.database
+
+import androidx.room.ProvidedTypeConverter
+import androidx.room.TypeConverter
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import javax.inject.Inject
+
+@ProvidedTypeConverter
+internal class KustomAlarmTypeConverters @Inject constructor() {
+    @TypeConverter
+    fun fromLocalTime(localTime: LocalTime) = localTime.format(DateTimeFormatter.ISO_LOCAL_TIME)
+
+    @TypeConverter
+    fun toLocalTime(value: String) = LocalTime.parse(value, DateTimeFormatter.ISO_LOCAL_TIME)
 }

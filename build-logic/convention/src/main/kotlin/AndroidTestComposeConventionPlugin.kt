@@ -11,6 +11,7 @@ class AndroidTestComposeConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
+                add("androidTestImplementation", project(":common:test:android"))
                 add("androidTestImplementation", libs.findLibrary("compose.ui.test").get())
                 add("debugImplementation", libs.findLibrary("compose.ui.test.manifest").get())
             }

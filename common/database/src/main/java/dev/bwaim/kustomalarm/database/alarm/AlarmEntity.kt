@@ -19,13 +19,14 @@ package dev.bwaim.kustomalarm.database.alarm
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalTime
 
 @Entity("ALARM_ENTITY")
 public data class AlarmEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "_id")
-    val id: Int,
+    val id: Int = 0,
     @ColumnInfo(name = "NAME") val name: String,
-    @ColumnInfo(name = "ALARM_TIME") val time: String,
-    @ColumnInfo(name = "WEEKDAYS", typeAffinity = ColumnInfo.BLOB) val weekDays: ByteArray,
+    @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
+    @ColumnInfo(name = "WEEKDAYS") val weekDays: Int,
 )

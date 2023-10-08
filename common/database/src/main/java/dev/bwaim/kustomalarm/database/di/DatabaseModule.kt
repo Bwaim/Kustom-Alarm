@@ -27,6 +27,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.database.KustomAlarmRoomDatabase
+import dev.bwaim.kustomalarm.database.KustomAlarmTypeConverters
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asExecutor
 import javax.inject.Singleton
@@ -43,6 +44,7 @@ internal abstract class DatabaseModule {
         fun provideKustomAlarmRoomDatabase(
             @ApplicationContext context: Context,
             @IODispatcher ioDispatchers: CoroutineDispatcher,
+            typeConverters: KustomAlarmTypeConverters,
         ): KustomAlarmRoomDatabase {
             val roomExecutor = ioDispatchers.asExecutor()
             return Room
@@ -51,6 +53,7 @@ internal abstract class DatabaseModule {
                     KustomAlarmRoomDatabase::class.java,
                     KustomAlarmRoomDatabase.DATABASE_NAME,
                 )
+                .addTypeConverter(typeConverters)
                 .setQueryExecutor(roomExecutor)
                 .setTransactionExecutor(roomExecutor)
                 .build()

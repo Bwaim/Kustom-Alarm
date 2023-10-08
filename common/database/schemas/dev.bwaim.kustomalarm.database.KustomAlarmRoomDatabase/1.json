@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f3457c4811538a6c8a03f0c550e3be09",
+    "identityHash": "ca9987e02edfe7da2caf054592cabff6",
     "entities": [
       {
         "tableName": "ALARM_ENTITY",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `NAME` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `NAME` TEXT NOT NULL, `ALARM_TIME` TEXT NOT NULL, `WEEKDAYS` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -18,6 +18,18 @@
             "fieldPath": "name",
             "columnName": "NAME",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "ALARM_TIME",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weekDays",
+            "columnName": "WEEKDAYS",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -34,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f3457c4811538a6c8a03f0c550e3be09')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ca9987e02edfe7da2caf054592cabff6')"
     ]
   }
 }

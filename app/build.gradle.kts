@@ -31,7 +31,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-//        testInstrumentationRunner = "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
+        testInstrumentationRunner = "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }

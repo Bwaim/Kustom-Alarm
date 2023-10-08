@@ -18,6 +18,8 @@ plugins {
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.hilt")
     id("kustomalarm.room")
+
+    id("kustomalarm.android.test")
 }
 
 android {
