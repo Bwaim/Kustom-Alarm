@@ -17,6 +17,11 @@
 package dev.bwaim.kustomalarm.core
 
 import dev.bwaim.kustomalarm.core.Result.Error
+import dev.bwaim.kustomalarm.core.Result.Error.UnexpectedError
+import dev.bwaim.kustomalarm.core.Result.Success
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 public typealias DomainResult<T> = Result<T, Error<Any>>
 
@@ -31,5 +36,36 @@ public sealed interface Result<out T : Any?, out E : Any> {
 
         public data class UnexpectedError(public override val error: Throwable) :
             Error<Nothing>
+    }
+}
+
+public val <T : Any?> DomainResult<T>.value: T?
+    get() = when (this) {
+        is Success -> value
+        is Error -> null
+    }
+
+public val <T : Any?> DomainResult<T>.error: Throwable?
+    get() = when (this) {
+        is Success -> null
+        is Error -> error
+    }
+
+public suspend inline fun <T, R : Any?> T.executeCatching(
+    dispatcher: CoroutineDispatcher,
+    crossinline block: suspend T.() -> R,
+): DomainResult<R> = withContext(dispatcher) {
+    runCatching { block().toDomainResult() }
+        .getOrElse { exception: Throwable ->
+            exception.rethrowIfCancellationException()
+            UnexpectedError(exception)
+        }
+}
+
+public fun <T : Any?> T.toDomainResult(): DomainResult<T> = Success(this)
+
+public fun Throwable.rethrowIfCancellationException() {
+    if (this is CancellationException) {
+        throw this
     }
 }
