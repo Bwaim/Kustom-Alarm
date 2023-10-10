@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.hilt")
 
-    id ("kustomalarm.test")
-}
+package dev.bwaim.kustomalarm.alarm.domain
 
-android {
-    namespace = "dev.bwaim.kustomalarm.alarm.impl"
-}
-
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.database)
+public enum class WeekDay(public val value: Int) {
+    MONDAY(0b1000000),
+    TUESDAY(0b0100000),
+    WEDNESDAY(0b0010000),
+    THURSDAY(0b0001000),
+    FRIDAY(0b0000100),
+    SATURDAY(0b0000010),
+    SUNDAY(0b0000001),
 }

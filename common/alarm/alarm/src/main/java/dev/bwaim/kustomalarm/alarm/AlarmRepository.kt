@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.hilt")
 
-    id ("kustomalarm.test")
-}
+package dev.bwaim.kustomalarm.alarm
 
-android {
-    namespace = "dev.bwaim.kustomalarm.alarm.impl"
-}
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import kotlinx.coroutines.flow.Flow
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.database)
+public interface AlarmRepository {
+    public fun observeAlarms(): Flow<List<Alarm>>
+    public suspend fun getAlarm(alarmId: Int): Alarm?
+    public suspend fun saveAlarm(alarm: Alarm)
+    public suspend fun deleteAlarm(alarmId: Int)
 }

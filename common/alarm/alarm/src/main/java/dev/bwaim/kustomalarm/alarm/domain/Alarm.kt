@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.hilt")
 
-    id ("kustomalarm.test")
-}
+package dev.bwaim.kustomalarm.alarm.domain
 
-android {
-    namespace = "dev.bwaim.kustomalarm.alarm.impl"
-}
+import java.time.LocalTime
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.database)
-}
+public data class Alarm(
+    val id: Int = 0,
+    val name: String,
+    val time: LocalTime,
+    val weekDays: List<WeekDay>,
+)
