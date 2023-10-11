@@ -1,21 +1,18 @@
 
 import com.google.protobuf.gradle.ProtobufExtension
 import com.google.protobuf.gradle.id
+import dev.bwaim.kustomalarm.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.MinimalExternalModuleDependency
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
-import org.gradle.kotlin.dsl.getByType
 
 class ProtobufConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("com.google.protobuf")
-
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
                 add("implementation", libs.findLibrary("protobuf-kotlin-lite").get())

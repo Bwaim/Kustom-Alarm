@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `kotlin-dsl`
 }
@@ -8,12 +10,20 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+}
 
 dependencies {
-    implementation(libs.android.gradle)
-    implementation(libs.kotlin.gradle)
-    implementation(libs.protobuf.gradle)
-    implementation(libs.spotless.gradlePlugin)
+    compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.android.room.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.firebase.performance.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.protobuf.gradlePlugin)
 }
 
 gradlePlugin {
@@ -25,6 +35,10 @@ gradlePlugin {
         register("androidApplication") {
             id = "kustomalarm.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidApplicationFirebase") {
+            id = "kustomalarm.android.application.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
         register("androidApplicationJacoco") {
             id = "kustomalarm.android.application.jacoco"
@@ -74,9 +88,9 @@ gradlePlugin {
             id = "kustomalarm.protobuf"
             implementationClass = "ProtobufConventionPlugin"
         }
-        register("spotless") {
-            id = "kustomalarm.spotless"
-            implementationClass = "SpotlessConventionPlugin"
+        register("room") {
+            id = "kustomalarm.room"
+            implementationClass = "RoomConventionPlugin"
         }
         register("unitTest") {
             id = "kustomalarm.test"

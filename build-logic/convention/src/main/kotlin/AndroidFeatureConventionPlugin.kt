@@ -1,12 +1,11 @@
 
 import com.android.build.gradle.LibraryExtension
 import dev.bwaim.kustomalarm.configureFeatureAndroid
+import dev.bwaim.kustomalarm.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
@@ -20,16 +19,15 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureFeatureAndroid(this)
 
-//                defaultConfig {
-//                    testInstrumentationRunner =
-//                        "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
-//                }
+                defaultConfig {
+                    testInstrumentationRunner =
+                        "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
+                }
             }
-
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
                 add("implementation", project(":common:compose"))
+                add("implementation", project(":common:core:core"))
                 add("implementation", project(":common:navigation"))
                 add("implementation", project(":common:localisation"))
                 add("implementation", project(":common:ui-resources"))

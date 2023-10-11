@@ -24,8 +24,7 @@ class BenchmarkConventionPlugin : Plugin<Project> {
                 configureGradleManagedDevices(this)
 
                 defaultConfig {
-//                    testInstrumentationRunner = "dev.bwaim.loteria.test.android.HiltTestRunner"
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                    testInstrumentationRunner = "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
                 }
 
                 buildTypes {
@@ -46,10 +45,11 @@ class BenchmarkConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             dependencies {
-//                add("implementation", project(":common:test:android"))
+                add("implementation", project(":common:test:android"))
                 add("implementation", libs.findLibrary("androidx-test-espresso-core").get())
                 add("implementation", libs.findLibrary("androidx-test-uiautomator").get())
                 add("implementation", libs.findLibrary("androidx-benchmark-macro").get())
+                add("implementation", libs.findLibrary("kotlin.coroutines.core").get())
             }
 
             extensions.configure<TestAndroidComponentsExtension> {

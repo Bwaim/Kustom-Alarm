@@ -16,13 +16,11 @@
 plugins {
     id("kustomalarm.android.application")
     id("kustomalarm.android.application.compose")
+    id("kustomalarm.android.application.firebase")
     id("kustomalarm.android.application.jacoco")
     id("kustomalarm.android.test.compose")
     id("kustomalarm.hilt")
-    id("kustomalarm.spotless")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
@@ -33,7 +31,7 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-//        testInstrumentationRunner = "dev.bwaim.kustomalarm.test.android.HiltTestRunner"
+        testInstrumentationRunner = "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -82,8 +80,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.alarm.alarmImpl)
     implementation(projects.common.compose)
     implementation(projects.common.core.coreAndroid)
+    implementation(projects.common.database)
     implementation(projects.common.navigation)
     implementation(projects.common.settings.settings)
     implementation(projects.common.settings.settingsImpl)
@@ -108,6 +108,4 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.ui.ui)
-
-    implementation(libs.firebase.perf.library)
 }

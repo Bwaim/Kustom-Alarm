@@ -15,9 +15,14 @@
  */
 plugins {
     id("kustomalarm.kotlin.library")
-    id("kustomalarm.spotless")
 }
 
 dependencies {
+    implementation(projects.common.alarm.alarm)
     implementation(projects.common.settings.settings)
+
+    implementation(libs.kotlin.coroutines.test)
+
+    implementation(libs.junit.library)
+    implementation(libs.cash.turbine)
 }

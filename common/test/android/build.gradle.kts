@@ -17,7 +17,6 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.android.library.jacoco")
     id("kustomalarm.hilt")
-    id("kustomalarm.spotless")
 }
 
 android {
@@ -30,4 +29,5 @@ dependencies {
     implementation(libs.hilt.testing)
 
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.test.runner)
 }

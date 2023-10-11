@@ -1,0 +1,77 @@
+/*
+ * Copyright 2023 Dev Bwaim team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dev.bwaim.kustomalarm.alarm.impl
+
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
+import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SATURDAY
+import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import java.time.LocalTime
+
+internal class AlarmRepositoryImplTest {
+    private val testScope = TestScope(UnconfinedTestDispatcher())
+
+    private lateinit var subject: AlarmRepositoryImpl
+
+    private lateinit var alarmDao: TestAlarmDao
+
+    @Before
+    fun setup() {
+        alarmDao = TestAlarmDao()
+
+        subject = AlarmRepositoryImpl(
+            alarmDao = alarmDao,
+        )
+    }
+
+    @Test
+    fun alarmRepository_is_backed_by_alarm_dao() = testScope.runTest {
+        Assert.assertTrue(
+            subject.observeAlarms().first().isEmpty(),
+        )
+
+        val alarm1 = Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = listOf(MONDAY))
+        val alarm2 = Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = listOf(SATURDAY))
+
+        subject.saveAlarm(alarm1)
+        subject.saveAlarm(alarm2)
+
+        Assert.assertEquals(
+            listOf(alarm1.copy(id = 1), alarm2.copy(id = 2)),
+            subject.observeAlarms().first(),
+        )
+
+        Assert.assertEquals(
+            alarm2.copy(id = 2),
+            subject.getAlarm(alarmId = 2),
+        )
+
+        subject.deleteAlarm(alarmId = 1)
+
+        Assert.assertEquals(
+            listOf(alarm2.copy(id = 2)),
+            subject.observeAlarms().first(),
+        )
+    }
+}
