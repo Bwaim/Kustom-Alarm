@@ -25,10 +25,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.Header
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
@@ -38,16 +43,25 @@ import dev.bwaim.kustomalarm.compose.SurfaceCard
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
-public fun AlarmRoute(openDrawer: () -> Unit) {
+internal fun AlarmRoute(
+    openDrawer: () -> Unit,
+    viewModel: AlarmViewModel = hiltViewModel(),
+) {
+    val alarms by viewModel.alarms.collectAsStateWithLifecycle()
+
     AlarmScreen(
+        alarms = alarms,
         openDrawer = openDrawer,
     )
 }
 
 @Composable
-private fun AlarmScreen(openDrawer: () -> Unit) {
+private fun AlarmScreen(alarms: ImmutableList<Alarm>,openDrawer: () -> Unit) {
     Scaffold(
         topBar = {
             KaCenterAlignedTopAppBar(
@@ -56,7 +70,9 @@ private fun AlarmScreen(openDrawer: () -> Unit) {
         },
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
+            modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SurfaceCard {
@@ -66,7 +82,9 @@ private fun AlarmScreen(openDrawer: () -> Unit) {
                 )
             }
             Spacer(modifier = Modifier.height(30.dp))
-            NoAlarm()
+            if (alarms.isEmpty()) {
+                NoAlarm()
+            }
         }
     }
 }
@@ -90,6 +108,7 @@ private fun PreviewAlarmScreen() {
     KustomAlarmTheme {
         KaBackground {
             AlarmScreen(
+                alarms = persistentListOf(),
                 openDrawer = {},
             )
         }
