@@ -49,6 +49,7 @@ class BenchmarkConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx-test-espresso-core").get())
                 add("implementation", libs.findLibrary("androidx-test-uiautomator").get())
                 add("implementation", libs.findLibrary("androidx-benchmark-macro").get())
+                add("implementation", libs.findLibrary("kotlin.coroutines.core").get())
             }
 
             extensions.configure<TestAndroidComponentsExtension> {
