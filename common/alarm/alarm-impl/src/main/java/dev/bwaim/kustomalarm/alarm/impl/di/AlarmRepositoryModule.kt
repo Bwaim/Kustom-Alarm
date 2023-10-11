@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.impl.theme.di
+package dev.bwaim.kustomalarm.alarm.impl.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.bwaim.kustomalarm.settings.impl.theme.ThemeRepositoryImpl
-import dev.bwaim.kustomalarm.settings.theme.ThemeRepository
+import dev.bwaim.kustomalarm.alarm.AlarmRepository
+import dev.bwaim.kustomalarm.alarm.impl.AlarmRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface ThemeRepositoryModule {
+internal interface AlarmRepositoryModule {
     @Binds
-    fun provideThemeRepository(it: ThemeRepositoryImpl): ThemeRepository
+    fun provideAlarmRepository(it: AlarmRepositoryImpl): AlarmRepository
 }

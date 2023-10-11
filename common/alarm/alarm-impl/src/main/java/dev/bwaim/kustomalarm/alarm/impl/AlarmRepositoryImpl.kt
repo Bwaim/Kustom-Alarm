@@ -23,9 +23,10 @@ import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 internal class AlarmRepositoryImpl
-    constructor(
+    @Inject constructor(
         private val alarmDao: AlarmDao,
     ) : AlarmRepository {
         override fun observeAlarms(): Flow<List<Alarm>> {
