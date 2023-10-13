@@ -32,7 +32,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
-import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 
 /**
  * For a route like that example_route/{arg1}/{arg2}?arg3={arg3},arg4={arg4} baseRoutePattern =
@@ -40,8 +40,8 @@ import kotlinx.collections.immutable.ImmutableList
  */
 public interface Route {
     public val baseRoutePattern: String
-    public val mandatoryArguments: ImmutableList<NamedNavArgument>
-    public val optionalArguments: ImmutableList<NamedNavArgument>
+    public val mandatoryArguments: PersistentList<NamedNavArgument>
+    public val optionalArguments: PersistentList<NamedNavArgument>
 
     public val menuAppState: MenuAppState
 

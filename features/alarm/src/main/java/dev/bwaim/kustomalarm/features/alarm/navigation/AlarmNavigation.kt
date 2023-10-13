@@ -21,15 +21,15 @@ import androidx.navigation.NavGraphBuilder
 import dev.bwaim.kustomalarm.features.alarm.AlarmRoute
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
-import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 public const val ALARM_NAVIGATION_ROUTE: String = "alarm"
 
 public object AlarmRoute : Route {
     override val baseRoutePattern: String = ALARM_NAVIGATION_ROUTE
-    override val mandatoryArguments: ImmutableList<NamedNavArgument> = persistentListOf()
-    override val optionalArguments: ImmutableList<NamedNavArgument> = persistentListOf()
+    override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
+    override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState()
 }

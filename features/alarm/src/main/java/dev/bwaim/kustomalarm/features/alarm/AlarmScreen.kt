@@ -43,8 +43,7 @@ import dev.bwaim.kustomalarm.compose.SurfaceCard
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -61,7 +60,7 @@ internal fun AlarmRoute(
 }
 
 @Composable
-private fun AlarmScreen(alarms: ImmutableList<Alarm>,openDrawer: () -> Unit) {
+private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit) {
     Scaffold(
         topBar = {
             KaCenterAlignedTopAppBar(
