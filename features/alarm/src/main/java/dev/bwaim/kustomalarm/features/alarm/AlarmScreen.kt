@@ -35,12 +35,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.Header
-import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.SurfaceCard
-import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.collections.immutable.PersistentList
@@ -49,6 +48,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
+    addAlarm: () -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -56,11 +56,12 @@ internal fun AlarmRoute(
     AlarmScreen(
         alarms = alarms,
         openDrawer = openDrawer,
+        addAlarm = addAlarm,
     )
 }
 
 @Composable
-private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit) {
+private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit, addAlarm: () -> Unit,) {
     Scaffold(
         topBar = {
             KaCenterAlignedTopAppBar(
@@ -82,14 +83,16 @@ private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit) {
             }
             Spacer(modifier = Modifier.height(30.dp))
             if (alarms.isEmpty()) {
-                NoAlarm()
+                NoAlarm(addAlarm = addAlarm)
             }
         }
     }
 }
 
 @Composable
-private fun ColumnScope.NoAlarm() {
+private fun ColumnScope.NoAlarm(
+    addAlarm: () -> Unit,
+) {
     Text(
         text = stringResource(id = string.alarm_screen_no_alarm_msg),
         style = MaterialTheme.typography.headlineSmall,
@@ -97,19 +100,18 @@ private fun ColumnScope.NoAlarm() {
     Spacer(modifier = Modifier.height(60.dp))
     PrimaryButton(
         text = stringResource(id = string.alarm_screen_no_alarm_add_button),
-        onClick = {},
+        onClick = addAlarm,
     )
 }
 
 @Composable
 @PreviewsKAlarm
 private fun PreviewAlarmScreen() {
-    KustomAlarmTheme {
-        KaBackground {
-            AlarmScreen(
-                alarms = persistentListOf(),
-                openDrawer = {},
-            )
-        }
+    KustomAlarmThemePreview {
+        AlarmScreen(
+            alarms = persistentListOf(),
+            openDrawer = {},
+            addAlarm = {},
+        )
     }
 }

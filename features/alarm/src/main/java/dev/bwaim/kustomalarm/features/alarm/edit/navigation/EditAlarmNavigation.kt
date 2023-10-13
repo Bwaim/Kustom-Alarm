@@ -14,31 +14,36 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.features.alarm.navigation
+package dev.bwaim.kustomalarm.features.alarm.edit.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import dev.bwaim.kustomalarm.features.alarm.AlarmRoute
+import androidx.navigation.NavOptions
+import dev.bwaim.kustomalarm.features.alarm.edit.EditAlarmRoute
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
-public const val ALARM_NAVIGATION_ROUTE: String = "alarm"
+public const val EDIT_ALARM_NAVIGATION_ROUTE: String = "alarm/edit"
 
-public object AlarmRoute : Route {
-    override val baseRoutePattern: String = ALARM_NAVIGATION_ROUTE
+private object EditAlarmRoute : Route {
+    override val baseRoutePattern: String = EDIT_ALARM_NAVIGATION_ROUTE
     override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
     override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState()
 }
 
-public fun NavGraphBuilder.alarmScreen(openDrawer: () -> Unit, addAlarm: () -> Unit,) {
-    AlarmRoute.composable {
-        AlarmRoute(
-            openDrawer = openDrawer,
-            addAlarm = addAlarm,
-        )
+public fun NavController.navigateToEditAlarmScreen(
+    navOptions: NavOptions? = null,
+) {
+    this.navigate(EditAlarmRoute.buildRoute(), navOptions)
+}
+
+public fun NavGraphBuilder.editAlarmScreen() {
+    EditAlarmRoute.composable {
+        EditAlarmRoute()
     }
 }
