@@ -79,8 +79,9 @@ internal fun KAlarmApp(
             selectedNavigationDrawerId = menuAppState.selectedNavigationDrawerId,
             navController = kAlarmAppState.navController,
             drawerState = drawerState,
-            navigateHome = navigateHome,
             scope = scope,
+            navigateHome = navigateHome,
+            allowToOpen = menuAppState.allowToOpenDrawer,
         ) {
             KaBackground {
                 Scaffold(

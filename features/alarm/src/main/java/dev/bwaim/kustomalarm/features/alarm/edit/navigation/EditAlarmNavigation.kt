@@ -33,7 +33,7 @@ private object EditAlarmRoute : Route {
     override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
     override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
-    override val menuAppState: MenuAppState = MenuAppState()
+    override val menuAppState: MenuAppState = MenuAppState(allowToOpenDrawer = false)
 }
 
 public fun NavController.navigateToEditAlarmScreen(

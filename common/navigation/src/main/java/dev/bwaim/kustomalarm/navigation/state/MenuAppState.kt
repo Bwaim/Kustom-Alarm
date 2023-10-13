@@ -16,14 +16,52 @@
 
 package dev.bwaim.kustomalarm.navigation.state
 
+import android.net.Uri
+import android.os.Bundle
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+
+private const val NAVIGATION_DRAWER_ITEM_ID = "navigationDrawerItemId"
+private const val ALLOW_TO_OPEN_DRAWER = "allowToOpenDrawer"
 
 public data class MenuAppState(
     val selectedNavigationDrawerId: String? = null,
-)
+    val allowToOpenDrawer: Boolean = true,
+) {
+
+    internal fun generateAppParameters() = listOfNotNull(
+        selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
+        ALLOW_TO_OPEN_DRAWER to allowToOpenDrawer,
+    )
+    internal companion object {
+        fun getAppParameters(): List<NamedNavArgument> =
+            listOf(
+                navArgument(NAVIGATION_DRAWER_ITEM_ID) {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument(ALLOW_TO_OPEN_DRAWER) {
+                    type = NavType.BoolType
+                    nullable = false
+                    defaultValue = true
+                },
+            )
+    }
+}
 
 public val LocalMenuAppStateSetter: ProvidableCompositionLocal<(MenuAppState) -> Unit> =
     staticCompositionLocalOf {
         {}
     }
+
+internal fun Bundle.toMenuAppState(): MenuAppState {
+    val navigationDrawerId = Uri.decode(getString(NAVIGATION_DRAWER_ITEM_ID))
+    val allowToOpenDrawer = getBoolean(ALLOW_TO_OPEN_DRAWER, true)
+    return MenuAppState(
+        selectedNavigationDrawerId = navigationDrawerId,
+        allowToOpenDrawer = allowToOpenDrawer,
+    )
+}

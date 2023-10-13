@@ -17,7 +17,6 @@
 package dev.bwaim.kustomalarm.navigation
 
 import android.net.Uri
-import android.os.Bundle
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
@@ -27,11 +26,11 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
+import dev.bwaim.kustomalarm.navigation.state.MenuAppState.Companion.getAppParameters
+import dev.bwaim.kustomalarm.navigation.state.toMenuAppState
 import kotlinx.collections.immutable.PersistentList
 
 /**
@@ -57,8 +56,8 @@ public interface Route {
             finalRoute = finalRoute.replace("{$argName}", value.encodedValue())
         }
 
-        finalRoute +=
-            (optionalParams + generateAppParameters()).joinToString(prefix = "?", separator = "&") {
+        finalRoute += (optionalParams + menuAppState.generateAppParameters())
+            .joinToString(prefix = "?", separator = "&") {
                 "${it.first}=${it.second.encodedValue()}"
             }
 
@@ -96,19 +95,6 @@ public interface Route {
         )
     }
 
-    private fun getAppParameters(): List<NamedNavArgument> =
-        listOf(
-            navArgument(NAVIGATION_DRAWER_ITEM_ID) {
-                type = NavType.StringType
-                nullable = true
-            },
-        )
-
-    private fun generateAppParameters() =
-        listOfNotNull(
-            menuAppState.selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
-        )
-
     private fun addOptionalParameters(): String =
         (optionalArguments + getAppParameters()).joinToString(separator = "&", prefix = "?") {
             "${it.name}={${it.name}}"
@@ -119,13 +105,4 @@ public interface Route {
             is String -> Uri.encode(this)
             else -> this.toString()
         }
-}
-
-private const val NAVIGATION_DRAWER_ITEM_ID = "navigationDrawerItemId"
-
-private fun Bundle.toMenuAppState(): MenuAppState {
-    val navigationDrawerId = Uri.decode(getString(NAVIGATION_DRAWER_ITEM_ID))
-    return MenuAppState(
-        selectedNavigationDrawerId = navigationDrawerId,
-    )
 }
