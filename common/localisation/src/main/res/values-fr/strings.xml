@@ -16,6 +16,7 @@
 -->
 <resources>
     <string name="navigation.menu.content_description">menu</string>
+    <string name="navigation.back.content_description">retour</string>
     <string name="navigation.close.content_description">fermer</string>
     <string name="alarm.screen.titre">Alarmes</string>
     <string name="alarm.screen.no_alarm.msg">Aucune alarme créée</string>
