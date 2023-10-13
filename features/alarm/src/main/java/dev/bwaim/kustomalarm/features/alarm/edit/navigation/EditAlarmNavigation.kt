@@ -42,8 +42,12 @@ public fun NavController.navigateToEditAlarmScreen(
     this.navigate(EditAlarmRoute.buildRoute(), navOptions)
 }
 
-public fun NavGraphBuilder.editAlarmScreen() {
+public fun NavGraphBuilder.editAlarmScreen(
+    close: () -> Unit,
+) {
     EditAlarmRoute.composable {
-        EditAlarmRoute()
+        EditAlarmRoute(
+            close = close,
+        )
     }
 }

@@ -47,6 +47,8 @@ internal fun KAlarmNavHost(
             onClose = navigateUp,
         )
 
-        editAlarmScreen()
+        editAlarmScreen(
+            close = navigateUp,
+        )
     }
 }

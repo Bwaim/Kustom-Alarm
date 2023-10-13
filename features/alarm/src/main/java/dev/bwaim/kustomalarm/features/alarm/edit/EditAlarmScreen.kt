@@ -16,25 +16,41 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 
 @Composable
-internal fun EditAlarmRoute() {
-    EditAlarmScreen()
+internal fun EditAlarmRoute(
+    close: () -> Unit,
+) {
+    EditAlarmScreen(
+        close = close,
+    )
 }
 
 @Composable
-private fun EditAlarmScreen() {
-    Text(text = "EditAlarmScreen")
+private fun EditAlarmScreen(
+    close: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            KaCloseTopAppBar(
+                onClickNavigation = close,
+            )
+        },
+    ) { padding ->
+    }
 }
 
 @Composable
 @KAlarmPreviews
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
-        EditAlarmScreen()
+        EditAlarmScreen(
+            close = {},
+        )
     }
 }
