@@ -28,4 +28,5 @@
     <string name="settings.screen.theme.system_label">Usar sistema predeterminado</string>
     <string name="settings.screen.theme.title">Escoge un tema</string>
     <string name="settings.screen.locale.title">Escoge idioma</string>
+    <string name="edit_alarm.screen.alarm_name.label">Nombre de la alarma</string>
 </resources>

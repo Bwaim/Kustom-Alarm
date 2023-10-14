@@ -16,11 +16,26 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
+import dev.bwaim.kustomalarm.compose.KaLargeTextField
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
 internal fun EditAlarmRoute(
@@ -42,7 +57,44 @@ private fun EditAlarmScreen(
             )
         },
     ) { padding ->
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = 16.dp),
+        ) {
+            val alarmName = remember { mutableStateOf("") }
+
+            AlarmName(
+                name = alarmName,
+            )
+        }
     }
+}
+
+@Composable
+private fun AlarmName(
+    name: MutableState<String>,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    val context = LocalContext.current
+    val label by remember(name) {
+        derivedStateOf {
+            if (name.value.isEmpty() && isFocused.not()) {
+                context.getString(string.edit_alarm_screen_alarm_name_label)
+            } else {
+                null
+            }
+        }
+    }
+    KaLargeTextField(
+        value = name.value,
+        onValueChange = { name.value = it },
+        modifier = Modifier.fillMaxWidth(),
+        label = label,
+        interactionSource = interactionSource,
+    )
 }
 
 @Composable
