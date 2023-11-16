@@ -42,7 +42,7 @@ ksp = "1.9.10-1.0.13"
 mockk = "1.13.8"
 protobufKotlinLite = "3.25.1"
 protobufPlugin = "0.9.4"
-protobufProtoc = "3.25.0"
+protobufProtoc = "3.25.1"
 timber = "5.0.1"
 turbine = "1.0.0"
 
