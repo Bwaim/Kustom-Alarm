@@ -23,17 +23,13 @@ import androidx.startup.Initializer
 internal class StrictModeInitializer : Initializer<Unit> {
 
     override fun create(context: Context) {
-        StrictMode.ThreadPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .build()
-            .also { StrictMode.setThreadPolicy(it) }
+        StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build().also {
+            StrictMode.setThreadPolicy(it)
+        }
 
-        StrictMode.VmPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .build()
-            .also { StrictMode.setVmPolicy(it) }
+        StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build().also {
+            StrictMode.setVmPolicy(it)
+        }
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()

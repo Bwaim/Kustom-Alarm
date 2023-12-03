@@ -21,11 +21,12 @@ import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 
 internal object ThemeHelper {
     private val defaultTheme: Theme
-        get() = if (BuildWrapper.isAtLeastQ) {
-            Theme.SYSTEM
-        } else {
-            Theme.BATTERY_SAVER
-        }
+        get() =
+            if (BuildWrapper.isAtLeastQ) {
+                Theme.SYSTEM
+            } else {
+                Theme.BATTERY_SAVER
+            }
 
     fun fromPreferences(value: String): Theme {
         return when {

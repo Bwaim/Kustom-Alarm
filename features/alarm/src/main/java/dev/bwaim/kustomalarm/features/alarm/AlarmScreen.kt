@@ -58,8 +58,7 @@ private fun AlarmScreen(
         },
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding)
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SurfaceCard {

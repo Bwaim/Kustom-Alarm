@@ -39,8 +39,6 @@ public fun KaBackground(
         tonalElevation = if (tonalElevation == Dp.Unspecified) 0.dp else tonalElevation,
         modifier = modifier.fillMaxSize(),
     ) {
-        CompositionLocalProvider(LocalAbsoluteTonalElevation provides 0.dp) {
-            content()
-        }
+        CompositionLocalProvider(LocalAbsoluteTonalElevation provides 0.dp) { content() }
     }
 }

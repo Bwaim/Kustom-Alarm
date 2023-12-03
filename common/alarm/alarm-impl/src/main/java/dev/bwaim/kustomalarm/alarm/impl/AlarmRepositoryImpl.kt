@@ -24,13 +24,12 @@ import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class AlarmRepositoryImpl constructor(
+internal class AlarmRepositoryImpl
+constructor(
     private val alarmDao: AlarmDao,
 ) : AlarmRepository {
     override fun observeAlarms(): Flow<List<Alarm>> {
-        return alarmDao.observeAlarms().map {
-            it.map(AlarmEntity::toDomain)
-        }
+        return alarmDao.observeAlarms().map { it.map(AlarmEntity::toDomain) }
     }
 
     override suspend fun getAlarm(alarmId: Int): Alarm? {
@@ -46,26 +45,29 @@ internal class AlarmRepositoryImpl constructor(
     }
 }
 
-private fun AlarmEntity.toDomain(): Alarm = Alarm(
-    id = id,
-    name = name,
-    time = time,
-    weekDays = weekDays.toWeekDays(),
-)
+private fun AlarmEntity.toDomain(): Alarm =
+    Alarm(
+        id = id,
+        name = name,
+        time = time,
+        weekDays = weekDays.toWeekDays(),
+    )
 
-private fun Int.toWeekDays(): List<WeekDay> = WeekDay.entries.mapNotNull { day ->
-    if (this and day.value != 0) {
-        day
-    } else {
-        null
+private fun Int.toWeekDays(): List<WeekDay> =
+    WeekDay.entries.mapNotNull { day ->
+        if (this and day.value != 0) {
+            day
+        } else {
+            null
+        }
     }
-}
 
-private fun Alarm.toEntity(): AlarmEntity = AlarmEntity(
-    id = id,
-    name = name,
-    time = time,
-    weekDays = weekDays.toInt(),
-)
+private fun Alarm.toEntity(): AlarmEntity =
+    AlarmEntity(
+        id = id,
+        name = name,
+        time = time,
+        weekDays = weekDays.toInt(),
+    )
 
 private fun List<WeekDay>.toInt(): Int = this.sumOf { it.value }

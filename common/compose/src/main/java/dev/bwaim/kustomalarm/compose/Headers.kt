@@ -44,18 +44,13 @@ public fun Header(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(128.dp)
-            .padding(16.dp),
+        modifier = modifier.fillMaxWidth().height(128.dp).padding(16.dp),
     ) {
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = null,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .clip(RoundedCornerShape(20.dp))
-                .size(96.dp),
+            modifier =
+                Modifier.align(Alignment.CenterEnd).clip(RoundedCornerShape(20.dp)).size(96.dp),
         )
 
         Text(
@@ -70,9 +65,5 @@ public fun Header(
 @Composable
 @KAlarmPreviews
 private fun PreviewHeader() {
-    KustomAlarmTheme {
-        Surface {
-            Header(title = "Header", imageRes = drawable.alarm_background)
-        }
-    }
+    KustomAlarmTheme { Surface { Header(title = "Header", imageRes = drawable.alarm_background) } }
 }

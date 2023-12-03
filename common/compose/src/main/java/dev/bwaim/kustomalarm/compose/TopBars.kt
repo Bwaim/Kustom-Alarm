@@ -48,9 +48,10 @@ public fun KaCenterAlignedTopAppBar(
         modifier = modifier,
         navigationIcon = navigationIcon,
         actions = actions,
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.Transparent,
-        ),
+        colors =
+            TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = Color.Transparent,
+            ),
     )
 }
 
@@ -98,9 +99,7 @@ private fun BackNavigationIcon(
 @Composable
 @KAlarmPreviews
 private fun PreviewKaCenterAlignedTopAppBar() {
-    KustomAlarmTheme {
-        KaCenterAlignedTopAppBar()
-    }
+    KustomAlarmTheme { KaCenterAlignedTopAppBar() }
 }
 
 @Composable
@@ -108,9 +107,7 @@ private fun PreviewKaCenterAlignedTopAppBar() {
 private fun PreviewKaCloseCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaBackTopAppBar(
-            title = {
-                Text(text = "TopBar title ")
-            },
+            title = { Text(text = "TopBar title ") },
         )
     }
 }

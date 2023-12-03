@@ -28,15 +28,14 @@ import dagger.hilt.components.SingletonComponent
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.database.KustomAlarmRoomDatabase
 import dev.bwaim.kustomalarm.database.KustomAlarmTypeConverters
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.asExecutor
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class DatabaseModule {
-    @Binds
-    abstract fun bindRoomDatabase(database: KustomAlarmRoomDatabase): RoomDatabase
+    @Binds abstract fun bindRoomDatabase(database: KustomAlarmRoomDatabase): RoomDatabase
 
     companion object {
         @Provides
@@ -47,8 +46,7 @@ internal abstract class DatabaseModule {
             typeConverters: KustomAlarmTypeConverters,
         ): KustomAlarmRoomDatabase {
             val roomExecutor = ioDispatchers.asExecutor()
-            return Room
-                .databaseBuilder(
+            return Room.databaseBuilder(
                     context,
                     KustomAlarmRoomDatabase::class.java,
                     KustomAlarmRoomDatabase.DATABASE_NAME,
@@ -59,7 +57,6 @@ internal abstract class DatabaseModule {
                 .build()
         }
 
-        @Provides
-        fun provideAlarmDao(database: KustomAlarmRoomDatabase) = database.alarmDao()
+        @Provides fun provideAlarmDao(database: KustomAlarmRoomDatabase) = database.alarmDao()
     }
 }

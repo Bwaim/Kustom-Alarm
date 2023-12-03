@@ -35,8 +35,7 @@ import org.junit.rules.TemporaryFolder
 internal class ThemeRepositoryImplTest {
     private lateinit var subject: ThemeRepositoryImpl
 
-    @get:Rule
-    val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
+    @get:Rule val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     @Before
     fun setUp() {

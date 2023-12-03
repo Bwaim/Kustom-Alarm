@@ -29,8 +29,6 @@ public class TestThemeRepository : ThemeRepository {
     override fun observeTheme(): Flow<Theme> = themesStateFlow
 
     override suspend fun setTheme(theme: Theme) {
-        themesStateFlow.update { _ ->
-            theme
-        }
+        themesStateFlow.update { _ -> theme }
     }
 }

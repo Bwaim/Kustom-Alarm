@@ -27,29 +27,23 @@ public class TestAlarmRepository : AlarmRepository {
     private var alarmStateFlow: MutableStateFlow<List<Alarm>> = MutableStateFlow(emptyList())
     private var nextId = 1
 
-    override fun observeAlarms(): Flow<List<Alarm>> = alarmStateFlow
-        .map { it.sortedBy { alarm -> alarm.id } }
+    override fun observeAlarms(): Flow<List<Alarm>> =
+        alarmStateFlow.map { it.sortedBy { alarm -> alarm.id } }
 
     override suspend fun getAlarm(alarmId: Int): Alarm? =
-        alarmStateFlow.value.firstOrNull {
-            it.id == alarmId
-        }
+        alarmStateFlow.value.firstOrNull { it.id == alarmId }
 
     override suspend fun saveAlarm(alarm: Alarm) {
-        val updatedAlarm = if (alarm.id == 0) {
-            alarm.copy(id = nextId++)
-        } else {
-            alarm
-        }
-        alarmStateFlow.update {
-            (listOf(updatedAlarm) + it)
-                .distinctBy(Alarm::id)
-        }
+        val updatedAlarm =
+            if (alarm.id == 0) {
+                alarm.copy(id = nextId++)
+            } else {
+                alarm
+            }
+        alarmStateFlow.update { (listOf(updatedAlarm) + it).distinctBy(Alarm::id) }
     }
 
     override suspend fun deleteAlarm(alarmId: Int) {
-        alarmStateFlow.update {
-            it.filterNot { it.id == alarmId }
-        }
+        alarmStateFlow.update { it.filterNot { it.id == alarmId } }
     }
 }

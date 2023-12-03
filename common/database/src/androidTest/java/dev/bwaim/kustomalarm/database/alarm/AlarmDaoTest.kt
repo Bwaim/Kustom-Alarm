@@ -21,12 +21,12 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import dev.bwaim.kustomalarm.database.KustomAlarmRoomDatabase
 import dev.bwaim.kustomalarm.database.KustomAlarmTypeConverters
+import java.time.LocalTime
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalTime
 
 internal class AlarmDaoTest {
 
@@ -36,25 +36,25 @@ internal class AlarmDaoTest {
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        db = Room.inMemoryDatabaseBuilder(
-            context,
-            KustomAlarmRoomDatabase::class.java,
-        )
-            .addTypeConverter(KustomAlarmTypeConverters())
-            .build()
+        db =
+            Room.inMemoryDatabaseBuilder(
+                    context,
+                    KustomAlarmRoomDatabase::class.java,
+                )
+                .addTypeConverter(KustomAlarmTypeConverters())
+                .build()
         alarmDao = db.alarmDao()
     }
 
     @Test
     fun alarmDao_observes_alarms() = runTest {
-        val alarms = listOf(
-            testAlarm(name = "alarm1"),
-            testAlarm(name = "alarm2"),
-        )
+        val alarms =
+            listOf(
+                testAlarm(name = "alarm1"),
+                testAlarm(name = "alarm2"),
+            )
 
-        alarms.forEach {
-            alarmDao.upsertAlarm(it)
-        }
+        alarms.forEach { alarmDao.upsertAlarm(it) }
 
         var savedAlarms = alarmDao.observeAlarms().first()
 
@@ -75,18 +75,17 @@ internal class AlarmDaoTest {
 
     @Test
     fun alarmDao_insert_right_data() = runTest {
-        val alarms = listOf(
-            testAlarm(
-                name = "alarm1",
-                time = LocalTime.of(8, 59),
-                weekDays = 0b0100000,
-            ),
-            testAlarm(name = "alarm2"),
-        )
+        val alarms =
+            listOf(
+                testAlarm(
+                    name = "alarm1",
+                    time = LocalTime.of(8, 59),
+                    weekDays = 0b0100000,
+                ),
+                testAlarm(name = "alarm2"),
+            )
 
-        alarms.forEach {
-            alarmDao.upsertAlarm(it)
-        }
+        alarms.forEach { alarmDao.upsertAlarm(it) }
 
         val alarmRetrieved = alarmDao.getAlarm(id = 1)
 
@@ -107,9 +106,10 @@ private fun testAlarm(
     name: String,
     time: LocalTime = LocalTime.of(10, 30),
     weekDays: Int = 0,
-) = AlarmEntity(
-    id = id,
-    name = name,
-    time = time,
-    weekDays = weekDays,
-)
+) =
+    AlarmEntity(
+        id = id,
+        name = name,
+        time = time,
+        weekDays = weekDays,
+    )

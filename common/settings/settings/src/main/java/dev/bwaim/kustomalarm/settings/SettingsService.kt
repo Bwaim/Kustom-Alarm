@@ -19,34 +19,33 @@ package dev.bwaim.kustomalarm.settings
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.settings.theme.ThemeRepository
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
-import java.util.Locale
-import javax.inject.Inject
 
-public class SettingsService @Inject public constructor(
+public class SettingsService
+@Inject
+public constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val themeRepository: ThemeRepository,
 ) {
     public fun observeTheme(): Flow<Theme> {
-        return themeRepository
-            .observeTheme()
-            .flowOn(ioDispatcher)
+        return themeRepository.observeTheme().flowOn(ioDispatcher)
     }
 
     public suspend fun setTheme(theme: Theme) {
-        withContext(ioDispatcher) {
-            themeRepository.setTheme(theme)
-        }
+        withContext(ioDispatcher) { themeRepository.setTheme(theme) }
     }
 
     public fun getThemes(): List<Theme> = Theme.values().toList()
 
-    public fun getLocales(): List<Locale> = listOf(
-        Locale("es"),
-        Locale.ENGLISH,
-        Locale.FRENCH,
-    )
+    public fun getLocales(): List<Locale> =
+        listOf(
+            Locale("es"),
+            Locale.ENGLISH,
+            Locale.FRENCH,
+        )
 }

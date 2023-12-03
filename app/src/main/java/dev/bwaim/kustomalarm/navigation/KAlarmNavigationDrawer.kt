@@ -92,9 +92,9 @@ internal fun KaNavigationDrawer(
                             }
                             scope.launch { drawerState.close() }
                         },
-                        modifier = Modifier
-                            .padding(NavigationDrawerItemDefaults.ItemPadding)
-                            .padding(top = 12.dp),
+                        modifier =
+                            Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                                .padding(top = 12.dp),
                     )
                 }
             }
@@ -110,19 +110,17 @@ private fun AppDrawerItem(
     onClick: () -> Unit = {},
 ) {
     Row(
-        modifier = Modifier
-            .height(56.dp)
-            .clickable { onClick() }
-            .padding(NavigationDrawerItemDefaults.ItemPadding)
-            .padding(start = 16.dp, end = 24.dp),
+        modifier =
+            Modifier.height(56.dp)
+                .clickable { onClick() }
+                .padding(NavigationDrawerItemDefaults.ItemPadding)
+                .padding(start = 16.dp, end = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = painterResource(id = drawable.ic_klock),
             contentDescription = null,
-            modifier = Modifier
-                .size(30.dp)
-                .clip(RoundedCornerShape(20.dp)),
+            modifier = Modifier.size(30.dp).clip(RoundedCornerShape(20.dp)),
         )
         Spacer(Modifier.width(12.dp))
         Text(
@@ -137,18 +135,17 @@ private fun AppDrawerItem(
 private fun PreviewKaNavigationDrawer() {
     KustomAlarmTheme {
         KaNavigationDrawer(
-            navigationDrawerItems = listOf(
-                SettingsNavigationDrawerItem(),
-            ),
+            navigationDrawerItems =
+                listOf(
+                    SettingsNavigationDrawerItem(),
+                ),
             selectedNavigationDrawerId = null,
             navController = rememberNavController(),
             drawerState = DrawerState(Open),
             scope = rememberCoroutineScope(),
             navigateHome = {},
         ) {
-            KaBackground {
-                Text(text = "Test Navigation Drawer")
-            }
+            KaBackground { Text(text = "Test Navigation Drawer") }
         }
     }
 }

@@ -38,14 +38,14 @@ public fun KustomAlarmTheme(
     disableDynamicTheming: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        !disableDynamicTheming && supportsDynamicTheming() -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    val colorScheme =
+        when {
+            !disableDynamicTheming && supportsDynamicTheming() -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+            else -> if (darkTheme) DarkColorScheme else LightColorScheme
         }
-
-        else -> if (darkTheme) DarkColorScheme else LightColorScheme
-    }
 
     val backgroundTheme = if (darkTheme) DarkBackgroundTheme else LightBackgroundTheme
 
@@ -69,11 +69,10 @@ public fun KustomAlarmThemePreview(
 ) {
     KustomAlarmTheme {
         CompositionLocalProvider(
-            LocalBackgroundTheme provides BackgroundTheme(color = MaterialTheme.colorScheme.background),
+            LocalBackgroundTheme provides
+                BackgroundTheme(color = MaterialTheme.colorScheme.background),
         ) {
-            KaBackground {
-                content()
-            }
+            KaBackground { content() }
         }
     }
 }

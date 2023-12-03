@@ -33,8 +33,8 @@ import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme.DARK
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme.LIGHT
-import kotlinx.collections.immutable.toImmutableList
 import javax.inject.Inject
+import kotlinx.collections.immutable.toImmutableList
 
 @AndroidEntryPoint
 internal class MainActivity : AppCompatActivity() {
@@ -55,14 +55,20 @@ internal class MainActivity : AppCompatActivity() {
 
             DisposableEffect(isDarkTheme) {
                 enableEdgeToEdge(
-                    statusBarStyle = SystemBarStyle.auto(
-                        android.graphics.Color.TRANSPARENT,
-                        android.graphics.Color.TRANSPARENT,
-                    ) { isDarkTheme },
-                    navigationBarStyle = SystemBarStyle.auto(
-                        lightScrim,
-                        darkScrim,
-                    ) { isDarkTheme },
+                    statusBarStyle =
+                        SystemBarStyle.auto(
+                            android.graphics.Color.TRANSPARENT,
+                            android.graphics.Color.TRANSPARENT,
+                        ) {
+                            isDarkTheme
+                        },
+                    navigationBarStyle =
+                        SystemBarStyle.auto(
+                            lightScrim,
+                            darkScrim,
+                        ) {
+                            isDarkTheme
+                        },
                 )
                 onDispose {}
             }
