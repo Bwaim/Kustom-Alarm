@@ -56,14 +56,8 @@ public annotation class TabletPreview
 )
 public annotation class SmallPhonePreview
 
-@LightPreview
-@DarkPreview
-public annotation class DarkLightPreviews
+@LightPreview @DarkPreview public annotation class DarkLightPreviews
 
-@TabletPreview
-@SmallPhonePreview
-public annotation class DeviceLightPreviews
+@TabletPreview @SmallPhonePreview public annotation class DeviceLightPreviews
 
-@DarkLightPreviews
-@DeviceLightPreviews
-public annotation class KAlarmPreviews
+@DarkLightPreviews @DeviceLightPreviews public annotation class KAlarmPreviews

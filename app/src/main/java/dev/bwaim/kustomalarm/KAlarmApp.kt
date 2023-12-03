@@ -61,18 +61,14 @@ internal fun KAlarmApp(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var menuAppState by remember {
-        mutableStateOf(MenuAppState())
-    }
+    var menuAppState by remember { mutableStateOf(MenuAppState()) }
 
     val openDrawer: () -> Unit = remember(scope) { { scope.launch { drawerState.open() } } }
     val navigateHome: () -> Unit = remember {
         { kAlarmAppState.navController.popBackStack(AlarmRoute.route, inclusive = false) }
     }
     val menuAppStateSetter: (MenuAppState) -> Unit = remember {
-        { menuAppStateNew ->
-            menuAppState = menuAppStateNew
-        }
+        { menuAppStateNew -> menuAppState = menuAppStateNew }
     }
 
     CompositionLocalProvider(LocalMenuAppStateSetter provides menuAppStateSetter) {
@@ -91,8 +87,7 @@ internal fun KAlarmApp(
                     contentWindowInsets = WindowInsets(0, 0, 0, 0),
                 ) { padding ->
                     Row(
-                        Modifier
-                            .fillMaxSize()
+                        Modifier.fillMaxSize()
                             .padding(padding)
                             .consumeWindowInsets(padding)
                             .windowInsetsPadding(

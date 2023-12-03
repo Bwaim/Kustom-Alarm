@@ -47,9 +47,7 @@ public fun SurfaceCard(
 private fun PreviewSurfaceCard() {
     KustomAlarmTheme {
         SurfaceCard(
-            modifier = Modifier.padding(16.dp)
-                .size(width = 200.dp, height = 50.dp),
-        ) {
-        }
+            modifier = Modifier.padding(16.dp).size(width = 200.dp, height = 50.dp),
+        ) {}
     }
 }

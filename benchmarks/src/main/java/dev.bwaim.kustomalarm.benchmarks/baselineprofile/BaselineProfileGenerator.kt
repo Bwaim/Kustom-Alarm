@@ -21,9 +21,9 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * Generates a baseline profile which can be copied to `app/src/main/baseline-prof.txt`.
- * command example to generate :
- * ./gradlew :benchmark:pixel4api30aospatdBenchmarkAndroidTest -P android.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
+ * Generates a baseline profile which can be copied to `app/src/main/baseline-prof.txt`. command
+ * example to generate : ./gradlew :benchmark:pixel4api30aospatdBenchmarkAndroidTest -P
+ * android.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
  */
 internal class BaselineProfileGenerator {
     @get:Rule val baselineProfileRule = BaselineProfileRule()

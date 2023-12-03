@@ -19,5 +19,4 @@ package dev.bwaim.kustomalarm
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
-internal class KAlarmApplication : Application()
+@HiltAndroidApp internal class KAlarmApplication : Application()

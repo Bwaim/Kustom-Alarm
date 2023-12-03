@@ -34,9 +34,10 @@ import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import kotlinx.collections.immutable.ImmutableList
 
-/** For a route like that example_route/{arg1}/{arg2}?arg3={arg3},arg4={arg4}
- *  baseRoutePattern = example_route/{arg1}/{arg2}
- *  optionalArguments = listOf("arg3", "arg4") */
+/**
+ * For a route like that example_route/{arg1}/{arg2}?arg3={arg3},arg4={arg4} baseRoutePattern =
+ * example_route/{arg1}/{arg2} optionalArguments = listOf("arg3", "arg4")
+ */
 public interface Route {
 
     public val baseRoutePattern: String
@@ -57,8 +58,8 @@ public interface Route {
             finalRoute = finalRoute.replace("{$argName}", value.encodedValue())
         }
 
-        finalRoute += (optionalParams + generateAppParameters())
-            .joinToString(prefix = "?", separator = "&") {
+        finalRoute +=
+            (optionalParams + generateAppParameters()).joinToString(prefix = "?", separator = "&") {
                 "${it.first}=${it.second.encodedValue()}"
             }
 
@@ -68,11 +69,16 @@ public interface Route {
     context(NavGraphBuilder)
     public fun composable(
         deepLinks: List<NavDeepLink> = emptyList(),
-        enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,
-        exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = null,
-        popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+        enterTransition:
+            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+            null,
+        exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
+            null,
+        popEnterTransition:
+            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
             enterTransition,
-        popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
+        popExitTransition:
+            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
             exitTransition,
         content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
     ) {
@@ -102,19 +108,21 @@ public interface Route {
             },
         )
 
-    private fun generateAppParameters() = listOfNotNull(
-        menuAppState.selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
-    )
+    private fun generateAppParameters() =
+        listOfNotNull(
+            menuAppState.selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
+        )
 
     private fun addOptionalParameters(): String =
         (optionalArguments + getAppParameters()).joinToString(separator = "&", prefix = "?") {
             "${it.name}={${it.name}}"
         }
 
-    private fun Any.encodedValue(): String = when (this) {
-        is String -> Uri.encode(this)
-        else -> this.toString()
-    }
+    private fun Any.encodedValue(): String =
+        when (this) {
+            is String -> Uri.encode(this)
+            else -> this.toString()
+        }
 }
 
 private const val NAVIGATION_DRAWER_ITEM_ID = "navigationDrawerItemId"

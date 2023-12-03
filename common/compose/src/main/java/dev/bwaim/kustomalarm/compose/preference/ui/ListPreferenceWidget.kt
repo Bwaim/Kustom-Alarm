@@ -63,14 +63,11 @@ private fun <T> ListPreferenceUi(
     currentValue: Preference<T>,
     onValueChanged: (value: Preference<T>) -> Unit,
 ) {
-    var isDialogShown by remember {
-        mutableStateOf(false)
-    }
+    var isDialogShown by remember { mutableStateOf(false) }
     Column(
-        modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-            .clickable { isDialogShown = true },
+        modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp).clickable {
+            isDialogShown = true
+        },
     ) {
         Text(
             text = preferences.title,
@@ -110,8 +107,7 @@ private fun <T> ListPreferenceDialog(
         },
         text = {
             Column(
-                Modifier
-                    .fillMaxWidth(),
+                Modifier.fillMaxWidth(),
             ) {
                 preferences.entries.forEach { preference ->
                     val isSelected = preference.key == currentValue.label
@@ -121,8 +117,7 @@ private fun <T> ListPreferenceDialog(
                         }
                     }
                     Row(
-                        Modifier
-                            .fillMaxWidth()
+                        Modifier.fillMaxWidth()
                             .selectable(
                                 selected = isSelected,
                                 onClick = { onSelectedAction() },
@@ -143,8 +138,7 @@ private fun <T> ListPreferenceDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismiss,
-                modifier = Modifier
-                    .padding(horizontal = 24.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
             ) {
                 Text(
                     text = stringResource(android.R.string.cancel),
@@ -158,20 +152,22 @@ private fun <T> ListPreferenceDialog(
 @KAlarmPreviews
 private fun PreviewListPreference() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
-    val preferences = persistentMapOf(
-        "pref1" to Preference(label = "pref1", value = "pref1Value"),
-        "pref2" to currentValue,
-        "pref3" to Preference(label = "pref3", value = "pref3Value"),
-    )
-    val listPreference = ListPreferenceValues(
-        title = "MyListPref",
-        entries = preferences,
-    )
+    val preferences =
+        persistentMapOf(
+            "pref1" to Preference(label = "pref1", value = "pref1Value"),
+            "pref2" to currentValue,
+            "pref3" to Preference(label = "pref3", value = "pref3Value"),
+        )
+    val listPreference =
+        ListPreferenceValues(
+            title = "MyListPref",
+            entries = preferences,
+        )
     KustomAlarmThemePreview {
         ListPreferenceWidget(
             preferences = listPreference,
             currentValue = currentValue,
-            onValueChanged = { },
+            onValueChanged = {},
         )
     }
 }
@@ -180,21 +176,23 @@ private fun PreviewListPreference() {
 @KAlarmPreviews
 private fun PreviewAlertListPref() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
-    val preferences = persistentMapOf(
-        "pref1" to Preference(label = "pref1", value = "pref1Value"),
-        "pref2" to currentValue,
-        "pref3" to Preference(label = "pref3", value = "pref3Value"),
-    )
-    val listPreference = ListPreferenceValues(
-        title = "MyListPref",
-        entries = preferences,
-    )
+    val preferences =
+        persistentMapOf(
+            "pref1" to Preference(label = "pref1", value = "pref1Value"),
+            "pref2" to currentValue,
+            "pref3" to Preference(label = "pref3", value = "pref3Value"),
+        )
+    val listPreference =
+        ListPreferenceValues(
+            title = "MyListPref",
+            entries = preferences,
+        )
     KustomAlarmThemePreview {
         ListPreferenceDialog(
             preferences = listPreference,
             currentValue = currentValue,
-            onDismiss = { },
-            onSelected = { },
+            onDismiss = {},
+            onSelected = {},
         )
     }
 }

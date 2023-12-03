@@ -23,9 +23,7 @@ import java.time.LocalTime
 
 @Entity("ALARM_ENTITY")
 public data class AlarmEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "_id")
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "_id") val id: Int = 0,
     @ColumnInfo(name = "NAME") val name: String,
     @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
     @ColumnInfo(name = "WEEKDAYS") val weekDays: Int,

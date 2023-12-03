@@ -30,5 +30,7 @@ internal interface SettingsNavigationModule {
 
     @Binds
     @IntoSet
-    abstract fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
+    abstract fun bindSettingsNavigationDrawerItem(
+        settingsItem: SettingsNavigationDrawerItem
+    ): NavigationDrawerItem
 }

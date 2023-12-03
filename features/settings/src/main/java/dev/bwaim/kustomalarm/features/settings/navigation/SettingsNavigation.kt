@@ -28,9 +28,9 @@ import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
+import javax.inject.Inject
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import javax.inject.Inject
 
 private const val SETTINGS_NAVIGATION_ROUTE: String = "settings"
 private const val NAVIGATION_DRAWER_SETTINGS_ID: String = "NavDrawerSettings"
@@ -40,17 +40,19 @@ public object SettingsRoute : Route {
     override val mandatoryArguments: ImmutableList<NamedNavArgument> = persistentListOf()
     override val optionalArguments: ImmutableList<NamedNavArgument> = persistentListOf()
 
-    override val menuAppState: MenuAppState = MenuAppState(
-        selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,
-    )
+    override val menuAppState: MenuAppState =
+        MenuAppState(
+            selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,
+        )
 }
 
 public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDrawerItem {
     override val id: String = NAVIGATION_DRAWER_SETTINGS_ID
     override val labelRes: Int = string.settings_screen_label
     override val icon: ImageVector = Icons.Filled.Settings
-    override val action: (NavController) -> Unit =
-        { navController -> navController.navigateToSettings() }
+    override val action: (NavController) -> Unit = { navController ->
+        navController.navigateToSettings()
+    }
 }
 
 public fun NavController.navigateToSettings(
@@ -72,6 +74,5 @@ public fun NavGraphBuilder.settingsScreen(
     }
 }
 
-private fun buildSettingsNavOptions(): NavOptions = NavOptions.Builder()
-    .setLaunchSingleTop(true)
-    .build()
+private fun buildSettingsNavOptions(): NavOptions =
+    NavOptions.Builder().setLaunchSingleTop(true).build()

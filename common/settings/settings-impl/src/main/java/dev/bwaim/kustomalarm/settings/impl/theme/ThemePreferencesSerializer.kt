@@ -26,7 +26,8 @@ import javax.inject.Inject
 
 @VisibleForTesting
 public class ThemePreferencesSerializer @Inject constructor() : Serializer<ThemePreferences> {
-    override val defaultValue: ThemePreferences get() = ThemePreferences.getDefaultInstance()
+    override val defaultValue: ThemePreferences
+        get() = ThemePreferences.getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): ThemePreferences =
         try {

@@ -28,8 +28,8 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 /**
- * A JUnit [TestRule] that sets the Main dispatcher to [testDispatcher]
- * for the duration of the test.
+ * A JUnit [TestRule] that sets the Main dispatcher to [testDispatcher] for the duration of the
+ * test.
  */
 public class MainDispatcherRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),

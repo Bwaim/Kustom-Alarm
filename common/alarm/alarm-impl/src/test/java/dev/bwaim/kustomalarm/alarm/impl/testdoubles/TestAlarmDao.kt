@@ -25,9 +25,10 @@ import kotlinx.coroutines.flow.update
 
 internal class TestAlarmDao : AlarmDao {
 
-    private var entitiesStateFlow = MutableStateFlow(
-        emptyList<AlarmEntity>(),
-    )
+    private var entitiesStateFlow =
+        MutableStateFlow(
+            emptyList<AlarmEntity>(),
+        )
 
     private var nextId = 1
 
@@ -40,21 +41,19 @@ internal class TestAlarmDao : AlarmDao {
     }
 
     override suspend fun upsertAlarm(alarmEntity: AlarmEntity) {
-        val updatedAlarm = if (alarmEntity.id == 0) {
-            alarmEntity.copy(id = nextId++)
-        } else {
-            alarmEntity
-        }
+        val updatedAlarm =
+            if (alarmEntity.id == 0) {
+                alarmEntity.copy(id = nextId++)
+            } else {
+                alarmEntity
+            }
         entitiesStateFlow.update { oldValues ->
             // New values come first so they overwrite old values
-            (listOf(updatedAlarm) + oldValues)
-                .distinctBy(AlarmEntity::id)
+            (listOf(updatedAlarm) + oldValues).distinctBy(AlarmEntity::id)
         }
     }
 
     override suspend fun deleteAlarm(alarmId: Int) {
-        entitiesStateFlow.update { entities ->
-            entities.filterNot { alarmId == it.id }
-        }
+        entitiesStateFlow.update { entities -> entities.filterNot { alarmId == it.id } }
     }
 }

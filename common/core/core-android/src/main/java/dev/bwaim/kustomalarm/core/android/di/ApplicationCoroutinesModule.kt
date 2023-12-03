@@ -24,11 +24,11 @@ import dev.bwaim.kustomalarm.core.ApplicationScope
 import dev.bwaim.kustomalarm.core.ComputationDispatcher
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.MainDispatcher
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -44,9 +44,7 @@ internal object ApplicationCoroutinesModule {
     @MainDispatcher
     internal fun provideMainDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
 
-    @Provides
-    @IODispatcher
-    internal fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+    @Provides @IODispatcher internal fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     @Provides
     @ComputationDispatcher

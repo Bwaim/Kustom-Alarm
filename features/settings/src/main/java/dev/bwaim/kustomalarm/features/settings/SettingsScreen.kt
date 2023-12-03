@@ -41,9 +41,9 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import java.util.Locale
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableMap
-import java.util.Locale
 
 @Composable
 internal fun SettingsRoute(
@@ -55,15 +55,9 @@ internal fun SettingsRoute(
     val localesList = viewModel.locales.value
 
     val context = LocalContext.current
-    val selectedThemePref = remember(selectedTheme, context) {
-        selectedTheme.toPreference(context)
-    }
-    val themes = remember(themesList, context) {
-        themesList.toThemeListPreferences(context)
-    }
-    val locales = remember(localesList, context) {
-        localesList.toLocaleListPreferences(context)
-    }
+    val selectedThemePref = remember(selectedTheme, context) { selectedTheme.toPreference(context) }
+    val themes = remember(themesList, context) { themesList.toThemeListPreferences(context) }
+    val locales = remember(localesList, context) { localesList.toLocaleListPreferences(context) }
 
     SettingsScreen(
         selectedTheme = selectedThemePref,
@@ -71,7 +65,9 @@ internal fun SettingsRoute(
         locales = locales,
         onClose = onClose,
         onThemeChanged = viewModel::setTheme,
-        onLocaleChanged = { AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it.value)) },
+        onLocaleChanged = {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it.value))
+        },
     )
 }
 
@@ -88,9 +84,7 @@ private fun SettingsScreen(
         topBar = {
             KaBackTopAppBar(
                 onClickNavigation = onClose,
-                title = {
-                    Text(text = stringResource(id = string.settings_screen_label))
-                },
+                title = { Text(text = stringResource(id = string.settings_screen_label)) },
             )
         },
     ) { padding ->
@@ -126,13 +120,13 @@ private fun Theme.toPreference(context: Context): Preference<Theme> =
 private fun List<Theme>.toThemeListPreferences(context: Context): ListPreferenceValues<Theme> =
     ListPreferenceValues(
         title = context.getString(string.settings_screen_theme_title),
-        entries = this
-            .filter { it.isAvailable() }
-            .associate {
-                val preference = it.toPreference(context)
-                preference.label to preference
-            }
-            .toImmutableMap(),
+        entries =
+            this.filter { it.isAvailable() }
+                .associate {
+                    val preference = it.toPreference(context)
+                    preference.label to preference
+                }
+                .toImmutableMap(),
     )
 
 private fun Theme.isAvailable(): Boolean =
@@ -148,9 +142,10 @@ private fun getCurrentLocale(): Preference<Locale> =
     (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
 
 private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
-    val applicationLocales = LocaleListCompat.create(
-        *(this.toTypedArray()),
-    )
+    val applicationLocales =
+        LocaleListCompat.create(
+            *(this.toTypedArray()),
+        )
     val locales: MutableMap<String, Preference<Locale>> = mutableMapOf()
     for (i in 0 until applicationLocales.size()) {
         with(applicationLocales[i]) {
@@ -176,26 +171,30 @@ private fun PreviewSettingsScreen() {
         KaBackground {
             val currentValue = Preference(label = "dark", value = Theme.DARK)
 
-            val preferences = persistentMapOf(
-                "light" to Preference(label = "light", value = Theme.LIGHT),
-                "dark" to currentValue,
-                "system" to Preference(label = "system", value = Theme.SYSTEM),
-            )
-            val listPreference = ListPreferenceValues(
-                title = "Theme",
-                entries = preferences,
-            )
+            val preferences =
+                persistentMapOf(
+                    "light" to Preference(label = "light", value = Theme.LIGHT),
+                    "dark" to currentValue,
+                    "system" to Preference(label = "system", value = Theme.SYSTEM),
+                )
+            val listPreference =
+                ListPreferenceValues(
+                    title = "Theme",
+                    entries = preferences,
+                )
 
-            val locales = persistentMapOf(
-                "English" to Preference(label = "english", value = Locale.ENGLISH),
-                "Français" to Preference(label = "Français", value = Locale.FRENCH),
-                "Español" to Preference(label = "Español", value = Locale("es")),
-            )
+            val locales =
+                persistentMapOf(
+                    "English" to Preference(label = "english", value = Locale.ENGLISH),
+                    "Français" to Preference(label = "Français", value = Locale.FRENCH),
+                    "Español" to Preference(label = "Español", value = Locale("es")),
+                )
 
-            val listLocalesPreference = ListPreferenceValues(
-                title = "Choose language",
-                entries = locales,
-            )
+            val listLocalesPreference =
+                ListPreferenceValues(
+                    title = "Choose language",
+                    entries = locales,
+                )
 
             SettingsScreen(
                 selectedTheme = currentValue,

@@ -21,7 +21,10 @@ import kotlinx.coroutines.flow.Flow
 
 public interface AlarmRepository {
     public fun observeAlarms(): Flow<List<Alarm>>
+
     public suspend fun getAlarm(alarmId: Int): Alarm?
+
     public suspend fun saveAlarm(alarm: Alarm)
+
     public suspend fun deleteAlarm(alarmId: Int)
 }

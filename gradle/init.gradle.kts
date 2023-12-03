@@ -1,7 +1,7 @@
-val ktlintVersion = "0.48.2"
+val ktfmtVersion = "0.46"
 
 initscript {
-    val spotlessVersion = "6.22.0"
+    val spotlessVersion = "6.23.2"
 
     repositories {
         mavenCentral()
@@ -19,7 +19,7 @@ rootProject {
             kotlin {
                 target("**/*.kt")
                 targetExclude("**/build/**/*.kt")
-                ktlint(ktlintVersion).userData(mapOf("android" to "true"))
+                ktfmt(ktfmtVersion).dropboxStyle()
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
             format("kts") {

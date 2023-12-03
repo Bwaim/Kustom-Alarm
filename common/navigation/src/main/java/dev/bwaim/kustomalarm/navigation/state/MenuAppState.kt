@@ -24,4 +24,6 @@ public data class MenuAppState(
 )
 
 public val LocalMenuAppStateSetter: ProvidableCompositionLocal<(MenuAppState) -> Unit> =
-    staticCompositionLocalOf { {} }
+    staticCompositionLocalOf {
+        {}
+    }

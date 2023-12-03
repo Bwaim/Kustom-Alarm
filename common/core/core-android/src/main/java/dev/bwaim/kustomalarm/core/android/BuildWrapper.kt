@@ -22,5 +22,6 @@ public object BuildWrapper {
     public val SDK_INT: Int
         get() = Build.VERSION.SDK_INT
 
-    public val isAtLeastQ: Boolean get() = SDK_INT >= 29
+    public val isAtLeastQ: Boolean
+        get() = SDK_INT >= 29
 }

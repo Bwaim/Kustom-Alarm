@@ -26,8 +26,8 @@ import dagger.hilt.testing.TestInstallIn
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferences
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
 import dev.bwaim.kustomalarm.settings.impl.theme.di.ThemeDataStoreModule
-import org.junit.rules.TemporaryFolder
 import javax.inject.Singleton
+import org.junit.rules.TemporaryFolder
 
 @Module
 @TestInstallIn(
@@ -47,9 +47,10 @@ internal object TestThemeDataStoreModule {
 @SuppressLint("VisibleForTests")
 public fun TemporaryFolder.testThemePreferencesDataStore(
     themePreferencesSerializer: ThemePreferencesSerializer = ThemePreferencesSerializer(),
-): DataStore<ThemePreferences> = DataStoreFactory.create(
-    serializer = themePreferencesSerializer,
-) {
-    create()
-    newFile("theme_preferences_test.pb")
-}
+): DataStore<ThemePreferences> =
+    DataStoreFactory.create(
+        serializer = themePreferencesSerializer,
+    ) {
+        create()
+        newFile("theme_preferences_test.pb")
+    }

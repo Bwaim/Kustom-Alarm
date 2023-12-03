@@ -16,12 +16,12 @@
 
 package dev.bwaim.kustomalarm.initializers
 
-import timber.log.Timber
 import java.util.regex.Pattern
+import timber.log.Timber
 
 /**
- * Special version of [Timber.DebugTree] which is tailored for Timber being wrapped
- * within another class.
+ * Special version of [Timber.DebugTree] which is tailored for Timber being wrapped within another
+ * class.
  */
 internal class LoteriaDebugTree : Timber.DebugTree() {
 

@@ -20,11 +20,11 @@ import androidx.datastore.core.CorruptionException
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
 import dev.bwaim.kustomalarm.settings.impl.theme.themePreferences
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 
 internal class ThemePreferencesSerializerTest {
 
@@ -42,9 +42,7 @@ internal class ThemePreferencesSerializerTest {
 
     @Test
     fun writingAndReadingThemePreferences_outputsCorrectValue() = runTest {
-        val expectedThemePreferences = themePreferences {
-            theme = Theme.DARK.value
-        }
+        val expectedThemePreferences = themePreferences { theme = Theme.DARK.value }
 
         val outputStream = ByteArrayOutputStream()
 

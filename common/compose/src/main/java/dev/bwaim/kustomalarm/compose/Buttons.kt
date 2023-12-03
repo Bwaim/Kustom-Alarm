@@ -56,7 +56,9 @@ private fun PreviewPrimaryButton() {
                 PrimaryButton(text = "short", onClick = {})
                 PrimaryButton(text = "medium text", onClick = {})
                 PrimaryButton(text = "long text text text text text text", onClick = {})
-                PrimaryButton(text = "very long text text text text text text text text text text text text", onClick = {})
+                PrimaryButton(
+                    text = "very long text text text text text text text text text text text text",
+                    onClick = {})
             }
         }
     }

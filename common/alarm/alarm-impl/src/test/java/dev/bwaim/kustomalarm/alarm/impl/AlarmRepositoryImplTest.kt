@@ -20,6 +20,7 @@ import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
 import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SATURDAY
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
+import java.time.LocalTime
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +28,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.time.LocalTime
 
 internal class AlarmRepositoryImplTest {
     private val testScope = TestScope(UnconfinedTestDispatcher())
@@ -40,38 +40,42 @@ internal class AlarmRepositoryImplTest {
     fun setup() {
         alarmDao = TestAlarmDao()
 
-        subject = AlarmRepositoryImpl(
-            alarmDao = alarmDao,
-        )
+        subject =
+            AlarmRepositoryImpl(
+                alarmDao = alarmDao,
+            )
     }
 
     @Test
-    fun alarmRepository_is_backed_by_alarm_dao() = testScope.runTest {
-        Assert.assertTrue(
-            subject.observeAlarms().first().isEmpty(),
-        )
+    fun alarmRepository_is_backed_by_alarm_dao() =
+        testScope.runTest {
+            Assert.assertTrue(
+                subject.observeAlarms().first().isEmpty(),
+            )
 
-        val alarm1 = Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = listOf(MONDAY))
-        val alarm2 = Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = listOf(SATURDAY))
+            val alarm1 =
+                Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = listOf(MONDAY))
+            val alarm2 =
+                Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = listOf(SATURDAY))
 
-        subject.saveAlarm(alarm1)
-        subject.saveAlarm(alarm2)
+            subject.saveAlarm(alarm1)
+            subject.saveAlarm(alarm2)
 
-        Assert.assertEquals(
-            listOf(alarm1.copy(id = 1), alarm2.copy(id = 2)),
-            subject.observeAlarms().first(),
-        )
+            Assert.assertEquals(
+                listOf(alarm1.copy(id = 1), alarm2.copy(id = 2)),
+                subject.observeAlarms().first(),
+            )
 
-        Assert.assertEquals(
-            alarm2.copy(id = 2),
-            subject.getAlarm(alarmId = 2),
-        )
+            Assert.assertEquals(
+                alarm2.copy(id = 2),
+                subject.getAlarm(alarmId = 2),
+            )
 
-        subject.deleteAlarm(alarmId = 1)
+            subject.deleteAlarm(alarmId = 1)
 
-        Assert.assertEquals(
-            listOf(alarm2.copy(id = 2)),
-            subject.observeAlarms().first(),
-        )
-    }
+            Assert.assertEquals(
+                listOf(alarm2.copy(id = 2)),
+                subject.observeAlarms().first(),
+            )
+        }
 }
