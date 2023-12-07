@@ -30,9 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.Header
-import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
+import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.SurfaceCard
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
@@ -47,9 +47,7 @@ public fun AlarmRoute(openDrawer: () -> Unit) {
 }
 
 @Composable
-private fun AlarmScreen(
-    openDrawer: () -> Unit,
-) {
+private fun AlarmScreen(openDrawer: () -> Unit) {
     Scaffold(
         topBar = {
             KaCenterAlignedTopAppBar(
@@ -87,7 +85,7 @@ private fun ColumnScope.NoAlarm() {
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewAlarmScreen() {
     KustomAlarmTheme {
         KaBackground {

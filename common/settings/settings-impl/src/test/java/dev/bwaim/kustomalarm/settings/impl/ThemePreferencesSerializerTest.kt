@@ -20,14 +20,13 @@ import androidx.datastore.core.CorruptionException
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
 import dev.bwaim.kustomalarm.settings.impl.theme.themePreferences
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 internal class ThemePreferencesSerializerTest {
-
     private val themePreferencesSerializer = ThemePreferencesSerializer()
 
     @Test
@@ -41,25 +40,27 @@ internal class ThemePreferencesSerializerTest {
     }
 
     @Test
-    fun writingAndReadingThemePreferences_outputsCorrectValue() = runTest {
-        val expectedThemePreferences = themePreferences { theme = Theme.DARK.value }
+    fun writingAndReadingThemePreferences_outputsCorrectValue() =
+        runTest {
+            val expectedThemePreferences = themePreferences { theme = Theme.DARK.value }
 
-        val outputStream = ByteArrayOutputStream()
+            val outputStream = ByteArrayOutputStream()
 
-        expectedThemePreferences.writeTo(outputStream)
+            expectedThemePreferences.writeTo(outputStream)
 
-        val inputStream = ByteArrayInputStream(outputStream.toByteArray())
+            val inputStream = ByteArrayInputStream(outputStream.toByteArray())
 
-        val actualThemePreferences = themePreferencesSerializer.readFrom(inputStream)
+            val actualThemePreferences = themePreferencesSerializer.readFrom(inputStream)
 
-        Assert.assertEquals(
-            expectedThemePreferences,
-            actualThemePreferences,
-        )
-    }
+            Assert.assertEquals(
+                expectedThemePreferences,
+                actualThemePreferences,
+            )
+        }
 
     @Test(expected = CorruptionException::class)
-    fun readingInvalidThemePreferences_throwsCorruptionException() = runTest {
-        themePreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
-    }
+    fun readingInvalidThemePreferences_throwsCorruptionException() =
+        runTest {
+            themePreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
+        }
 }

@@ -20,26 +20,24 @@ import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.core.DomainResult
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.executeCatching
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 public class AlarmService
-@Inject
-constructor(
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val alarmRepository: AlarmRepository,
-) {
-    public fun observeAlarms(): Flow<List<Alarm>> =
-        alarmRepository.observeAlarms().flowOn(ioDispatcher)
+    @Inject
+    constructor(
+        @IODispatcher private val ioDispatcher: CoroutineDispatcher,
+        private val alarmRepository: AlarmRepository,
+    ) {
+        public fun observeAlarms(): Flow<List<Alarm>> = alarmRepository.observeAlarms().flowOn(ioDispatcher)
 
-    public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
-        executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }
+        public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
+            executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }
 
-    public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> =
-        executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm) }
+        public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> = executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm) }
 
-    public suspend fun deleteAlarm(alarmId: Int): DomainResult<Unit> =
-        executeCatching(ioDispatcher) { alarmRepository.deleteAlarm(alarmId = alarmId) }
-}
+        public suspend fun deleteAlarm(alarmId: Int): DomainResult<Unit> =
+            executeCatching(ioDispatcher) { alarmRepository.deleteAlarm(alarmId = alarmId) }
+    }

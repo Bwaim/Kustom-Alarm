@@ -64,9 +64,7 @@ public fun KustomAlarmTheme(
 private fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 @Composable
-public fun KustomAlarmThemePreview(
-    content: @Composable () -> Unit,
-) {
+public fun KustomAlarmThemePreview(content: @Composable () -> Unit) {
     KustomAlarmTheme {
         CompositionLocalProvider(
             LocalBackgroundTheme provides

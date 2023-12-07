@@ -23,9 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-internal fun rememberKAlarmAppState(
-    navController: NavHostController = rememberNavController(),
-): KAlarmAppState {
+internal fun rememberKAlarmAppState(navController: NavHostController = rememberNavController()): KAlarmAppState {
     return remember(
         navController,
     ) {

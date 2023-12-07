@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 internal class TestAlarmDao : AlarmDao {
-
     private var entitiesStateFlow =
         MutableStateFlow(
             emptyList<AlarmEntity>(),

@@ -39,7 +39,6 @@ import kotlinx.collections.immutable.ImmutableList
  * example_route/{arg1}/{arg2} optionalArguments = listOf("arg3", "arg4")
  */
 public interface Route {
-
     public val baseRoutePattern: String
     public val mandatoryArguments: ImmutableList<NamedNavArgument>
     public val optionalArguments: ImmutableList<NamedNavArgument>
@@ -69,16 +68,13 @@ public interface Route {
     context(NavGraphBuilder)
     public fun composable(
         deepLinks: List<NavDeepLink> = emptyList(),
-        enterTransition:
-            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+        enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
             null,
         exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
             null,
-        popEnterTransition:
-            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
+        popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
             enterTransition,
-        popExitTransition:
-            (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
+        popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? =
             exitTransition,
         content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
     ) {

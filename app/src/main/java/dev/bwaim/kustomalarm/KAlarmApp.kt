@@ -51,12 +51,12 @@ import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import dev.bwaim.kustomalarm.state.KAlarmAppState
 import dev.bwaim.kustomalarm.state.rememberKAlarmAppState
-import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun KAlarmApp(
-    navigationDrawerItems: ImmutableList<NavigationDrawerItem>,
+    navigationDrawerItems: PersistentList<NavigationDrawerItem>,
     kAlarmAppState: KAlarmAppState = rememberKAlarmAppState(),
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -64,12 +64,14 @@ internal fun KAlarmApp(
     var menuAppState by remember { mutableStateOf(MenuAppState()) }
 
     val openDrawer: () -> Unit = remember(scope) { { scope.launch { drawerState.open() } } }
-    val navigateHome: () -> Unit = remember {
-        { kAlarmAppState.navController.popBackStack(AlarmRoute.route, inclusive = false) }
-    }
-    val menuAppStateSetter: (MenuAppState) -> Unit = remember {
-        { menuAppStateNew -> menuAppState = menuAppStateNew }
-    }
+    val navigateHome: () -> Unit =
+        remember {
+            { kAlarmAppState.navController.popBackStack(AlarmRoute.route, inclusive = false) }
+        }
+    val menuAppStateSetter: (MenuAppState) -> Unit =
+        remember {
+            { menuAppStateNew -> menuAppState = menuAppStateNew }
+        }
 
     CompositionLocalProvider(LocalMenuAppStateSetter provides menuAppStateSetter) {
         KaNavigationDrawer(

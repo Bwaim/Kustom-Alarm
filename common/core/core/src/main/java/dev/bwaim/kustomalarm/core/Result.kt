@@ -19,9 +19,9 @@ package dev.bwaim.kustomalarm.core
 import dev.bwaim.kustomalarm.core.Result.Error
 import dev.bwaim.kustomalarm.core.Result.Error.UnexpectedError
 import dev.bwaim.kustomalarm.core.Result.Success
-import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 public typealias DomainResult<T> = Result<T, Error<Any>>
 

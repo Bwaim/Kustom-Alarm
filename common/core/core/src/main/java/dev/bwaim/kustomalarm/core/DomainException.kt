@@ -19,6 +19,5 @@ package dev.bwaim.kustomalarm.core
 public sealed class DomainException(
     message: String? = null,
 ) : Exception(message) {
-
     public open class AppException(message: String? = null) : DomainException(message)
 }

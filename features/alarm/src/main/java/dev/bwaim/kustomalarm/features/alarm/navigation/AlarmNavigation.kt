@@ -34,9 +34,7 @@ public object AlarmRoute : Route {
     override val menuAppState: MenuAppState = MenuAppState()
 }
 
-public fun NavGraphBuilder.alarmScreen(
-    openDrawer: () -> Unit,
-) {
+public fun NavGraphBuilder.alarmScreen(openDrawer: () -> Unit) {
     AlarmRoute.composable {
         AlarmRoute(
             openDrawer = openDrawer,

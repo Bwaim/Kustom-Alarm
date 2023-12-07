@@ -19,23 +19,23 @@ package dev.bwaim.kustomalarm.settings.impl.theme
 import androidx.datastore.core.DataStore
 import dev.bwaim.kustomalarm.settings.theme.ThemeRepository
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 internal class ThemeRepositoryImpl
-@Inject
-constructor(
-    private val dataStore: DataStore<ThemePreferences>,
-) : ThemeRepository {
-    override fun observeTheme(): Flow<Theme> {
-        return dataStore.data.distinctUntilChanged().map { prefs ->
-            ThemeHelper.fromPreferences(prefs.theme)
+    @Inject
+    constructor(
+        private val dataStore: DataStore<ThemePreferences>,
+    ) : ThemeRepository {
+        override fun observeTheme(): Flow<Theme> {
+            return dataStore.data.distinctUntilChanged().map { prefs ->
+                ThemeHelper.fromPreferences(prefs.theme)
+            }
+        }
+
+        override suspend fun setTheme(theme: Theme) {
+            dataStore.updateData { it.copy { this@copy.theme = theme.value } }
         }
     }
-
-    override suspend fun setTheme(theme: Theme) {
-        dataStore.updateData { it.copy { this@copy.theme = theme.value } }
-    }
-}

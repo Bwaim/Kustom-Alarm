@@ -25,7 +25,6 @@ import dev.bwaim.kustomalarm.alarm.domain.WeekDay.WEDNESDAY
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
 import dev.bwaim.kustomalarm.testing.util.MainDispatcherRule
-import java.time.LocalTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -34,9 +33,9 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.LocalTime
 
 internal class AlarmServiceTest {
-
     private lateinit var subject: AlarmService
 
     @get:Rule val mainDispatcherRule = MainDispatcherRule()
@@ -51,30 +50,31 @@ internal class AlarmServiceTest {
     }
 
     @Test
-    fun themeService_observe_alarms() = runTest {
-        val alarms = subject.observeAlarms()
+    fun themeService_observe_alarms() =
+        runTest {
+            val alarms = subject.observeAlarms()
 
-        testAlarms.forEach { alarm -> subject.saveAlarm(alarm) }
+            testAlarms.forEach { alarm -> subject.saveAlarm(alarm) }
 
-        Assert.assertEquals(
-            testAlarms,
-            alarms.first(),
-        )
+            Assert.assertEquals(
+                testAlarms,
+                alarms.first(),
+            )
 
-        subject.deleteAlarm(alarmId = 2)
+            subject.deleteAlarm(alarmId = 2)
 
-        Assert.assertEquals(
-            testAlarms.filterNot { it.id == 2 },
-            alarms.first(),
-        )
+            Assert.assertEquals(
+                testAlarms.filterNot { it.id == 2 },
+                alarms.first(),
+            )
 
-        val alarmRetrieved = subject.getAlarm(alarmId = 3)
+            val alarmRetrieved = subject.getAlarm(alarmId = 3)
 
-        Assert.assertEquals(
-            testAlarms[2],
-            alarmRetrieved.value,
-        )
-    }
+            Assert.assertEquals(
+                testAlarms[2],
+                alarmRetrieved.value,
+            )
+        }
 }
 
 private val testAlarms =

@@ -20,7 +20,6 @@ import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
 import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SATURDAY
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
-import java.time.LocalTime
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -28,6 +27,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.time.LocalTime
 
 internal class AlarmRepositoryImplTest {
     private val testScope = TestScope(UnconfinedTestDispatcher())

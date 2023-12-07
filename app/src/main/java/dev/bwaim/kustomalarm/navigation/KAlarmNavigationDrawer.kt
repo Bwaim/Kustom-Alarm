@@ -46,17 +46,19 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.bwaim.kustomalarm.R.string
 import dev.bwaim.kustomalarm.compose.HorizontalDivider
-import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.settings.navigation.SettingsNavigationDrawerItem
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun KaNavigationDrawer(
-    navigationDrawerItems: List<NavigationDrawerItem>,
+    navigationDrawerItems: PersistentList<NavigationDrawerItem>,
     selectedNavigationDrawerId: String?,
     navController: NavController,
     drawerState: DrawerState,
@@ -106,9 +108,7 @@ internal fun KaNavigationDrawer(
 }
 
 @Composable
-private fun AppDrawerItem(
-    onClick: () -> Unit = {},
-) {
+private fun AppDrawerItem(onClick: () -> Unit = {}) {
     Row(
         modifier =
             Modifier.height(56.dp)
@@ -131,12 +131,12 @@ private fun AppDrawerItem(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewKaNavigationDrawer() {
     KustomAlarmTheme {
         KaNavigationDrawer(
             navigationDrawerItems =
-                listOf(
+                persistentListOf(
                     SettingsNavigationDrawerItem(),
                 ),
             selectedNavigationDrawerId = null,

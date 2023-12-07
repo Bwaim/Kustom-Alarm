@@ -33,12 +33,11 @@ import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme.DARK
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme.LIGHT
+import kotlinx.collections.immutable.toPersistentList
 import javax.inject.Inject
-import kotlinx.collections.immutable.toImmutableList
 
 @AndroidEntryPoint
 internal class MainActivity : AppCompatActivity() {
-
     @Inject
     internal lateinit var navigationDrawerItems: Set<@JvmSuppressWildcards NavigationDrawerItem>
 
@@ -77,7 +76,7 @@ internal class MainActivity : AppCompatActivity() {
                 darkTheme = isDarkTheme,
             ) {
                 KAlarmApp(
-                    navigationDrawerItems = navigationDrawerItems.toImmutableList(),
+                    navigationDrawerItems = navigationDrawerItems.toPersistentList(),
                 )
             }
         }
