@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
     backgroundColor = 0xffeeebe8,
     device = "spec:shape=Normal,width=360,height=720,unit=dp,dpi=480",
 )
-public annotation class LightPreview
+public annotation class PreviewLight
 
 @Preview(
     name = "2_dark theme",
@@ -36,7 +36,7 @@ public annotation class LightPreview
     backgroundColor = 0xff1d1516,
     device = "spec:shape=Normal,width=360,height=720,unit=dp,dpi=480",
 )
-public annotation class DarkPreview
+public annotation class PreviewDark
 
 @Preview(
     name = "3_tablet",
@@ -45,7 +45,7 @@ public annotation class DarkPreview
     backgroundColor = 0xffeeebe8,
     device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480",
 )
-public annotation class TabletPreview
+public annotation class PreviewTablet
 
 @Preview(
     name = "4_small_phone",
@@ -54,10 +54,13 @@ public annotation class TabletPreview
     backgroundColor = 0xffeeebe8,
     device = "spec:shape=Normal,width=360,height=720,unit=dp,dpi=240",
 )
-public annotation class SmallPhonePreview
+public annotation class PreviewSmallPhone
 
-@LightPreview @DarkPreview public annotation class DarkLightPreviews
+@PreviewLight @PreviewDark
+public annotation class PreviewsDarkLight
 
-@TabletPreview @SmallPhonePreview public annotation class DeviceLightPreviews
+@PreviewTablet @PreviewSmallPhone
+public annotation class PreviewsDeviceLight
 
-@DarkLightPreviews @DeviceLightPreviews public annotation class KAlarmPreviews
+@PreviewsDarkLight @PreviewsDeviceLight
+public annotation class PreviewsKAlarm

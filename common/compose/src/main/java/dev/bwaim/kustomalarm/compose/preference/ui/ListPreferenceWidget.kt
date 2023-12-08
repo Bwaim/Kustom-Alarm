@@ -35,7 +35,7 @@ import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bwaim.kustomalarm.compose.KAlarmPreviews
+import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
@@ -58,9 +58,9 @@ public fun <T> ListPreferenceWidget(
 
 @Composable
 private fun <T> ListPreferenceUi(
-    modifier: Modifier = Modifier,
     preferences: ListPreferenceValues<T>,
     currentValue: Preference<T>,
+    modifier: Modifier = Modifier,
     onValueChanged: (value: Preference<T>) -> Unit,
 ) {
     var isDialogShown by remember { mutableStateOf(false) }
@@ -149,7 +149,7 @@ private fun <T> ListPreferenceDialog(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewListPreference() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
     val preferences =
@@ -173,7 +173,7 @@ private fun PreviewListPreference() {
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewAlertListPref() {
     val currentValue = Preference(label = "pref2", value = "pref2Value")
     val preferences =

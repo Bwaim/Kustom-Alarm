@@ -63,7 +63,7 @@ public fun Header(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewHeader() {
     KustomAlarmTheme { Surface { Header(title = "Header", imageRes = drawable.alarm_background) } }
 }

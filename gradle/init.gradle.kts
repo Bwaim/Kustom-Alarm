@@ -1,4 +1,5 @@
-val ktfmtVersion = "0.46"
+val ktlintVersion = "1.0.1"
+val composeRulesVersion = "0.3.5"
 
 initscript {
     val spotlessVersion = "6.23.3"
@@ -19,7 +20,13 @@ rootProject {
             kotlin {
                 target("**/*.kt")
                 targetExclude("**/build/**/*.kt")
-                ktfmt(ktfmtVersion).dropboxStyle()
+                ktlint(ktlintVersion)
+                    .setEditorConfigPath("$rootDir/config/.editorconfig")
+                    .customRuleSets(
+                        listOf(
+                            "io.nlopez.compose.rules:ktlint:$composeRulesVersion"
+                        )
+                    )
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
             format("kts") {

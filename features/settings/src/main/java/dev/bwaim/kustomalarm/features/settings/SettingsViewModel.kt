@@ -24,34 +24,33 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
+import javax.inject.Inject
 
 @HiltViewModel
 internal class SettingsViewModel
-@Inject
-constructor(
-    private val settingsService: SettingsService,
-) : ViewModel() {
+    @Inject
+    constructor(
+        private val settingsService: SettingsService,
+    ) : ViewModel() {
+        val themes: State<List<Theme>> = mutableStateOf(settingsService.getThemes())
 
-    val themes: State<List<Theme>> = mutableStateOf(settingsService.getThemes())
+        val currentTheme: StateFlow<Theme> =
+            settingsService
+                .observeTheme()
+                .stateIn(
+                    viewModelScope,
+                    SharingStarted.WhileSubscribed(5_000),
+                    Theme.LIGHT,
+                )
 
-    val currentTheme: StateFlow<Theme> =
-        settingsService
-            .observeTheme()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(5_000),
-                Theme.LIGHT,
-            )
+        val locales: State<List<Locale>> = mutableStateOf(settingsService.getLocales())
 
-    val locales: State<List<Locale>> = mutableStateOf(settingsService.getLocales())
-
-    public fun setTheme(theme: Preference<Theme>) {
-        viewModelScope.launch { settingsService.setTheme(theme.value) }
+        public fun setTheme(theme: Preference<Theme>) {
+            viewModelScope.launch { settingsService.setTheme(theme.value) }
+        }
     }
-}

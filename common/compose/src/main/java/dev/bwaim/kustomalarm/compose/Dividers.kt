@@ -41,7 +41,7 @@ public fun HorizontalDivider(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewHorizontalDivider() {
     KustomAlarmTheme {
         KaBackground {

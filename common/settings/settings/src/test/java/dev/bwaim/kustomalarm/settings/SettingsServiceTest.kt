@@ -21,13 +21,13 @@ package dev.bwaim.kustomalarm.settings
 import app.cash.turbine.test
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import dev.bwaim.kustomalarm.testing.repository.TestThemeRepository
-import java.util.Locale
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.util.Locale
 
 internal class SettingsServiceTest {
     private lateinit var subject: SettingsService
@@ -42,14 +42,15 @@ internal class SettingsServiceTest {
     }
 
     @Test
-    fun themeService_observe_themeChanges() = runTest {
-        subject.observeTheme().test {
-            Assert.assertEquals(Theme.DARK, awaitItem())
-            subject.setTheme(Theme.LIGHT)
-            Assert.assertEquals(Theme.LIGHT, awaitItem())
-            cancel()
+    fun themeService_observe_themeChanges() =
+        runTest {
+            subject.observeTheme().test {
+                Assert.assertEquals(Theme.DARK, awaitItem())
+                subject.setTheme(Theme.LIGHT)
+                Assert.assertEquals(Theme.LIGHT, awaitItem())
+                cancel()
+            }
         }
-    }
 
     @Test
     fun themeService_getThemes_returnAllThemes() {

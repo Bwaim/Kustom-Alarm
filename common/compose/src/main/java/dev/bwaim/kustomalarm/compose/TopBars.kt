@@ -73,9 +73,7 @@ public fun KaBackTopAppBar(
 }
 
 @Composable
-private fun DefaultNavigationIcon(
-    onClick: () -> Unit = {},
-) {
+private fun DefaultNavigationIcon(onClick: () -> Unit = {}) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Menu,
@@ -85,9 +83,7 @@ private fun DefaultNavigationIcon(
 }
 
 @Composable
-private fun BackNavigationIcon(
-    onClick: () -> Unit = {},
-) {
+private fun BackNavigationIcon(onClick: () -> Unit = {}) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
@@ -97,13 +93,13 @@ private fun BackNavigationIcon(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewKaCenterAlignedTopAppBar() {
     KustomAlarmTheme { KaCenterAlignedTopAppBar() }
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewKaCloseCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaBackTopAppBar(

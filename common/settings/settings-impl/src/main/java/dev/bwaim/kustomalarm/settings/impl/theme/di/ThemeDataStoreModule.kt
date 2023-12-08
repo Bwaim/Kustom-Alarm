@@ -28,15 +28,14 @@ import dagger.hilt.components.SingletonComponent
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferences
 import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 public object ThemeDataStoreModule {
-
     @Provides
     @Singleton
     internal fun providesThemePreferencesDataStore(

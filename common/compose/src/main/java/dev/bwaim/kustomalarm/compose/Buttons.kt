@@ -46,7 +46,7 @@ public fun PrimaryButton(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewPrimaryButton() {
     KustomAlarmTheme {
         KaBackground {
@@ -58,7 +58,8 @@ private fun PreviewPrimaryButton() {
                 PrimaryButton(text = "long text text text text text text", onClick = {})
                 PrimaryButton(
                     text = "very long text text text text text text text text text text text text",
-                    onClick = {})
+                    onClick = {},
+                )
             }
         }
     }

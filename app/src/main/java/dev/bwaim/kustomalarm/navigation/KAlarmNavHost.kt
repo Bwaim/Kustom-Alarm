@@ -26,10 +26,10 @@ import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
 @Composable
 internal fun KAlarmNavHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
     startRoute: String,
     openDrawer: () -> Unit,
     navigateUp: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,

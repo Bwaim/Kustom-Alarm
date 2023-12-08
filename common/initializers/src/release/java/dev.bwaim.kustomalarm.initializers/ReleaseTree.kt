@@ -26,7 +26,12 @@ import timber.log.Timber
 internal class ReleaseTree : Timber.Tree() {
     private val crashlytics = FirebaseCrashlytics.getInstance()
 
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+    ) {
         if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
             return
         }

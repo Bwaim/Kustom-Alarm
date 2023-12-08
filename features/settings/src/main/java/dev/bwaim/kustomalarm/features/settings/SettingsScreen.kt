@@ -31,9 +31,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaBackTopAppBar
 import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.compose.preference.ui.ListPreferenceWidget
@@ -41,9 +41,9 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import java.util.Locale
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableMap
+import java.util.Locale
 
 @Composable
 internal fun SettingsRoute(
@@ -114,8 +114,7 @@ private fun Theme.getLabel(context: Context): String =
         Theme.BATTERY_SAVER -> context.getString(string.settings_screen_theme_battery_label)
     }
 
-private fun Theme.toPreference(context: Context): Preference<Theme> =
-    Preference(label = this.getLabel(context), value = this)
+private fun Theme.toPreference(context: Context): Preference<Theme> = Preference(label = this.getLabel(context), value = this)
 
 private fun List<Theme>.toThemeListPreferences(context: Context): ListPreferenceValues<Theme> =
     ListPreferenceValues(
@@ -138,8 +137,7 @@ private fun Theme.isAvailable(): Boolean =
     }
 
 @Composable
-private fun getCurrentLocale(): Preference<Locale> =
-    (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
+private fun getCurrentLocale(): Preference<Locale> = (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
 
 private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
     val applicationLocales =
@@ -161,11 +159,10 @@ private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferen
     )
 }
 
-private fun Locale.toPreference(): Preference<Locale> =
-    Preference(label = getDisplayLanguage(this), value = this)
+private fun Locale.toPreference(): Preference<Locale> = Preference(label = getDisplayLanguage(this), value = this)
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewSettingsScreen() {
     KustomAlarmTheme {
         KaBackground {

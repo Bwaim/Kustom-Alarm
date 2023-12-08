@@ -45,36 +45,38 @@ internal class ThemeRepositoryImplTest {
     }
 
     @Test
-    fun firstTheme_isThemePreferenceDefaultValue() = runTest {
-        every { BuildWrapper.SDK_INT } returns 29
+    fun firstTheme_isThemePreferenceDefaultValue() =
+        runTest {
+            every { BuildWrapper.SDK_INT } returns 29
 
-        Assert.assertEquals(
-            ThemeHelper.fromPreferences(""),
-            subject.observeTheme().first(),
-        )
-    }
+            Assert.assertEquals(
+                ThemeHelper.fromPreferences(""),
+                subject.observeTheme().first(),
+            )
+        }
 
     // This test fails on Windows : https://github.com/android/nowinandroid/issues/98
     @Test
-    fun observeTheme_outputsThemePreferences() = runTest {
-        every { BuildWrapper.SDK_INT } returns 29
+    fun observeTheme_outputsThemePreferences() =
+        runTest {
+            every { BuildWrapper.SDK_INT } returns 29
 
-        val themeValue = Theme.DARK
+            val themeValue = Theme.DARK
 
-        subject.observeTheme().test {
-            Assert.assertEquals(
-                ThemeHelper.fromPreferences(""),
-                awaitItem(),
-            )
+            subject.observeTheme().test {
+                Assert.assertEquals(
+                    ThemeHelper.fromPreferences(""),
+                    awaitItem(),
+                )
 
-            subject.setTheme(themeValue)
+                subject.setTheme(themeValue)
 
-            Assert.assertEquals(
-                themeValue,
-                awaitItem(),
-            )
+                Assert.assertEquals(
+                    themeValue,
+                    awaitItem(),
+                )
 
-            cancel()
+                cancel()
+            }
         }
-    }
 }

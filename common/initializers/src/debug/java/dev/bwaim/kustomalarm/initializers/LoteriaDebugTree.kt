@@ -16,16 +16,20 @@
 
 package dev.bwaim.kustomalarm.initializers
 
-import java.util.regex.Pattern
 import timber.log.Timber
+import java.util.regex.Pattern
 
 /**
  * Special version of [Timber.DebugTree] which is tailored for Timber being wrapped within another
  * class.
  */
 internal class LoteriaDebugTree : Timber.DebugTree() {
-
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+    override fun log(
+        priority: Int,
+        tag: String?,
+        message: String,
+        t: Throwable?,
+    ) {
         super.log(priority, createClassTag(), message, t)
     }
 

@@ -25,25 +25,25 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class AlarmRepositoryImpl
-constructor(
-    private val alarmDao: AlarmDao,
-) : AlarmRepository {
-    override fun observeAlarms(): Flow<List<Alarm>> {
-        return alarmDao.observeAlarms().map { it.map(AlarmEntity::toDomain) }
-    }
+    constructor(
+        private val alarmDao: AlarmDao,
+    ) : AlarmRepository {
+        override fun observeAlarms(): Flow<List<Alarm>> {
+            return alarmDao.observeAlarms().map { it.map(AlarmEntity::toDomain) }
+        }
 
-    override suspend fun getAlarm(alarmId: Int): Alarm? {
-        return alarmDao.getAlarm(id = alarmId)?.toDomain()
-    }
+        override suspend fun getAlarm(alarmId: Int): Alarm? {
+            return alarmDao.getAlarm(id = alarmId)?.toDomain()
+        }
 
-    override suspend fun saveAlarm(alarm: Alarm) {
-        alarmDao.upsertAlarm(alarm.toEntity())
-    }
+        override suspend fun saveAlarm(alarm: Alarm) {
+            alarmDao.upsertAlarm(alarm.toEntity())
+        }
 
-    override suspend fun deleteAlarm(alarmId: Int) {
-        alarmDao.deleteAlarm(alarmId = alarmId)
+        override suspend fun deleteAlarm(alarmId: Int) {
+            alarmDao.deleteAlarm(alarmId = alarmId)
+        }
     }
-}
 
 private fun AlarmEntity.toDomain(): Alarm =
     Alarm(

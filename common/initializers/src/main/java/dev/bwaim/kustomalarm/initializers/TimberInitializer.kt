@@ -21,7 +21,6 @@ import androidx.startup.Initializer
 import timber.log.Timber
 
 internal class TimberInitializer : Initializer<Unit> {
-
     override fun create(context: Context) {
         val tree = getTimberTree()
         Timber.plant(tree)

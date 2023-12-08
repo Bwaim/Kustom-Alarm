@@ -21,7 +21,6 @@ import android.os.StrictMode
 import androidx.startup.Initializer
 
 internal class StrictModeInitializer : Initializer<Unit> {
-
     override fun create(context: Context) {
         StrictMode.ThreadPolicy.Builder().detectAll().penaltyLog().build().also {
             StrictMode.setThreadPolicy(it)

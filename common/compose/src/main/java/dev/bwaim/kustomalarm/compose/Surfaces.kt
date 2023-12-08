@@ -43,7 +43,7 @@ public fun SurfaceCard(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewSurfaceCard() {
     KustomAlarmTheme {
         SurfaceCard(

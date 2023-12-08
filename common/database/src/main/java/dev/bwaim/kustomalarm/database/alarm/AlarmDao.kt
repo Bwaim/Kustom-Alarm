@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 public interface AlarmDao {
-
-    @Query("SELECT * FROM ALARM_ENTITY") public fun observeAlarms(): Flow<List<AlarmEntity>>
+    @Query("SELECT * FROM ALARM_ENTITY")
+    public fun observeAlarms(): Flow<List<AlarmEntity>>
 
     @Query("SELECT * FROM ALARM_ENTITY WHERE _id = :id")
     public suspend fun getAlarm(id: Int): AlarmEntity?
