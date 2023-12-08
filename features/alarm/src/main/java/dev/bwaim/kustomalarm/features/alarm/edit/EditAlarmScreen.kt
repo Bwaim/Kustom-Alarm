@@ -57,7 +57,7 @@ private fun EditAlarmScreen(close: () -> Unit) {
             modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
         ) {
             AlarmName()
-            KaTimePicker()
+            KaTimePicker(modifier = Modifier.padding(vertical = 5.dp))
         }
     }
 }
