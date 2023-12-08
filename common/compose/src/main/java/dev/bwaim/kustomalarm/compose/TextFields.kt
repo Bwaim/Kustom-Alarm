@@ -46,14 +46,15 @@ public fun KaLargeTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = MaterialTheme.typography.headlineLarge,
-        label = label?.let {
-            {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.headlineLarge,
-                )
-            }
-        },
+        label =
+            label?.let {
+                {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.headlineLarge,
+                    )
+                }
+            },
         interactionSource = interactionSource,
     )
 }
@@ -78,15 +79,13 @@ public fun KaTextField(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun KaTextFieldPreview() {
-    KustomAlarmTheme {
-        KaTextField(value = "textField value", onValueChange = {})
-    }
+    KustomAlarmTheme { KaTextField(value = "textField value", onValueChange = {}) }
 }
 
 @Composable
-@DarkLightPreviews
+@PreviewsDarkLight
 private fun GlobalKaTextFieldPreview() {
     KustomAlarmThemePreview {
         Column(modifier = Modifier.padding(10.dp)) {

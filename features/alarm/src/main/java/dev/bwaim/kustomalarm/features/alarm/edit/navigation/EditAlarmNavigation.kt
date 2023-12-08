@@ -36,15 +36,11 @@ private object EditAlarmRoute : Route {
     override val menuAppState: MenuAppState = MenuAppState(allowToOpenDrawer = false)
 }
 
-public fun NavController.navigateToEditAlarmScreen(
-    navOptions: NavOptions? = null,
-) {
+public fun NavController.navigateToEditAlarmScreen(navOptions: NavOptions? = null) {
     this.navigate(EditAlarmRoute.buildRoute(), navOptions)
 }
 
-public fun NavGraphBuilder.editAlarmScreen(
-    close: () -> Unit,
-) {
+public fun NavGraphBuilder.editAlarmScreen(close: () -> Unit) {
     EditAlarmRoute.composable {
         EditAlarmRoute(
             close = close,

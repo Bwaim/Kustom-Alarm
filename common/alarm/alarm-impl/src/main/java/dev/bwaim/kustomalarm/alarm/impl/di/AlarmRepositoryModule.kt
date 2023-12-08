@@ -26,6 +26,5 @@ import dev.bwaim.kustomalarm.alarm.impl.AlarmRepositoryImpl
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface AlarmRepositoryModule {
-    @Binds
-    fun provideAlarmRepository(it: AlarmRepositoryImpl): AlarmRepository
+    @Binds fun provideAlarmRepository(it: AlarmRepositoryImpl): AlarmRepository
 }

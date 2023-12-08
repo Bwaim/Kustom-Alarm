@@ -56,8 +56,10 @@ public interface Route {
             finalRoute = finalRoute.replace("{$argName}", value.encodedValue())
         }
 
-        finalRoute += (optionalParams + menuAppState.generateAppParameters())
-            .joinToString(prefix = "?", separator = "&") {
+        finalRoute +=
+            (optionalParams + menuAppState.generateAppParameters()).joinToString(
+                prefix = "?", separator = "&",
+            ) {
                 "${it.first}=${it.second.encodedValue()}"
             }
 

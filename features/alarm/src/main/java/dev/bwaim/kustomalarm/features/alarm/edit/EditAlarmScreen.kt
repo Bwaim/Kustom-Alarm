@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,25 +30,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import dev.bwaim.kustomalarm.compose.KAlarmPreviews
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
+import dev.bwaim.kustomalarm.compose.KaTimePicker
+import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
-internal fun EditAlarmRoute(
-    close: () -> Unit,
-) {
+internal fun EditAlarmRoute(close: () -> Unit) {
     EditAlarmScreen(
         close = close,
     )
 }
 
 @Composable
-private fun EditAlarmScreen(
-    close: () -> Unit,
-) {
+private fun EditAlarmScreen(close: () -> Unit) {
     Scaffold(
         topBar = {
             KaCloseTopAppBar(
@@ -58,36 +54,31 @@ private fun EditAlarmScreen(
         },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
         ) {
-            val alarmName = remember { mutableStateOf("") }
-
-            AlarmName(
-                name = alarmName,
-            )
+            AlarmName()
+            KaTimePicker()
         }
     }
 }
 
 @Composable
-private fun AlarmName(
-    name: MutableState<String>,
-) {
+private fun AlarmName() {
+    val name = remember { mutableStateOf("") }
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
     val context = LocalContext.current
-    val label by remember(name) {
-        derivedStateOf {
-            if (name.value.isEmpty() && isFocused.not()) {
-                context.getString(string.edit_alarm_screen_alarm_name_label)
-            } else {
-                null
+    val label by
+        remember(name) {
+            derivedStateOf {
+                if (name.value.isEmpty() && isFocused.not()) {
+                    context.getString(string.edit_alarm_screen_alarm_name_label)
+                } else {
+                    null
+                }
             }
         }
-    }
     KaLargeTextField(
         value = name.value,
         onValueChange = { name.value = it },
@@ -98,7 +89,7 @@ private fun AlarmName(
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(

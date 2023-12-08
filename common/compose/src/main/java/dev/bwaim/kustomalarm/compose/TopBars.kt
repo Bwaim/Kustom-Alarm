@@ -111,9 +111,7 @@ private fun BackNavigationIcon(onClick: () -> Unit = {}) {
 }
 
 @Composable
-private fun CloseNavigationIcon(
-    onClick: () -> Unit = {},
-) {
+private fun CloseNavigationIcon(onClick: () -> Unit = {}) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.Close,
@@ -139,13 +137,11 @@ private fun PreviewKaBackCenterAlignedTopAppBar() {
 }
 
 @Composable
-@KAlarmPreviews
+@PreviewsKAlarm
 private fun PreviewKaCloseCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaCloseTopAppBar(
-            title = {
-                Text(text = "TopBar title ")
-            },
+            title = { Text(text = "TopBar title ") },
         )
     }
 }

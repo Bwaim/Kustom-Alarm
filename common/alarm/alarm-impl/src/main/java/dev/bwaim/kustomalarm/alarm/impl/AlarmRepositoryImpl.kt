@@ -26,7 +26,8 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class AlarmRepositoryImpl
-    @Inject constructor(
+    @Inject
+    constructor(
         private val alarmDao: AlarmDao,
     ) : AlarmRepository {
         override fun observeAlarms(): Flow<List<Alarm>> {

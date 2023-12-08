@@ -31,11 +31,12 @@ public data class MenuAppState(
     val selectedNavigationDrawerId: String? = null,
     val allowToOpenDrawer: Boolean = true,
 ) {
+    internal fun generateAppParameters() =
+        listOfNotNull(
+            selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
+            ALLOW_TO_OPEN_DRAWER to allowToOpenDrawer,
+        )
 
-    internal fun generateAppParameters() = listOfNotNull(
-        selectedNavigationDrawerId?.let { NAVIGATION_DRAWER_ITEM_ID to it },
-        ALLOW_TO_OPEN_DRAWER to allowToOpenDrawer,
-    )
     internal companion object {
         fun getAppParameters(): List<NamedNavArgument> =
             listOf(

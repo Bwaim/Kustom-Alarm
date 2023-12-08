@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
@@ -61,7 +60,11 @@ internal fun AlarmRoute(
 }
 
 @Composable
-private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit, addAlarm: () -> Unit,) {
+private fun AlarmScreen(
+    alarms: PersistentList<Alarm>,
+    openDrawer: () -> Unit,
+    addAlarm: () -> Unit,
+) {
     Scaffold(
         topBar = {
             KaCenterAlignedTopAppBar(
@@ -70,9 +73,7 @@ private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit, ad
         },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SurfaceCard {
@@ -90,9 +91,7 @@ private fun AlarmScreen(alarms: PersistentList<Alarm>,openDrawer: () -> Unit, ad
 }
 
 @Composable
-private fun ColumnScope.NoAlarm(
-    addAlarm: () -> Unit,
-) {
+private fun ColumnScope.NoAlarm(addAlarm: () -> Unit) {
     Text(
         text = stringResource(id = string.alarm_screen_no_alarm_msg),
         style = MaterialTheme.typography.headlineSmall,

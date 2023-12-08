@@ -28,11 +28,14 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-internal class AlarmViewModel @Inject constructor(
-    alarmService: AlarmService,
-) : ViewModel() {
-
-    val alarms = alarmService.observeAlarms()
-        .map { it.toPersistentList() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), persistentListOf())
-}
+internal class AlarmViewModel
+    @Inject
+    constructor(
+        alarmService: AlarmService,
+    ) : ViewModel() {
+        val alarms =
+            alarmService
+                .observeAlarms()
+                .map { it.toPersistentList() }
+                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), persistentListOf())
+    }
