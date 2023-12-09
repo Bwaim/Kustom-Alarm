@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.features.alarm.edit
 
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,16 @@ internal fun EditAlarmRoute(close: () -> Unit) {
 
 @Composable
 private fun EditAlarmScreen(close: () -> Unit) {
+    val currentLocale =
+        remember {
+            val localeList = AppCompatDelegate.getApplicationLocales()
+            if (localeList.isEmpty) {
+                Locale.ENGLISH
+            } else {
+                localeList.get(0) ?: Locale.ENGLISH
+            }
+        }
+
     Scaffold(
         topBar = {
             KaCloseTopAppBar(
@@ -68,7 +79,7 @@ private fun EditAlarmScreen(close: () -> Unit) {
                 onValueChanged = { Log.d("FBU", "hour $it") },
             )
             KaDaySelector(
-                locale = Locale.ENGLISH,
+                locale = currentLocale,
                 onValueChanged = { Log.d("FBU", "days selected $it") },
             )
         }
