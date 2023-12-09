@@ -16,11 +16,12 @@
 
 package dev.bwaim.kustomalarm.alarm.domain
 
+import java.time.DayOfWeek
 import java.time.LocalTime
 
 public data class Alarm(
     val id: Int = 0,
     val name: String,
     val time: LocalTime,
-    val weekDays: List<WeekDay>,
+    val weekDays: Set<DayOfWeek>,
 )

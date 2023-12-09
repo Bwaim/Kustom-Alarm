@@ -17,8 +17,6 @@
 package dev.bwaim.kustomalarm.alarm.impl
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SATURDAY
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -27,6 +25,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.time.DayOfWeek
 import java.time.LocalTime
 
 internal class AlarmRepositoryImplTest {
@@ -54,9 +53,9 @@ internal class AlarmRepositoryImplTest {
             )
 
             val alarm1 =
-                Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = listOf(MONDAY))
+                Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = setOf(DayOfWeek.MONDAY))
             val alarm2 =
-                Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = listOf(SATURDAY))
+                Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = setOf(DayOfWeek.SATURDAY))
 
             subject.saveAlarm(alarm1)
             subject.saveAlarm(alarm2)

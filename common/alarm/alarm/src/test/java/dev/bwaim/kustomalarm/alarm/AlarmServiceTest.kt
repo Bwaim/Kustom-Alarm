@@ -19,9 +19,6 @@
 package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SUNDAY
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.WEDNESDAY
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
 import dev.bwaim.kustomalarm.testing.util.MainDispatcherRule
@@ -33,6 +30,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.DayOfWeek
 import java.time.LocalTime
 
 internal class AlarmServiceTest {
@@ -79,7 +77,22 @@ internal class AlarmServiceTest {
 
 private val testAlarms =
     listOf(
-        Alarm(id = 1, name = "alarm1", time = LocalTime.of(8, 0), weekDays = listOf(MONDAY)),
-        Alarm(id = 2, name = "alarm2", time = LocalTime.of(8, 10), weekDays = listOf(WEDNESDAY)),
-        Alarm(id = 3, name = "alarm3", time = LocalTime.of(9, 0), weekDays = listOf(SUNDAY)),
+        Alarm(
+            id = 1,
+            name = "alarm1",
+            time = LocalTime.of(8, 0),
+            weekDays = setOf(DayOfWeek.MONDAY),
+        ),
+        Alarm(
+            id = 2,
+            name = "alarm2",
+            time = LocalTime.of(8, 10),
+            weekDays = setOf(DayOfWeek.WEDNESDAY),
+        ),
+        Alarm(
+            id = 3,
+            name = "alarm3",
+            time = LocalTime.of(9, 0),
+            weekDays = setOf(DayOfWeek.SUNDAY),
+        ),
     )
