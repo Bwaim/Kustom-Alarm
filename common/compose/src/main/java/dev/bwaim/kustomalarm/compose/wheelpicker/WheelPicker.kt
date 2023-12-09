@@ -18,7 +18,6 @@
 
 package dev.bwaim.kustomalarm.compose.wheelpicker
 
-import android.util.Log
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,6 +46,7 @@ public fun <T : Any> WheelPicker(
     modifier: Modifier = Modifier,
     nbVisibleItems: Int = 3,
     startIndex: Int = 0,
+    onValueChanged: (T) -> Unit = {},
     elementContent: @Composable (T, Modifier) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -56,8 +56,11 @@ public fun <T : Any> WheelPicker(
 
     LaunchedEffect(lazyListState.isScrollInProgress) {
         if (!lazyListState.isScrollInProgress) {
-            val currentItem = layoutInfo.currentItem
-            Log.d("FBU", "selected item $currentItem")
+            layoutInfo.currentItem?.let { item ->
+                val selectedIndex = item.index % items.size
+                val selectedItem = items[selectedIndex]
+                onValueChanged(selectedItem)
+            }
         }
     }
 

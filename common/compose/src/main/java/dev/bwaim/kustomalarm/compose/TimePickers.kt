@@ -28,6 +28,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -37,12 +42,23 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.compose.wheelpicker.WheelPicker
 import kotlinx.collections.immutable.toPersistentList
 import java.text.NumberFormat
+import java.time.LocalTime
 
 // https://chrisbanes.github.io/snapper/
 // https://github.com/commandiron/WheelPickerCompose/blob/master/wheel-picker-compose/src/main/java/com/commandiron/wheel_picker_compose/core/WheelPicker.kt
 
 @Composable
-public fun KaTimePicker(modifier: Modifier = Modifier) {
+public fun KaTimePicker(
+    modifier: Modifier = Modifier,
+    onValueChanged: (LocalTime) -> Unit = {},
+) {
+    var hours by remember { mutableIntStateOf(0) }
+    var minutes by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(hours, minutes) {
+        onValueChanged(LocalTime.of(hours, minutes))
+    }
+
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center,
@@ -51,7 +67,12 @@ public fun KaTimePicker(modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.6f),
             modifier = Modifier.clip(MaterialTheme.shapes.medium),
         ) {
-            Row(modifier = Modifier.alpha(0f).padding(horizontal = 10.dp)) {
+            Row(
+                modifier =
+                    Modifier
+                        .alpha(0f)
+                        .padding(horizontal = 10.dp),
+            ) {
                 TimeLabel(value = 23)
                 TimeSeparator()
                 TimeLabel(value = 59)
@@ -67,6 +88,7 @@ public fun KaTimePicker(modifier: Modifier = Modifier) {
                 items = (0..23).toPersistentList(),
                 nbVisibleItems = 3,
                 startIndex = 7,
+                onValueChanged = { hour -> hours = hour },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)
             }
@@ -76,6 +98,7 @@ public fun KaTimePicker(modifier: Modifier = Modifier) {
             WheelPicker(
                 items = (0..59).toPersistentList(),
                 nbVisibleItems = 3,
+                onValueChanged = { minute -> minutes = minute },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)
             }

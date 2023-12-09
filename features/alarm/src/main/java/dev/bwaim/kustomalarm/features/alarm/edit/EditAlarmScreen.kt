@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import android.util.Log
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
@@ -57,7 +58,10 @@ private fun EditAlarmScreen(close: () -> Unit) {
             modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
         ) {
             AlarmName()
-            KaTimePicker(modifier = Modifier.padding(vertical = 5.dp))
+            KaTimePicker(
+                modifier = Modifier.padding(vertical = 5.dp),
+                onValueChanged = { Log.d("FBU", "hour $it") },
+            )
         }
     }
 }
