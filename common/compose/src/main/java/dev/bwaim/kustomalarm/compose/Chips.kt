@@ -23,27 +23,51 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 
 @Composable
 public fun KaFilterChip(
-    label: @Composable () -> Unit,
-    selected: Boolean = false,
+    label: @Composable (Modifier) -> Unit,
+    modifier: Modifier = Modifier,
+    initialSelected: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    FilterChip(
+    var selected by remember { mutableStateOf(initialSelected) }
+
+    val color =
+        if (selected) {
+            MaterialTheme.colorScheme.secondaryContainer
+        } else {
+            Color.Transparent
+        }
+
+    Surface(
         selected = selected,
-        onClick = onClick,
-        label = label,
+        onClick = {
+            selected = !selected
+            onClick()
+        },
+        modifier = modifier.semantics { role = Role.Checkbox },
         shape = MaterialTheme.shapes.extraLarge,
+        color = color,
         border = null,
-    )
+    ) {
+        label(Modifier.padding(8.dp))
+    }
 }
 
 @Composable
@@ -51,11 +75,25 @@ public fun KaFilterChip(
 private fun KaFilterChipPreview() {
     KustomAlarmThemePreview {
         Column(modifier = Modifier.padding(horizontal = 10.dp)) {
-            KaFilterChip(label = { Text("LU") })
-            Spacer(modifier = Modifier.height(5.dp))
             KaFilterChip(
-                label = { Text("LU") },
-                selected = true,
+                label = {
+                    Text(
+                        modifier = it,
+                        text = "LU",
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                },
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            KaFilterChip(
+                label = {
+                    Text(
+                        modifier = it,
+                        text = "LU",
+                        style = MaterialTheme.typography.labelSmall,
+                    )
+                },
+                initialSelected = true,
             )
         }
     }

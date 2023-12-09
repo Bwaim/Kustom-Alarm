@@ -36,7 +36,9 @@ import dev.bwaim.kustomalarm.compose.KaLargeTextField
 import dev.bwaim.kustomalarm.compose.KaTimePicker
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.localisation.R.string
+import java.util.Locale
 
 @Composable
 internal fun EditAlarmRoute(close: () -> Unit) {
@@ -55,12 +57,19 @@ private fun EditAlarmScreen(close: () -> Unit) {
         },
     ) { padding ->
         Column(
-            modifier = Modifier.padding(padding).padding(horizontal = 16.dp),
+            modifier =
+                Modifier
+                    .padding(padding)
+                    .padding(horizontal = 16.dp),
         ) {
             AlarmName()
             KaTimePicker(
                 modifier = Modifier.padding(vertical = 5.dp),
                 onValueChanged = { Log.d("FBU", "hour $it") },
+            )
+            KaDaySelector(
+                locale = Locale.ENGLISH,
+                onValueChanged = { Log.d("FBU", "days selected $it") },
             )
         }
     }
