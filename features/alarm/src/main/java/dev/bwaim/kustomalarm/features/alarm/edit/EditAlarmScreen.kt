@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import android.content.Context
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -50,13 +51,14 @@ internal fun EditAlarmRoute(close: () -> Unit) {
 
 @Composable
 private fun EditAlarmScreen(close: () -> Unit) {
+    val context = LocalContext.current
     val currentLocale =
         remember {
             val localeList = AppCompatDelegate.getApplicationLocales()
             if (localeList.isEmpty) {
-                Locale.ENGLISH
+                context.getPhoneLocale()
             } else {
-                localeList.get(0) ?: Locale.ENGLISH
+                localeList.get(0) ?: context.getPhoneLocale()
             }
         }
 
@@ -119,5 +121,14 @@ private fun PreviewEditAlarmScreen() {
         EditAlarmScreen(
             close = {},
         )
+    }
+}
+
+private fun Context.getPhoneLocale(): Locale {
+    val localeList = resources.configuration.locales
+    return if (localeList.isEmpty) {
+        Locale.ENGLISH
+    } else {
+        localeList.get(0)
     }
 }
