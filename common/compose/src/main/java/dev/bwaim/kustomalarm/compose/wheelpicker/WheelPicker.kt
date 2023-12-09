@@ -30,7 +30,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.LazyListSnapperLayoutInfo
@@ -111,17 +110,20 @@ private fun <T : Any> MyWheel(
                             oneItemHeight = oneItemHeight,
                             index = index,
                         )
-                    val rotationX =
-                        calculateRotationX(
-                            snapperLayoutInfo = snapperLayoutInfo,
-                            oneItemHeight = oneItemHeight,
-                            index = index,
-                        )
+//                    val rotationX =
+//                        calculateRotationX(
+//                            snapperLayoutInfo = snapperLayoutInfo,
+//                            oneItemHeight = oneItemHeight,
+//                            index = index,
+//                        )
 
                     val itemModifier =
                         Modifier
                             .alpha(alpha)
-                            .graphicsLayer { this.rotationX = rotationX }
+                    // https://issuetracker.google.com/issues/275579007 close / open screen to produce it
+                    // https://issuetracker.google.com/issues?q=java.lang.IllegalStateException:%20Offset%20is%20unspecified
+                    // TODO check with compose update > 1.6.0-beta03
+//                            .graphicsLayer { this.rotationX = rotationX }
 
                     content(item, itemModifier)
                 }
