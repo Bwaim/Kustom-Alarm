@@ -18,9 +18,15 @@
     <string name="navigation.menu.content_description">menú</string>
     <string name="navigation.back.content_description">atrás</string>
     <string name="navigation.close.content_description">Cerrar</string>
+
+    <string name="global.action.save">Guardar</string>
+
     <string name="alarm.screen.titre">Alarmas</string>
     <string name="alarm.screen.no_alarm.msg">Ninguna alarma creada</string>
     <string name="alarm.screen.no_alarm.add_button">Agregar</string>
+
+    <string name="edit_alarm.screen.alarm_name.label">Nombre de la alarma</string>
+
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>
     <string name="settings.screen.theme.dark_label">Oscuro</string>
@@ -28,5 +34,4 @@
     <string name="settings.screen.theme.system_label">Usar sistema predeterminado</string>
     <string name="settings.screen.theme.title">Escoge un tema</string>
     <string name="settings.screen.locale.title">Escoge idioma</string>
-    <string name="edit_alarm.screen.alarm_name.label">Nombre de la alarma</string>
 </resources>

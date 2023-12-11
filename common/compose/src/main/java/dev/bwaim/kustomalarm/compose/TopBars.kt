@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import dev.bwaim.kustomalarm.compose.icons.Save
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 
@@ -116,6 +117,16 @@ private fun CloseNavigationIcon(onClick: () -> Unit = {}) {
         Icon(
             imageVector = Icons.Filled.Close,
             contentDescription = stringResource(id = string.navigation_close_content_description),
+        )
+    }
+}
+
+@Composable
+private fun SaveActionIcon(onClick: () -> Unit = {}) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Filled.Save,
+            contentDescription = stringResource(id = string.global_action_save),
         )
     }
 }
