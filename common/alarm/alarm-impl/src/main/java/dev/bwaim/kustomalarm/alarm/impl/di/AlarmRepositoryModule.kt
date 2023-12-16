@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.alarm.domain
+package dev.bwaim.kustomalarm.alarm.impl.di
 
-public enum class WeekDay(public val value: Int) {
-    MONDAY(0b1000000),
-    TUESDAY(0b0100000),
-    WEDNESDAY(0b0010000),
-    THURSDAY(0b0001000),
-    FRIDAY(0b0000100),
-    SATURDAY(0b0000010),
-    SUNDAY(0b0000001),
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.bwaim.kustomalarm.alarm.AlarmRepository
+import dev.bwaim.kustomalarm.alarm.impl.AlarmRepositoryImpl
+
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface AlarmRepositoryModule {
+    @Binds fun provideAlarmRepository(it: AlarmRepositoryImpl): AlarmRepository
 }

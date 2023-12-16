@@ -65,6 +65,7 @@ internal fun KaNavigationDrawer(
     scope: CoroutineScope,
     navigateHome: () -> Unit,
     modifier: Modifier = Modifier,
+    allowToOpen: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
@@ -103,6 +104,7 @@ internal fun KaNavigationDrawer(
         },
         modifier = modifier,
         drawerState = drawerState,
+        gesturesEnabled = allowToOpen,
         content = content,
     )
 }

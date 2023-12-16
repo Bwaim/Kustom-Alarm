@@ -20,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.editAlarmScreen
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.navigateToEditAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
 import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
 
@@ -38,10 +40,15 @@ internal fun KAlarmNavHost(
     ) {
         alarmScreen(
             openDrawer = openDrawer,
+            addAlarm = navController::navigateToEditAlarmScreen,
         )
 
         settingsScreen(
             onClose = navigateUp,
+        )
+
+        editAlarmScreen(
+            close = navigateUp,
         )
     }
 }

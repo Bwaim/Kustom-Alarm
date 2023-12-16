@@ -16,10 +16,22 @@
 -->
 <resources>
     <string name="navigation.menu.content_description">menu</string>
+    <string name="navigation.back.content_description">Back</string>
     <string name="navigation.close.content_description">Close</string>
+
+    <string name="global.action.save">Save</string>
+
+    <string name="global.today">Today</string>
+    <string name="global.tomorrow">Tomorrow</string>
+
     <string name="alarm.screen.titre">Alarms</string>
     <string name="alarm.screen.no_alarm.msg">No alarm created</string>
     <string name="alarm.screen.no_alarm.add_button">Add</string>
+
+    <string name="edit_alarm.screen.alarm_name.label">Name of the alarm</string>
+    <string name="edit_alarm.screen.saving.error">Error, alarm not saved</string>
+    <string name="edit_alarm.screen.saving.success">Alarm set to %1$s</string>
+
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>
     <string name="settings.screen.theme.dark_label">Dark</string>

@@ -19,9 +19,6 @@
 package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.MONDAY
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.SUNDAY
-import dev.bwaim.kustomalarm.alarm.domain.WeekDay.WEDNESDAY
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
 import dev.bwaim.kustomalarm.testing.util.MainDispatcherRule
@@ -33,6 +30,8 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalTime
 
 internal class AlarmServiceTest {
@@ -50,7 +49,7 @@ internal class AlarmServiceTest {
     }
 
     @Test
-    fun themeService_observe_alarms() =
+    fun alarmService_observe_alarms() =
         runTest {
             val alarms = subject.observeAlarms()
 
@@ -75,11 +74,77 @@ internal class AlarmServiceTest {
                 alarmRetrieved.value,
             )
         }
+
+    @Test
+    fun alarmService_insert_one_time_alarm() =
+        runTest {
+            val now = LocalTime.now()
+            val adjustedNow = LocalTime.of(now.hour, now.minute)
+            val today = LocalDate.now().dayOfWeek
+
+            val emptyAlarmForNextDay =
+                Alarm(
+                    id = 1,
+                    name = "",
+                    time = adjustedNow.minusHours(1),
+                    weekDays = setOf(),
+                )
+            val emptyAlarmForThisDay =
+                Alarm(
+                    id = 2,
+                    name = null,
+                    time = adjustedNow.plusHours(1),
+                    weekDays = setOf(),
+                )
+
+            val expectedAlarmNextDay =
+                emptyAlarmForNextDay.copy(
+                    name = "",
+                    weekDays = setOf(today.plus(1)),
+                    isOnce = true,
+                )
+            val expectedAlarmThisDay =
+                emptyAlarmForThisDay.copy(
+                    name = null,
+                    weekDays = setOf(today),
+                    isOnce = true,
+                )
+
+            subject.saveAlarm(emptyAlarmForNextDay)
+            subject.saveAlarm(emptyAlarmForThisDay)
+
+            val resAlarmNextDay = subject.getAlarm(alarmId = emptyAlarmForNextDay.id).value
+            Assert.assertEquals(
+                expectedAlarmNextDay,
+                resAlarmNextDay,
+            )
+
+            val resAlarmThisDay = subject.getAlarm(alarmId = emptyAlarmForThisDay.id).value
+            Assert.assertEquals(
+                expectedAlarmThisDay,
+                resAlarmThisDay,
+            )
+        }
 }
 
 private val testAlarms =
     listOf(
-        Alarm(id = 1, name = "alarm1", time = LocalTime.of(8, 0), weekDays = listOf(MONDAY)),
-        Alarm(id = 2, name = "alarm2", time = LocalTime.of(8, 10), weekDays = listOf(WEDNESDAY)),
-        Alarm(id = 3, name = "alarm3", time = LocalTime.of(9, 0), weekDays = listOf(SUNDAY)),
+        Alarm(
+            id = 1,
+            name = "alarm1",
+            time = LocalTime.of(8, 0),
+            weekDays = setOf(DayOfWeek.MONDAY),
+        ),
+        Alarm(
+            id = 2,
+            name = "alarm2",
+            time = LocalTime.of(8, 10),
+            weekDays = setOf(DayOfWeek.WEDNESDAY),
+        ),
+        Alarm(
+            id = 3,
+            name = "alarm3",
+            time = LocalTime.of(9, 0),
+            weekDays = setOf(DayOfWeek.SUNDAY),
+        ),
     )

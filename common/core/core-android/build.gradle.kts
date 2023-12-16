@@ -28,4 +28,6 @@ dependencies {
 
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.core)
+
+    implementation(libs.androidx.appcompat)
 }

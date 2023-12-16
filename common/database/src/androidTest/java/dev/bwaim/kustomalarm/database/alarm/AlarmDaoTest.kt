@@ -26,6 +26,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import java.time.DayOfWeek
 import java.time.LocalTime
 
 internal class AlarmDaoTest {
@@ -81,7 +82,7 @@ internal class AlarmDaoTest {
                     testAlarm(
                         name = "alarm1",
                         time = LocalTime.of(8, 59),
-                        weekDays = 0b0100000,
+                        weekDays = setOf(DayOfWeek.TUESDAY),
                     ),
                     testAlarm(name = "alarm2"),
                 )
@@ -95,7 +96,8 @@ internal class AlarmDaoTest {
                     id = 1,
                     name = "alarm1",
                     time = LocalTime.of(8, 59),
-                    weekDays = 0b0100000,
+                    weekDays = "2",
+                    isOnce = false,
                 ),
                 alarmRetrieved,
             )
@@ -106,10 +108,11 @@ private fun testAlarm(
     id: Int = 0,
     name: String,
     time: LocalTime = LocalTime.of(10, 30),
-    weekDays: Int = 0,
+    weekDays: Set<DayOfWeek> = setOf(),
 ) = AlarmEntity(
     id = id,
     name = name,
     time = time,
-    weekDays = weekDays,
+    weekDays = weekDays.joinToString { it.value.toString() },
+    isOnce = false,
 )

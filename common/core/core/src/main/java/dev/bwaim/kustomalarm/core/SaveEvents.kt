@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.alarm.domain
+package dev.bwaim.kustomalarm.core
 
-import java.time.DayOfWeek
-import java.time.LocalTime
+public sealed class SaveEvents(
+    public open val text: String,
+) {
+    public data class Success(override val text: String) : SaveEvents(text)
 
-public data class Alarm(
-    val id: Int = 0,
-    val name: String?,
-    val time: LocalTime,
-    val weekDays: Set<DayOfWeek>,
-    val isOnce: Boolean = false,
-)
+    public data class Failure(override val text: String) : SaveEvents(text)
+}

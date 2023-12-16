@@ -21,6 +21,7 @@ package dev.bwaim.kustomalarm.compose
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import dev.bwaim.kustomalarm.compose.icons.Save
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
 
@@ -73,6 +75,23 @@ public fun KaBackTopAppBar(
 }
 
 @Composable
+public fun KaCloseTopAppBar(
+    modifier: Modifier = Modifier,
+    onClickNavigation: () -> Unit = {},
+    title: @Composable () -> Unit = {},
+    navigationIcon: @Composable () -> Unit = { CloseNavigationIcon(onClick = onClickNavigation) },
+    actions: @Composable RowScope.() -> Unit = {},
+) {
+    KaCenterAlignedTopAppBar(
+        modifier = modifier,
+        onClickNavigation = onClickNavigation,
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+    )
+}
+
+@Composable
 private fun DefaultNavigationIcon(onClick: () -> Unit = {}) {
     IconButton(onClick = onClick) {
         Icon(
@@ -87,7 +106,33 @@ private fun BackNavigationIcon(onClick: () -> Unit = {}) {
     IconButton(onClick = onClick) {
         Icon(
             imageVector = Icons.Filled.ArrowBack,
+            contentDescription = stringResource(id = string.navigation_back_content_description),
+        )
+    }
+}
+
+@Composable
+private fun CloseNavigationIcon(onClick: () -> Unit = {}) {
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = Icons.Filled.Close,
             contentDescription = stringResource(id = string.navigation_close_content_description),
+        )
+    }
+}
+
+@Composable
+public fun SaveActionIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Save,
+            contentDescription = stringResource(id = string.global_action_save),
         )
     }
 }
@@ -100,9 +145,19 @@ private fun PreviewKaCenterAlignedTopAppBar() {
 
 @Composable
 @PreviewsKAlarm
-private fun PreviewKaCloseCenterAlignedTopAppBar() {
+private fun PreviewKaBackCenterAlignedTopAppBar() {
     KustomAlarmTheme {
         KaBackTopAppBar(
+            title = { Text(text = "TopBar title ") },
+        )
+    }
+}
+
+@Composable
+@PreviewsKAlarm
+private fun PreviewKaCloseCenterAlignedTopAppBar() {
+    KustomAlarmTheme {
+        KaCloseTopAppBar(
             title = { Text(text = "TopBar title ") },
         )
     }

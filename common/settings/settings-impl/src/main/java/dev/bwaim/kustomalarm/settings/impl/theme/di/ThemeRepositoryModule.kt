@@ -26,5 +26,5 @@ import dev.bwaim.kustomalarm.settings.theme.ThemeRepository
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface ThemeRepositoryModule {
-    @Binds abstract fun provideThemeRepository(it: ThemeRepositoryImpl): ThemeRepository
+    @Binds fun provideThemeRepository(it: ThemeRepositoryImpl): ThemeRepository
 }
