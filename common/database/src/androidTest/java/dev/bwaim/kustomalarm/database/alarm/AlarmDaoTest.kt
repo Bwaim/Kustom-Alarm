@@ -97,6 +97,7 @@ internal class AlarmDaoTest {
                     name = "alarm1",
                     time = LocalTime.of(8, 59),
                     weekDays = "2",
+                    isOnce = false,
                 ),
                 alarmRetrieved,
             )
@@ -113,4 +114,5 @@ private fun testAlarm(
     name = name,
     time = time,
     weekDays = weekDays.joinToString { it.value.toString() },
+    isOnce = false,
 )

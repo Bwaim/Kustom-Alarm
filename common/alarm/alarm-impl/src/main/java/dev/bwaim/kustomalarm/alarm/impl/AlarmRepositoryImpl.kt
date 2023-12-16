@@ -63,4 +63,5 @@ private fun Alarm.toEntity(): AlarmEntity =
         name = name,
         time = time,
         weekDays = weekDays.joinToString { it.value.toString() },
+        isOnce = isOnce,
     )

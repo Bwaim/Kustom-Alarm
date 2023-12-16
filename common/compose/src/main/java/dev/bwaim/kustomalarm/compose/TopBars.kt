@@ -122,8 +122,14 @@ private fun CloseNavigationIcon(onClick: () -> Unit = {}) {
 }
 
 @Composable
-private fun SaveActionIcon(onClick: () -> Unit = {}) {
-    IconButton(onClick = onClick) {
+public fun SaveActionIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick,
+    ) {
         Icon(
             imageVector = Icons.Filled.Save,
             contentDescription = stringResource(id = string.global_action_save),

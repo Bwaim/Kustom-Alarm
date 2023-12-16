@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.alarm.domain
+package dev.bwaim.kustomalarm.core.extentions
 
-import java.time.DayOfWeek
 import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
-public data class Alarm(
-    val id: Int = 0,
-    val name: String?,
-    val time: LocalTime,
-    val weekDays: Set<DayOfWeek>,
-    val isOnce: Boolean = false,
-)
+public fun LocalTime.durationTo(time2: LocalTime): Duration {
+    val duration = until(time2, ChronoUnit.MINUTES).minutes
+
+    return if (duration.isNegative()) {
+        1.days + duration
+    } else {
+        duration
+    }
+}

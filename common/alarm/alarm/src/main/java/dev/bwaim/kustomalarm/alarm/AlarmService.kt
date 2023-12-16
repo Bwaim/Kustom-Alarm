@@ -23,6 +23,8 @@ import dev.bwaim.kustomalarm.core.executeCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import java.time.LocalDate
+import java.time.LocalTime
 import javax.inject.Inject
 
 public class AlarmService
@@ -36,8 +38,26 @@ public class AlarmService
         public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
             executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }
 
-        public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> = executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm) }
+        public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> =
+            executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm.completeDefault()) }
 
         public suspend fun deleteAlarm(alarmId: Int): DomainResult<Unit> =
             executeCatching(ioDispatcher) { alarmRepository.deleteAlarm(alarmId = alarmId) }
+
+        private fun Alarm.completeDefault(): Alarm {
+            var isOnce = this.isOnce
+
+            val currentDayOfWeek = LocalDate.now().dayOfWeek
+            val daysOfWeek =
+                this.weekDays.ifEmpty {
+                    isOnce = true
+                    if (LocalTime.now().isBefore(time)) {
+                        setOf(currentDayOfWeek)
+                    } else {
+                        setOf(currentDayOfWeek.plus(1))
+                    }
+                }
+
+            return this.copy(weekDays = daysOfWeek, isOnce = isOnce)
+        }
     }

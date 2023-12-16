@@ -21,11 +21,16 @@
 
     <string name="global.action.save">Enregistrer</string>
 
+    <string name="global.today">Aujourd\'hui</string>
+    <string name="global.tomorrow">Demain</string>
+
     <string name="alarm.screen.titre">Alarmes</string>
     <string name="alarm.screen.no_alarm.msg">Aucune alarme créée</string>
     <string name="alarm.screen.no_alarm.add_button">Ajouter</string>
 
     <string name="edit_alarm.screen.alarm_name.label">Nom de l\'alarme</string>
+    <string name="edit_alarm.screen.saving.error">Erreur, alarme non sauvegardée</string>
+    <string name="edit_alarm.screen.saving.success">Alarme enregistrée pour dans %1$s</string>
 
     <string name="settings.screen.label">Paramètres</string>
     <string name="settings.screen.theme.light_label">Clair</string>

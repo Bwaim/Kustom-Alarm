@@ -16,81 +16,135 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
-import android.content.Context
-import android.util.Log
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
 import dev.bwaim.kustomalarm.compose.KaTimePicker
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.PrimaryButton
+import dev.bwaim.kustomalarm.compose.SaveEventsEffect
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
+import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.localisation.R.string
-import java.util.Locale
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentSet
+import java.time.DayOfWeek
+import java.time.LocalTime
 
 @Composable
-internal fun EditAlarmRoute(close: () -> Unit) {
+internal fun EditAlarmRoute(
+    close: () -> Unit,
+    editViewModel: EditViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current
+    SaveEventsEffect(
+        eventFlow = editViewModel.saveEventsFlow,
+        successAction = {
+            context.toast(it)
+            close()
+        },
+        failureAction = { context.toast(it) },
+    )
+
     EditAlarmScreen(
         close = close,
+        onSave = editViewModel::saveAlarm,
     )
 }
 
 @Composable
-private fun EditAlarmScreen(close: () -> Unit) {
+private fun EditAlarmScreen(
+    close: () -> Unit,
+    onSave: (Alarm) -> Unit,
+) {
     val context = LocalContext.current
-    val currentLocale =
+    val currentLocale = remember { context.getAppLocale() }
+
+    val alarmName: MutableState<String?> =
         remember {
-            val localeList = AppCompatDelegate.getApplicationLocales()
-            if (localeList.isEmpty) {
-                context.getPhoneLocale()
-            } else {
-                localeList.get(0) ?: context.getPhoneLocale()
-            }
+            mutableStateOf(null)
+        }
+    val alarmTime: MutableState<LocalTime> =
+        remember {
+            mutableStateOf(LocalTime.of(7, 0))
+        }
+    val daysOfWeek: MutableState<PersistentSet<DayOfWeek>> =
+        remember {
+            mutableStateOf(persistentSetOf())
         }
 
     Scaffold(
         topBar = {
-            KaCloseTopAppBar(
-                onClickNavigation = close,
-            )
+            KaCloseTopAppBar(onClickNavigation = close)
         },
     ) { padding ->
         Column(
             modifier =
                 Modifier
+                    .fillMaxHeight()
                     .padding(padding)
                     .padding(horizontal = 16.dp),
         ) {
-            AlarmName()
+            AlarmName(
+                name = alarmName.value,
+                onValueChange = { alarmName.value = it },
+            )
             KaTimePicker(
                 modifier = Modifier.padding(vertical = 5.dp),
-                onValueChanged = { Log.d("FBU", "hour $it") },
+                onValueChanged = { alarmTime.value = it },
             )
             KaDaySelector(
                 locale = currentLocale,
-                onValueChanged = { Log.d("FBU", "days selected $it") },
+                onValueChanged = { daysOfWeek.value = it.toPersistentSet() },
+            )
+
+            PrimaryButton(
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 40.dp),
+                text = stringResource(id = string.global_action_save),
+                onClick = {
+                    onSave(
+                        Alarm(
+                            name = alarmName.value,
+                            time = alarmTime.value,
+                            weekDays = daysOfWeek.value,
+                        ),
+                    )
+                },
             )
         }
     }
 }
 
 @Composable
-private fun AlarmName() {
-    val name = remember { mutableStateOf("") }
+private fun AlarmName(
+    name: String?,
+    onValueChange: (String) -> Unit,
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
@@ -98,7 +152,7 @@ private fun AlarmName() {
     val label by
         remember(name) {
             derivedStateOf {
-                if (name.value.isEmpty() && isFocused.not()) {
+                if (name.isNullOrBlank() && isFocused.not()) {
                     context.getString(string.edit_alarm_screen_alarm_name_label)
                 } else {
                     null
@@ -106,8 +160,8 @@ private fun AlarmName() {
             }
         }
     KaLargeTextField(
-        value = name.value,
-        onValueChange = { name.value = it },
+        value = name,
+        onValueChange = onValueChange,
         modifier = Modifier.fillMaxWidth(),
         label = label,
         interactionSource = interactionSource,
@@ -120,15 +174,7 @@ private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(
             close = {},
+            onSave = {},
         )
-    }
-}
-
-private fun Context.getPhoneLocale(): Locale {
-    val localeList = resources.configuration.locales
-    return if (localeList.isEmpty) {
-        Locale.ENGLISH
-    } else {
-        localeList.get(0)
     }
 }

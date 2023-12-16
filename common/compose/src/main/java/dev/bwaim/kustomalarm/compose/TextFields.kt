@@ -35,14 +35,14 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 
 @Composable
 public fun KaLargeTextField(
-    value: String,
+    value: String?,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
     KaTextField(
-        value = value,
+        value = value ?: "",
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = MaterialTheme.typography.headlineLarge,

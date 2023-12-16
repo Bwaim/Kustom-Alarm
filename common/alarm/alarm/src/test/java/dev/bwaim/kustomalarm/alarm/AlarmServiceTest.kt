@@ -31,6 +31,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalTime
 
 internal class AlarmServiceTest {
@@ -48,7 +49,7 @@ internal class AlarmServiceTest {
     }
 
     @Test
-    fun themeService_observe_alarms() =
+    fun alarmService_observe_alarms() =
         runTest {
             val alarms = subject.observeAlarms()
 
@@ -71,6 +72,57 @@ internal class AlarmServiceTest {
             Assert.assertEquals(
                 testAlarms[2],
                 alarmRetrieved.value,
+            )
+        }
+
+    @Test
+    fun alarmService_insert_one_time_alarm() =
+        runTest {
+            val now = LocalTime.now()
+            val adjustedNow = LocalTime.of(now.hour, now.minute)
+            val today = LocalDate.now().dayOfWeek
+
+            val emptyAlarmForNextDay =
+                Alarm(
+                    id = 1,
+                    name = "",
+                    time = adjustedNow.minusHours(1),
+                    weekDays = setOf(),
+                )
+            val emptyAlarmForThisDay =
+                Alarm(
+                    id = 2,
+                    name = null,
+                    time = adjustedNow.plusHours(1),
+                    weekDays = setOf(),
+                )
+
+            val expectedAlarmNextDay =
+                emptyAlarmForNextDay.copy(
+                    name = "",
+                    weekDays = setOf(today.plus(1)),
+                    isOnce = true,
+                )
+            val expectedAlarmThisDay =
+                emptyAlarmForThisDay.copy(
+                    name = null,
+                    weekDays = setOf(today),
+                    isOnce = true,
+                )
+
+            subject.saveAlarm(emptyAlarmForNextDay)
+            subject.saveAlarm(emptyAlarmForThisDay)
+
+            val resAlarmNextDay = subject.getAlarm(alarmId = emptyAlarmForNextDay.id).value
+            Assert.assertEquals(
+                expectedAlarmNextDay,
+                resAlarmNextDay,
+            )
+
+            val resAlarmThisDay = subject.getAlarm(alarmId = emptyAlarmForThisDay.id).value
+            Assert.assertEquals(
+                expectedAlarmThisDay,
+                resAlarmThisDay,
             )
         }
 }

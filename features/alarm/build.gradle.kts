@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation(projects.common.alarm.alarm)
+    implementation(projects.common.core.coreAndroid)
 
     implementation(libs.androidx.appcompat)
 }
