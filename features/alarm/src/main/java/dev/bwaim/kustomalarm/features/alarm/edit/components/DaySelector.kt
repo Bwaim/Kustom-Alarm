@@ -30,9 +30,9 @@ import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.KaFilterChip
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.core.extentions.shortName
 import kotlinx.collections.immutable.toPersistentList
 import java.time.DayOfWeek
-import java.time.format.TextStyle.SHORT
 import java.util.Locale
 
 @Composable
@@ -43,7 +43,7 @@ internal fun KaDaySelector(
 ) {
     val daysLabel =
         remember {
-            DayOfWeek.entries.map { it to it.shortname(locale) }.toPersistentList()
+            DayOfWeek.entries.map { it to it.shortName(locale) }.toPersistentList()
         }
 
     val selectedDays: MutableSet<DayOfWeek> =
@@ -76,10 +76,6 @@ internal fun KaDaySelector(
             )
         }
     }
-}
-
-private fun DayOfWeek.shortname(locale: Locale): String {
-    return getDisplayName(SHORT, locale).substring(startIndex = 0, endIndex = 2).uppercase()
 }
 
 @Composable
