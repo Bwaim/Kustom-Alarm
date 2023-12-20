@@ -55,6 +55,7 @@ public fun AlarmRow(
     alarm: Alarm,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
+    updateAlarm: (Alarm) -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -62,6 +63,7 @@ public fun AlarmRow(
     ) {
         KaSwitch(
             checked = alarm.isActivated,
+            onCheckedChange = { activated -> updateAlarm(alarm.copy(isActivated = activated)) },
         )
 
         Column(
@@ -137,7 +139,9 @@ private fun PreviewAlarmRow() {
                             time = LocalTime.of(7, 35),
                             weekDays = setOf(MONDAY, TUESDAY),
                             isOnce = false,
+                            isActivated = false,
                         ),
+                    updateAlarm = {},
                 )
             }
 
@@ -151,6 +155,7 @@ private fun PreviewAlarmRow() {
                             weekDays = setOf(),
                             isOnce = true,
                         ),
+                    updateAlarm = {},
                 )
             }
 
@@ -164,6 +169,7 @@ private fun PreviewAlarmRow() {
                             weekDays = setOf(WEDNESDAY),
                             isOnce = false,
                         ),
+                    updateAlarm = {},
                 )
             }
 
@@ -177,6 +183,7 @@ private fun PreviewAlarmRow() {
                             weekDays = setOf(SATURDAY, SUNDAY),
                             isOnce = false,
                         ),
+                    updateAlarm = {},
                 )
             }
 
@@ -190,6 +197,7 @@ private fun PreviewAlarmRow() {
                             weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
                             isOnce = false,
                         ),
+                    updateAlarm = {},
                 )
             }
 
@@ -203,6 +211,7 @@ private fun PreviewAlarmRow() {
                             weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY),
                             isOnce = false,
                         ),
+                    updateAlarm = {},
                 )
             }
         }

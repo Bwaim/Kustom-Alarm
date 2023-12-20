@@ -20,22 +20,30 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.alarm.AlarmService
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 internal class AlarmViewModel
     @Inject
     constructor(
-        alarmService: AlarmService,
+        private val alarmService: AlarmService,
     ) : ViewModel() {
         val alarms =
             alarmService
                 .observeAlarms()
                 .map { it.toPersistentList() }
                 .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), persistentListOf())
+
+        fun updateAlarm(alarm: Alarm) {
+            viewModelScope.launch {
+                alarmService.saveAlarm(alarm = alarm)
+            }
+        }
     }
