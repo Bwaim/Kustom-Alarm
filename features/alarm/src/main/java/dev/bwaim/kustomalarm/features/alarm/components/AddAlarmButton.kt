@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.database.alarm
+package dev.bwaim.kustomalarm.features.alarm.components
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.time.LocalTime
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import dev.bwaim.kustomalarm.compose.PrimaryButton
+import dev.bwaim.kustomalarm.localisation.R.string
 
-@Entity("ALARM_ENTITY")
-public data class AlarmEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "_id") val id: Int = 0,
-    @ColumnInfo(name = "NAME") val name: String?,
-    @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
-    @ColumnInfo(name = "WEEKDAYS") val weekDays: String,
-    @ColumnInfo(name = "IS_ONCE") val isOnce: Boolean,
-    @ColumnInfo(name = "IS_ACTIVATED") val isActivated: Boolean,
-)
+@Composable
+public fun AddAlarmButton(
+    addAlarm: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    PrimaryButton(
+        text = stringResource(id = string.alarm_screen_no_alarm_add_button),
+        onClick = addAlarm,
+        modifier = modifier,
+    )
+}

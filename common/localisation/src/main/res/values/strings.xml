@@ -27,6 +27,9 @@
     <string name="alarm.screen.titre">Alarms</string>
     <string name="alarm.screen.no_alarm.msg">No alarm created</string>
     <string name="alarm.screen.no_alarm.add_button">Add</string>
+    <string name="alarm.screen.alarms.days_week">In week</string>
+    <string name="alarm.screen.alarms.days_weekend">Weekend</string>
+    <string name="alarm.screen.alarms.days_all">Every day</string>
 
     <string name="edit_alarm.screen.alarm_name.label">Name of the alarm</string>
     <string name="edit_alarm.screen.saving.error">Error, alarm not saved</string>
