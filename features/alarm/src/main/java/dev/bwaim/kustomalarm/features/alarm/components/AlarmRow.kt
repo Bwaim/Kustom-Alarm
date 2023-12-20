@@ -84,6 +84,13 @@ public fun AlarmRow(
                 style = MaterialTheme.typography.labelSmall,
             )
         }
+
+        alarm.name?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
     }
 }
 
@@ -120,7 +127,7 @@ private fun Set<DayOfWeek>.toLabel(
         }
 
         else -> {
-            this.joinToString(separator = ",") { it.shortName(locale) }
+            this.joinToString(separator = ", ") { it.shortName(locale) }
         }
     }
 }
