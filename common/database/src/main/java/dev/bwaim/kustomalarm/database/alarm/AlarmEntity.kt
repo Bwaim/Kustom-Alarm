@@ -28,4 +28,5 @@ public data class AlarmEntity(
     @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
     @ColumnInfo(name = "WEEKDAYS") val weekDays: String,
     @ColumnInfo(name = "IS_ONCE") val isOnce: Boolean,
+    @ColumnInfo(name = "IS_ACTIVATED") val isActivated: Boolean,
 )

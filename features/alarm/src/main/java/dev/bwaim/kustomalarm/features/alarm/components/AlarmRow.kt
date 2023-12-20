@@ -60,7 +60,9 @@ public fun AlarmRow(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        KaSwitch()
+        KaSwitch(
+            checked = alarm.isActivated,
+        )
 
         Column(
             modifier = Modifier.padding(horizontal = 15.dp),

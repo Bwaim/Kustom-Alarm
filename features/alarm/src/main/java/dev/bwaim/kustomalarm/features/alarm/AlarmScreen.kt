@@ -143,7 +143,10 @@ private fun AlarmList(
         }
 
         item {
-            AddAlarmButton(addAlarm = addAlarm)
+            AddAlarmButton(
+                addAlarm = addAlarm,
+                modifier = Modifier.padding(top = 30.dp),
+            )
         }
     }
 }

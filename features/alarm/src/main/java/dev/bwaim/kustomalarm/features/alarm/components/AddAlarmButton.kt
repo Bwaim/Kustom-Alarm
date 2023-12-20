@@ -17,14 +17,19 @@
 package dev.bwaim.kustomalarm.features.alarm.components
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
-public fun AddAlarmButton(addAlarm: () -> Unit) {
+public fun AddAlarmButton(
+    addAlarm: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     PrimaryButton(
         text = stringResource(id = string.alarm_screen_no_alarm_add_button),
         onClick = addAlarm,
+        modifier = modifier,
     )
 }

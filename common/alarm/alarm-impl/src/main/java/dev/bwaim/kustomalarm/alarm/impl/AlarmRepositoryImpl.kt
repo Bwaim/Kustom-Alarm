@@ -54,6 +54,7 @@ private fun AlarmEntity.toDomain(): Alarm =
         time = time,
         weekDays = weekDays.toWeekDays(),
         isOnce = isOnce,
+        isActivated = isActivated,
     )
 
 private fun String.toWeekDays(): Set<DayOfWeek> = this.split(",").map { DayOfWeek.of(it.trim().toInt()) }.toSet()
@@ -65,4 +66,5 @@ private fun Alarm.toEntity(): AlarmEntity =
         time = time,
         weekDays = weekDays.joinToString { it.value.toString() },
         isOnce = isOnce,
+        isActivated = isActivated,
     )
