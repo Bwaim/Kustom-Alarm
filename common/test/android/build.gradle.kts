@@ -23,6 +23,10 @@ android {
     namespace = "dev.bwaim.kustomalarm.test.android"
 }
 
+jacocoKustomConfig {
+    hasTests = false
+}
+
 dependencies {
     implementation(projects.common.settings.settingsImpl)
 

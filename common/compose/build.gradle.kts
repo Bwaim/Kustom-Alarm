@@ -23,6 +23,10 @@ android {
     namespace = "dev.bwaim.kustomalarm.compose"
 }
 
+jacocoKustomConfig {
+    hasTests = false
+}
+
 dependencies {
     implementation(projects.common.localisation)
     implementation(projects.common.uiResources)
@@ -38,4 +42,6 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     implementation(libs.snapper)
+
+//    implementation("androidx.compose.material:material-icons-extended:1.6.0-beta03")
 }
