@@ -26,6 +26,10 @@ android {
     }
 }
 
+jacocoKustomConfig {
+    hasTests = false
+}
+
 dependencies {
     implementation(libs.kotlinx.collections.immutable)
 

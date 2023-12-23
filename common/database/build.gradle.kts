@@ -24,7 +24,10 @@ plugins {
 
 android {
     namespace = "dev.bwaim.kustomalarm.database"
+}
 
+jacocoKustomConfig {
+    hasTests = false
 }
 
 dependencies {

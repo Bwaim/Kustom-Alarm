@@ -22,6 +22,10 @@ android {
     namespace = "dev.bwaim.kustomalarm.initializers"
 }
 
+jacocoKustomConfig {
+    hasTests = false
+}
+
 dependencies {
     implementation(libs.androidx.startup)
 

@@ -79,6 +79,10 @@ android {
     }
 }
 
+jacocoKustomConfig {
+    hasTests = false
+}
+
 dependencies {
     implementation(projects.common.alarm.alarmImpl)
     implementation(projects.common.compose)

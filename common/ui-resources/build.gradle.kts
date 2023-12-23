@@ -21,3 +21,7 @@ plugins {
 android {
     namespace = "dev.bwaim.kustomalarm.ui.resources"
 }
+
+jacocoKustomConfig {
+    hasTests = false
+}
