@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
@@ -47,7 +48,6 @@ import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.localisation.R.string
-import kotlinx.collections.immutable.PersistentSet
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
 import java.time.DayOfWeek
@@ -68,75 +68,96 @@ internal fun EditAlarmRoute(
         failureAction = { context.toast(it) },
     )
 
+    val alarm by editViewModel.alarm.collectAsStateWithLifecycle()
+
     EditAlarmScreen(
+        alarm = alarm,
         close = close,
         onSave = editViewModel::saveAlarm,
+        updateAlarmName = editViewModel::updateAlarmName,
+        updateAlarmTime = editViewModel::updateAlarmTime,
+        updateAlarmDays = editViewModel::updateAlarmDays,
     )
 }
 
 @Composable
 private fun EditAlarmScreen(
+    alarm: Alarm?,
     close: () -> Unit,
-    onSave: (Alarm) -> Unit,
+    onSave: () -> Unit,
+    updateAlarmName: (String) -> Unit,
+    updateAlarmTime: (LocalTime) -> Unit,
+    updateAlarmDays: (Set<DayOfWeek>) -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            KaCloseTopAppBar(onClickNavigation = close)
+        },
+    ) { padding ->
+        when (alarm) {
+            null -> TODO()
+            else ->
+                AlarmDetails(
+                    alarm = alarm,
+                    onSave = onSave,
+                    updateAlarmName = updateAlarmName,
+                    updateAlarmTime = updateAlarmTime,
+                    updateAlarmDays = updateAlarmDays,
+                    modifier = Modifier.padding(padding),
+                )
+        }
+    }
+}
+
+@Composable
+private fun AlarmDetails(
+    alarm: Alarm,
+    onSave: () -> Unit,
+    updateAlarmName: (String) -> Unit,
+    updateAlarmTime: (LocalTime) -> Unit,
+    updateAlarmDays: (Set<DayOfWeek>) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val currentLocale = remember { context.getAppLocale() }
 
     val alarmName: MutableState<String?> =
         remember {
-            mutableStateOf(null)
-        }
-    val alarmTime: MutableState<LocalTime> =
-        remember {
-            mutableStateOf(LocalTime.of(7, 0))
-        }
-    val daysOfWeek: MutableState<PersistentSet<DayOfWeek>> =
-        remember {
-            mutableStateOf(persistentSetOf())
+            mutableStateOf(alarm.name)
         }
 
-    Scaffold(
-        topBar = {
-            KaCloseTopAppBar(onClickNavigation = close)
-        },
-    ) { padding ->
-        Column(
+    Column(
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .padding(horizontal = 16.dp),
+    ) {
+        AlarmName(
+            name = alarm.name,
+            onValueChange = {
+                alarmName.value = it
+                updateAlarmName(it)
+            },
+        )
+        KaTimePicker(
+            modifier = Modifier.padding(vertical = 5.dp),
+            initialValue = alarm.time,
+            onValueChanged = updateAlarmTime,
+        )
+        KaDaySelector(
+            locale = currentLocale,
+            initialValue = alarm.weekDays.toPersistentSet(),
+            onValueChanged = { updateAlarmDays(it.toPersistentSet()) },
+        )
+
+        PrimaryButton(
             modifier =
                 Modifier
-                    .fillMaxHeight()
-                    .padding(padding)
-                    .padding(horizontal = 16.dp),
-        ) {
-            AlarmName(
-                name = alarmName.value,
-                onValueChange = { alarmName.value = it },
-            )
-            KaTimePicker(
-                modifier = Modifier.padding(vertical = 5.dp),
-                onValueChanged = { alarmTime.value = it },
-            )
-            KaDaySelector(
-                locale = currentLocale,
-                onValueChanged = { daysOfWeek.value = it.toPersistentSet() },
-            )
-
-            PrimaryButton(
-                modifier =
-                    Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 40.dp),
-                text = stringResource(id = string.global_action_save),
-                onClick = {
-                    onSave(
-                        Alarm(
-                            name = alarmName.value,
-                            time = alarmTime.value,
-                            weekDays = daysOfWeek.value,
-                        ),
-                    )
-                },
-            )
-        }
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 40.dp),
+            text = stringResource(id = string.global_action_save),
+            onClick = onSave,
+        )
     }
 }
 
@@ -173,8 +194,17 @@ private fun AlarmName(
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(
+            alarm =
+                Alarm(
+                    name = null,
+                    time = LocalTime.of(7, 0),
+                    weekDays = persistentSetOf(),
+                ),
             close = {},
             onSave = {},
+            updateAlarmName = {},
+            updateAlarmTime = {},
+            updateAlarmDays = {},
         )
     }
 }

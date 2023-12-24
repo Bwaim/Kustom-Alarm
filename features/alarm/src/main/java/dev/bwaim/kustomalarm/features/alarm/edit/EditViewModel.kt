@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.features.alarm.edit
 
 import android.content.Context
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,11 +29,18 @@ import dev.bwaim.kustomalarm.core.Result.Success
 import dev.bwaim.kustomalarm.core.SaveEvents
 import dev.bwaim.kustomalarm.core.android.extensions.formatDuration
 import dev.bwaim.kustomalarm.core.extentions.durationTo
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.EditAlarmArgs
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -40,27 +48,76 @@ import javax.inject.Inject
 internal class EditViewModel
     @Inject
     constructor(
+        savedStateHandle: SavedStateHandle,
         @ApplicationContext private val context: Context,
         private val alarmService: AlarmService,
     ) : ViewModel() {
-        private val _saveEventsFlow: MutableSharedFlow<SaveEvents> = MutableSharedFlow(extraBufferCapacity = 1)
+        private val args = EditAlarmArgs(savedStateHandle)
+        private val alarmId = args.alarmId
+
+        private val _saveEventsFlow: MutableSharedFlow<SaveEvents> =
+            MutableSharedFlow(extraBufferCapacity = 1)
         val saveEventsFlow: SharedFlow<SaveEvents> = _saveEventsFlow.asSharedFlow()
 
-        fun saveAlarm(alarm: Alarm) {
-            viewModelScope.launch {
-                val event =
-                    when (alarmService.saveAlarm(alarm = alarm)) {
-                        is Success -> {
-                            val now = LocalTime.now()
-                            val adjustedNow = LocalTime.of(now.hour, now.minute)
-                            val duration = adjustedNow.durationTo(alarm.time)
-                            val timeBeforeAlarm = context.formatDuration(duration)
+        private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
+        val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
 
-                            SaveEvents.Success(context.getString(string.edit_alarm_screen_saving_success, timeBeforeAlarm))
+        init {
+            viewModelScope.launch {
+                _alarm.update {
+                    if (alarmId == NO_ALARM) {
+                        alarmService.getDefaultAlarm()
+                    } else {
+                        when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
+                            is Success -> alarm.value
+                            is Error -> TODO()
                         }
-                        is Error -> SaveEvents.Failure(context.getString(string.edit_alarm_screen_saving_error))
                     }
-                _saveEventsFlow.tryEmit(event)
+                }
+            }
+        }
+
+        fun saveAlarm() {
+            alarm.value?.let { alarm ->
+                viewModelScope.launch {
+                    val event =
+                        when (alarmService.saveAlarm(alarm = alarm)) {
+                            is Success -> {
+                                val now = LocalTime.now()
+                                val adjustedNow = LocalTime.of(now.hour, now.minute)
+                                val duration = adjustedNow.durationTo(alarm.time)
+                                val timeBeforeAlarm = context.formatDuration(duration)
+
+                                SaveEvents.Success(
+                                    context.getString(
+                                        string.edit_alarm_screen_saving_success,
+                                        timeBeforeAlarm,
+                                    ),
+                                )
+                            }
+
+                            is Error -> SaveEvents.Failure(context.getString(string.edit_alarm_screen_saving_error))
+                        }
+                    _saveEventsFlow.tryEmit(event)
+                }
+            }
+        }
+
+        fun updateAlarmName(name: String) {
+            _alarm.update {
+                it?.copy(name = name)
+            }
+        }
+
+        fun updateAlarmTime(time: LocalTime) {
+            _alarm.update {
+                it?.copy(time = time)
+            }
+        }
+
+        fun updateAlarmDays(days: Set<DayOfWeek>) {
+            _alarm.update {
+                it?.copy(weekDays = days)
             }
         }
     }

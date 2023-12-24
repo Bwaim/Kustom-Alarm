@@ -125,6 +125,17 @@ internal class AlarmServiceTest {
                 resAlarmThisDay,
             )
         }
+
+    @Test
+    fun alarmService_get_default() {
+        val expectedAlarm = defaultAlarm
+
+        val resAlarm = subject.getDefaultAlarm()
+        Assert.assertEquals(
+            expectedAlarm,
+            resAlarm,
+        )
+    }
 }
 
 private val testAlarms =
@@ -147,4 +158,11 @@ private val testAlarms =
             time = LocalTime.of(9, 0),
             weekDays = setOf(DayOfWeek.SUNDAY),
         ),
+    )
+
+private val defaultAlarm =
+    Alarm(
+        name = null,
+        time = LocalTime.of(7, 0),
+        weekDays = emptySet(),
     )

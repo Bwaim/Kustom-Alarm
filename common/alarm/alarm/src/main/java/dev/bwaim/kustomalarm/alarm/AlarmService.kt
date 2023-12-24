@@ -38,6 +38,13 @@ public class AlarmService
         public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
             executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }
 
+        public fun getDefaultAlarm(): Alarm =
+            Alarm(
+                name = null,
+                time = LocalTime.of(7, 0),
+                weekDays = emptySet(),
+            )
+
         public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> =
             executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm.completeDefault()) }
 
