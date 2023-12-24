@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -46,6 +47,7 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.features.alarm.components.AddAlarmButton
 import dev.bwaim.kustomalarm.features.alarm.components.AlarmRow
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.collections.immutable.PersistentList
@@ -58,7 +60,7 @@ import java.time.LocalTime
 @Composable
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
-    addAlarm: () -> Unit,
+    addAlarm: (Int) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -75,7 +77,7 @@ internal fun AlarmRoute(
 private fun AlarmScreen(
     alarms: PersistentList<Alarm>?,
     openDrawer: () -> Unit,
-    addAlarm: () -> Unit,
+    addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
 ) {
     Scaffold(
@@ -88,11 +90,10 @@ private fun AlarmScreen(
         Column(
             modifier =
                 Modifier
-                    .padding(padding)
-                    .padding(horizontal = 16.dp),
+                    .padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            SurfaceCard {
+            SurfaceCard(modifier = Modifier.padding(horizontal = 16.dp)) {
                 Header(
                     title = stringResource(id = string.alarm_screen_titre),
                     imageRes = drawable.alarm_background,
@@ -121,19 +122,19 @@ private fun AlarmScreen(
 }
 
 @Composable
-private fun ColumnScope.NoAlarm(addAlarm: () -> Unit) {
+private fun ColumnScope.NoAlarm(addAlarm: (Int) -> Unit) {
     Text(
         text = stringResource(id = string.alarm_screen_no_alarm_msg),
         style = MaterialTheme.typography.headlineSmall,
     )
     Spacer(modifier = Modifier.height(60.dp))
-    AddAlarmButton(addAlarm = addAlarm)
+    AddAlarmButton(addAlarm = { addAlarm(NO_ALARM) })
 }
 
 @Composable
 private fun AlarmList(
     alarms: PersistentList<Alarm>,
-    addAlarm: () -> Unit,
+    addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -151,7 +152,11 @@ private fun AlarmList(
             val item = alarms[index]
             AlarmRow(
                 alarm = item,
-                modifier = Modifier.padding(bottom = 5.dp),
+                modifier =
+                    Modifier
+                        .clickable { addAlarm(item.id) }
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 5.dp),
                 locale = currentLocale,
                 updateAlarm = updateAlarm,
             )
@@ -159,7 +164,7 @@ private fun AlarmList(
 
         item {
             AddAlarmButton(
-                addAlarm = addAlarm,
+                addAlarm = { addAlarm(NO_ALARM) },
                 modifier = Modifier.padding(top = 30.dp),
             )
         }

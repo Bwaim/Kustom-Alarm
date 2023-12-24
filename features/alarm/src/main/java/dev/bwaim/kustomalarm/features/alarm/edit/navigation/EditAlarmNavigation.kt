@@ -29,6 +29,7 @@ import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
+public const val NO_ALARM: Int = -1
 public const val ALARM_ID_ARG: String = "ALARM_ID_ARG"
 
 public const val EDIT_ALARM_NAVIGATION_ROUTE: String = "alarm/edit/{$ALARM_ID_ARG}"
@@ -50,7 +51,7 @@ private object EditAlarmRoute : Route {
 }
 
 public fun NavController.navigateToEditAlarmScreen(
-    alarmId: Int = -1,
+    alarmId: Int = NO_ALARM,
     navOptions: NavOptions? = null,
 ) {
     val params =
