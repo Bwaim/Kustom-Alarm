@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.Header
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
+import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.SurfaceCard
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
@@ -71,7 +73,7 @@ internal fun AlarmRoute(
 
 @Composable
 private fun AlarmScreen(
-    alarms: PersistentList<Alarm>,
+    alarms: PersistentList<Alarm>?,
     openDrawer: () -> Unit,
     addAlarm: () -> Unit,
     updateAlarm: (Alarm) -> Unit,
@@ -98,6 +100,14 @@ private fun AlarmScreen(
             }
             Spacer(modifier = Modifier.height(30.dp))
             when {
+                alarms == null ->
+                    KaLoader(
+                        modifier =
+                            Modifier
+                                .size(50.dp)
+                                .align(Alignment.CenterHorizontally),
+                    )
+
                 alarms.isEmpty() -> NoAlarm(addAlarm = addAlarm)
                 else ->
                     AlarmList(
@@ -176,9 +186,27 @@ private fun PreviewAlarmScreenWithAlarms() {
         AlarmScreen(
             alarms =
                 persistentListOf(
-                    Alarm(id = 2, name = null, time = LocalTime.of(10, 0), weekDays = setOf(SATURDAY), isOnce = false),
-                    Alarm(id = 1, name = "alarm1", time = LocalTime.of(7, 35), weekDays = setOf(MONDAY, TUESDAY), isOnce = false),
-                    Alarm(id = 3, name = null, time = LocalTime.of(16, 45), weekDays = setOf(), isOnce = true),
+                    Alarm(
+                        id = 2,
+                        name = null,
+                        time = LocalTime.of(10, 0),
+                        weekDays = setOf(SATURDAY),
+                        isOnce = false,
+                    ),
+                    Alarm(
+                        id = 1,
+                        name = "alarm1",
+                        time = LocalTime.of(7, 35),
+                        weekDays = setOf(MONDAY, TUESDAY),
+                        isOnce = false,
+                    ),
+                    Alarm(
+                        id = 3,
+                        name = null,
+                        time = LocalTime.of(16, 45),
+                        weekDays = setOf(),
+                        isOnce = true,
+                    ),
                 ),
             openDrawer = {},
             addAlarm = {},
