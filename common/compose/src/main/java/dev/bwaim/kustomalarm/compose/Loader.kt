@@ -17,20 +17,27 @@
 package dev.bwaim.kustomalarm.compose
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 
 @Composable
-public fun KaLoader(modifier: Modifier = Modifier) {
+public fun KaLoader(
+    modifier: Modifier = Modifier,
+    size: Dp = 50.dp,
+) {
     Box(modifier = modifier) {
         CircularProgressIndicator(
-            modifier = Modifier.fillMaxSize(),
+            modifier =
+                Modifier
+                    .size(size)
+                    .align(Alignment.Center),
         )
     }
 }
@@ -42,8 +49,7 @@ private fun PreviewKaLoader() {
         KaLoader(
             modifier =
                 Modifier
-                    .padding(5.dp)
-                    .size(50.dp),
+                    .padding(5.dp),
         )
     }
 }

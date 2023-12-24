@@ -62,6 +62,9 @@ internal class EditViewModel
         private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
         val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
 
+        private val _errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
+        val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+
         init {
             viewModelScope.launch {
                 _alarm.update {
@@ -70,7 +73,12 @@ internal class EditViewModel
                     } else {
                         when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
                             is Success -> alarm.value
-                            is Error -> TODO()
+                            is Error -> {
+                                _errorMessage.update {
+                                    context.getString(string.edit_alarm_screen_getting_error)
+                                }
+                                it
+                            }
                         }
                     }
                 }

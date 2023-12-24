@@ -20,6 +20,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -37,8 +38,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
+import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.KaTimePicker
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
@@ -69,9 +72,11 @@ internal fun EditAlarmRoute(
     )
 
     val alarm by editViewModel.alarm.collectAsStateWithLifecycle()
+    val errorMessage by editViewModel.errorMessage.collectAsStateWithLifecycle()
 
     EditAlarmScreen(
         alarm = alarm,
+        errorMessage = errorMessage,
         close = close,
         onSave = editViewModel::saveAlarm,
         updateAlarmName = editViewModel::updateAlarmName,
@@ -83,6 +88,7 @@ internal fun EditAlarmRoute(
 @Composable
 private fun EditAlarmScreen(
     alarm: Alarm?,
+    errorMessage: String?,
     close: () -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
@@ -94,8 +100,22 @@ private fun EditAlarmScreen(
             KaCloseTopAppBar(onClickNavigation = close)
         },
     ) { padding ->
-        when (alarm) {
-            null -> TODO()
+        when {
+            errorMessage != null ->
+                KaCloseErrorMessage(
+                    errorMessage = errorMessage,
+                    close = close,
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                )
+
+            alarm == null ->
+                KaLoader(
+                    modifier = Modifier.padding(padding).fillMaxSize(),
+                )
             else ->
                 AlarmDetails(
                     alarm = alarm,
@@ -200,6 +220,7 @@ private fun PreviewEditAlarmScreen() {
                     time = LocalTime.of(7, 0),
                     weekDays = persistentSetOf(),
                 ),
+            errorMessage = null,
             close = {},
             onSave = {},
             updateAlarmName = {},
