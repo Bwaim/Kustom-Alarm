@@ -47,4 +47,10 @@ internal class AlarmViewModel
                 alarmService.saveAlarm(alarm = alarm)
             }
         }
+
+        fun deleteAlarm(alarmId: Int) {
+            viewModelScope.launch {
+                alarmService.deleteAlarm(alarmId)
+            }
+        }
     }

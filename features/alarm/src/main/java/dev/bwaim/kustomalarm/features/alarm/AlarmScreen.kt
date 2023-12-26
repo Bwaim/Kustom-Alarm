@@ -70,6 +70,7 @@ internal fun AlarmRoute(
         openDrawer = openDrawer,
         addAlarm = addAlarm,
         updateAlarm = viewModel::updateAlarm,
+        deleteAlarm = viewModel::deleteAlarm,
     )
 }
 
@@ -79,6 +80,7 @@ private fun AlarmScreen(
     openDrawer: () -> Unit,
     addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
+    deleteAlarm: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -115,6 +117,7 @@ private fun AlarmScreen(
                         alarms = alarms,
                         addAlarm = addAlarm,
                         updateAlarm = updateAlarm,
+                        deleteAlarm = deleteAlarm,
                     )
             }
         }
@@ -136,6 +139,7 @@ private fun AlarmList(
     alarms: PersistentList<Alarm>,
     addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
+    deleteAlarm: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -159,6 +163,7 @@ private fun AlarmList(
                         .padding(bottom = 5.dp),
                 locale = currentLocale,
                 updateAlarm = updateAlarm,
+                deleteAlarm = { deleteAlarm(item.id) },
             )
         }
 
@@ -180,6 +185,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             openDrawer = {},
             addAlarm = {},
             updateAlarm = {},
+            deleteAlarm = {},
         )
     }
 }
@@ -216,6 +222,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             openDrawer = {},
             addAlarm = {},
             updateAlarm = {},
+            deleteAlarm = {},
         )
     }
 }
