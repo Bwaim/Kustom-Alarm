@@ -30,6 +30,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
+import dev.bwaim.kustomalarm.compose.KaConfirmDiscardChangesAlertDialog
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
 import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.KaTimePicker
@@ -74,14 +76,33 @@ internal fun EditAlarmRoute(
     val alarm by editViewModel.alarm.collectAsStateWithLifecycle()
     val errorMessage by editViewModel.errorMessage.collectAsStateWithLifecycle()
 
+    var showModificationMessage by remember {
+        mutableStateOf(false)
+    }
+
+    val internalClose =
+        remember(editViewModel) {
+            {
+                showModificationMessage =
+                    if (editViewModel.hasModification() && !showModificationMessage) {
+                        true
+                    } else {
+                        close()
+                        false
+                    }
+            }
+        }
+
     EditAlarmScreen(
         alarm = alarm,
         errorMessage = errorMessage,
-        close = close,
+        showModificationMessage = showModificationMessage,
+        close = internalClose,
         onSave = editViewModel::saveAlarm,
         updateAlarmName = editViewModel::updateAlarmName,
         updateAlarmTime = editViewModel::updateAlarmTime,
         updateAlarmDays = editViewModel::updateAlarmDays,
+        hideModificationMessage = { showModificationMessage = false },
     )
 }
 
@@ -89,11 +110,13 @@ internal fun EditAlarmRoute(
 private fun EditAlarmScreen(
     alarm: Alarm?,
     errorMessage: String?,
+    showModificationMessage: Boolean,
     close: () -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
     updateAlarmDays: (Set<DayOfWeek>) -> Unit,
+    hideModificationMessage: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -114,8 +137,12 @@ private fun EditAlarmScreen(
 
             alarm == null ->
                 KaLoader(
-                    modifier = Modifier.padding(padding).fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .fillMaxSize(),
                 )
+
             else ->
                 AlarmDetails(
                     alarm = alarm,
@@ -126,6 +153,17 @@ private fun EditAlarmScreen(
                     modifier = Modifier.padding(padding),
                 )
         }
+    }
+
+    if (showModificationMessage) {
+        KaConfirmDiscardChangesAlertDialog(
+            text = stringResource(id = string.global_save_modifications_message),
+            onConfirmation = {
+                onSave()
+                hideModificationMessage()
+            },
+            onDismissRequest = close,
+        )
     }
 }
 
@@ -221,11 +259,13 @@ private fun PreviewEditAlarmScreen() {
                     weekDays = persistentSetOf(),
                 ),
             errorMessage = null,
+            showModificationMessage = false,
             close = {},
             onSave = {},
             updateAlarmName = {},
             updateAlarmTime = {},
             updateAlarmDays = {},
+            hideModificationMessage = {},
         )
     }
 }

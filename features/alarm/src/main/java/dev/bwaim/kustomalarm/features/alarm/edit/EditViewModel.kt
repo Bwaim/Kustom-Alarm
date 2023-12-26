@@ -61,6 +61,7 @@ internal class EditViewModel
 
         private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
         val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
+        private var initialAlarm: Alarm? = null
 
         private val _errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
         val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
@@ -82,6 +83,7 @@ internal class EditViewModel
                         }
                     }
                 }
+                initialAlarm = _alarm.value
             }
         }
 
@@ -127,5 +129,9 @@ internal class EditViewModel
             _alarm.update {
                 it?.copy(weekDays = days)
             }
+        }
+
+        fun hasModification(): Boolean {
+            return initialAlarm != _alarm.value
         }
     }
