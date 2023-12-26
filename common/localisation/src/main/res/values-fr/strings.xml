@@ -22,6 +22,7 @@
     <string name="global.action.save">Enregistrer</string>
     <string name="global.action.ignore">Ignorer</string>
     <string name="global.action.more">Plus</string>
+    <string name="global.action.delete">Supprimer</string>
     <string name="global.save.modifications_message">Enregistrer les modifications ?</string>
 
     <string name="global.today">Aujourd\'hui</string>
