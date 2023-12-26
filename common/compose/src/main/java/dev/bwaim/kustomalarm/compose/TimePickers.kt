@@ -44,16 +44,14 @@ import kotlinx.collections.immutable.toPersistentList
 import java.text.NumberFormat
 import java.time.LocalTime
 
-// https://chrisbanes.github.io/snapper/
-// https://github.com/commandiron/WheelPickerCompose/blob/master/wheel-picker-compose/src/main/java/com/commandiron/wheel_picker_compose/core/WheelPicker.kt
-
 @Composable
 public fun KaTimePicker(
     modifier: Modifier = Modifier,
+    initialValue: LocalTime = LocalTime.of(7, 0),
     onValueChanged: (LocalTime) -> Unit = {},
 ) {
-    var hours by remember { mutableIntStateOf(0) }
-    var minutes by remember { mutableIntStateOf(0) }
+    var hours by remember { mutableIntStateOf(initialValue.hour) }
+    var minutes by remember { mutableIntStateOf(initialValue.minute) }
 
     LaunchedEffect(hours, minutes) {
         onValueChanged(LocalTime.of(hours, minutes))
@@ -67,6 +65,7 @@ public fun KaTimePicker(
             color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.6f),
             modifier = Modifier.clip(MaterialTheme.shapes.medium),
         ) {
+            // Invisible row for sizing the Surface
             Row(
                 modifier =
                     Modifier
@@ -87,7 +86,7 @@ public fun KaTimePicker(
             WheelPicker(
                 items = (0..23).toPersistentList(),
                 nbVisibleItems = 3,
-                startIndex = 7,
+                startIndex = hours,
                 onValueChanged = { hour -> hours = hour },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)
@@ -98,6 +97,7 @@ public fun KaTimePicker(
             WheelPicker(
                 items = (0..59).toPersistentList(),
                 nbVisibleItems = 3,
+                startIndex = minutes,
                 onValueChanged = { minute -> minutes = minute },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)

@@ -31,6 +31,8 @@ import dev.bwaim.kustomalarm.compose.KaFilterChip
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.extentions.shortName
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentList
 import java.time.DayOfWeek
 import java.util.Locale
@@ -38,6 +40,7 @@ import java.util.Locale
 @Composable
 internal fun KaDaySelector(
     modifier: Modifier = Modifier,
+    initialValue: PersistentSet<DayOfWeek> = persistentSetOf(),
     locale: Locale = Locale.ENGLISH,
     onValueChanged: (Set<DayOfWeek>) -> Unit = {},
 ) {
@@ -48,7 +51,7 @@ internal fun KaDaySelector(
 
     val selectedDays: MutableSet<DayOfWeek> =
         remember {
-            mutableSetOf()
+            initialValue.toMutableSet()
         }
 
     Row(
@@ -64,7 +67,7 @@ internal fun KaDaySelector(
                         style = MaterialTheme.typography.labelSmall,
                     )
                 },
-                initialSelected = false,
+                initialSelected = selectedDays.contains(value),
                 onClick = {
                     if (selectedDays.contains(value)) {
                         selectedDays.remove(value)

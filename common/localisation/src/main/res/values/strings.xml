@@ -20,6 +20,8 @@
     <string name="navigation.close.content_description">Close</string>
 
     <string name="global.action.save">Save</string>
+    <string name="global.action.ignore">Ignore</string>
+    <string name="global.save.modifications_message">Save the modifications?</string>
 
     <string name="global.today">Today</string>
     <string name="global.tomorrow">Tomorrow</string>
@@ -34,6 +36,7 @@
     <string name="edit_alarm.screen.alarm_name.label">Name of the alarm</string>
     <string name="edit_alarm.screen.saving.error">Error, alarm not saved</string>
     <string name="edit_alarm.screen.saving.success">Alarm set to %1$s</string>
+    <string name="edit_alarm.screen.getting.error">An error occurred, impossible to get alarm details</string>
 
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>

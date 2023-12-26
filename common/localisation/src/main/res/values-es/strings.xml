@@ -20,6 +20,8 @@
     <string name="navigation.close.content_description">Cerrar</string>
 
     <string name="global.action.save">Guardar</string>
+    <string name="global.action.ignore">Ignorar</string>
+    <string name="global.save.modifications_message">Guardar las modificaciones?</string>
 
     <string name="global.today">Hoy</string>
     <string name="global.tomorrow">Mañana</string>
@@ -34,6 +36,7 @@
     <string name="edit_alarm.screen.alarm_name.label">Nombre de la alarma</string>
     <string name="edit_alarm.screen.saving.error">Error, alarma no guardada</string>
     <string name="edit_alarm.screen.saving.success">Alarm programada en %1$s</string>
+    <string name="edit_alarm.screen.getting.error">Ha occurido un error, no se puede obtener los detalles de la alarma</string>
 
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>

@@ -17,40 +17,39 @@
 package dev.bwaim.kustomalarm.compose
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.DividerDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import androidx.compose.ui.unit.dp
+import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 
 @Composable
-public fun KaHorizontalDivider(
+public fun KaLoader(
     modifier: Modifier = Modifier,
-    thickness: Dp = DividerDefaults.Thickness,
-    color: Color = DividerDefaults.color,
+    size: Dp = 50.dp,
 ) {
-    HorizontalDivider(
-        modifier = modifier,
-        thickness = thickness,
-        color = color,
-    )
+    Box(modifier = modifier) {
+        CircularProgressIndicator(
+            modifier =
+                Modifier
+                    .size(size)
+                    .align(Alignment.Center),
+        )
+    }
 }
 
 @Composable
 @PreviewsKAlarm
-private fun PreviewKaHorizontalDivider() {
-    KustomAlarmTheme {
-        KaBackground {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                KaHorizontalDivider()
-            }
-        }
+private fun PreviewKaLoader() {
+    KustomAlarmThemePreview {
+        KaLoader(
+            modifier =
+                Modifier
+                    .padding(5.dp),
+        )
     }
 }

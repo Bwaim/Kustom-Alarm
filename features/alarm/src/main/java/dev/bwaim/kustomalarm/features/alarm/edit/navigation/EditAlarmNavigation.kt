@@ -16,28 +16,49 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit.navigation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import dev.bwaim.kustomalarm.features.alarm.edit.EditAlarmRoute
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
-public const val EDIT_ALARM_NAVIGATION_ROUTE: String = "alarm/edit"
+public const val NO_ALARM: Int = -1
+public const val ALARM_ID_ARG: String = "ALARM_ID_ARG"
+
+public const val EDIT_ALARM_NAVIGATION_ROUTE: String = "alarm/edit/{$ALARM_ID_ARG}"
+
+internal class EditAlarmArgs(val alarmId: Int) {
+    constructor(savedStateHandle: SavedStateHandle) :
+        this(alarmId = (checkNotNull(savedStateHandle[ALARM_ID_ARG]) as Int))
+}
 
 private object EditAlarmRoute : Route {
     override val baseRoutePattern: String = EDIT_ALARM_NAVIGATION_ROUTE
-    override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
+    override val mandatoryArguments: PersistentList<NamedNavArgument> =
+        persistentListOf(
+            navArgument(ALARM_ID_ARG) { type = NavType.IntType },
+        )
     override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState(allowToOpenDrawer = false)
 }
 
-public fun NavController.navigateToEditAlarmScreen(navOptions: NavOptions? = null) {
-    this.navigate(EditAlarmRoute.buildRoute(), navOptions)
+public fun NavController.navigateToEditAlarmScreen(
+    alarmId: Int = NO_ALARM,
+    navOptions: NavOptions? = null,
+) {
+    val params =
+        persistentListOf(
+            ALARM_ID_ARG to alarmId,
+        )
+    this.navigate(EditAlarmRoute.buildRoute(params = params), navOptions)
 }
 
 public fun NavGraphBuilder.editAlarmScreen(close: () -> Unit) {
