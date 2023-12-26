@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -39,12 +40,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.compose.DeleteDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaConfirmDiscardChangesAlertDialog
 import dev.bwaim.kustomalarm.compose.KaLargeTextField
 import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.KaTimePicker
+import dev.bwaim.kustomalarm.compose.MoreActionIcon
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.SaveEventsEffect
@@ -103,6 +106,10 @@ internal fun EditAlarmRoute(
         updateAlarmTime = editViewModel::updateAlarmTime,
         updateAlarmDays = editViewModel::updateAlarmDays,
         hideModificationMessage = { showModificationMessage = false },
+        deleteAlarm = {
+            editViewModel.deleteAlarm()
+            close()
+        },
     )
 }
 
@@ -117,10 +124,25 @@ private fun EditAlarmScreen(
     updateAlarmTime: (LocalTime) -> Unit,
     updateAlarmDays: (Set<DayOfWeek>) -> Unit,
     hideModificationMessage: () -> Unit,
+    deleteAlarm: () -> Unit,
 ) {
+    var moreMenuExpanded by remember {
+        mutableStateOf(false)
+    }
+
     Scaffold(
         topBar = {
-            KaCloseTopAppBar(onClickNavigation = close)
+            KaCloseTopAppBar(
+                onClickNavigation = close,
+                actions = {
+                    MoreActionIcon(onClick = { moreMenuExpanded = true })
+                    EditDropDownMenu(
+                        expanded = moreMenuExpanded,
+                        onDismissRequest = { moreMenuExpanded = false },
+                        onDelete = deleteAlarm,
+                    )
+                },
+            )
         },
     ) { padding ->
         when {
@@ -164,6 +186,20 @@ private fun EditAlarmScreen(
             },
             onDismissRequest = close,
         )
+    }
+}
+
+@Composable
+private fun EditDropDownMenu(
+    expanded: Boolean,
+    onDismissRequest: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = onDismissRequest,
+    ) {
+        DeleteDropDownMenuItem(onDelete = onDelete)
     }
 }
 
@@ -266,6 +302,7 @@ private fun PreviewEditAlarmScreen() {
             updateAlarmTime = {},
             updateAlarmDays = {},
             hideModificationMessage = {},
+            deleteAlarm = {},
         )
     }
 }

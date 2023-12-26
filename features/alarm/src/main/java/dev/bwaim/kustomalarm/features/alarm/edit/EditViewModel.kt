@@ -134,4 +134,12 @@ internal class EditViewModel
         fun hasModification(): Boolean {
             return initialAlarm != _alarm.value
         }
+
+        fun deleteAlarm() {
+            viewModelScope.launch {
+                if (alarmId != NO_ALARM) {
+                    alarmService.deleteAlarm(alarmId = alarmId)
+                }
+            }
+        }
     }
