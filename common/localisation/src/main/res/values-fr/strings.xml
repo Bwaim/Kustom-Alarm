@@ -20,6 +20,8 @@
     <string name="navigation.close.content_description">fermer</string>
 
     <string name="global.action.save">Enregistrer</string>
+    <string name="global.action.ignore">Ignorer</string>
+    <string name="global.save.modifications_message">Enregistrer les modifications ?</string>
 
     <string name="global.today">Aujourd\'hui</string>
     <string name="global.tomorrow">Demain</string>
