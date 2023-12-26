@@ -280,6 +280,7 @@ private fun AlarmName(
         modifier = Modifier.fillMaxWidth(),
         label = label,
         interactionSource = interactionSource,
+        maxLines = 1,
     )
 }
 
