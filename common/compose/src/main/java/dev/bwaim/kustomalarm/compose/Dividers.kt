@@ -18,8 +18,8 @@ package dev.bwaim.kustomalarm.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,12 +28,12 @@ import androidx.compose.ui.unit.Dp
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 
 @Composable
-public fun HorizontalDivider(
+public fun KaHorizontalDivider(
     modifier: Modifier = Modifier,
     thickness: Dp = DividerDefaults.Thickness,
     color: Color = DividerDefaults.color,
 ) {
-    Divider(
+    HorizontalDivider(
         modifier = modifier,
         thickness = thickness,
         color = color,
@@ -42,14 +42,14 @@ public fun HorizontalDivider(
 
 @Composable
 @PreviewsKAlarm
-private fun PreviewHorizontalDivider() {
+private fun PreviewKaHorizontalDivider() {
     KustomAlarmTheme {
         KaBackground {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                HorizontalDivider()
+                KaHorizontalDivider()
             }
         }
     }

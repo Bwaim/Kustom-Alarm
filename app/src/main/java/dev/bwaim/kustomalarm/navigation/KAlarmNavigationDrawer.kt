@@ -45,8 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.bwaim.kustomalarm.R.string
-import dev.bwaim.kustomalarm.compose.HorizontalDivider
 import dev.bwaim.kustomalarm.compose.KaBackground
+import dev.bwaim.kustomalarm.compose.KaHorizontalDivider
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.settings.navigation.SettingsNavigationDrawerItem
@@ -77,7 +77,7 @@ internal fun KaNavigationDrawer(
                         scope.launch { drawerState.close() }
                     },
                 )
-                HorizontalDivider(
+                KaHorizontalDivider(
                     modifier = Modifier.padding(horizontal = 12.dp),
                     thickness = 2.dp,
                 )
