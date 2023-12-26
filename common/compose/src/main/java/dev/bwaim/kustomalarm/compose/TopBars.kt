@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons.AutoMirrored.Filled
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -133,6 +134,22 @@ public fun SaveActionIcon(
     ) {
         Icon(
             imageVector = Icons.Filled.Save,
+            contentDescription = stringResource(id = string.global_action_save),
+        )
+    }
+}
+
+@Composable
+public fun MoreActionIcon(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = onClick,
+    ) {
+        Icon(
+            imageVector = Icons.Filled.MoreVert,
             contentDescription = stringResource(id = string.global_action_save),
         )
     }
