@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         val debug by getting {
-            extra.set("enableCrashlytics", false)
+            extra.set("enableCrashlytics", true)
 
             applicationIdSuffix = ".debug"
 

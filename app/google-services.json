@@ -1,94 +1,45 @@
 {
   "project_info": {
-    "project_number": "86488033177",
-    "project_id": "kustom-alarm",
-    "storage_bucket": "kustom-alarm.appspot.com"
+    "project_number": "814489196614",
+    "project_id": "klock-19429",
+    "storage_bucket": "klock-19429.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:86488033177:android:8addc62fb961df5357d508",
+        "mobilesdk_app_id": "1:814489196614:android:3a399e1500280f8b09d247",
         "android_client_info": {
           "package_name": "dev.bwaim.kustomalarm"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD3ImI4b6GlGe-mw-9H78kLs4WtrfvmGss"
+          "current_key": "AIzaSyC2CygBvv1Nl3D7SsXgJY7nkRGZuo5cqIM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:86488033177:android:73c7905bae2baa0d57d508",
-        "android_client_info": {
-          "package_name": "dev.bwaim.kustomalarm.benchmark"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD3ImI4b6GlGe-mw-9H78kLs4WtrfvmGss"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:86488033177:android:c30ba90162de74a657d508",
+        "mobilesdk_app_id": "1:814489196614:android:c7cadbf531be959d09d247",
         "android_client_info": {
           "package_name": "dev.bwaim.kustomalarm.debug"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD3ImI4b6GlGe-mw-9H78kLs4WtrfvmGss"
+          "current_key": "AIzaSyC2CygBvv1Nl3D7SsXgJY7nkRGZuo5cqIM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "86488033177-qp6ms5gsdp9cnv21l23q4ktho0o9r34r.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
