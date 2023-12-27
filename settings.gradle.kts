@@ -22,6 +22,8 @@ include(":benchmarks")
 
 include(":common:alarm:alarm")
 include(":common:alarm:alarm-impl")
+include(":common:analytics:analytics")
+include(":common:analytics:analytics-impl")
 include(":common:compose")
 include(":common:core:core")
 include(":common:core:core-android")

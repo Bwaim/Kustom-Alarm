@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-}
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.settings.settings)
+package dev.bwaim.kustomalarm.testing.repository
 
-    implementation(libs.kotlin.coroutines.test)
+import dev.bwaim.kustomalarm.analytics.AnalyticsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 
-    implementation(libs.junit.library)
-    implementation(libs.cash.turbine)
+public class TestAnalyticsRepository : AnalyticsRepository {
+    public val events: MutableStateFlow<Pair<String, String>?> = MutableStateFlow(null)
+
+    override suspend fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    ) {
+        events.value = screenName to screenClass
+    }
 }

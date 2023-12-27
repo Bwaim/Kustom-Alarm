@@ -15,29 +15,17 @@
  */
 plugins {
     id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
+    id("kustomalarm.hilt")
+
+    id ("kustomalarm.test")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
-
-jacocoKustomConfig {
-    hasTests = false
+    namespace = "dev.bwaim.kustomalarm.analytics.impl"
 }
 
 dependencies {
-    implementation(projects.common.compose)
+    implementation(projects.common.analytics.analytics)
 
-    implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
+    implementation(libs.firebase.analytics.library)
 }

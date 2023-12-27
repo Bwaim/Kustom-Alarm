@@ -13,17 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-}
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.settings.settings)
+package dev.bwaim.kustomalarm.analytics
 
-    implementation(libs.kotlin.coroutines.test)
-
-    implementation(libs.junit.library)
-    implementation(libs.cash.turbine)
+public interface AnalyticsRepository {
+    public suspend fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    )
 }

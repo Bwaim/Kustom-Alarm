@@ -33,6 +33,8 @@ public const val NO_ALARM: Int = -1
 public const val ALARM_ID_ARG: String = "ALARM_ID_ARG"
 
 public const val EDIT_ALARM_NAVIGATION_ROUTE: String = "alarm/edit/{$ALARM_ID_ARG}"
+private const val EDIT_ALARM_SCREEN_NAME: String = "Edit alarm"
+private const val EDIT_ALARM_SCREEN_CLASS: String = "EditAlarmRoute"
 
 internal class EditAlarmArgs(val alarmId: Int) {
     constructor(savedStateHandle: SavedStateHandle) :
@@ -48,6 +50,9 @@ private object EditAlarmRoute : Route {
     override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState(allowToOpenDrawer = false)
+
+    override val screenName: String = EDIT_ALARM_SCREEN_NAME
+    override val screenClass: String = EDIT_ALARM_SCREEN_CLASS
 }
 
 public fun NavController.navigateToEditAlarmScreen(

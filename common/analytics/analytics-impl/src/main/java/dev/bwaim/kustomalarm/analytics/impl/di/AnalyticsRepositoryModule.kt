@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-}
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.settings.settings)
+package dev.bwaim.kustomalarm.analytics.impl.di
 
-    implementation(libs.kotlin.coroutines.test)
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.bwaim.kustomalarm.analytics.AnalyticsRepository
+import dev.bwaim.kustomalarm.analytics.impl.AnalyticsRepositoryImpl
 
-    implementation(libs.junit.library)
-    implementation(libs.cash.turbine)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface AnalyticsRepositoryModule {
+    @Binds
+    fun provideAnalyticsRepository(it: AnalyticsRepositoryImpl): AnalyticsRepository
 }

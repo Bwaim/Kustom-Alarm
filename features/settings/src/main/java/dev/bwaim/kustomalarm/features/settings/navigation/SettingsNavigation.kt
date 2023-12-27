@@ -34,6 +34,8 @@ import javax.inject.Inject
 
 private const val SETTINGS_NAVIGATION_ROUTE: String = "settings"
 private const val NAVIGATION_DRAWER_SETTINGS_ID: String = "NavDrawerSettings"
+private const val SETTINGS_SCREEN_NAME: String = "Settings"
+private const val SETTINGS_SCREEN_CLASS: String = "SettingsRoute"
 
 public object SettingsRoute : Route {
     override val baseRoutePattern: String = SETTINGS_NAVIGATION_ROUTE
@@ -44,6 +46,9 @@ public object SettingsRoute : Route {
         MenuAppState(
             selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,
         )
+
+    override val screenName: String = SETTINGS_SCREEN_NAME
+    override val screenClass: String = SETTINGS_SCREEN_CLASS
 }
 
 public class SettingsNavigationDrawerItem

@@ -19,11 +19,13 @@ package dev.bwaim.kustomalarm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +33,7 @@ internal class MainViewModel
     @Inject
     constructor(
         settingsService: SettingsService,
+        private val analyticsService: AnalyticsService,
     ) : ViewModel() {
         val selectedTheme: StateFlow<Theme?> =
             settingsService
@@ -40,4 +43,13 @@ internal class MainViewModel
                     SharingStarted.WhileSubscribed(5_000),
                     null,
                 )
+
+        fun logScreenView(
+            screenName: String,
+            screenClass: String,
+        ) {
+            viewModelScope.launch {
+                analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
+            }
+        }
     }

@@ -85,6 +85,8 @@ jacocoKustomConfig {
 
 dependencies {
     implementation(projects.common.alarm.alarmImpl)
+    implementation(projects.common.analytics.analytics)
+    implementation(projects.common.analytics.analyticsImpl)
     implementation(projects.common.compose)
     implementation(projects.common.core.coreAndroid)
     implementation(projects.common.database)

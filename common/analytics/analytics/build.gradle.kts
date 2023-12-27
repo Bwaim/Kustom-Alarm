@@ -14,30 +14,12 @@
  * limitations under the License.
  */
 plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-}
+    id("kustomalarm.kotlin.library")
+    id("kustomalarm.kotlin.library.jacoco")
 
-android {
-    namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
-}
-
-jacocoKustomConfig {
-    hasTests = false
+    id("kustomalarm.test")
 }
 
 dependencies {
-    implementation(projects.common.compose)
-
-    implementation(libs.kotlinx.collections.immutable)
-
-    implementation(libs.androidx.navigation.common)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.runtime)
-
-    implementation(libs.compose.animation)
+    implementation(projects.common.core.core)
 }

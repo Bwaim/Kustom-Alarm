@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-}
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.settings.settings)
+package dev.bwaim.kustomalarm.compose
 
-    implementation(libs.kotlin.coroutines.test)
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.staticCompositionLocalOf
 
-    implementation(libs.junit.library)
-    implementation(libs.cash.turbine)
-}
+public val LocalLogScreenView: ProvidableCompositionLocal<(String, String) -> Unit> =
+    staticCompositionLocalOf {
+        { _, _ -> }
+    }
