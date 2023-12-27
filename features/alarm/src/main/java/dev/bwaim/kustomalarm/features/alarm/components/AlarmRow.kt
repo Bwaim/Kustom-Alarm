@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.features.alarm.components
 import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.KaSwitch
@@ -38,6 +40,7 @@ import dev.bwaim.kustomalarm.core.extentions.areWeekDays
 import dev.bwaim.kustomalarm.core.extentions.areWeekendDays
 import dev.bwaim.kustomalarm.core.extentions.longName
 import dev.bwaim.kustomalarm.core.extentions.shortName
+import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
 import dev.bwaim.kustomalarm.localisation.R.string
 import java.time.DayOfWeek
 import java.time.DayOfWeek.FRIDAY
@@ -53,9 +56,10 @@ import java.util.Locale
 @Composable
 public fun AlarmRow(
     alarm: Alarm,
+    updateAlarm: (Alarm) -> Unit,
+    deleteAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
-    updateAlarm: (Alarm) -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -88,9 +92,18 @@ public fun AlarmRow(
         alarm.name?.let {
             Text(
                 text = it,
+                modifier = Modifier.weight(10f),
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
                 style = MaterialTheme.typography.titleLarge,
             )
         }
+
+        Spacer(modifier = Modifier.weight(0.5f))
+
+        AlarmMoreMenu(
+            deleteAlarm = deleteAlarm,
+        )
     }
 }
 
@@ -149,6 +162,7 @@ private fun PreviewAlarmRow() {
                             isActivated = false,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
 
@@ -157,12 +171,13 @@ private fun PreviewAlarmRow() {
                     alarm =
                         Alarm(
                             id = 1,
-                            name = null,
+                            name = "long long long long long long long long",
                             time = LocalTime.of(8, 35),
                             weekDays = setOf(),
                             isOnce = true,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
 
@@ -177,6 +192,7 @@ private fun PreviewAlarmRow() {
                             isOnce = false,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
 
@@ -191,6 +207,7 @@ private fun PreviewAlarmRow() {
                             isOnce = false,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
 
@@ -205,6 +222,7 @@ private fun PreviewAlarmRow() {
                             isOnce = false,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
 
@@ -215,10 +233,20 @@ private fun PreviewAlarmRow() {
                             id = 1,
                             name = null,
                             time = LocalTime.of(13, 35),
-                            weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY),
+                            weekDays =
+                                setOf(
+                                    MONDAY,
+                                    TUESDAY,
+                                    WEDNESDAY,
+                                    THURSDAY,
+                                    FRIDAY,
+                                    SATURDAY,
+                                    SUNDAY,
+                                ),
                             isOnce = false,
                         ),
                     updateAlarm = {},
+                    deleteAlarm = {},
                 )
             }
         }

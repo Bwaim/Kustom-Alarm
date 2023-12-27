@@ -51,6 +51,7 @@ import dev.bwaim.kustomalarm.compose.SaveEventsEffect
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
+import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.persistentSetOf
@@ -103,6 +104,10 @@ internal fun EditAlarmRoute(
         updateAlarmTime = editViewModel::updateAlarmTime,
         updateAlarmDays = editViewModel::updateAlarmDays,
         hideModificationMessage = { showModificationMessage = false },
+        deleteAlarm = {
+            editViewModel.deleteAlarm()
+            close()
+        },
     )
 }
 
@@ -117,10 +122,14 @@ private fun EditAlarmScreen(
     updateAlarmTime: (LocalTime) -> Unit,
     updateAlarmDays: (Set<DayOfWeek>) -> Unit,
     hideModificationMessage: () -> Unit,
+    deleteAlarm: () -> Unit,
 ) {
     Scaffold(
         topBar = {
-            KaCloseTopAppBar(onClickNavigation = close)
+            KaCloseTopAppBar(
+                onClickNavigation = close,
+                actions = { AlarmMoreMenu(deleteAlarm = deleteAlarm) },
+            )
         },
     ) { padding ->
         when {
@@ -244,6 +253,7 @@ private fun AlarmName(
         modifier = Modifier.fillMaxWidth(),
         label = label,
         interactionSource = interactionSource,
+        maxLines = 1,
     )
 }
 
@@ -266,6 +276,7 @@ private fun PreviewEditAlarmScreen() {
             updateAlarmTime = {},
             updateAlarmDays = {},
             hideModificationMessage = {},
+            deleteAlarm = {},
         )
     }
 }

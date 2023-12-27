@@ -40,6 +40,7 @@ public fun KaLargeTextField(
     modifier: Modifier = Modifier,
     label: String? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     KaTextField(
         value = value ?: "",
@@ -56,6 +57,7 @@ public fun KaLargeTextField(
                 }
             },
         interactionSource = interactionSource,
+        maxLines = maxLines,
     )
 }
 
@@ -67,6 +69,7 @@ public fun KaTextField(
     textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     TextField(
         value = value,
@@ -75,6 +78,7 @@ public fun KaTextField(
         textStyle = textStyle,
         label = label,
         interactionSource = interactionSource,
+        maxLines = maxLines,
     )
 }
 

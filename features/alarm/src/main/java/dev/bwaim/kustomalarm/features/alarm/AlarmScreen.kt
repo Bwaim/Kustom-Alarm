@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package dev.bwaim.kustomalarm.features.alarm
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -24,9 +27,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissValue.StartToEnd
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -38,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.compose.DismissBackground
 import dev.bwaim.kustomalarm.compose.Header
 import dev.bwaim.kustomalarm.compose.KaCenterAlignedTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLoader
@@ -70,6 +78,7 @@ internal fun AlarmRoute(
         openDrawer = openDrawer,
         addAlarm = addAlarm,
         updateAlarm = viewModel::updateAlarm,
+        deleteAlarm = viewModel::deleteAlarm,
     )
 }
 
@@ -79,6 +88,7 @@ private fun AlarmScreen(
     openDrawer: () -> Unit,
     addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
+    deleteAlarm: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -115,6 +125,7 @@ private fun AlarmScreen(
                         alarms = alarms,
                         addAlarm = addAlarm,
                         updateAlarm = updateAlarm,
+                        deleteAlarm = deleteAlarm,
                     )
             }
         }
@@ -136,6 +147,7 @@ private fun AlarmList(
     alarms: PersistentList<Alarm>,
     addAlarm: (Int) -> Unit,
     updateAlarm: (Alarm) -> Unit,
+    deleteAlarm: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -150,16 +162,39 @@ private fun AlarmList(
             key = { alarms[it].id },
         ) { index ->
             val item = alarms[index]
-            AlarmRow(
-                alarm = item,
-                modifier =
-                    Modifier
-                        .clickable { addAlarm(item.id) }
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 5.dp),
-                locale = currentLocale,
-                updateAlarm = updateAlarm,
-            )
+
+            val dismissState =
+                rememberSwipeToDismissState(
+                    confirmValueChange = {
+                        when (it) {
+                            StartToEnd -> {
+                                deleteAlarm(item.id)
+                                true
+                            }
+                            else -> false
+                        }
+                    },
+                    positionalThreshold = { 300.dp.value },
+                )
+
+            SwipeToDismissBox(
+                state = dismissState,
+                backgroundContent = { DismissBackground(dismissState = dismissState) },
+                enableDismissFromEndToStart = false,
+            ) {
+                AlarmRow(
+                    alarm = item,
+                    modifier =
+                        Modifier
+                            .clickable { addAlarm(item.id) }
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = 5.dp),
+                    locale = currentLocale,
+                    updateAlarm = updateAlarm,
+                    deleteAlarm = { deleteAlarm(item.id) },
+                )
+            }
         }
 
         item {
@@ -180,6 +215,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             openDrawer = {},
             addAlarm = {},
             updateAlarm = {},
+            deleteAlarm = {},
         )
     }
 }
@@ -216,6 +252,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             openDrawer = {},
             addAlarm = {},
             updateAlarm = {},
+            deleteAlarm = {},
         )
     }
 }
