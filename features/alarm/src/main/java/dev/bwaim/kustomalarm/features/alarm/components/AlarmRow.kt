@@ -233,7 +233,16 @@ private fun PreviewAlarmRow() {
                             id = 1,
                             name = null,
                             time = LocalTime.of(13, 35),
-                            weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY),
+                            weekDays =
+                                setOf(
+                                    MONDAY,
+                                    TUESDAY,
+                                    WEDNESDAY,
+                                    THURSDAY,
+                                    FRIDAY,
+                                    SATURDAY,
+                                    SUNDAY,
+                                ),
                             isOnce = false,
                         ),
                     updateAlarm = {},
