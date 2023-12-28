@@ -13,25 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
-}
+package dev.bwaim.kustomalarm.analytics
 
-jacocoKustomConfig {
-    hasTests = false
-}
+import dev.bwaim.kustomalarm.analytics.model.KaEvent
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.core.coreAndroid)
+public interface AnalyticsRepository {
+    public suspend fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    )
 
-    implementation(libs.androidx.appcompat)
+    public suspend fun logEvent(event: KaEvent)
 }

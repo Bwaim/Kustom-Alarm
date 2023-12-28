@@ -31,6 +31,8 @@ jacocoKustomConfig {
 }
 
 dependencies {
+    implementation(projects.common.compose)
+
     implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.androidx.navigation.common)

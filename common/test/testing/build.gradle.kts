@@ -19,6 +19,7 @@ plugins {
 
 dependencies {
     implementation(projects.common.alarm.alarm)
+    implementation(projects.common.analytics.analytics)
     implementation(projects.common.settings.settings)
 
     implementation(libs.kotlin.coroutines.test)

@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         val debug by getting {
-            extra.set("enableCrashlytics", false)
+            extra.set("enableCrashlytics", true)
 
             applicationIdSuffix = ".debug"
 
@@ -85,6 +85,8 @@ jacocoKustomConfig {
 
 dependencies {
     implementation(projects.common.alarm.alarmImpl)
+    implementation(projects.common.analytics.analytics)
+    implementation(projects.common.analytics.analyticsImpl)
     implementation(projects.common.compose)
     implementation(projects.common.core.coreAndroid)
     implementation(projects.common.database)

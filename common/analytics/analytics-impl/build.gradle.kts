@@ -15,23 +15,17 @@
  */
 plugins {
     id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
+    id("kustomalarm.hilt")
+
+    id ("kustomalarm.test")
 }
 
 android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
-}
-
-jacocoKustomConfig {
-    hasTests = false
+    namespace = "dev.bwaim.kustomalarm.analytics.impl"
 }
 
 dependencies {
-    implementation(projects.common.alarm.alarm)
     implementation(projects.common.analytics.analytics)
-    implementation(projects.common.core.coreAndroid)
 
-    implementation(libs.androidx.appcompat)
+    implementation(libs.firebase.analytics.library)
 }

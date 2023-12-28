@@ -25,6 +25,8 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 public const val ALARM_NAVIGATION_ROUTE: String = "alarm"
+private const val ALARM_SCREEN_NAME: String = "Alarms' list"
+private const val ALARM_SCREEN_CLASS: String = "AlarmRoute"
 
 public object AlarmRoute : Route {
     override val baseRoutePattern: String = ALARM_NAVIGATION_ROUTE
@@ -32,6 +34,9 @@ public object AlarmRoute : Route {
     override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
 
     override val menuAppState: MenuAppState = MenuAppState()
+
+    override val screenName: String = ALARM_SCREEN_NAME
+    override val screenClass: String = ALARM_SCREEN_CLASS
 }
 
 public fun NavGraphBuilder.alarmScreen(

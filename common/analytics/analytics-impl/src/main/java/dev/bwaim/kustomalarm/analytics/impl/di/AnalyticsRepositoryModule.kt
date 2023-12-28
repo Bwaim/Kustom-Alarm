@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
-}
+package dev.bwaim.kustomalarm.analytics.impl.di
 
-jacocoKustomConfig {
-    hasTests = false
-}
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.bwaim.kustomalarm.analytics.AnalyticsRepository
+import dev.bwaim.kustomalarm.analytics.impl.AnalyticsRepositoryImpl
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.core.coreAndroid)
-
-    implementation(libs.androidx.appcompat)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface AnalyticsRepositoryModule {
+    @Binds
+    fun provideAnalyticsRepository(it: AnalyticsRepositoryImpl): AnalyticsRepository
 }

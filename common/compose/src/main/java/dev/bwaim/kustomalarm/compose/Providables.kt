@@ -13,25 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.feature")
-    id("kustomalarm.android.library.compose")
-    id("kustomalarm.android.library.jacoco")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.features.alarm"
-}
+package dev.bwaim.kustomalarm.compose
 
-jacocoKustomConfig {
-    hasTests = false
-}
+import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.staticCompositionLocalOf
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.core.coreAndroid)
-
-    implementation(libs.androidx.appcompat)
-}
+public val LocalLogScreenView: ProvidableCompositionLocal<(String, String) -> Unit> =
+    staticCompositionLocalOf {
+        { _, _ -> }
+    }

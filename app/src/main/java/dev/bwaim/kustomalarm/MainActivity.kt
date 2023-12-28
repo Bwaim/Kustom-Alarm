@@ -24,10 +24,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import dev.bwaim.kustomalarm.compose.LocalLogScreenView
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
@@ -72,12 +74,14 @@ internal class MainActivity : AppCompatActivity() {
                 onDispose {}
             }
 
-            KustomAlarmTheme(
-                darkTheme = isDarkTheme,
-            ) {
-                KAlarmApp(
-                    navigationDrawerItems = navigationDrawerItems.toPersistentList(),
-                )
+            CompositionLocalProvider(LocalLogScreenView provides mainViewModel::logScreenView) {
+                KustomAlarmTheme(
+                    darkTheme = isDarkTheme,
+                ) {
+                    KAlarmApp(
+                        navigationDrawerItems = navigationDrawerItems.toPersistentList(),
+                    )
+                }
             }
         }
     }

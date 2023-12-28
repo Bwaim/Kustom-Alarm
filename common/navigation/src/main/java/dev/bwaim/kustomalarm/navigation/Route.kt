@@ -22,11 +22,13 @@ import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.bwaim.kustomalarm.compose.LocalLogScreenView
 import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState.Companion.getAppParameters
@@ -43,6 +45,9 @@ public interface Route {
     public val optionalArguments: PersistentList<NamedNavArgument>
 
     public val menuAppState: MenuAppState
+
+    public val screenName: String
+    public val screenClass: String
 
     public val route: String
         get() = "$baseRoutePattern${addOptionalParameters()}"
@@ -88,6 +93,11 @@ public interface Route {
             popEnterTransition = popEnterTransition,
             popExitTransition = popExitTransition,
             content = {
+                val logScreenView = LocalLogScreenView.current
+                LaunchedEffect(Unit) {
+                    logScreenView(screenName, screenClass)
+                }
+
                 it.arguments?.let { args ->
                     LocalMenuAppStateSetter.current.invoke(args.toMenuAppState())
                 }
