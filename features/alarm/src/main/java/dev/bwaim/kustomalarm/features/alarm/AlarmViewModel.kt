@@ -21,6 +21,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDisableEvent
@@ -73,4 +74,17 @@ internal class AlarmViewModel
                 analyticsService.logEvent(AlarmDuplicateEvent)
             }
         }
+
+        fun setTemplate(alarm: Alarm) {
+            viewModelScope.launch {
+                alarmService.saveTemplate(alarm.toTemplate())
+            }
+        }
     }
+
+internal fun Alarm.toTemplate(): AlarmTemplate =
+    AlarmTemplate(
+        name = name,
+        time = time,
+        weekDays = weekDays,
+    )

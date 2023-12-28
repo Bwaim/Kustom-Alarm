@@ -35,6 +35,7 @@ import dev.bwaim.kustomalarm.core.android.extensions.formatDuration
 import dev.bwaim.kustomalarm.core.extentions.durationTo
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.EditAlarmArgs
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
+import dev.bwaim.kustomalarm.features.alarm.toTemplate
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -163,6 +164,14 @@ internal class EditViewModel
                 if (alarmId != NO_ALARM) {
                     alarmService.deleteAlarm(alarmId = alarmId)
                     analyticsService.logEvent(AlarmDeleteEvent)
+                }
+            }
+        }
+
+        fun setTemplate() {
+            viewModelScope.launch {
+                _alarm.value?.let { alarm ->
+                    alarmService.saveTemplate(alarm.toTemplate())
                 }
             }
         }

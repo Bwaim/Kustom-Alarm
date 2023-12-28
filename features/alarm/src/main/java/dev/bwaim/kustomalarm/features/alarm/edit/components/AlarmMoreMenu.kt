@@ -30,10 +30,12 @@ import dev.bwaim.kustomalarm.compose.DeleteDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.DuplicateDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.ModifyDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.MoreActionIcon
+import dev.bwaim.kustomalarm.compose.SetTemplateDropDownMenuItem
 
 @Composable
 internal fun AlarmMoreMenu(
     deleteAlarm: () -> Unit,
+    setTemplate: () -> Unit,
     modifier: Modifier = Modifier,
     modifyAlarm: (() -> Unit)? = null,
     duplicateAlarm: (() -> Unit)? = null,
@@ -53,8 +55,9 @@ internal fun AlarmMoreMenu(
         EditDropDownMenu(
             expanded = moreMenuExpanded,
             onDismissRequest = { moreMenuExpanded = false },
-            onModify = modifyAlarm,
             onDelete = deleteAlarm,
+            onSetTemplate = setTemplate,
+            onModify = modifyAlarm,
             onDuplicate = duplicateAlarm,
         )
     }
@@ -65,6 +68,7 @@ private fun EditDropDownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     onDelete: () -> Unit,
+    onSetTemplate: () -> Unit,
     onModify: (() -> Unit)? = null,
     onDuplicate: (() -> Unit)? = null,
 ) {
@@ -75,5 +79,6 @@ private fun EditDropDownMenu(
         onModify?.let { ModifyDropDownMenuItem(onModify = onModify) }
         DeleteDropDownMenuItem(onDelete = onDelete)
         onDuplicate?.let { DuplicateDropDownMenuItem(onDuplicate = onDuplicate) }
+        SetTemplateDropDownMenuItem(onSetTemplate = onSetTemplate)
     }
 }

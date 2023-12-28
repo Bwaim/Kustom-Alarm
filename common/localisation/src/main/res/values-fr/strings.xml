@@ -25,6 +25,7 @@
     <string name="global.action.delete">Supprimer</string>
     <string name="global.action.modify">Modifier</string>
     <string name="global.action.duplicate">Dupliquer</string>
+    <string name="global.action.set_template">Définir comme modèle</string>
     <string name="global.save.modifications_message">Enregistrer les modifications ?</string>
 
     <string name="global.today">Aujourd\'hui</string>

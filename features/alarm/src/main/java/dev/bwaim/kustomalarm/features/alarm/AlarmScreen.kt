@@ -84,6 +84,7 @@ internal fun AlarmRoute(
         },
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
+        setTemplate = viewModel::setTemplate,
     )
 }
 
@@ -94,6 +95,7 @@ private fun AlarmScreen(
     addAlarm: (Int, Boolean) -> Unit,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
+    setTemplate: (Alarm) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -131,6 +133,7 @@ private fun AlarmScreen(
                         addAlarm = addAlarm,
                         updateAlarm = updateAlarm,
                         deleteAlarm = deleteAlarm,
+                        setTemplate = setTemplate,
                     )
             }
         }
@@ -153,6 +156,7 @@ private fun AlarmList(
     addAlarm: (Int, Boolean) -> Unit,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
+    setTemplate: (Alarm) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -199,6 +203,7 @@ private fun AlarmList(
                     locale = currentLocale,
                     updateAlarm = updateAlarm,
                     deleteAlarm = { deleteAlarm(item.id) },
+                    setTemplate = { setTemplate(item) },
                     modifyAlarm = { addAlarm(item.id, false) },
                     duplicateAlarm = { addAlarm(item.id, true) },
                 )
@@ -224,6 +229,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             addAlarm = { _, _ -> },
             updateAlarm = {},
             deleteAlarm = {},
+            setTemplate = {},
         )
     }
 }
@@ -261,6 +267,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             addAlarm = { _, _ -> },
             updateAlarm = {},
             deleteAlarm = {},
+            setTemplate = {},
         )
     }
 }
