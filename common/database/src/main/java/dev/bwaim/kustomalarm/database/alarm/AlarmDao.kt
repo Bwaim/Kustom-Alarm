@@ -33,4 +33,9 @@ public interface AlarmDao {
 
     @Query("DELETE FROM ALARM_ENTITY WHERE _id = :alarmId")
     public suspend fun deleteAlarm(alarmId: Int)
+
+    @Upsert public suspend fun upsertAlarmTemplate(alarmTemplateEntity: AlarmTemplateEntity)
+
+    @Query("SELECT * FROM ALARM_TEMPLATE_ENTITY LIMIT 1")
+    public suspend fun getAlarmTemplate(): AlarmTemplateEntity?
 }

@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.core.DomainResult
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.executeCatching
@@ -38,12 +39,10 @@ public class AlarmService
         public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
             executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }
 
-        public fun getDefaultAlarm(): Alarm =
-            Alarm(
-                name = null,
-                time = LocalTime.of(7, 0),
-                weekDays = emptySet(),
-            )
+        public suspend fun getDefaultAlarm(): DomainResult<Alarm> =
+            executeCatching(ioDispatcher) {
+                alarmRepository.getTemplate().toAlarm()
+            }
 
         public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> =
             executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm.completeDefault()) }
@@ -67,4 +66,17 @@ public class AlarmService
 
             return this.copy(weekDays = daysOfWeek, isOnce = isOnce)
         }
+
+        public suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
+            executeCatching(ioDispatcher) {
+                alarmRepository.saveTemplate(alarmTemplate)
+            }
+        }
     }
+
+internal fun AlarmTemplate.toAlarm(): Alarm =
+    Alarm(
+        name = name,
+        time = time,
+        weekDays = weekDays,
+    )

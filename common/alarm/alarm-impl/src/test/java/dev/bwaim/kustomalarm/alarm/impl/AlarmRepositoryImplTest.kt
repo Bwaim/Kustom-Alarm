@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.alarm.impl
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
@@ -75,6 +76,33 @@ internal class AlarmRepositoryImplTest {
             Assert.assertEquals(
                 listOf(alarm2.copy(id = 2)),
                 subject.observeAlarms().first(),
+            )
+        }
+
+    @Test
+    fun alarmRepository_get_template() =
+        testScope.runTest {
+            val defaultTemplate =
+                AlarmTemplate(
+                    name = null,
+                    time = LocalTime.of(7, 0),
+                    weekDays = emptySet(),
+                )
+
+            val first = subject.getTemplate()
+
+            Assert.assertEquals(
+                defaultTemplate,
+                first,
+            )
+
+            val secondTemplate = defaultTemplate.copy(name = "template")
+            subject.saveTemplate(secondTemplate)
+            val second = subject.getTemplate()
+
+            Assert.assertEquals(
+                secondTemplate,
+                second,
             )
         }
 }

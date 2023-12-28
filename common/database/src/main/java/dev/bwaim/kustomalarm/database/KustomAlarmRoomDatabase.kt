@@ -21,6 +21,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
+import dev.bwaim.kustomalarm.database.alarm.AlarmTemplateEntity
 
 internal const val DATABASE_VERSION = 1
 
@@ -28,6 +29,7 @@ internal const val DATABASE_VERSION = 1
     entities =
         [
             AlarmEntity::class,
+            AlarmTemplateEntity::class,
         ],
     version = DATABASE_VERSION,
     exportSchema = true,

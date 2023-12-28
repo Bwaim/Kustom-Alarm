@@ -76,7 +76,13 @@ internal class EditViewModel
             viewModelScope.launch {
                 _alarm.update {
                     if (alarmId == NO_ALARM) {
-                        alarmService.getDefaultAlarm()
+                        when (val alarm = alarmService.getDefaultAlarm()) {
+                            is Success -> alarm.value
+                            is Error -> {
+                                displayError()
+                                it
+                            }
+                        }
                     } else {
                         when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
                             is Success ->
@@ -86,9 +92,7 @@ internal class EditViewModel
                                     alarm.value
                                 }
                             is Error -> {
-                                _errorMessage.update {
-                                    context.getString(string.edit_alarm_screen_getting_error)
-                                }
+                                displayError()
                                 it
                             }
                         }
@@ -160,6 +164,12 @@ internal class EditViewModel
                     alarmService.deleteAlarm(alarmId = alarmId)
                     analyticsService.logEvent(AlarmDeleteEvent)
                 }
+            }
+        }
+
+        private fun displayError() {
+            _errorMessage.update {
+                context.getString(string.edit_alarm_screen_getting_error)
             }
         }
     }

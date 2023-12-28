@@ -18,6 +18,7 @@ package dev.bwaim.kustomalarm.alarm.impl.testdoubles
 
 import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
+import dev.bwaim.kustomalarm.database.alarm.AlarmTemplateEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -30,6 +31,9 @@ internal class TestAlarmDao : AlarmDao {
         )
 
     private var nextId = 1
+
+    private var templateStateFlow: MutableStateFlow<AlarmTemplateEntity?> =
+        MutableStateFlow(null)
 
     override fun observeAlarms(): Flow<List<AlarmEntity>> {
         return entitiesStateFlow.map { it.sortedBy { alarm -> alarm.id } }
@@ -54,5 +58,13 @@ internal class TestAlarmDao : AlarmDao {
 
     override suspend fun deleteAlarm(alarmId: Int) {
         entitiesStateFlow.update { entities -> entities.filterNot { alarmId == it.id } }
+    }
+
+    override suspend fun upsertAlarmTemplate(alarmTemplateEntity: AlarmTemplateEntity) {
+        templateStateFlow.value = alarmTemplateEntity
+    }
+
+    override suspend fun getAlarmTemplate(): AlarmTemplateEntity? {
+        return templateStateFlow.value
     }
 }

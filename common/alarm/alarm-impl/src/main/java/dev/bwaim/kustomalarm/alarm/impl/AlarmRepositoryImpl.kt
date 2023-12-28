@@ -18,11 +18,14 @@ package dev.bwaim.kustomalarm.alarm.impl
 
 import dev.bwaim.kustomalarm.alarm.AlarmRepository
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
+import dev.bwaim.kustomalarm.database.alarm.AlarmTemplateEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.DayOfWeek
+import java.time.LocalTime
 import javax.inject.Inject
 
 internal class AlarmRepositoryImpl
@@ -45,6 +48,21 @@ internal class AlarmRepositoryImpl
         override suspend fun deleteAlarm(alarmId: Int) {
             alarmDao.deleteAlarm(alarmId = alarmId)
         }
+
+        override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
+            alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
+        }
+
+        override suspend fun getTemplate(): AlarmTemplate {
+            return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
+        }
+
+        private fun getDefaultTemplate(): AlarmTemplate =
+            AlarmTemplate(
+                name = null,
+                time = LocalTime.of(7, 0),
+                weekDays = emptySet(),
+            )
     }
 
 private fun AlarmEntity.toDomain(): Alarm =
@@ -57,7 +75,12 @@ private fun AlarmEntity.toDomain(): Alarm =
         isActivated = isActivated,
     )
 
-private fun String.toWeekDays(): Set<DayOfWeek> = this.split(",").map { DayOfWeek.of(it.trim().toInt()) }.toSet()
+private fun String.toWeekDays(): Set<DayOfWeek> =
+    if (this.isBlank()) {
+        emptySet()
+    } else {
+        this.split(",").map { DayOfWeek.of(it.trim().toInt()) }.toSet()
+    }
 
 private fun Alarm.toEntity(): AlarmEntity =
     AlarmEntity(
@@ -67,4 +90,18 @@ private fun Alarm.toEntity(): AlarmEntity =
         weekDays = weekDays.joinToString { it.value.toString() },
         isOnce = isOnce,
         isActivated = isActivated,
+    )
+
+private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
+    AlarmTemplate(
+        name = name,
+        time = time,
+        weekDays = weekDays.toWeekDays(),
+    )
+
+private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
+    AlarmTemplateEntity(
+        name = name,
+        time = time,
+        weekDays = weekDays.joinToString { it.value.toString() },
     )
