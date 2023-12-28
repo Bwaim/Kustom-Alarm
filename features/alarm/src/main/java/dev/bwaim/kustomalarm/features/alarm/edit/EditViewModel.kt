@@ -59,6 +59,7 @@ internal class EditViewModel
     ) : ViewModel() {
         private val args = EditAlarmArgs(savedStateHandle)
         private val alarmId = args.alarmId
+        private val duplicate = args.duplicate
 
         private val _saveEventsFlow: MutableSharedFlow<SaveEvents> =
             MutableSharedFlow(extraBufferCapacity = 1)
@@ -78,7 +79,12 @@ internal class EditViewModel
                         alarmService.getDefaultAlarm()
                     } else {
                         when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
-                            is Success -> alarm.value
+                            is Success ->
+                                if (duplicate) {
+                                    alarm.value?.copy(id = 0)
+                                } else {
+                                    alarm.value
+                                }
                             is Error -> {
                                 _errorMessage.update {
                                     context.getString(string.edit_alarm_screen_getting_error)

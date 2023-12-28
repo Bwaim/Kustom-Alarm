@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import dev.bwaim.kustomalarm.compose.DeleteDropDownMenuItem
+import dev.bwaim.kustomalarm.compose.DuplicateDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.ModifyDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.MoreActionIcon
 
@@ -35,6 +36,7 @@ internal fun AlarmMoreMenu(
     deleteAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     modifyAlarm: (() -> Unit)? = null,
+    duplicateAlarm: (() -> Unit)? = null,
 ) {
     var moreMenuExpanded by remember {
         mutableStateOf(false)
@@ -53,6 +55,7 @@ internal fun AlarmMoreMenu(
             onDismissRequest = { moreMenuExpanded = false },
             onModify = modifyAlarm,
             onDelete = deleteAlarm,
+            onDuplicate = duplicateAlarm,
         )
     }
 }
@@ -61,8 +64,9 @@ internal fun AlarmMoreMenu(
 private fun EditDropDownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
-    onModify: (() -> Unit)? = null,
     onDelete: () -> Unit,
+    onModify: (() -> Unit)? = null,
+    onDuplicate: (() -> Unit)? = null,
 ) {
     DropdownMenu(
         expanded = expanded,
@@ -70,5 +74,6 @@ private fun EditDropDownMenu(
     ) {
         onModify?.let { ModifyDropDownMenuItem(onModify = onModify) }
         DeleteDropDownMenuItem(onDelete = onDelete)
+        onDuplicate?.let { DuplicateDropDownMenuItem(onDuplicate = onDuplicate) }
     }
 }

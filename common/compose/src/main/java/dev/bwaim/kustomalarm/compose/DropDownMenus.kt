@@ -50,6 +50,18 @@ public fun ModifyDropDownMenuItem(
 }
 
 @Composable
+public fun DuplicateDropDownMenuItem(
+    onDuplicate: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_duplicate)) },
+        onClick = onDuplicate,
+        modifier = modifier,
+    )
+}
+
+@Composable
 @PreviewsKAlarm
 private fun PreviewDropDownMenu() {
     KustomAlarmThemePreview {
@@ -58,6 +70,8 @@ private fun PreviewDropDownMenu() {
             onDismissRequest = { },
         ) {
             DeleteDropDownMenuItem(onDelete = { })
+            ModifyDropDownMenuItem(onModify = { })
+            DuplicateDropDownMenuItem(onDuplicate = { })
         }
     }
 }

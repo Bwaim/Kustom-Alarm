@@ -68,7 +68,7 @@ import java.time.LocalTime
 @Composable
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
-    addAlarm: (Int) -> Unit,
+    addAlarm: (Int, Boolean) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -86,7 +86,7 @@ internal fun AlarmRoute(
 private fun AlarmScreen(
     alarms: PersistentList<Alarm>?,
     openDrawer: () -> Unit,
-    addAlarm: (Int) -> Unit,
+    addAlarm: (Int, Boolean) -> Unit,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
 ) {
@@ -119,7 +119,7 @@ private fun AlarmScreen(
                                 .align(Alignment.CenterHorizontally),
                     )
 
-                alarms.isEmpty() -> NoAlarm(addAlarm = addAlarm)
+                alarms.isEmpty() -> NoAlarm(addAlarm = { addAlarm(it, false) })
                 else ->
                     AlarmList(
                         alarms = alarms,
@@ -145,7 +145,7 @@ private fun ColumnScope.NoAlarm(addAlarm: (Int) -> Unit) {
 @Composable
 private fun AlarmList(
     alarms: PersistentList<Alarm>,
-    addAlarm: (Int) -> Unit,
+    addAlarm: (Int, Boolean) -> Unit,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -186,21 +186,22 @@ private fun AlarmList(
                     alarm = item,
                     modifier =
                         Modifier
-                            .clickable { addAlarm(item.id) }
+                            .clickable { addAlarm(item.id, false) }
                             .background(MaterialTheme.colorScheme.background)
                             .padding(horizontal = 16.dp)
                             .padding(bottom = 5.dp),
                     locale = currentLocale,
                     updateAlarm = updateAlarm,
                     deleteAlarm = { deleteAlarm(item.id) },
-                    modifyAlarm = { addAlarm(item.id) },
+                    modifyAlarm = { addAlarm(item.id, false) },
+                    duplicateAlarm = { addAlarm(item.id, true) },
                 )
             }
         }
 
         item {
             AddAlarmButton(
-                addAlarm = { addAlarm(NO_ALARM) },
+                addAlarm = { addAlarm(NO_ALARM, false) },
                 modifier = Modifier.padding(top = 30.dp),
             )
         }
@@ -214,7 +215,7 @@ private fun PreviewAlarmScreenNoAlarms() {
         AlarmScreen(
             alarms = persistentListOf(),
             openDrawer = {},
-            addAlarm = {},
+            addAlarm = { _, _ -> },
             updateAlarm = {},
             deleteAlarm = {},
         )
@@ -251,7 +252,7 @@ private fun PreviewAlarmScreenWithAlarms() {
                     ),
                 ),
             openDrawer = {},
-            addAlarm = {},
+            addAlarm = { _, _ -> },
             updateAlarm = {},
             deleteAlarm = {},
         )

@@ -41,7 +41,7 @@ public object AlarmRoute : Route {
 
 public fun NavGraphBuilder.alarmScreen(
     openDrawer: () -> Unit,
-    addAlarm: (Int) -> Unit,
+    addAlarm: (Int, Boolean) -> Unit,
 ) {
     AlarmRoute.composable {
         AlarmRoute(

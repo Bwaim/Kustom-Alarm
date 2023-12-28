@@ -24,6 +24,7 @@
     <string name="global.action.more">Más</string>
     <string name="global.action.delete">Borrar</string>
     <string name="global.action.modify">Modificar</string>
+    <string name="global.action.duplicate">Duplicar</string>
     <string name="global.save.modifications_message">Guardar las modificaciones?</string>
 
     <string name="global.today">Hoy</string>
