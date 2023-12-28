@@ -76,7 +76,12 @@ internal fun AlarmRoute(
     AlarmScreen(
         alarms = alarms,
         openDrawer = openDrawer,
-        addAlarm = addAlarm,
+        addAlarm = { id, duplicate ->
+            addAlarm(id, duplicate)
+            if (duplicate) {
+                viewModel.logDuplicateEvent()
+            }
+        },
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
     )
@@ -171,6 +176,7 @@ private fun AlarmList(
                                 deleteAlarm(item.id)
                                 true
                             }
+
                             else -> false
                         }
                     },

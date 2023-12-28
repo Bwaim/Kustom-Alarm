@@ -61,3 +61,8 @@ public data object AlarmDeleteEvent : KaEvent {
     override val name: String = "ka_alarm_delete"
     override val params: Map<String, Any> = emptyMap()
 }
+
+public data object AlarmDuplicateEvent : KaEvent {
+    override val name: String = "ka_alarm_duplicate"
+    override val params: Map<String, Any> = emptyMap()
+}

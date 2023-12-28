@@ -24,6 +24,7 @@ import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDisableEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmDuplicateEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -64,6 +65,12 @@ internal class AlarmViewModel
             viewModelScope.launch {
                 alarmService.deleteAlarm(alarmId)
                 analyticsService.logEvent(AlarmDeleteEvent)
+            }
+        }
+
+        fun logDuplicateEvent() {
+            viewModelScope.launch {
+                analyticsService.logEvent(AlarmDuplicateEvent)
             }
         }
     }
