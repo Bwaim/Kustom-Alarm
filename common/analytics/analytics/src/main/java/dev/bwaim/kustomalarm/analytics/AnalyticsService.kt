@@ -16,7 +16,7 @@
 
 package dev.bwaim.kustomalarm.analytics
 
-import dev.bwaim.kustomalarm.core.DomainResult
+import dev.bwaim.kustomalarm.analytics.model.KaEvent
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.executeCatching
 import kotlinx.coroutines.CoroutineDispatcher
@@ -31,9 +31,15 @@ public class AnalyticsService
         public suspend fun logScreenView(
             screenName: String,
             screenClass: String,
-        ): DomainResult<Unit> {
-            return executeCatching(ioDispatcher) {
+        ) {
+            executeCatching(ioDispatcher) {
                 analyticsRepository.logScreenView(screenName = screenName, screenClass = screenClass)
+            }
+        }
+
+        public suspend fun logEvent(event: KaEvent) {
+            executeCatching(ioDispatcher) {
+                analyticsRepository.logEvent(event)
             }
         }
     }

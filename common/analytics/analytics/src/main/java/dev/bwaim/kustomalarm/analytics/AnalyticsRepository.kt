@@ -16,9 +16,13 @@
 
 package dev.bwaim.kustomalarm.analytics
 
+import dev.bwaim.kustomalarm.analytics.model.KaEvent
+
 public interface AnalyticsRepository {
     public suspend fun logScreenView(
         screenName: String,
         screenClass: String,
     )
+
+    public suspend fun logEvent(event: KaEvent)
 }

@@ -24,6 +24,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.analytics.AnalyticsService
+import dev.bwaim.kustomalarm.analytics.model.AlarmAddEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.core.Result.Error
 import dev.bwaim.kustomalarm.core.Result.Success
 import dev.bwaim.kustomalarm.core.SaveEvents
@@ -51,6 +54,7 @@ internal class EditViewModel
         savedStateHandle: SavedStateHandle,
         @ApplicationContext private val context: Context,
         private val alarmService: AlarmService,
+        private val analyticsService: AnalyticsService,
     ) : ViewModel() {
         private val args = EditAlarmArgs(savedStateHandle)
         private val alarmId = args.alarmId
@@ -98,6 +102,8 @@ internal class EditViewModel
                                 val duration = adjustedNow.durationTo(alarm.time)
                                 val timeBeforeAlarm = context.formatDuration(duration)
 
+                                analyticsService.logEvent(alarm.toAlarmAddEvent())
+
                                 SaveEvents.Success(
                                     context.getString(
                                         string.edit_alarm_screen_saving_success,
@@ -139,7 +145,14 @@ internal class EditViewModel
             viewModelScope.launch {
                 if (alarmId != NO_ALARM) {
                     alarmService.deleteAlarm(alarmId = alarmId)
+                    analyticsService.logEvent(AlarmDeleteEvent)
                 }
             }
         }
     }
+
+private fun Alarm.toAlarmAddEvent(): AlarmAddEvent =
+    AlarmAddEvent(
+        time = time,
+        nbDays = weekDays.size.toLong(),
+    )

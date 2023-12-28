@@ -18,6 +18,7 @@
 
 package dev.bwaim.kustomalarm.analytics
 
+import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.testing.repository.TestAnalyticsRepository
 import dev.bwaim.kustomalarm.testing.util.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,7 +52,7 @@ internal class AnalyticsServiceTest {
 
             subject.logScreenView(screenName = screenName, screenClass = screenClass)
 
-            val eventsSent = testAnalyticsRepository.events.value
+            val eventsSent = testAnalyticsRepository.screenViewEvents.value
 
             Assert.assertEquals(
                 screenName,
@@ -61,6 +62,19 @@ internal class AnalyticsServiceTest {
             Assert.assertEquals(
                 screenClass,
                 eventsSent?.second,
+            )
+        }
+
+    @Test
+    fun analytics_service_log_event() =
+        runTest {
+            subject.logEvent(AlarmDeleteEvent)
+
+            val eventSent = testAnalyticsRepository.events.value
+
+            Assert.assertEquals(
+                AlarmDeleteEvent,
+                eventSent,
             )
         }
 }

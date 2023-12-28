@@ -17,15 +17,21 @@
 package dev.bwaim.kustomalarm.testing.repository
 
 import dev.bwaim.kustomalarm.analytics.AnalyticsRepository
+import dev.bwaim.kustomalarm.analytics.model.KaEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 
 public class TestAnalyticsRepository : AnalyticsRepository {
-    public val events: MutableStateFlow<Pair<String, String>?> = MutableStateFlow(null)
+    public val screenViewEvents: MutableStateFlow<Pair<String, String>?> = MutableStateFlow(null)
+    public val events: MutableStateFlow<KaEvent?> = MutableStateFlow(null)
 
     override suspend fun logScreenView(
         screenName: String,
         screenClass: String,
     ) {
-        events.value = screenName to screenClass
+        screenViewEvents.value = screenName to screenClass
+    }
+
+    override suspend fun logEvent(event: KaEvent) {
+        events.value = event
     }
 }

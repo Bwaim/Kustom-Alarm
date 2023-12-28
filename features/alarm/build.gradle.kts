@@ -30,6 +30,7 @@ jacocoKustomConfig {
 
 dependencies {
     implementation(projects.common.alarm.alarm)
+    implementation(projects.common.analytics.analytics)
     implementation(projects.common.core.coreAndroid)
 
     implementation(libs.androidx.appcompat)

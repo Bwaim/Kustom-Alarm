@@ -21,6 +21,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.analytics.AnalyticsService
+import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmDisableEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,6 +39,7 @@ internal class AlarmViewModel
     @Inject
     constructor(
         private val alarmService: AlarmService,
+        private val analyticsService: AnalyticsService,
     ) : ViewModel() {
         val alarms: StateFlow<PersistentList<Alarm>?> =
             alarmService
@@ -45,12 +50,20 @@ internal class AlarmViewModel
         fun updateAlarm(alarm: Alarm) {
             viewModelScope.launch {
                 alarmService.saveAlarm(alarm = alarm)
+                analyticsService.logEvent(
+                    if (alarm.isActivated) {
+                        AlarmEnableEvent
+                    } else {
+                        AlarmDisableEvent
+                    },
+                )
             }
         }
 
         fun deleteAlarm(alarmId: Int) {
             viewModelScope.launch {
                 alarmService.deleteAlarm(alarmId)
+                analyticsService.logEvent(AlarmDeleteEvent)
             }
         }
     }
