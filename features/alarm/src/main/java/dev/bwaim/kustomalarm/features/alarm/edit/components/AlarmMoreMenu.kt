@@ -56,7 +56,10 @@ internal fun AlarmMoreMenu(
             expanded = moreMenuExpanded,
             onDismissRequest = { moreMenuExpanded = false },
             onDelete = deleteAlarm,
-            onSetTemplate = setTemplate,
+            onSetTemplate = {
+                setTemplate()
+                moreMenuExpanded = false
+            },
             onModify = modifyAlarm,
             onDuplicate = duplicateAlarm,
         )
