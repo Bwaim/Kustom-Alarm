@@ -35,6 +35,18 @@ public data class AlarmAddEvent(
         )
 }
 
+public data class AlarmModifyEvent(
+    val time: LocalTime,
+    val nbDays: Long,
+) : KaEvent {
+    override val name: String = "ka_alarm_modify"
+    override val params: Map<String, Any> =
+        mapOf(
+            "ka_time" to time.toString(),
+            "ka_nb_days" to nbDays,
+        )
+}
+
 public data object AlarmEnableEvent : KaEvent {
     override val name: String = "ka_alarm_enable"
     override val params: Map<String, Any> = emptyMap()
