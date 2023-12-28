@@ -23,6 +23,7 @@
     <string name="global.action.ignore">Ignore</string>
     <string name="global.action.more">More</string>
     <string name="global.action.delete">Delete</string>
+    <string name="global.action.modify">Modify</string>
     <string name="global.save.modifications_message">Save the modifications?</string>
 
     <string name="global.today">Today</string>

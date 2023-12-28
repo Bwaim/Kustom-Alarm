@@ -193,6 +193,7 @@ private fun AlarmList(
                     locale = currentLocale,
                     updateAlarm = updateAlarm,
                     deleteAlarm = { deleteAlarm(item.id) },
+                    modifyAlarm = { addAlarm(item.id) },
                 )
             }
         }

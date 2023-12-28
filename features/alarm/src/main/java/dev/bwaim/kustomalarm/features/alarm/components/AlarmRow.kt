@@ -58,6 +58,7 @@ public fun AlarmRow(
     alarm: Alarm,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: () -> Unit,
+    modifyAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
 ) {
@@ -103,6 +104,7 @@ public fun AlarmRow(
 
         AlarmMoreMenu(
             deleteAlarm = deleteAlarm,
+            modifyAlarm = modifyAlarm,
         )
     }
 }
@@ -163,6 +165,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
 
@@ -178,6 +181,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
 
@@ -193,6 +197,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
 
@@ -208,6 +213,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
 
@@ -223,6 +229,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
 
@@ -247,6 +254,7 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    modifyAlarm = {},
                 )
             }
         }

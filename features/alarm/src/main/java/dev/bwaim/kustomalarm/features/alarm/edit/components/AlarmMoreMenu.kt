@@ -27,12 +27,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import dev.bwaim.kustomalarm.compose.DeleteDropDownMenuItem
+import dev.bwaim.kustomalarm.compose.ModifyDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.MoreActionIcon
 
 @Composable
 internal fun AlarmMoreMenu(
     deleteAlarm: () -> Unit,
     modifier: Modifier = Modifier,
+    modifyAlarm: (() -> Unit)? = null,
 ) {
     var moreMenuExpanded by remember {
         mutableStateOf(false)
@@ -49,6 +51,7 @@ internal fun AlarmMoreMenu(
         EditDropDownMenu(
             expanded = moreMenuExpanded,
             onDismissRequest = { moreMenuExpanded = false },
+            onModify = modifyAlarm,
             onDelete = deleteAlarm,
         )
     }
@@ -58,12 +61,14 @@ internal fun AlarmMoreMenu(
 private fun EditDropDownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
+    onModify: (() -> Unit)? = null,
     onDelete: () -> Unit,
 ) {
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
     ) {
+        onModify?.let { ModifyDropDownMenuItem(onModify = onModify) }
         DeleteDropDownMenuItem(onDelete = onDelete)
     }
 }

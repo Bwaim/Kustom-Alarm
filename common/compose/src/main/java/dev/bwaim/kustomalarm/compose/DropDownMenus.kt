@@ -38,6 +38,18 @@ public fun DeleteDropDownMenuItem(
 }
 
 @Composable
+public fun ModifyDropDownMenuItem(
+    onModify: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_modify)) },
+        onClick = onModify,
+        modifier = modifier,
+    )
+}
+
+@Composable
 @PreviewsKAlarm
 private fun PreviewDropDownMenu() {
     KustomAlarmThemePreview {
