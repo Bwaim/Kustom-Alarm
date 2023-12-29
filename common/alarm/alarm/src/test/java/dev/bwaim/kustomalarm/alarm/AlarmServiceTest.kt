@@ -19,8 +19,10 @@
 package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
+import dev.bwaim.kustomalarm.testing.repository.defaultTemplate
 import dev.bwaim.kustomalarm.testing.util.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -127,15 +129,29 @@ internal class AlarmServiceTest {
         }
 
     @Test
-    fun alarmService_get_default() {
-        val expectedAlarm = defaultAlarm
+    fun alarmService_get_default() =
+        runTest {
+            val expectedAlarm = defaultTemplate.toAlarm()
 
-        val resAlarm = subject.getDefaultAlarm()
-        Assert.assertEquals(
-            expectedAlarm,
-            resAlarm,
-        )
-    }
+            val resAlarm = subject.getDefaultAlarm()
+            Assert.assertEquals(
+                expectedAlarm,
+                resAlarm.value,
+            )
+
+            val template =
+                AlarmTemplate(
+                    name = "template",
+                    time = LocalTime.of(16, 54),
+                    weekDays = emptySet(),
+                )
+            subject.saveTemplate(template)
+            val resAlarm2 = subject.getDefaultAlarm()
+            Assert.assertEquals(
+                template.toAlarm(),
+                resAlarm2.value,
+            )
+        }
 }
 
 private val testAlarms =
@@ -158,11 +174,4 @@ private val testAlarms =
             time = LocalTime.of(9, 0),
             weekDays = setOf(DayOfWeek.SUNDAY),
         ),
-    )
-
-private val defaultAlarm =
-    Alarm(
-        name = null,
-        time = LocalTime.of(7, 0),
-        weekDays = emptySet(),
     )

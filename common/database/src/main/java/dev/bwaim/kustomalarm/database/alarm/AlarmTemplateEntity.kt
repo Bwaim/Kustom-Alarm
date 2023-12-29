@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.alarm
+package dev.bwaim.kustomalarm.database.alarm
 
-import dev.bwaim.kustomalarm.alarm.domain.Alarm
-import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
-import kotlinx.coroutines.flow.Flow
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.time.LocalTime
 
-public interface AlarmRepository {
-    public fun observeAlarms(): Flow<List<Alarm>>
-
-    public suspend fun getAlarm(alarmId: Int): Alarm?
-
-    public suspend fun saveAlarm(alarm: Alarm)
-
-    public suspend fun deleteAlarm(alarmId: Int)
-
-    public suspend fun saveTemplate(alarmTemplate: AlarmTemplate)
-
-    public suspend fun getTemplate(): AlarmTemplate
-}
+@Entity("ALARM_TEMPLATE_ENTITY")
+public data class AlarmTemplateEntity(
+    @PrimaryKey @ColumnInfo(name = "_id") val id: Int = 1,
+    @ColumnInfo(name = "NAME") val name: String?,
+    @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
+    @ColumnInfo(name = "WEEKDAYS") val weekDays: String,
+)

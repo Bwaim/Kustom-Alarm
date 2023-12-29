@@ -18,14 +18,26 @@ package dev.bwaim.kustomalarm.testing.repository
 
 import dev.bwaim.kustomalarm.alarm.AlarmRepository
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import java.time.LocalTime
+
+public val defaultTemplate: AlarmTemplate =
+    AlarmTemplate(
+        name = null,
+        time = LocalTime.of(7, 0),
+        weekDays = emptySet(),
+    )
 
 public class TestAlarmRepository : AlarmRepository {
     private var alarmStateFlow: MutableStateFlow<List<Alarm>> = MutableStateFlow(emptyList())
     private var nextId = 1
+
+    private var templateStateFlow: MutableStateFlow<AlarmTemplate> =
+        MutableStateFlow(defaultTemplate)
 
     override fun observeAlarms(): Flow<List<Alarm>> = alarmStateFlow.map { it.sortedBy { alarm -> alarm.id } }
 
@@ -43,5 +55,13 @@ public class TestAlarmRepository : AlarmRepository {
 
     override suspend fun deleteAlarm(alarmId: Int) {
         alarmStateFlow.update { it.filterNot { it.id == alarmId } }
+    }
+
+    override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
+        templateStateFlow.value = alarmTemplate
+    }
+
+    override suspend fun getTemplate(): AlarmTemplate {
+        return templateStateFlow.value
     }
 }

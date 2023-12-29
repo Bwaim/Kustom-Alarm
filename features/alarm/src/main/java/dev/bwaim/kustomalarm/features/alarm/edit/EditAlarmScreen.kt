@@ -108,6 +108,7 @@ internal fun EditAlarmRoute(
             editViewModel.deleteAlarm()
             close()
         },
+        setTemplate = editViewModel::setTemplate,
     )
 }
 
@@ -123,12 +124,18 @@ private fun EditAlarmScreen(
     updateAlarmDays: (Set<DayOfWeek>) -> Unit,
     hideModificationMessage: () -> Unit,
     deleteAlarm: () -> Unit,
+    setTemplate: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             KaCloseTopAppBar(
                 onClickNavigation = close,
-                actions = { AlarmMoreMenu(deleteAlarm = deleteAlarm) },
+                actions = {
+                    AlarmMoreMenu(
+                        deleteAlarm = deleteAlarm,
+                        setTemplate = setTemplate,
+                    )
+                },
             )
         },
     ) { padding ->
@@ -277,6 +284,7 @@ private fun PreviewEditAlarmScreen() {
             updateAlarmDays = {},
             hideModificationMessage = {},
             deleteAlarm = {},
+            setTemplate = {},
         )
     }
 }

@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.alarm
+package dev.bwaim.kustomalarm.alarm.domain
 
-import dev.bwaim.kustomalarm.alarm.domain.Alarm
-import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
-import kotlinx.coroutines.flow.Flow
+import java.time.DayOfWeek
+import java.time.LocalTime
 
-public interface AlarmRepository {
-    public fun observeAlarms(): Flow<List<Alarm>>
-
-    public suspend fun getAlarm(alarmId: Int): Alarm?
-
-    public suspend fun saveAlarm(alarm: Alarm)
-
-    public suspend fun deleteAlarm(alarmId: Int)
-
-    public suspend fun saveTemplate(alarmTemplate: AlarmTemplate)
-
-    public suspend fun getTemplate(): AlarmTemplate
-}
+public data class AlarmTemplate(
+    val name: String?,
+    val time: LocalTime,
+    val weekDays: Set<DayOfWeek>,
+)

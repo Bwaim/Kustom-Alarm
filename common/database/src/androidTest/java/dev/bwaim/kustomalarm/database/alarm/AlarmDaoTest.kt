@@ -103,6 +103,39 @@ internal class AlarmDaoTest {
                 alarmRetrieved,
             )
         }
+
+    @Test
+    fun alarmDao_update_template() =
+        runTest {
+            val firstTemplate =
+                testAlarmTemplate(
+                    name = "template1",
+                    time = LocalTime.of(7, 0),
+                    setOf(DayOfWeek.TUESDAY),
+                )
+            val secondTemplate =
+                testAlarmTemplate(
+                    name = null,
+                    time = LocalTime.of(10, 0),
+                    setOf(DayOfWeek.MONDAY),
+                )
+
+            alarmDao.upsertAlarmTemplate(firstTemplate)
+            val res1 = alarmDao.getAlarmTemplate()
+
+            Assert.assertEquals(
+                firstTemplate,
+                res1,
+            )
+
+            alarmDao.upsertAlarmTemplate(secondTemplate)
+            val res2 = alarmDao.getAlarmTemplate()
+
+            Assert.assertEquals(
+                secondTemplate,
+                res2,
+            )
+        }
 }
 
 private fun testAlarm(
@@ -117,4 +150,14 @@ private fun testAlarm(
     weekDays = weekDays.joinToString { it.value.toString() },
     isOnce = false,
     isActivated = true,
+)
+
+private fun testAlarmTemplate(
+    name: String?,
+    time: LocalTime = LocalTime.of(10, 30),
+    weekDays: Set<DayOfWeek> = setOf(),
+) = AlarmTemplateEntity(
+    name = name,
+    time = time,
+    weekDays = weekDays.joinToString { it.value.toString() },
 )

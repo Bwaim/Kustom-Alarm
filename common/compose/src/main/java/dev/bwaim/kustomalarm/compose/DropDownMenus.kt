@@ -38,6 +38,42 @@ public fun DeleteDropDownMenuItem(
 }
 
 @Composable
+public fun ModifyDropDownMenuItem(
+    onModify: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_modify)) },
+        onClick = onModify,
+        modifier = modifier,
+    )
+}
+
+@Composable
+public fun DuplicateDropDownMenuItem(
+    onDuplicate: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_duplicate)) },
+        onClick = onDuplicate,
+        modifier = modifier,
+    )
+}
+
+@Composable
+public fun SetTemplateDropDownMenuItem(
+    onSetTemplate: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_set_template)) },
+        onClick = onSetTemplate,
+        modifier = modifier,
+    )
+}
+
+@Composable
 @PreviewsKAlarm
 private fun PreviewDropDownMenu() {
     KustomAlarmThemePreview {
@@ -46,6 +82,9 @@ private fun PreviewDropDownMenu() {
             onDismissRequest = { },
         ) {
             DeleteDropDownMenuItem(onDelete = { })
+            ModifyDropDownMenuItem(onModify = { })
+            DuplicateDropDownMenuItem(onDuplicate = { })
+            SetTemplateDropDownMenuItem(onSetTemplate = { })
         }
     }
 }

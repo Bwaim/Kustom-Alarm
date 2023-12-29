@@ -28,6 +28,7 @@ import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.analytics.model.AlarmAddEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmModifyEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
 import dev.bwaim.kustomalarm.core.Result.Error
 import dev.bwaim.kustomalarm.core.Result.Success
 import dev.bwaim.kustomalarm.core.SaveEvents
@@ -35,6 +36,7 @@ import dev.bwaim.kustomalarm.core.android.extensions.formatDuration
 import dev.bwaim.kustomalarm.core.extentions.durationTo
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.EditAlarmArgs
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
+import dev.bwaim.kustomalarm.features.alarm.toTemplate
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,6 +61,7 @@ internal class EditViewModel
     ) : ViewModel() {
         private val args = EditAlarmArgs(savedStateHandle)
         private val alarmId = args.alarmId
+        private val duplicate = args.duplicate
 
         private val _saveEventsFlow: MutableSharedFlow<SaveEvents> =
             MutableSharedFlow(extraBufferCapacity = 1)
@@ -75,14 +78,23 @@ internal class EditViewModel
             viewModelScope.launch {
                 _alarm.update {
                     if (alarmId == NO_ALARM) {
-                        alarmService.getDefaultAlarm()
-                    } else {
-                        when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
+                        when (val alarm = alarmService.getDefaultAlarm()) {
                             is Success -> alarm.value
                             is Error -> {
-                                _errorMessage.update {
-                                    context.getString(string.edit_alarm_screen_getting_error)
+                                displayError()
+                                it
+                            }
+                        }
+                    } else {
+                        when (val alarm = alarmService.getAlarm(alarmId = alarmId)) {
+                            is Success ->
+                                if (duplicate) {
+                                    alarm.value?.copy(id = 0)
+                                } else {
+                                    alarm.value
                                 }
+                            is Error -> {
+                                displayError()
                                 it
                             }
                         }
@@ -154,6 +166,21 @@ internal class EditViewModel
                     alarmService.deleteAlarm(alarmId = alarmId)
                     analyticsService.logEvent(AlarmDeleteEvent)
                 }
+            }
+        }
+
+        fun setTemplate() {
+            viewModelScope.launch {
+                _alarm.value?.let { alarm ->
+                    alarmService.saveTemplate(alarm.toTemplate())
+                    analyticsService.logEvent(AlarmSetTemplateEvent)
+                }
+            }
+        }
+
+        private fun displayError() {
+            _errorMessage.update {
+                context.getString(string.edit_alarm_screen_getting_error)
             }
         }
     }

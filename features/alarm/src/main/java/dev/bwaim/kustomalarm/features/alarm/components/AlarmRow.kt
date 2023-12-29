@@ -58,6 +58,9 @@ public fun AlarmRow(
     alarm: Alarm,
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: () -> Unit,
+    setTemplate: () -> Unit,
+    modifyAlarm: () -> Unit,
+    duplicateAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
 ) {
@@ -103,6 +106,9 @@ public fun AlarmRow(
 
         AlarmMoreMenu(
             deleteAlarm = deleteAlarm,
+            setTemplate = setTemplate,
+            duplicateAlarm = duplicateAlarm,
+            modifyAlarm = modifyAlarm,
         )
     }
 }
@@ -163,6 +169,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
 
@@ -178,6 +187,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
 
@@ -193,6 +205,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
 
@@ -208,6 +223,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
 
@@ -223,6 +241,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
 
@@ -247,6 +268,9 @@ private fun PreviewAlarmRow() {
                         ),
                     updateAlarm = {},
                     deleteAlarm = {},
+                    setTemplate = {},
+                    modifyAlarm = {},
+                    duplicateAlarm = {},
                 )
             }
         }
