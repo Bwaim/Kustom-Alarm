@@ -62,7 +62,7 @@ internal class AlarmRepositoryImplTest {
             subject.saveAlarm(alarm2)
 
             Assert.assertEquals(
-                listOf(alarm1.copy(id = 1), alarm2.copy(id = 2)),
+                listOf(alarm2.copy(id = 2), alarm1.copy(id = 1)),
                 subject.observeAlarms().first(),
             )
 
