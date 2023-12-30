@@ -36,12 +36,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
@@ -105,9 +111,7 @@ private fun AlarmScreen(
         },
     ) { padding ->
         Column(
-            modifier =
-                Modifier
-                    .padding(padding),
+            modifier = Modifier.padding(padding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             SurfaceCard(modifier = Modifier.padding(horizontal = 16.dp)) {
@@ -161,61 +165,93 @@ private fun AlarmList(
 ) {
     val context = LocalContext.current
     val currentLocale = remember { context.getAppLocale() }
+    val density = LocalDensity.current
+    var addButtonHeight by remember {
+        mutableStateOf(48.dp)
+    }
+    val addButtonBottomPadding = 16.dp
 
-    LazyColumn(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        items(
-            count = alarms.size,
-            key = { alarms[it].id },
-        ) { index ->
-            val item = alarms[index]
+    ConstraintLayout(modifier = modifier) {
+        val (alarmList, addButton) = createRefs()
 
-            val dismissState =
-                rememberSwipeToDismissState(
-                    confirmValueChange = {
-                        when (it) {
-                            StartToEnd -> {
-                                deleteAlarm(item.id)
-                                true
-                            }
-
-                            else -> false
-                        }
+        LazyColumn(
+            modifier =
+                Modifier
+                    .constrainAs(alarmList) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        height = Dimension.preferredWrapContent
                     },
-                    positionalThreshold = { 300.dp.value },
-                )
+        ) {
+            items(
+                count = alarms.size,
+                key = { alarms[it].id },
+            ) { index ->
+                val item = alarms[index]
 
-            SwipeToDismissBox(
-                state = dismissState,
-                backgroundContent = { DismissBackground(dismissState = dismissState) },
-                enableDismissFromEndToStart = false,
-            ) {
-                AlarmRow(
-                    alarm = item,
-                    modifier =
-                        Modifier
-                            .clickable { addAlarm(item.id, false) }
-                            .background(MaterialTheme.colorScheme.background)
-                            .padding(horizontal = 16.dp)
-                            .padding(bottom = 5.dp),
-                    locale = currentLocale,
-                    updateAlarm = updateAlarm,
-                    deleteAlarm = { deleteAlarm(item.id) },
-                    setTemplate = { setTemplate(item) },
-                    modifyAlarm = { addAlarm(item.id, false) },
-                    duplicateAlarm = { addAlarm(item.id, true) },
-                )
+                val dismissState =
+                    rememberSwipeToDismissState(
+                        confirmValueChange = {
+                            when (it) {
+                                StartToEnd -> {
+                                    deleteAlarm(item.id)
+                                    true
+                                }
+
+                                else -> false
+                            }
+                        },
+                        positionalThreshold = { 300.dp.value },
+                    )
+
+                SwipeToDismissBox(
+                    state = dismissState,
+                    backgroundContent = { DismissBackground(dismissState = dismissState) },
+                    enableDismissFromEndToStart = false,
+                ) {
+                    val bottomPadding =
+                        if (index == alarms.lastIndex) {
+                            addButtonHeight + addButtonBottomPadding + 20.dp
+                        } else {
+                            5.dp
+                        }
+                    AlarmRow(
+                        alarm = item,
+                        modifier =
+                            Modifier
+                                .clickable { addAlarm(item.id, false) }
+                                .background(MaterialTheme.colorScheme.background)
+                                .padding(horizontal = 16.dp)
+                                .padding(bottom = bottomPadding),
+                        locale = currentLocale,
+                        updateAlarm = updateAlarm,
+                        deleteAlarm = { deleteAlarm(item.id) },
+                        setTemplate = { setTemplate(item) },
+                        modifyAlarm = { addAlarm(item.id, false) },
+                        duplicateAlarm = { addAlarm(item.id, true) },
+                    )
+                }
             }
         }
 
-        item {
-            AddAlarmButton(
-                addAlarm = { addAlarm(NO_ALARM, false) },
-                modifier = Modifier.padding(top = 30.dp),
-            )
-        }
+        AddAlarmButton(
+            addAlarm = { addAlarm(NO_ALARM, false) },
+            modifier =
+                Modifier
+                    .padding(bottom = addButtonBottomPadding)
+                    .onGloballyPositioned {
+                        with(density) {
+                            addButtonHeight = it.size.height.toDp()
+                        }
+                    }
+                    .constrainAs(addButton) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                    },
+        )
     }
 }
 

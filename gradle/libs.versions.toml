@@ -6,6 +6,7 @@ androidGradlePlugin = "8.2.0"
 androidxActivity = "1.8.2"
 androidxAppcompat = "1.6.1"
 androidxBenchmarkMacro = "1.2.2"
+androidxConstraintLayoutCompose = "1.1.0-alpha13"
 androidxComposeMaterial3 = "1.2.0-beta01"
 androidxCore = "1.12.0"
 androidxCoreSplash = "1.1.0-alpha02"
@@ -55,6 +56,7 @@ androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppcompat" }
 androidx-benchmark-macro = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidxBenchmarkMacro" }
+androidx-constraint-layout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidxConstraintLayoutCompose" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplash" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "androidxDataStore" }

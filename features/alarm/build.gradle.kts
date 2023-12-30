@@ -34,4 +34,5 @@ dependencies {
     implementation(projects.common.core.coreAndroid)
 
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraint.layout.compose)
 }
