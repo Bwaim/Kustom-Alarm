@@ -34,7 +34,8 @@ internal class AlarmRepositoryImpl
         private val alarmDao: AlarmDao,
     ) : AlarmRepository {
         override fun observeAlarms(): Flow<List<Alarm>> {
-            return alarmDao.observeAlarms().map { it.map(AlarmEntity::toDomain) }
+            return alarmDao.observeAlarms()
+                .map { it.map(AlarmEntity::toDomain).sortedBy { alarm -> alarm.time } }
         }
 
         override suspend fun getAlarm(alarmId: Int): Alarm? {
