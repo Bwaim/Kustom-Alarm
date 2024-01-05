@@ -16,7 +16,9 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import android.annotation.SuppressLint
 import android.content.Context
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -55,13 +57,16 @@ internal class EditViewModel
     @Inject
     constructor(
         savedStateHandle: SavedStateHandle,
-        @ApplicationContext private val context: Context,
+        @ApplicationContext appContext: Context,
         private val alarmService: AlarmService,
         private val analyticsService: AnalyticsService,
     ) : ViewModel() {
         private val args = EditAlarmArgs(savedStateHandle)
         private val alarmId = args.alarmId
         private val duplicate = args.duplicate
+
+        @SuppressLint("StaticFieldLeak")
+        private val context = ContextCompat.getContextForLanguage(appContext)
 
         private val _saveEventsFlow: MutableSharedFlow<SaveEvents> =
             MutableSharedFlow(extraBufferCapacity = 1)
