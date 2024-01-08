@@ -27,5 +27,6 @@ android {
 
 dependencies {
     implementation(projects.common.alarm.alarm)
+    implementation(projects.common.core.core)
     implementation(projects.common.database)
 }

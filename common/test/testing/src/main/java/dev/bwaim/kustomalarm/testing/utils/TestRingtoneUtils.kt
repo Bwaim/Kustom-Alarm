@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dev Bwaim team
+ * Copyright 2024 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.kotlin.library")
-}
 
-dependencies {
-    implementation(projects.common.alarm.alarm)
-    implementation(projects.common.analytics.analytics)
-    implementation(projects.common.core.core)
-    implementation(projects.common.settings.settings)
+package dev.bwaim.kustomalarm.testing.utils
 
-    implementation(libs.kotlin.coroutines.test)
+import dev.bwaim.kustomalarm.core.RingtoneUtils
 
-    implementation(libs.junit.library)
-    implementation(libs.cash.turbine)
+public class TestRingtoneUtils : RingtoneUtils {
+    override fun getDefaultRingtoneUri(): String {
+        return "defaultUri"
+    }
 }

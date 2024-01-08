@@ -27,4 +27,5 @@ public data class AlarmTemplateEntity(
     @ColumnInfo(name = "NAME") val name: String?,
     @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
     @ColumnInfo(name = "WEEKDAYS") val weekDays: String,
+    @ColumnInfo(name = "ALARM_URI") val uri: String,
 )

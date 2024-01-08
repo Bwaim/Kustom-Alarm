@@ -51,8 +51,8 @@ internal class AlarmDaoTest {
         runTest {
             val alarms =
                 listOf(
-                    testAlarm(name = "alarm1"),
-                    testAlarm(name = "alarm2"),
+                    testAlarm(name = "alarm1", uri = "uri1"),
+                    testAlarm(name = "alarm2", uri = "uri2"),
                 )
 
             alarms.forEach { alarmDao.upsertAlarm(it) }
@@ -83,8 +83,9 @@ internal class AlarmDaoTest {
                         name = "alarm1",
                         time = LocalTime.of(8, 59),
                         weekDays = setOf(DayOfWeek.TUESDAY),
+                        uri = "uri1",
                     ),
-                    testAlarm(name = "alarm2"),
+                    testAlarm(name = "alarm2", uri = "uri2"),
                 )
 
             alarms.forEach { alarmDao.upsertAlarm(it) }
@@ -99,6 +100,7 @@ internal class AlarmDaoTest {
                     weekDays = "2",
                     isOnce = false,
                     isActivated = true,
+                    uri = "uri1",
                 ),
                 alarmRetrieved,
             )
@@ -112,12 +114,14 @@ internal class AlarmDaoTest {
                     name = "template1",
                     time = LocalTime.of(7, 0),
                     setOf(DayOfWeek.TUESDAY),
+                    uri = "uriTemplate1",
                 )
             val secondTemplate =
                 testAlarmTemplate(
                     name = null,
                     time = LocalTime.of(10, 0),
                     setOf(DayOfWeek.MONDAY),
+                    uri = "uriTemplate2",
                 )
 
             alarmDao.upsertAlarmTemplate(firstTemplate)
@@ -143,6 +147,7 @@ private fun testAlarm(
     name: String,
     time: LocalTime = LocalTime.of(10, 30),
     weekDays: Set<DayOfWeek> = setOf(),
+    uri: String,
 ) = AlarmEntity(
     id = id,
     name = name,
@@ -150,14 +155,17 @@ private fun testAlarm(
     weekDays = weekDays.joinToString { it.value.toString() },
     isOnce = false,
     isActivated = true,
+    uri = uri,
 )
 
 private fun testAlarmTemplate(
     name: String?,
     time: LocalTime = LocalTime.of(10, 30),
     weekDays: Set<DayOfWeek> = setOf(),
+    uri: String,
 ) = AlarmTemplateEntity(
     name = name,
     time = time,
     weekDays = weekDays.joinToString { it.value.toString() },
+    uri = uri,
 )

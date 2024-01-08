@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "11eb6913bb36f43f762c4349ae7c3273",
+    "identityHash": "0ee67f9bd0e6955fbdc6398a9c377caa",
     "entities": [
       {
         "tableName": "ALARM_ENTITY",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `NAME` TEXT, `ALARM_TIME` TEXT NOT NULL, `WEEKDAYS` TEXT NOT NULL, `IS_ONCE` INTEGER NOT NULL, `IS_ACTIVATED` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `NAME` TEXT, `ALARM_TIME` TEXT NOT NULL, `WEEKDAYS` TEXT NOT NULL, `IS_ONCE` INTEGER NOT NULL, `IS_ACTIVATED` INTEGER NOT NULL, `ALARM_URI` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -43,6 +43,12 @@
             "columnName": "IS_ACTIVATED",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "ALARM_URI",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -56,7 +62,7 @@
       },
       {
         "tableName": "ALARM_TEMPLATE_ENTITY",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `NAME` TEXT, `ALARM_TIME` TEXT NOT NULL, `WEEKDAYS` TEXT NOT NULL, PRIMARY KEY(`_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER NOT NULL, `NAME` TEXT, `ALARM_TIME` TEXT NOT NULL, `WEEKDAYS` TEXT NOT NULL, `ALARM_URI` TEXT NOT NULL, PRIMARY KEY(`_id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -81,6 +87,12 @@
             "columnName": "WEEKDAYS",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "ALARM_URI",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -96,7 +108,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11eb6913bb36f43f762c4349ae7c3273')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0ee67f9bd0e6955fbdc6398a9c377caa')"
     ]
   }
 }

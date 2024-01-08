@@ -30,6 +30,7 @@ public val defaultTemplate: AlarmTemplate =
         name = null,
         time = LocalTime.of(7, 0),
         weekDays = emptySet(),
+        uri = "defaultUri",
     )
 
 public class TestAlarmRepository : AlarmRepository {

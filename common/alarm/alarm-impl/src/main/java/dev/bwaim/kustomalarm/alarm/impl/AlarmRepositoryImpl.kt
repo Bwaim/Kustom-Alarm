@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.alarm.impl
 import dev.bwaim.kustomalarm.alarm.AlarmRepository
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
+import dev.bwaim.kustomalarm.core.RingtoneUtils
 import dev.bwaim.kustomalarm.database.alarm.AlarmDao
 import dev.bwaim.kustomalarm.database.alarm.AlarmEntity
 import dev.bwaim.kustomalarm.database.alarm.AlarmTemplateEntity
@@ -32,6 +33,7 @@ internal class AlarmRepositoryImpl
     @Inject
     constructor(
         private val alarmDao: AlarmDao,
+        private val ringtoneUtils: RingtoneUtils,
     ) : AlarmRepository {
         override fun observeAlarms(): Flow<List<Alarm>> {
             return alarmDao.observeAlarms()
@@ -63,6 +65,7 @@ internal class AlarmRepositoryImpl
                 name = null,
                 time = LocalTime.of(7, 0),
                 weekDays = emptySet(),
+                uri = ringtoneUtils.getDefaultRingtoneUri(),
             )
     }
 
@@ -74,6 +77,7 @@ private fun AlarmEntity.toDomain(): Alarm =
         weekDays = weekDays.toWeekDays(),
         isOnce = isOnce,
         isActivated = isActivated,
+        uri = uri,
     )
 
 private fun String.toWeekDays(): Set<DayOfWeek> =
@@ -91,6 +95,7 @@ private fun Alarm.toEntity(): AlarmEntity =
         weekDays = weekDays.joinToString { it.value.toString() },
         isOnce = isOnce,
         isActivated = isActivated,
+        uri = uri,
     )
 
 private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
@@ -98,6 +103,7 @@ private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
         name = name,
         time = time,
         weekDays = weekDays.toWeekDays(),
+        uri = uri,
     )
 
 private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
@@ -105,4 +111,5 @@ private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
         name = name,
         time = time,
         weekDays = weekDays.joinToString { it.value.toString() },
+        uri = uri,
     )

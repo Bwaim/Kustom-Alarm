@@ -79,4 +79,5 @@ internal fun AlarmTemplate.toAlarm(): Alarm =
         name = name,
         time = time,
         weekDays = weekDays,
+        uri = uri,
     )

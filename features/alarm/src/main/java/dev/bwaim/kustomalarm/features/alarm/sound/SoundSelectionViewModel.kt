@@ -18,7 +18,6 @@ package dev.bwaim.kustomalarm.features.alarm.sound
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.database.Cursor
 import android.media.AudioAttributes
 import android.media.Ringtone
 import android.media.RingtoneManager
@@ -28,6 +27,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.bwaim.kustomalarm.core.android.extensions.toRingtoneUri
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -116,7 +116,3 @@ internal class SoundSelectionViewModel
             }
         }
     }
-
-private fun Cursor.toRingtoneUri(): String {
-    return "${getString(RingtoneManager.URI_COLUMN_INDEX)}/${getInt(RingtoneManager.ID_COLUMN_INDEX)}"
-}

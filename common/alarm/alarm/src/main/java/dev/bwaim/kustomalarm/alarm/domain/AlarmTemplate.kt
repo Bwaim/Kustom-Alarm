@@ -23,4 +23,5 @@ public data class AlarmTemplate(
     val name: String?,
     val time: LocalTime,
     val weekDays: Set<DayOfWeek>,
+    val uri: String,
 )
