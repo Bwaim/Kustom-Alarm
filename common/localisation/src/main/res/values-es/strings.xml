@@ -44,6 +44,7 @@
     <string name="edit_alarm.screen.getting.error">Ha occurido un error, no se puede obtener los detalles de la alarma</string>
 
     <string name="sound_selection.screen.label">Selección de sonido</string>
+    <string name="sound_selection.screen.no_volume_message">Sube el volumen para escuchar</string>
 
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>

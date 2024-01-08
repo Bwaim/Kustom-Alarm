@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.sound
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,9 +27,11 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,8 +39,11 @@ import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.core.android.extensions.toast
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun SoundSelectionRoute(
@@ -46,6 +52,13 @@ internal fun SoundSelectionRoute(
 ) {
     val soundList by viewModel.soundList.collectAsStateWithLifecycle()
     val selectedUri by viewModel.selectedUri.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.noVolumeEvent
+            .onEach { context.toast(it, duration = Toast.LENGTH_SHORT) }
+            .launchIn(this)
+    }
 
     SoundSelectionScreen(
         soundList = soundList,
