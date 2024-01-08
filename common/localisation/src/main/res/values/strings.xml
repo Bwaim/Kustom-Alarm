@@ -43,6 +43,8 @@
     <string name="edit_alarm.screen.saving.success">Alarm set to %1$s</string>
     <string name="edit_alarm.screen.getting.error">An error occurred, impossible to get alarm details</string>
 
+    <string name="sound_selection.screen.label">Sound selection</string>
+
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>
     <string name="settings.screen.theme.dark_label">Dark</string>

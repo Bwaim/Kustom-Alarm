@@ -25,6 +25,8 @@ import androidx.navigation.compose.NavHost
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.editAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.navigateToEditAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.navigateToSoundSelectionScreen
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.soundSelectionScreen
 import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
 
 @Composable
@@ -52,6 +54,11 @@ internal fun KAlarmNavHost(
         )
 
         editAlarmScreen(
+            close = navigateUp,
+            onSoundSelectionClick = navController::navigateToSoundSelectionScreen,
+        )
+
+        soundSelectionScreen(
             close = navigateUp,
         )
     }

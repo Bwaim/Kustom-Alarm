@@ -85,10 +85,14 @@ public fun NavController.navigateToEditAlarmScreen(
     )
 }
 
-public fun NavGraphBuilder.editAlarmScreen(close: () -> Unit) {
+public fun NavGraphBuilder.editAlarmScreen(
+    close: () -> Unit,
+    onSoundSelectionClick: () -> Unit,
+) {
     EditAlarmRoute.composable {
         EditAlarmRoute(
             close = close,
+            onSoundSelectionClick = onSoundSelectionClick,
         )
     }
 }

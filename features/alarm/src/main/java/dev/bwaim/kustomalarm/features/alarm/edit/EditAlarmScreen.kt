@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.features.alarm.edit
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,6 +54,8 @@ import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
+import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector
+import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector2
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
@@ -62,6 +65,7 @@ import java.time.LocalTime
 @Composable
 internal fun EditAlarmRoute(
     close: () -> Unit,
+    onSoundSelectionClick: () -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -99,6 +103,7 @@ internal fun EditAlarmRoute(
         errorMessage = errorMessage,
         showModificationMessage = showModificationMessage,
         close = internalClose,
+        onSoundSelectionClick = onSoundSelectionClick,
         onSave = editViewModel::saveAlarm,
         updateAlarmName = editViewModel::updateAlarmName,
         updateAlarmTime = editViewModel::updateAlarmTime,
@@ -118,6 +123,7 @@ private fun EditAlarmScreen(
     errorMessage: String?,
     showModificationMessage: Boolean,
     close: () -> Unit,
+    onSoundSelectionClick: () -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -162,6 +168,7 @@ private fun EditAlarmScreen(
             else ->
                 AlarmDetails(
                     alarm = alarm,
+                    onSoundSelectionClick = onSoundSelectionClick,
                     onSave = onSave,
                     updateAlarmName = updateAlarmName,
                     updateAlarmTime = updateAlarmTime,
@@ -186,6 +193,7 @@ private fun EditAlarmScreen(
 @Composable
 private fun AlarmDetails(
     alarm: Alarm,
+    onSoundSelectionClick: () -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -278,6 +286,7 @@ private fun PreviewEditAlarmScreen() {
             errorMessage = null,
             showModificationMessage = false,
             close = {},
+            onSoundSelectionClick = {},
             onSave = {},
             updateAlarmName = {},
             updateAlarmTime = {},
