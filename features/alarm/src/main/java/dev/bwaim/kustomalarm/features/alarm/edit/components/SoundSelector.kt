@@ -32,7 +32,7 @@ import dev.bwaim.kustomalarm.ui.resources.R.drawable
 
 @Composable
 internal fun SoundSelector(
-    uri: String,
+    title: String,
     onSoundSelectionClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -54,7 +54,7 @@ internal fun SoundSelector(
                 modifier = Modifier.weight(0.33f),
             )
             Text(
-                text = uri,
+                text = title,
                 modifier = Modifier.weight(0.66f),
             )
         }
