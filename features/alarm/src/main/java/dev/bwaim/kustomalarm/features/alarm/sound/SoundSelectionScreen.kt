@@ -40,6 +40,8 @@ import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.android.extensions.toast
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SELECTED_URI_ARG
+import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.launchIn
@@ -47,7 +49,7 @@ import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun SoundSelectionRoute(
-    close: () -> Unit,
+    close: (backData: List<BackResultArgument<Any>>) -> Unit,
     viewModel: SoundSelectionViewModel = hiltViewModel(),
 ) {
     val soundList by viewModel.soundList.collectAsStateWithLifecycle()
@@ -62,8 +64,8 @@ internal fun SoundSelectionRoute(
 
     SoundSelectionScreen(
         soundList = soundList,
-        selectedUri = selectedUri ?: "",
-        close = close,
+        selectedUri = selectedUri,
+        close = { close(listOf(BackResultArgument(SELECTED_URI_ARG, selectedUri))) },
         play = viewModel::playRingtone,
     )
 }

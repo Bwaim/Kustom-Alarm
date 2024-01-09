@@ -18,7 +18,9 @@ package dev.bwaim.kustomalarm.features.alarm.edit
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.media.RingtoneManager
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -161,6 +163,15 @@ internal class EditViewModel
         fun updateAlarmDays(days: Set<DayOfWeek>) {
             _alarm.update {
                 it?.copy(weekDays = days)
+            }
+        }
+
+        fun updateUri(uri: String) {
+            _alarm.update {
+                it?.copy(
+                    uri = uri,
+                    ringtoneTitle = RingtoneManager.getRingtone(context, uri.toUri()).getTitle(context),
+                )
             }
         }
 

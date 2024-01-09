@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -62,10 +63,19 @@ import java.time.LocalTime
 
 @Composable
 internal fun EditAlarmRoute(
+    selectedUri: String?,
+    cleanBackstack: () -> Unit,
     close: () -> Unit,
-    onSoundSelectionClick: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(key1 = selectedUri) {
+        if (selectedUri != null) {
+            editViewModel.updateUri(uri = selectedUri)
+            cleanBackstack()
+        }
+    }
+
     val context = LocalContext.current
     SaveEventsEffect(
         eventFlow = editViewModel.saveEventsFlow,
@@ -121,7 +131,7 @@ private fun EditAlarmScreen(
     errorMessage: String?,
     showModificationMessage: Boolean,
     close: () -> Unit,
-    onSoundSelectionClick: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -191,7 +201,7 @@ private fun EditAlarmScreen(
 @Composable
 private fun AlarmDetails(
     alarmUi: AlarmUi,
-    onSoundSelectionClick: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -231,7 +241,7 @@ private fun AlarmDetails(
         )
         SoundSelector(
             title = alarmUi.ringtoneTitle,
-            onSoundSelectionClick = onSoundSelectionClick,
+            onSoundSelectionClick = { onSoundSelectionClick(alarmUi.uri) },
         )
 
         PrimaryButton(

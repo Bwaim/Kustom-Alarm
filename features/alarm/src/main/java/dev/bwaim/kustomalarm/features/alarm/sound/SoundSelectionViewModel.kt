@@ -23,11 +23,13 @@ import android.media.Ringtone
 import android.media.RingtoneManager
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.core.android.extensions.toRingtoneUri
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SoundSelectionArgs
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -44,13 +46,17 @@ import javax.inject.Inject
 internal class SoundSelectionViewModel
     @Inject
     constructor(
+        savedStateHandle: SavedStateHandle,
         @ApplicationContext private val appContext: Context,
     ) : ViewModel() {
+        private val args = SoundSelectionArgs(savedStateHandle)
+        private val uri = args.uri
+
         private val _soundList: MutableStateFlow<PersistentList<Pair<String, String>>?> =
             MutableStateFlow(null)
         val soundList: StateFlow<PersistentList<Pair<String, String>>?> = _soundList.asStateFlow()
-        private var _selectedUri: MutableStateFlow<String?> = MutableStateFlow(null)
-        val selectedUri: StateFlow<String?> = _selectedUri.asStateFlow()
+        private var _selectedUri: MutableStateFlow<String> = MutableStateFlow(uri)
+        val selectedUri: StateFlow<String> = _selectedUri.asStateFlow()
 
         private var ringtone: Ringtone? = null
 
