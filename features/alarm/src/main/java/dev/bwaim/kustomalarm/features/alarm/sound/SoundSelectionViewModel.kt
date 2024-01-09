@@ -66,6 +66,8 @@ internal class SoundSelectionViewModel
         val noVolumeEvent: SharedFlow<String> = _noVolumeEvent.asSharedFlow()
 
         init {
+            setRingtone(uri)
+
             val ringtoneManager =
                 RingtoneManager(ContextCompat.getContextForLanguage(appContext)).also {
                     it.setType(RingtoneManager.TYPE_ALARM or RingtoneManager.TYPE_RINGTONE)
