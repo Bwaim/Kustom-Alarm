@@ -19,7 +19,6 @@ package dev.bwaim.kustomalarm.features.alarm.edit
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -55,7 +54,6 @@ import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector
-import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector2
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
@@ -231,6 +229,10 @@ private fun AlarmDetails(
             initialValue = alarm.weekDays.toPersistentSet(),
             onValueChanged = { updateAlarmDays(it.toPersistentSet()) },
         )
+        SoundSelector(
+            uri = alarm.uri,
+            onSoundSelectionClick = onSoundSelectionClick,
+        )
 
         PrimaryButton(
             modifier =
@@ -282,6 +284,7 @@ private fun PreviewEditAlarmScreen() {
                     name = null,
                     time = LocalTime.of(7, 0),
                     weekDays = persistentSetOf(),
+                    uri = "uri1",
                 ),
             errorMessage = null,
             showModificationMessage = false,

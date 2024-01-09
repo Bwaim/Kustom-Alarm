@@ -17,9 +17,14 @@
 package dev.bwaim.kustomalarm.core.android.di
 
 import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import dev.bwaim.kustomalarm.core.RingtoneUtils
 import dev.bwaim.kustomalarm.core.android.RingtoneUtilsImpl
 
+@Module
+@InstallIn(SingletonComponent::class)
 internal interface UtilsModule {
     @Binds
     fun provideRingtoneUtils(it: RingtoneUtilsImpl): RingtoneUtils

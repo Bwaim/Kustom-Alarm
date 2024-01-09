@@ -283,6 +283,7 @@ private fun PreviewAlarmScreenWithAlarms() {
                         time = LocalTime.of(10, 0),
                         weekDays = setOf(SATURDAY),
                         isOnce = false,
+                        uri = "uri2",
                     ),
                     Alarm(
                         id = 1,
@@ -290,6 +291,7 @@ private fun PreviewAlarmScreenWithAlarms() {
                         time = LocalTime.of(7, 35),
                         weekDays = setOf(MONDAY, TUESDAY),
                         isOnce = false,
+                        uri = "uri1",
                     ),
                     Alarm(
                         id = 3,
@@ -297,6 +299,7 @@ private fun PreviewAlarmScreenWithAlarms() {
                         time = LocalTime.of(16, 45),
                         weekDays = setOf(),
                         isOnce = true,
+                        uri = "uri3",
                     ),
                 ),
             openDrawer = {},
