@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -38,7 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaConfirmDiscardChangesAlertDialog
@@ -53,6 +53,8 @@ import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
 import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
+import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector
+import dev.bwaim.kustomalarm.features.alarm.edit.domain.AlarmUi
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
@@ -61,9 +63,19 @@ import java.time.LocalTime
 
 @Composable
 internal fun EditAlarmRoute(
+    selectedUri: String?,
+    cleanBackstack: () -> Unit,
     close: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
+    LaunchedEffect(key1 = selectedUri) {
+        if (selectedUri != null) {
+            editViewModel.updateUri(uri = selectedUri)
+            cleanBackstack()
+        }
+    }
+
     val context = LocalContext.current
     SaveEventsEffect(
         eventFlow = editViewModel.saveEventsFlow,
@@ -95,10 +107,11 @@ internal fun EditAlarmRoute(
         }
 
     EditAlarmScreen(
-        alarm = alarm,
+        alarmUi = alarm,
         errorMessage = errorMessage,
         showModificationMessage = showModificationMessage,
         close = internalClose,
+        onSoundSelectionClick = onSoundSelectionClick,
         onSave = editViewModel::saveAlarm,
         updateAlarmName = editViewModel::updateAlarmName,
         updateAlarmTime = editViewModel::updateAlarmTime,
@@ -114,10 +127,11 @@ internal fun EditAlarmRoute(
 
 @Composable
 private fun EditAlarmScreen(
-    alarm: Alarm?,
+    alarmUi: AlarmUi?,
     errorMessage: String?,
     showModificationMessage: Boolean,
     close: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -151,7 +165,7 @@ private fun EditAlarmScreen(
                             .fillMaxWidth(),
                 )
 
-            alarm == null ->
+            alarmUi == null ->
                 KaLoader(
                     modifier =
                         Modifier
@@ -161,7 +175,8 @@ private fun EditAlarmScreen(
 
             else ->
                 AlarmDetails(
-                    alarm = alarm,
+                    alarmUi = alarmUi,
+                    onSoundSelectionClick = onSoundSelectionClick,
                     onSave = onSave,
                     updateAlarmName = updateAlarmName,
                     updateAlarmTime = updateAlarmTime,
@@ -185,7 +200,8 @@ private fun EditAlarmScreen(
 
 @Composable
 private fun AlarmDetails(
-    alarm: Alarm,
+    alarmUi: AlarmUi,
+    onSoundSelectionClick: (String) -> Unit,
     onSave: () -> Unit,
     updateAlarmName: (String) -> Unit,
     updateAlarmTime: (LocalTime) -> Unit,
@@ -197,7 +213,7 @@ private fun AlarmDetails(
 
     val alarmName: MutableState<String?> =
         remember {
-            mutableStateOf(alarm.name)
+            mutableStateOf(alarmUi.name)
         }
 
     Column(
@@ -207,7 +223,7 @@ private fun AlarmDetails(
                 .padding(horizontal = 16.dp),
     ) {
         AlarmName(
-            name = alarm.name,
+            name = alarmUi.name,
             onValueChange = {
                 alarmName.value = it
                 updateAlarmName(it)
@@ -215,13 +231,17 @@ private fun AlarmDetails(
         )
         KaTimePicker(
             modifier = Modifier.padding(vertical = 5.dp),
-            initialValue = alarm.time,
+            initialValue = alarmUi.time,
             onValueChanged = updateAlarmTime,
         )
         KaDaySelector(
             locale = currentLocale,
-            initialValue = alarm.weekDays.toPersistentSet(),
+            initialValue = alarmUi.weekDays.toPersistentSet(),
             onValueChanged = { updateAlarmDays(it.toPersistentSet()) },
+        )
+        SoundSelector(
+            title = alarmUi.ringtoneTitle,
+            onSoundSelectionClick = { onSoundSelectionClick(alarmUi.uri) },
         )
 
         PrimaryButton(
@@ -269,15 +289,18 @@ private fun AlarmName(
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(
-            alarm =
-                Alarm(
+            alarmUi =
+                AlarmUi(
                     name = null,
                     time = LocalTime.of(7, 0),
                     weekDays = persistentSetOf(),
+                    uri = "uri1",
+                    ringtoneTitle = "Sound title",
                 ),
             errorMessage = null,
             showModificationMessage = false,
             close = {},
+            onSoundSelectionClick = {},
             onSave = {},
             updateAlarmName = {},
             updateAlarmTime = {},

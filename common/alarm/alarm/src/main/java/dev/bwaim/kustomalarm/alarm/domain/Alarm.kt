@@ -26,4 +26,5 @@ public data class Alarm(
     val weekDays: Set<DayOfWeek>,
     val isOnce: Boolean = false,
     val isActivated: Boolean = true,
+    val uri: String,
 )

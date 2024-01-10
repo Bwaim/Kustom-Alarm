@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.alarm.impl
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
+import dev.bwaim.kustomalarm.testing.utils.TestRingtoneUtils
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -43,6 +44,7 @@ internal class AlarmRepositoryImplTest {
         subject =
             AlarmRepositoryImpl(
                 alarmDao = alarmDao,
+                ringtoneUtils = TestRingtoneUtils(),
             )
     }
 
@@ -54,9 +56,9 @@ internal class AlarmRepositoryImplTest {
             )
 
             val alarm1 =
-                Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = setOf(DayOfWeek.MONDAY))
+                Alarm(name = "alarm1", time = LocalTime.of(10, 45), weekDays = setOf(DayOfWeek.MONDAY), uri = "uri1")
             val alarm2 =
-                Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = setOf(DayOfWeek.SATURDAY))
+                Alarm(name = "alarm2", time = LocalTime.of(8, 15), weekDays = setOf(DayOfWeek.SATURDAY), uri = "uri2")
 
             subject.saveAlarm(alarm1)
             subject.saveAlarm(alarm2)
@@ -87,6 +89,7 @@ internal class AlarmRepositoryImplTest {
                     name = null,
                     time = LocalTime.of(7, 0),
                     weekDays = emptySet(),
+                    uri = "defaultUri",
                 )
 
             val first = subject.getTemplate()

@@ -90,6 +90,7 @@ internal class AlarmServiceTest {
                     name = "",
                     time = adjustedNow.minusHours(1),
                     weekDays = setOf(),
+                    uri = "uri1",
                 )
             val emptyAlarmForThisDay =
                 Alarm(
@@ -97,6 +98,7 @@ internal class AlarmServiceTest {
                     name = null,
                     time = adjustedNow.plusHours(1),
                     weekDays = setOf(),
+                    uri = "uri2",
                 )
 
             val expectedAlarmNextDay =
@@ -144,6 +146,7 @@ internal class AlarmServiceTest {
                     name = "template",
                     time = LocalTime.of(16, 54),
                     weekDays = emptySet(),
+                    uri = "defaultUri",
                 )
             subject.saveTemplate(template)
             val resAlarm2 = subject.getDefaultAlarm()
@@ -161,17 +164,20 @@ private val testAlarms =
             name = "alarm1",
             time = LocalTime.of(8, 0),
             weekDays = setOf(DayOfWeek.MONDAY),
+            uri = "uri1",
         ),
         Alarm(
             id = 2,
             name = "alarm2",
             time = LocalTime.of(8, 10),
             weekDays = setOf(DayOfWeek.WEDNESDAY),
+            uri = "uri2",
         ),
         Alarm(
             id = 3,
             name = "alarm3",
             time = LocalTime.of(9, 0),
             weekDays = setOf(DayOfWeek.SUNDAY),
+            uri = "uri3",
         ),
     )

@@ -43,6 +43,9 @@
     <string name="edit_alarm.screen.saving.success">Alarme enregistrée pour dans %1$s</string>
     <string name="edit_alarm.screen.getting.error">Une erreur est survenue, impossible de récupérer les détails de l\'alarme</string>
 
+    <string name="sound_selection.screen.label">Sélection du son</string>
+    <string name="sound_selection.screen.no_volume_message">Montez le volume pour écouter</string>
+
     <string name="settings.screen.label">Paramètres</string>
     <string name="settings.screen.theme.light_label">Clair</string>
     <string name="settings.screen.theme.dark_label">Sombre</string>

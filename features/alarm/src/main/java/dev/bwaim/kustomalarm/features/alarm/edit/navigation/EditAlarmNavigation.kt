@@ -16,7 +16,9 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit.navigation
 
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -24,6 +26,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import dev.bwaim.kustomalarm.features.alarm.edit.EditAlarmRoute
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SELECTED_URI_ARG
 import dev.bwaim.kustomalarm.navigation.Route
 import dev.bwaim.kustomalarm.navigation.state.MenuAppState
 import kotlinx.collections.immutable.PersistentList
@@ -85,10 +88,23 @@ public fun NavController.navigateToEditAlarmScreen(
     )
 }
 
-public fun NavGraphBuilder.editAlarmScreen(close: () -> Unit) {
-    EditAlarmRoute.composable {
+public fun NavGraphBuilder.editAlarmScreen(
+    close: () -> Unit,
+    onSoundSelectionClick: (String) -> Unit,
+) {
+    EditAlarmRoute.composable { backStackEntry ->
+        val uriSelected: String? by backStackEntry.savedStateHandle.getStateFlow(
+            SELECTED_URI_ARG,
+            null,
+        ).collectAsStateWithLifecycle()
+
         EditAlarmRoute(
+            selectedUri = uriSelected,
+            cleanBackstack = {
+                backStackEntry.savedStateHandle.remove<String>(SELECTED_URI_ARG)
+            },
             close = close,
+            onSoundSelectionClick = onSoundSelectionClick,
         )
     }
 }

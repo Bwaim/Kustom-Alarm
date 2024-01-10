@@ -21,6 +21,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
 
 @Composable
 internal fun rememberKAlarmAppState(navController: NavHostController = rememberNavController()): KAlarmAppState {
@@ -34,4 +35,14 @@ internal fun rememberKAlarmAppState(navController: NavHostController = rememberN
 @Stable
 internal class KAlarmAppState(
     val navController: NavHostController,
-)
+) {
+    fun backWithResult(backData: List<BackResultArgument<Any>>) {
+        backData.forEach { argument ->
+            navController.previousBackStackEntry?.savedStateHandle?.set(
+                argument.name,
+                argument.value,
+            )
+        }
+        navController.navigateUp()
+    }
+}

@@ -32,6 +32,7 @@ dependencies {
     implementation(projects.common.alarm.alarm)
     implementation(projects.common.analytics.analytics)
     implementation(projects.common.core.coreAndroid)
+    implementation(projects.common.uiResources)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraint.layout.compose)
