@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dev Bwaim team
+ * Copyright 2024 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,30 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm
+package dev.bwaim.kustomalarm.features.alarm.ring
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.LocalLogScreenView
 import dev.bwaim.kustomalarm.compose.configureEdgeToEdge
 import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
-import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import kotlinx.collections.immutable.toPersistentList
-import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class MainActivity : AppCompatActivity() {
-    @Inject
-    internal lateinit var navigationDrawerItems: Set<@JvmSuppressWildcards NavigationDrawerItem>
-
-    private val mainViewModel: MainViewModel by viewModels()
+internal class RingActivity : AppCompatActivity() {
+    private val ringViewModel: RingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +45,21 @@ internal class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val selectedTheme by mainViewModel.selectedTheme.collectAsStateWithLifecycle()
+            val selectedTheme by ringViewModel.selectedTheme.collectAsStateWithLifecycle()
             val isDarkTheme = selectedTheme.isDarkTheme()
 
             configureEdgeToEdge(isDarkTheme)
 
-            CompositionLocalProvider(LocalLogScreenView provides mainViewModel::logScreenView) {
+            CompositionLocalProvider(LocalLogScreenView provides ringViewModel::logScreenView) {
                 KustomAlarmTheme(
                     darkTheme = isDarkTheme,
                 ) {
-                    KAlarmApp(
-                        navigationDrawerItems = navigationDrawerItems.toPersistentList(),
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(text = "Ring !!!!!!!!!!!!!!")
+                    }
                 }
             }
         }

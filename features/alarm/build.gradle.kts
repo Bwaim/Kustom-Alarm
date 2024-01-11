@@ -18,6 +18,7 @@ plugins {
     id("kustomalarm.android.feature")
     id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
+    id("kustomalarm.hilt")
 }
 
 android {
@@ -32,8 +33,10 @@ dependencies {
     implementation(projects.common.alarm.alarm)
     implementation(projects.common.analytics.analytics)
     implementation(projects.common.core.coreAndroid)
+    implementation(projects.common.settings.settings)
     implementation(projects.common.uiResources)
 
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraint.layout.compose)
 }
