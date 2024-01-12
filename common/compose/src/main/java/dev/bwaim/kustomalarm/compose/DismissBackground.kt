@@ -28,8 +28,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SwipeToDismissState
-import androidx.compose.material3.SwipeToDismissValue.StartToEnd
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue.StartToEnd
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +40,7 @@ import dev.bwaim.kustomalarm.localisation.R.string
 
 @Composable
 public fun DismissBackground(
-    dismissState: SwipeToDismissState,
+    dismissState: SwipeToDismissBoxState,
     modifier: Modifier = Modifier,
 ) {
     val direction = dismissState.dismissDirection
