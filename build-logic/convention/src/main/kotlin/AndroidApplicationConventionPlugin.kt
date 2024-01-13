@@ -1,8 +1,10 @@
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import dev.bwaim.kustomalarm.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.getByType
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,10 +15,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<BaseAppModuleExtension> {
-                configureKotlinAndroid(this)
+                configureKotlinAndroid(
+                    commonExtension = this,
+                    androidComponentsExtension = extensions.getByType<ApplicationAndroidComponentsExtension>()
+                )
                 defaultConfig.targetSdk = 34
             }
         }
     }
-
 }
