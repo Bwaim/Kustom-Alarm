@@ -26,6 +26,7 @@
     <string name="global.action.modify">Modify</string>
     <string name="global.action.duplicate">Duplicate</string>
     <string name="global.action.set_template">Set as template</string>
+    <string name="global.action.preview">Preview</string>
     <string name="global.save.modifications_message">Save the modifications?</string>
 
     <string name="global.today">Today</string>

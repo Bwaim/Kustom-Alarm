@@ -30,6 +30,7 @@ import dev.bwaim.kustomalarm.compose.DeleteDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.DuplicateDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.ModifyDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.MoreActionIcon
+import dev.bwaim.kustomalarm.compose.PreviewDropDownMenuItem
 import dev.bwaim.kustomalarm.compose.SetTemplateDropDownMenuItem
 
 @Composable
@@ -39,6 +40,7 @@ internal fun AlarmMoreMenu(
     modifier: Modifier = Modifier,
     modifyAlarm: (() -> Unit)? = null,
     duplicateAlarm: (() -> Unit)? = null,
+    preview: (() -> Unit)? = null,
 ) {
     var moreMenuExpanded by remember {
         mutableStateOf(false)
@@ -60,6 +62,7 @@ internal fun AlarmMoreMenu(
                 setTemplate()
                 moreMenuExpanded = false
             },
+            onPreview = preview,
             onModify = modifyAlarm,
             onDuplicate = duplicateAlarm,
         )
@@ -74,14 +77,16 @@ private fun EditDropDownMenu(
     onSetTemplate: () -> Unit,
     onModify: (() -> Unit)? = null,
     onDuplicate: (() -> Unit)? = null,
+    onPreview: (() -> Unit)? = null,
 ) {
     DropdownMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest,
     ) {
         onModify?.let { ModifyDropDownMenuItem(onModify = onModify) }
-        DeleteDropDownMenuItem(onDelete = onDelete)
         onDuplicate?.let { DuplicateDropDownMenuItem(onDuplicate = onDuplicate) }
         SetTemplateDropDownMenuItem(onSetTemplate = onSetTemplate)
+        onPreview?.let { PreviewDropDownMenuItem(onPreview = onPreview) }
+        DeleteDropDownMenuItem(onDelete = onDelete)
     }
 }

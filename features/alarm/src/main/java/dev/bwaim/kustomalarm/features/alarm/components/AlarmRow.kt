@@ -61,6 +61,7 @@ public fun AlarmRow(
     setTemplate: () -> Unit,
     modifyAlarm: () -> Unit,
     duplicateAlarm: () -> Unit,
+    previewAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
 ) {
@@ -109,6 +110,7 @@ public fun AlarmRow(
             setTemplate = setTemplate,
             duplicateAlarm = duplicateAlarm,
             modifyAlarm = modifyAlarm,
+            preview = previewAlarm,
         )
     }
 }
@@ -173,6 +175,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
@@ -192,6 +195,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
@@ -211,6 +215,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
@@ -230,6 +235,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
@@ -249,6 +255,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
@@ -277,6 +284,7 @@ private fun PreviewAlarmRow() {
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
         }

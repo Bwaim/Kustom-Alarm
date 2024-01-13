@@ -32,6 +32,7 @@ import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.analytics.model.AlarmAddEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmModifyEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
 import dev.bwaim.kustomalarm.core.Result.Error
 import dev.bwaim.kustomalarm.core.Result.Success
@@ -194,6 +195,12 @@ internal class EditViewModel
                     alarmService.saveTemplate(alarm.toTemplate())
                     analyticsService.logEvent(AlarmSetTemplateEvent)
                 }
+            }
+        }
+
+        fun preview() {
+            viewModelScope.launch {
+                analyticsService.logEvent(AlarmPreviewEvent)
             }
         }
 

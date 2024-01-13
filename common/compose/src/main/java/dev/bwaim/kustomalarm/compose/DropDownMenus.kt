@@ -74,6 +74,18 @@ public fun SetTemplateDropDownMenuItem(
 }
 
 @Composable
+public fun PreviewDropDownMenuItem(
+    onPreview: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    DropdownMenuItem(
+        text = { Text(text = stringResource(id = string.global_action_preview)) },
+        onClick = onPreview,
+        modifier = modifier,
+    )
+}
+
+@Composable
 @PreviewsKAlarm
 private fun PreviewDropDownMenu() {
     KustomAlarmThemePreview {
@@ -85,6 +97,7 @@ private fun PreviewDropDownMenu() {
             ModifyDropDownMenuItem(onModify = { })
             DuplicateDropDownMenuItem(onDuplicate = { })
             SetTemplateDropDownMenuItem(onSetTemplate = { })
+            PreviewDropDownMenuItem(onPreview = { })
         }
     }
 }

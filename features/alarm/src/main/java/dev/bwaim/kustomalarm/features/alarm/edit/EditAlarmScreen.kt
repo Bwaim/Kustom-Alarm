@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -122,6 +125,7 @@ internal fun EditAlarmRoute(
             close()
         },
         setTemplate = editViewModel::setTemplate,
+        previewAlarm = editViewModel::preview,
     )
 }
 
@@ -139,12 +143,18 @@ private fun EditAlarmScreen(
     hideModificationMessage: () -> Unit,
     deleteAlarm: () -> Unit,
     setTemplate: () -> Unit,
+    previewAlarm: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             KaCloseTopAppBar(
                 onClickNavigation = close,
                 actions = {
+                    Text(
+                        text = stringResource(id = string.global_action_preview),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { previewAlarm() },
+                    )
                     AlarmMoreMenu(
                         deleteAlarm = deleteAlarm,
                         setTemplate = setTemplate,
@@ -308,6 +318,7 @@ private fun PreviewEditAlarmScreen() {
             hideModificationMessage = {},
             deleteAlarm = {},
             setTemplate = {},
+            previewAlarm = {},
         )
     }
 }
