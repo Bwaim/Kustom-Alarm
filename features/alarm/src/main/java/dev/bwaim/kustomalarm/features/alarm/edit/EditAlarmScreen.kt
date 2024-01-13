@@ -70,6 +70,7 @@ internal fun EditAlarmRoute(
     cleanBackstack: () -> Unit,
     close: () -> Unit,
     onSoundSelectionClick: (String) -> Unit,
+    openRingActivity: (String, String?) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = selectedUri, cleanBackstack) {
@@ -125,7 +126,13 @@ internal fun EditAlarmRoute(
             close()
         },
         setTemplate = editViewModel::setTemplate,
-        previewAlarm = editViewModel::preview,
+        previewAlarm = {
+            val alarmTmp = alarm
+            alarmTmp?.let {
+                editViewModel.preview()
+                openRingActivity(alarmTmp.uri, alarmTmp.name)
+            }
+        },
     )
 }
 

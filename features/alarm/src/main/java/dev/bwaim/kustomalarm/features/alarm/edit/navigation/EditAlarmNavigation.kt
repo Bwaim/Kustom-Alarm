@@ -91,6 +91,7 @@ public fun NavController.navigateToEditAlarmScreen(
 public fun NavGraphBuilder.editAlarmScreen(
     close: () -> Unit,
     onSoundSelectionClick: (String) -> Unit,
+    openRingActivity: (String, String?) -> Unit,
 ) {
     EditAlarmRoute.composable { backStackEntry ->
         val uriSelected: String? by backStackEntry.savedStateHandle.getStateFlow(
@@ -105,6 +106,7 @@ public fun NavGraphBuilder.editAlarmScreen(
             },
             close = close,
             onSoundSelectionClick = onSoundSelectionClick,
+            openRingActivity = openRingActivity,
         )
     }
 }

@@ -75,6 +75,7 @@ import java.time.LocalTime
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
+    openRingActivity: (String, String?) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -91,7 +92,10 @@ internal fun AlarmRoute(
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
         setTemplate = viewModel::setTemplate,
-        previewAlarm = { viewModel.trackPreviewEvent() },
+        previewAlarm = { uri, title ->
+            viewModel.trackPreviewEvent()
+            openRingActivity(uri, title)
+        },
     )
 }
 
@@ -103,7 +107,7 @@ private fun AlarmScreen(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (Int) -> Unit,
+    previewAlarm: (String, String?) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -164,7 +168,7 @@ private fun AlarmList(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (Int) -> Unit,
+    previewAlarm: (String, String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -235,7 +239,7 @@ private fun AlarmList(
                         setTemplate = { setTemplate(item) },
                         modifyAlarm = { addAlarm(item.id, false) },
                         duplicateAlarm = { addAlarm(item.id, true) },
-                        previewAlarm = { previewAlarm(item.id) },
+                        previewAlarm = { previewAlarm(item.uri, item.name) },
                     )
                 }
             }
@@ -271,7 +275,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = {},
+            previewAlarm = { _, _ -> },
         )
     }
 }
@@ -313,7 +317,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = {},
+            previewAlarm = { _, _ -> },
         )
     }
 }

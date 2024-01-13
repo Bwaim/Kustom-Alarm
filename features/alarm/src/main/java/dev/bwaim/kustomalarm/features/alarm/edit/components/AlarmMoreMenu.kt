@@ -62,7 +62,10 @@ internal fun AlarmMoreMenu(
                 setTemplate()
                 moreMenuExpanded = false
             },
-            onPreview = preview,
+            onPreview = {
+                preview?.invoke()
+                moreMenuExpanded = false
+            },
             onModify = modifyAlarm,
             onDuplicate = duplicateAlarm,
         )

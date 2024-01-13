@@ -16,6 +16,8 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -28,16 +30,29 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.LocalLogScreenView
 import dev.bwaim.kustomalarm.compose.configureEdgeToEdge
 import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
+import kotlin.LazyThreadSafetyMode.NONE
+
+public const val URI_RING_ACTIVITY_ARG: String = "URI_RING_ACTIVITY_ARG"
+public const val TITLE_RING_ACTIVITY_ARG: String = "TITLE_RING_ACTIVITY_ARG"
 
 @AndroidEntryPoint
-internal class RingActivity : AppCompatActivity() {
+public class RingActivity : AppCompatActivity() {
     private val ringViewModel: RingViewModel by viewModels()
+
+    private val uri: String? by lazy(NONE) {
+        intent.extras?.getString(URI_RING_ACTIVITY_ARG)
+    }
+
+    private val title: String? by lazy(NONE) {
+        intent.extras?.getString(TITLE_RING_ACTIVITY_ARG)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +73,27 @@ internal class RingActivity : AppCompatActivity() {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Text(text = "Ring !!!!!!!!!!!!!!")
+                        Text(text = "Ring !!!!!!!!!!!!!! (uri $uri, title $title)")
                     }
                 }
             }
+        }
+    }
+
+    public companion object {
+        public fun createIntent(
+            context: Context,
+            uri: String,
+            title: String? = null,
+        ): Intent {
+            val intent = Intent(context, RingActivity::class.java)
+            intent.putExtras(
+                bundleOf(
+                    URI_RING_ACTIVITY_ARG to uri,
+                    TITLE_RING_ACTIVITY_ARG to title,
+                ),
+            )
+            return intent
         }
     }
 }
