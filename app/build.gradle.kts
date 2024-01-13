@@ -20,7 +20,11 @@ plugins {
     id("kustomalarm.android.application.jacoco")
     id("kustomalarm.android.test.compose")
     id("kustomalarm.hilt")
-    id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.android.gms.oss-licenses-plugin") apply false
+}
+
+if (providers.gradleProperty("useLicensePlugin").orNull == "true") {
+    apply(plugin = "com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
