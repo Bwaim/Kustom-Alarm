@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
@@ -109,6 +110,10 @@ internal fun EditAlarmRoute(
                     }
             }
         }
+
+    BackHandler {
+        internalClose()
+    }
 
     EditAlarmScreen(
         alarmUi = alarm,
