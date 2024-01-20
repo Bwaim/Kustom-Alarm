@@ -53,7 +53,7 @@ public fun KaTimePicker(
     var hours by remember { mutableIntStateOf(initialValue.hour) }
     var minutes by remember { mutableIntStateOf(initialValue.minute) }
 
-    LaunchedEffect(hours, minutes) {
+    LaunchedEffect(hours, minutes, onValueChanged) {
         onValueChanged(LocalTime.of(hours, minutes))
     }
 

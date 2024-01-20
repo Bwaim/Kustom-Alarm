@@ -69,7 +69,7 @@ internal fun EditAlarmRoute(
     onSoundSelectionClick: (String) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(key1 = selectedUri) {
+    LaunchedEffect(key1 = selectedUri, cleanBackstack) {
         if (selectedUri != null) {
             editViewModel.updateUri(uri = selectedUri)
             cleanBackstack()

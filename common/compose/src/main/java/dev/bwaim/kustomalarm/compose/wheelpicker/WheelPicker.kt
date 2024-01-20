@@ -53,7 +53,7 @@ public fun <T : Any> WheelPicker(
 
     LaunchedEffect(Unit) { lazyListState.scrollToItem(calculateFirstIndex(startIndex, items.size)) }
 
-    LaunchedEffect(lazyListState.isScrollInProgress) {
+    LaunchedEffect(lazyListState.isScrollInProgress, onValueChanged) {
         if (!lazyListState.isScrollInProgress) {
             layoutInfo.currentItem?.let { item ->
                 val selectedIndex = item.index % items.size

@@ -31,7 +31,7 @@ public fun SaveEventsEffect(
     successAction: (String) -> Unit,
     failureAction: (String) -> Unit,
 ) {
-    LaunchedEffect(Unit) {
+    LaunchedEffect(successAction, failureAction) {
         eventFlow
             .onEach { event ->
                 when (event) {
