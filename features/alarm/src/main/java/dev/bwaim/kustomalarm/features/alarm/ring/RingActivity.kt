@@ -23,21 +23,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.LocalLogScreenView
 import dev.bwaim.kustomalarm.compose.configureEdgeToEdge
 import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
-import kotlin.LazyThreadSafetyMode.NONE
+import dev.bwaim.kustomalarm.features.alarm.ring.components.RingScreen
 
 public const val URI_RING_ACTIVITY_ARG: String = "URI_RING_ACTIVITY_ARG"
 public const val TITLE_RING_ACTIVITY_ARG: String = "TITLE_RING_ACTIVITY_ARG"
@@ -69,11 +69,16 @@ public class RingActivity : AppCompatActivity() {
                 KustomAlarmTheme(
                     darkTheme = isDarkTheme,
                 ) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(text = "Ring !!!!!!!!!!!!!! (uri $uri, title $title)")
+                    KaBackground {
+                        val currentTime by ringViewModel.currentTime.collectAsStateWithLifecycle()
+
+                        RingScreen(
+                            currentTime = currentTime,
+                            name = "name",
+                            modifier =
+                                Modifier
+                                    .windowInsetsPadding(WindowInsets.safeContent),
+                        )
                     }
                 }
             }

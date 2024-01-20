@@ -16,22 +16,30 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle.SHORT
+import java.util.Timer
 import javax.inject.Inject
+import kotlin.concurrent.timer
 
 @HiltViewModel
 internal class RingViewModel
     @Inject
     constructor(
+        private val savedStateHandle: SavedStateHandle,
         settingsService: SettingsService,
         private val analyticsService: AnalyticsService,
     ) : ViewModel() {
@@ -44,6 +52,23 @@ internal class RingViewModel
                     null,
                 )
 
+        val currentTime: MutableStateFlow<String> = MutableStateFlow(getTime())
+
+        private lateinit var timer: Timer
+
+        init {
+            viewModelScope.launch {
+                timer =
+                    timer(period = 300) {
+                        currentTime.value = getTime()
+                    }
+            }
+        }
+
+        override fun onCleared() {
+            timer.cancel()
+        }
+
         fun logScreenView(
             screenName: String,
             screenClass: String,
@@ -51,5 +76,10 @@ internal class RingViewModel
             viewModelScope.launch {
                 analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
             }
+        }
+
+        private fun getTime(): String {
+            val localizedTimeFormatter = DateTimeFormatter.ofLocalizedTime(SHORT)
+            return LocalTime.now().format(localizedTimeFormatter)
         }
     }

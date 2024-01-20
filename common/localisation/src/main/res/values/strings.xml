@@ -47,6 +47,9 @@
     <string name="sound_selection.screen.label">Sound selection</string>
     <string name="sound_selection.screen.no_volume_message">Turn up the volume to listen</string>
 
+    <string name="ring.screen.repeat">Repeat</string>
+    <string name="ring.screen.turn_off">Turn off</string>
+
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>
     <string name="settings.screen.theme.dark_label">Dark</string>

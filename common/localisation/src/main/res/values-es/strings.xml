@@ -47,6 +47,9 @@
     <string name="sound_selection.screen.label">Selección de sonido</string>
     <string name="sound_selection.screen.no_volume_message">Sube el volumen para escuchar</string>
 
+    <string name="ring.screen.repeat">Repetir</string>
+    <string name="ring.screen.turn_off">Apagar</string>
+
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>
     <string name="settings.screen.theme.dark_label">Oscuro</string>
