@@ -25,23 +25,21 @@ import java.io.OutputStream
 import javax.inject.Inject
 
 @VisibleForTesting
-public class ThemePreferencesSerializer
-    @Inject
-    constructor() : Serializer<ThemePreferences> {
-        override val defaultValue: ThemePreferences
-            get() = ThemePreferences.getDefaultInstance()
+public class ThemePreferencesSerializer @Inject constructor() : Serializer<ThemePreferences> {
+    override val defaultValue: ThemePreferences
+        get() = ThemePreferences.getDefaultInstance()
 
-        override suspend fun readFrom(input: InputStream): ThemePreferences =
-            try {
-                ThemePreferences.parseFrom(input)
-            } catch (exception: InvalidProtocolBufferException) {
-                throw CorruptionException("Cannot read proto.", exception)
-            }
-
-        override suspend fun writeTo(
-            t: ThemePreferences,
-            output: OutputStream,
-        ) {
-            t.writeTo(output)
+    override suspend fun readFrom(input: InputStream): ThemePreferences =
+        try {
+            ThemePreferences.parseFrom(input)
+        } catch (exception: InvalidProtocolBufferException) {
+            throw CorruptionException("Cannot read proto.", exception)
         }
+
+    override suspend fun writeTo(
+        t: ThemePreferences,
+        output: OutputStream,
+    ) {
+        t.writeTo(output)
     }
+}

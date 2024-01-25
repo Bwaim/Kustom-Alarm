@@ -39,57 +39,55 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class AlarmViewModel
-    @Inject
-    constructor(
-        private val alarmService: AlarmService,
-        private val analyticsService: AnalyticsService,
-    ) : ViewModel() {
-        val alarms: StateFlow<PersistentList<Alarm>?> =
-            alarmService
-                .observeAlarms()
-                .map { it.toPersistentList() }
-                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+internal class AlarmViewModel @Inject constructor(
+    private val alarmService: AlarmService,
+    private val analyticsService: AnalyticsService,
+) : ViewModel() {
+    val alarms: StateFlow<PersistentList<Alarm>?> =
+        alarmService
+            .observeAlarms()
+            .map { it.toPersistentList() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-        fun updateAlarm(alarm: Alarm) {
-            viewModelScope.launch {
-                alarmService.saveAlarm(alarm = alarm)
-                analyticsService.logEvent(
-                    if (alarm.isActivated) {
-                        AlarmEnableEvent
-                    } else {
-                        AlarmDisableEvent
-                    },
-                )
-            }
-        }
-
-        fun deleteAlarm(alarmId: Int) {
-            viewModelScope.launch {
-                alarmService.deleteAlarm(alarmId)
-                analyticsService.logEvent(AlarmDeleteEvent)
-            }
-        }
-
-        fun logDuplicateEvent() {
-            viewModelScope.launch {
-                analyticsService.logEvent(AlarmDuplicateEvent)
-            }
-        }
-
-        fun setTemplate(alarm: Alarm) {
-            viewModelScope.launch {
-                alarmService.saveTemplate(alarm.toTemplate())
-                analyticsService.logEvent(AlarmSetTemplateEvent)
-            }
-        }
-
-        fun trackPreviewEvent() {
-            viewModelScope.launch {
-                analyticsService.logEvent(AlarmPreviewEvent)
-            }
+    fun updateAlarm(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmService.saveAlarm(alarm = alarm)
+            analyticsService.logEvent(
+                if (alarm.isActivated) {
+                    AlarmEnableEvent
+                } else {
+                    AlarmDisableEvent
+                },
+            )
         }
     }
+
+    fun deleteAlarm(alarmId: Int) {
+        viewModelScope.launch {
+            alarmService.deleteAlarm(alarmId)
+            analyticsService.logEvent(AlarmDeleteEvent)
+        }
+    }
+
+    fun logDuplicateEvent() {
+        viewModelScope.launch {
+            analyticsService.logEvent(AlarmDuplicateEvent)
+        }
+    }
+
+    fun setTemplate(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmService.saveTemplate(alarm.toTemplate())
+            analyticsService.logEvent(AlarmSetTemplateEvent)
+        }
+    }
+
+    fun trackPreviewEvent() {
+        viewModelScope.launch {
+            analyticsService.logEvent(AlarmPreviewEvent)
+        }
+    }
+}
 
 internal fun Alarm.toTemplate(): AlarmTemplate =
     AlarmTemplate(

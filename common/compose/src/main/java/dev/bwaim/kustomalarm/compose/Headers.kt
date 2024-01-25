@@ -49,8 +49,7 @@ public fun Header(
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = null,
-            modifier =
-                Modifier.align(Alignment.CenterEnd).clip(RoundedCornerShape(20.dp)).size(96.dp),
+            modifier = Modifier.align(Alignment.CenterEnd).clip(RoundedCornerShape(20.dp)).size(96.dp),
         )
 
         Text(

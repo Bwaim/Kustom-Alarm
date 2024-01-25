@@ -26,26 +26,24 @@ import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
-public class SettingsService
-    @Inject
-    public constructor(
-        @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-        private val themeRepository: ThemeRepository,
-    ) {
-        public fun observeTheme(): Flow<Theme> {
-            return themeRepository.observeTheme().flowOn(ioDispatcher)
-        }
-
-        public suspend fun setTheme(theme: Theme) {
-            withContext(ioDispatcher) { themeRepository.setTheme(theme) }
-        }
-
-        public fun getThemes(): List<Theme> = Theme.values().toList()
-
-        public fun getLocales(): List<Locale> =
-            listOf(
-                Locale("es"),
-                Locale.ENGLISH,
-                Locale.FRENCH,
-            )
+public class SettingsService @Inject public constructor(
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val themeRepository: ThemeRepository,
+) {
+    public fun observeTheme(): Flow<Theme> {
+        return themeRepository.observeTheme().flowOn(ioDispatcher)
     }
+
+    public suspend fun setTheme(theme: Theme) {
+        withContext(ioDispatcher) { themeRepository.setTheme(theme) }
+    }
+
+    public fun getThemes(): List<Theme> = Theme.values().toList()
+
+    public fun getLocales(): List<Locale> =
+        listOf(
+            Locale("es"),
+            Locale.ENGLISH,
+            Locale.FRENCH,
+        )
+}

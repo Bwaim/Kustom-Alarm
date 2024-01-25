@@ -52,10 +52,9 @@ public fun KaCenterAlignedTopAppBar(
         modifier = modifier,
         navigationIcon = navigationIcon,
         actions = actions,
-        colors =
-            TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = Color.Transparent,
-            ),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = Color.Transparent,
+        ),
     )
 }
 

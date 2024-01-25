@@ -90,10 +90,9 @@ private fun SoundSelectionScreen(
         when (soundList) {
             null ->
                 KaLoader(
-                    modifier =
-                        Modifier
-                            .padding(padding)
-                            .fillMaxSize(),
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
                 )
 
             else ->
@@ -115,20 +114,18 @@ private fun SoundList(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier =
-            modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
     ) {
         items(
             count = sounds.size,
         ) { index ->
             val item = sounds[index]
             Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable { play(item.second) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { play(item.second) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(selected = item.second == selectedUri, onClick = { })
@@ -143,11 +140,10 @@ private fun SoundList(
 private fun PreviewSoundSelectionScreen() {
     KustomAlarmThemePreview {
         SoundSelectionScreen(
-            soundList =
-                persistentListOf(
-                    "sound1" to "uri1",
-                    "sound2" to "uri2",
-                ),
+            soundList = persistentListOf(
+                "sound1" to "uri1",
+                "sound2" to "uri2",
+            ),
             selectedUri = "uri2",
             close = {},
             play = {},

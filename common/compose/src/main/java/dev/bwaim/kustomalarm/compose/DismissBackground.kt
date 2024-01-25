@@ -46,11 +46,10 @@ public fun DismissBackground(
     val direction = dismissState.dismissDirection
     if (direction == StartToEnd) {
         Row(
-            modifier =
-                modifier
-                    .fillMaxSize()
-                    .background(PaletteTokens.Error50)
-                    .padding(horizontal = 16.dp),
+            modifier = modifier
+                .fillMaxSize()
+                .background(PaletteTokens.Error50)
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {

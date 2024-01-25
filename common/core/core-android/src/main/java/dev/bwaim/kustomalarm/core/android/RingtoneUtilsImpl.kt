@@ -23,21 +23,19 @@ import dev.bwaim.kustomalarm.core.RingtoneUtils
 import dev.bwaim.kustomalarm.core.android.extensions.toRingtoneUri
 import javax.inject.Inject
 
-internal class RingtoneUtilsImpl
-    @Inject
-    constructor(
-        @ApplicationContext private val context: Context,
-    ) : RingtoneUtils {
-        override fun getDefaultRingtoneUri(): String {
-            val ringtoneManager =
-                RingtoneManager(context).also {
-                    it.setType(RingtoneManager.TYPE_ALARM or RingtoneManager.TYPE_RINGTONE)
-                }
-            val cursor = ringtoneManager.cursor
-            return if (cursor.moveToNext()) {
-                cursor.toRingtoneUri()
-            } else {
-                ""
+internal class RingtoneUtilsImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : RingtoneUtils {
+    override fun getDefaultRingtoneUri(): String {
+        val ringtoneManager =
+            RingtoneManager(context).also {
+                it.setType(RingtoneManager.TYPE_ALARM or RingtoneManager.TYPE_RINGTONE)
             }
+        val cursor = ringtoneManager.cursor
+        return if (cursor.moveToNext()) {
+            cursor.toRingtoneUri()
+        } else {
+            ""
         }
     }
+}

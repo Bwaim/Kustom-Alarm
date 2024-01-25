@@ -29,35 +29,33 @@ import javax.inject.Inject
 
 private const val FIRING_ALARM_NOTIFICATION_CHANNEL = "firing_alarms"
 
-internal class NotificationHelperImpl
-    @Inject
-    constructor(
-        @ApplicationContext private val context: Context,
-    ) : NotificationHelper {
-        private val notificationManager: NotificationManager =
-            context.getSystemService<NotificationManager>() ?: throw IllegalStateException()
+internal class NotificationHelperImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
+) : NotificationHelper {
+    private val notificationManager: NotificationManager =
+        context.getSystemService<NotificationManager>() ?: throw IllegalStateException()
 
-        override fun setUpNotificationChannels() {
-            if (BuildWrapper.isAtLeastO) {
-                createAlarmNotificationChannel()
-            }
-        }
-
-        @RequiresApi(VERSION_CODES.O)
-        private fun createAlarmNotificationChannel() {
-            if (notificationManager.getNotificationChannel(FIRING_ALARM_NOTIFICATION_CHANNEL) == null) {
-                val name = context.getString(string.notification_channel_alarms_name)
-                val importance = NotificationManager.IMPORTANCE_HIGH
-                val channel =
-                    NotificationChannel(
-                        // id =
-                        FIRING_ALARM_NOTIFICATION_CHANNEL,
-                        // name =
-                        name,
-                        // importance =
-                        importance,
-                    )
-                notificationManager.createNotificationChannel(channel)
-            }
+    override fun setUpNotificationChannels() {
+        if (BuildWrapper.isAtLeastO) {
+            createAlarmNotificationChannel()
         }
     }
+
+    @RequiresApi(VERSION_CODES.O)
+    private fun createAlarmNotificationChannel() {
+        if (notificationManager.getNotificationChannel(FIRING_ALARM_NOTIFICATION_CHANNEL) == null) {
+            val name = context.getString(string.notification_channel_alarms_name)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel =
+                NotificationChannel(
+                    // id =
+                    FIRING_ALARM_NOTIFICATION_CHANNEL,
+                    // name =
+                    name,
+                    // importance =
+                    importance,
+                )
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+}

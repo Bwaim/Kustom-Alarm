@@ -29,45 +29,43 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 import javax.inject.Inject
 
-internal class AlarmRepositoryImpl
-    @Inject
-    constructor(
-        private val alarmDao: AlarmDao,
-        private val ringtoneUtils: RingtoneUtils,
-    ) : AlarmRepository {
-        override fun observeAlarms(): Flow<List<Alarm>> {
-            return alarmDao.observeAlarms()
-                .map { it.map(AlarmEntity::toDomain).sortedBy { alarm -> alarm.time } }
-        }
-
-        override suspend fun getAlarm(alarmId: Int): Alarm? {
-            return alarmDao.getAlarm(id = alarmId)?.toDomain()
-        }
-
-        override suspend fun saveAlarm(alarm: Alarm) {
-            alarmDao.upsertAlarm(alarm.toEntity())
-        }
-
-        override suspend fun deleteAlarm(alarmId: Int) {
-            alarmDao.deleteAlarm(alarmId = alarmId)
-        }
-
-        override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
-            alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
-        }
-
-        override suspend fun getTemplate(): AlarmTemplate {
-            return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
-        }
-
-        private fun getDefaultTemplate(): AlarmTemplate =
-            AlarmTemplate(
-                name = null,
-                time = LocalTime.of(7, 0),
-                weekDays = emptySet(),
-                uri = ringtoneUtils.getDefaultRingtoneUri(),
-            )
+internal class AlarmRepositoryImpl @Inject constructor(
+    private val alarmDao: AlarmDao,
+    private val ringtoneUtils: RingtoneUtils,
+) : AlarmRepository {
+    override fun observeAlarms(): Flow<List<Alarm>> {
+        return alarmDao.observeAlarms()
+            .map { it.map(AlarmEntity::toDomain).sortedBy { alarm -> alarm.time } }
     }
+
+    override suspend fun getAlarm(alarmId: Int): Alarm? {
+        return alarmDao.getAlarm(id = alarmId)?.toDomain()
+    }
+
+    override suspend fun saveAlarm(alarm: Alarm) {
+        alarmDao.upsertAlarm(alarm.toEntity())
+    }
+
+    override suspend fun deleteAlarm(alarmId: Int) {
+        alarmDao.deleteAlarm(alarmId = alarmId)
+    }
+
+    override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
+        alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
+    }
+
+    override suspend fun getTemplate(): AlarmTemplate {
+        return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
+    }
+
+    private fun getDefaultTemplate(): AlarmTemplate =
+        AlarmTemplate(
+            name = null,
+            time = LocalTime.of(7, 0),
+            weekDays = emptySet(),
+            uri = ringtoneUtils.getDefaultRingtoneUri(),
+        )
+}
 
 private fun AlarmEntity.toDomain(): Alarm =
     Alarm(

@@ -52,9 +52,9 @@ internal class RingViewModel
                     null,
                 )
 
-        val currentTime: MutableStateFlow<String> = MutableStateFlow(getTime())
+    val currentTime: MutableStateFlow<String> = MutableStateFlow(getTime())
 
-        private lateinit var timer: Timer
+    private lateinit var timer: Timer
 
         init {
             viewModelScope.launch {
@@ -69,14 +69,14 @@ internal class RingViewModel
             timer.cancel()
         }
 
-        fun logScreenView(
-            screenName: String,
-            screenClass: String,
-        ) {
-            viewModelScope.launch {
-                analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
-            }
+    fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    ) {
+        viewModelScope.launch {
+            analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
         }
+    }
 
         private fun getTime(): String {
             val localizedTimeFormatter = DateTimeFormatter.ofLocalizedTime(SHORT)

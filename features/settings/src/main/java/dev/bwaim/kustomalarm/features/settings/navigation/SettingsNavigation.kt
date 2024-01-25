@@ -51,16 +51,14 @@ public object SettingsRoute : Route {
     override val screenClass: String = SETTINGS_SCREEN_CLASS
 }
 
-public class SettingsNavigationDrawerItem
-    @Inject
-    constructor() : NavigationDrawerItem {
-        override val id: String = NAVIGATION_DRAWER_SETTINGS_ID
-        override val labelRes: Int = string.settings_screen_label
-        override val icon: ImageVector = Icons.Filled.Settings
-        override val action: (NavController) -> Unit = { navController ->
-            navController.navigateToSettings()
-        }
+public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDrawerItem {
+    override val id: String = NAVIGATION_DRAWER_SETTINGS_ID
+    override val labelRes: Int = string.settings_screen_label
+    override val icon: ImageVector = Icons.Filled.Settings
+    override val action: (NavController) -> Unit = { navController ->
+        navController.navigateToSettings()
     }
+}
 
 public fun NavController.navigateToSettings(navOptions: NavOptions? = buildSettingsNavOptions()) {
     this.navigate(

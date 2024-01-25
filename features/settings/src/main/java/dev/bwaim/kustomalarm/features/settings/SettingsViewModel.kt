@@ -32,25 +32,23 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-internal class SettingsViewModel
-    @Inject
-    constructor(
-        private val settingsService: SettingsService,
-    ) : ViewModel() {
-        val themes: State<List<Theme>> = mutableStateOf(settingsService.getThemes())
+internal class SettingsViewModel @Inject constructor(
+    private val settingsService: SettingsService,
+) : ViewModel() {
+    val themes: State<List<Theme>> = mutableStateOf(settingsService.getThemes())
 
-        val currentTheme: StateFlow<Theme> =
-            settingsService
-                .observeTheme()
-                .stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(5_000),
-                    Theme.LIGHT,
-                )
+    val currentTheme: StateFlow<Theme> =
+        settingsService
+            .observeTheme()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                Theme.LIGHT,
+            )
 
-        val locales: State<List<Locale>> = mutableStateOf(settingsService.getLocales())
+    val locales: State<List<Locale>> = mutableStateOf(settingsService.getLocales())
 
-        public fun setTheme(theme: Preference<Theme>) {
-            viewModelScope.launch { settingsService.setTheme(theme.value) }
-        }
+    public fun setTheme(theme: Preference<Theme>) {
+        viewModelScope.launch { settingsService.setTheme(theme.value) }
     }
+}

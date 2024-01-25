@@ -27,20 +27,18 @@ import androidx.compose.runtime.DisposableEffect
 public fun ComponentActivity.configureEdgeToEdge(isDarkTheme: Boolean) {
     DisposableEffect(isDarkTheme) {
         enableEdgeToEdge(
-            statusBarStyle =
-                SystemBarStyle.auto(
-                    Color.TRANSPARENT,
-                    Color.TRANSPARENT,
-                ) {
-                    isDarkTheme
-                },
-            navigationBarStyle =
-                SystemBarStyle.auto(
-                    lightScrim,
-                    darkScrim,
-                ) {
-                    isDarkTheme
-                },
+            statusBarStyle = SystemBarStyle.auto(
+                Color.TRANSPARENT,
+                Color.TRANSPARENT,
+            ) {
+                isDarkTheme
+            },
+            navigationBarStyle = SystemBarStyle.auto(
+                lightScrim,
+                darkScrim,
+            ) {
+                isDarkTheme
+            },
         )
         onDispose {}
     }

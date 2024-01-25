@@ -39,10 +39,9 @@ internal fun SoundSelector(
     Card(
         onClick = onSoundSelectionClick,
         modifier = modifier,
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+        ),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -65,20 +65,18 @@ internal fun RingScreen(
 
         Card(
             onClick = { /*TODO*/ },
-            modifier =
-                Modifier
-                    .fillMaxWidth(0.8f)
-                    .height(200.dp),
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .height(200.dp),
         ) {
             Text(
                 text = stringResource(id = string.ring_screen_repeat),
                 style = MaterialTheme.typography.displayLarge,
                 textAlign = TextAlign.Center,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .wrapContentHeight(Alignment.CenterVertically),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .wrapContentHeight(Alignment.CenterVertically),
             )
         }
 
@@ -98,11 +96,10 @@ internal fun RingScreen(
                 text = stringResource(id = string.ring_screen_turn_off),
                 style = MaterialTheme.typography.displayMedium,
                 textAlign = TextAlign.Center,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .wrapContentHeight(Alignment.CenterVertically),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .wrapContentHeight(Alignment.CenterVertically),
             )
         }
     }

@@ -30,34 +30,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class MainViewModel
-    @Inject
-    constructor(
-        settingsService: SettingsService,
-        notificationHelper: NotificationHelper,
-        private val analyticsService: AnalyticsService,
-    ) : ViewModel() {
-        val selectedTheme: StateFlow<Theme?> =
-            settingsService
-                .observeTheme()
-                .stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(5_000),
-                    null,
-                )
+internal class MainViewModel @Inject constructor(
+    settingsService: SettingsService,
+    notificationHelper: NotificationHelper,
+    private val analyticsService: AnalyticsService,
+) : ViewModel() {
+    val selectedTheme: StateFlow<Theme?> =
+        settingsService
+            .observeTheme()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                null,
+            )
 
-        init {
-            viewModelScope.launch {
-                notificationHelper.setUpNotificationChannels()
-            }
-        }
-
-        fun logScreenView(
-            screenName: String,
-            screenClass: String,
-        ) {
-            viewModelScope.launch {
-                analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
-            }
+    init {
+        viewModelScope.launch {
+            notificationHelper.setUpNotificationChannels()
         }
     }
+
+    fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    ) {
+        viewModelScope.launch {
+            analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
+        }
+    }
+}
