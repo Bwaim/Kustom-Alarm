@@ -92,6 +92,7 @@ dependencies {
     implementation(projects.common.analytics.analytics)
     implementation(projects.common.analytics.analyticsImpl)
     implementation(projects.common.compose)
+    implementation(projects.common.core.core)
     implementation(projects.common.core.coreAndroid)
     implementation(projects.common.database)
     implementation(projects.common.navigation)

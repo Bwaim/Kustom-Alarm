@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dev Bwaim team
+ * Copyright 2024 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id("kustomalarm.android.library")
-    id("kustomalarm.android.library.jacoco")
-    id("kustomalarm.hilt")
-}
 
-android {
-    namespace = "dev.bwaim.kustomalarm.core.android"
-}
+package dev.bwaim.kustomalarm.core
 
-jacocoKustomConfig {
-    hasTests = false
-}
-
-dependencies {
-    implementation(projects.common.core.core)
-    implementation(projects.common.localisation)
-
-    implementation(libs.kotlin.coroutines.android)
-    implementation(libs.kotlin.coroutines.core)
-
-    implementation(libs.androidx.appcompat)
+public interface NotificationHelper {
+    public fun setUpNotificationChannels()
 }

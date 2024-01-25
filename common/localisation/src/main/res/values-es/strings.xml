@@ -32,6 +32,8 @@
     <string name="global.today">Hoy</string>
     <string name="global.tomorrow">Mañana</string>
 
+    <string name="notification.channel.alarms.name">Alarmas activadas</string>
+
     <string name="alarm.screen.titre">Alarmas</string>
     <string name="alarm.screen.no_alarm.msg">Ninguna alarma creada</string>
     <string name="alarm.screen.no_alarm.add_button">Agregar</string>

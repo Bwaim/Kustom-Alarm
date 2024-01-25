@@ -20,7 +20,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.core.RingtoneUtils
+import dev.bwaim.kustomalarm.core.android.NotificationHelperImpl
 import dev.bwaim.kustomalarm.core.android.RingtoneUtilsImpl
 
 @Module
@@ -28,4 +30,7 @@ import dev.bwaim.kustomalarm.core.android.RingtoneUtilsImpl
 internal interface UtilsModule {
     @Binds
     fun provideRingtoneUtils(it: RingtoneUtilsImpl): RingtoneUtils
+
+    @Binds
+    fun provideNotificationHelper(it: NotificationHelperImpl): NotificationHelper
 }

@@ -22,6 +22,10 @@ public object BuildWrapper {
     public val SDK_INT: Int
         get() = Build.VERSION.SDK_INT
 
+    // Version26
+    public val isAtLeastO: Boolean
+        get() = SDK_INT >= Build.VERSION_CODES.O
+
     // Version 28
     public val isAtLeastP: Boolean
         get() = SDK_INT >= Build.VERSION_CODES.P
