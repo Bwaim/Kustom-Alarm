@@ -34,6 +34,12 @@
 
     <string name="notification.channel.alarms.name">Alarmas activadas</string>
 
+    <string name="permission.global.continue">Continuar</string>
+    <string name="permission.global.dismiss">Despedir</string>
+
+    <string name="permission.notification.titre">Por que notificaciones</string>
+    <string name="permission.notification.rationale">Mostramos notificaciones para recordarte las alarmas configuradas.</string>
+
     <string name="alarm.screen.titre">Alarmas</string>
     <string name="alarm.screen.no_alarm.msg">Ninguna alarma creada</string>
     <string name="alarm.screen.no_alarm.add_button">Agregar</string>

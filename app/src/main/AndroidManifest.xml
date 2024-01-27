@@ -18,6 +18,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".KAlarmApplication"
         android:allowBackup="true"
@@ -49,7 +51,7 @@
             android:name=".features.alarm.ring.RingActivity"
             android:showWhenLocked="true"
             android:theme="@style/Theme.Ka"
-            android:turnScreenOn="true"/>
+            android:turnScreenOn="true" />
 
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

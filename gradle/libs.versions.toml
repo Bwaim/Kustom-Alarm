@@ -1,5 +1,5 @@
 [versions]
-accompanist = "0.32.0"
+accompanist = "0.34.0"
 androidCacheFix = "3.0.1"
 androidDesugarJdkLibs = "2.0.4"
 androidGradlePlugin = "8.3.0"
@@ -50,6 +50,8 @@ timber = "5.0.1"
 turbine = "1.1.0"
 
 [libraries]
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "androidxActivity" }

@@ -34,6 +34,12 @@
 
     <string name="notification.channel.alarms.name">Firing alarms</string>
 
+    <string name="permission.global.continue">Continue</string>
+    <string name="permission.global.dismiss">Dismiss</string>
+
+    <string name="permission.notification.titre">Why notifications</string>
+    <string name="permission.notification.rationale">We display notifications to remind you the alarms set.</string>
+
     <string name="alarm.screen.titre">Alarms</string>
     <string name="alarm.screen.no_alarm.msg">No alarm created</string>
     <string name="alarm.screen.no_alarm.add_button">Add</string>

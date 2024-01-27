@@ -16,6 +16,8 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import android.Manifest.permission
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -52,7 +54,9 @@ import dev.bwaim.kustomalarm.compose.KaTimePicker
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.SaveEventsEffect
+import dev.bwaim.kustomalarm.compose.permissions.PermissionScreen
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
@@ -65,6 +69,7 @@ import kotlinx.collections.immutable.toPersistentSet
 import java.time.DayOfWeek
 import java.time.LocalTime
 
+@SuppressLint("InlinedApi")
 @Composable
 internal fun EditAlarmRoute(
     selectedUri: String?,
@@ -115,30 +120,38 @@ internal fun EditAlarmRoute(
         internalClose()
     }
 
-    EditAlarmScreen(
-        alarmUi = alarm,
-        errorMessage = errorMessage,
-        showModificationMessage = showModificationMessage,
-        close = internalClose,
-        onSoundSelectionClick = onSoundSelectionClick,
-        onSave = editViewModel::saveAlarm,
-        updateAlarmName = editViewModel::updateAlarmName,
-        updateAlarmTime = editViewModel::updateAlarmTime,
-        updateAlarmDays = editViewModel::updateAlarmDays,
-        hideModificationMessage = { showModificationMessage = false },
-        deleteAlarm = {
-            editViewModel.deleteAlarm()
-            close()
-        },
-        setTemplate = editViewModel::setTemplate,
-        previewAlarm = {
-            val alarmTmp = alarm
-            alarmTmp?.let {
-                editViewModel.preview()
-                openRingActivity(alarmTmp.uri, alarmTmp.name)
-            }
-        },
-    )
+    PermissionScreen(
+        permission = permission.POST_NOTIFICATIONS,
+        title = context.getString(string.permission_notification_titre),
+        rationale = context.getString(string.permission_notification_rationale),
+        isApplicable = BuildWrapper.isAtLeastT,
+        onPermissionResult = { editViewModel.saveAlarm() },
+    ) { permissionTrigger ->
+        EditAlarmScreen(
+            alarmUi = alarm,
+            errorMessage = errorMessage,
+            showModificationMessage = showModificationMessage,
+            close = internalClose,
+            onSoundSelectionClick = onSoundSelectionClick,
+            onSave = permissionTrigger,
+            updateAlarmName = editViewModel::updateAlarmName,
+            updateAlarmTime = editViewModel::updateAlarmTime,
+            updateAlarmDays = editViewModel::updateAlarmDays,
+            hideModificationMessage = { showModificationMessage = false },
+            deleteAlarm = {
+                editViewModel.deleteAlarm()
+                close()
+            },
+            setTemplate = editViewModel::setTemplate,
+            previewAlarm = {
+                val alarmTmp = alarm
+                alarmTmp?.let {
+                    editViewModel.preview()
+                    openRingActivity(alarmTmp.uri, alarmTmp.name)
+                }
+            },
+        )
+    }
 }
 
 @Composable

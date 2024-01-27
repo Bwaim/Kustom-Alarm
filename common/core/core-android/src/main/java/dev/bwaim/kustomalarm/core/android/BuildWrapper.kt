@@ -33,4 +33,8 @@ public object BuildWrapper {
     // Version 29
     public val isAtLeastQ: Boolean
         get() = SDK_INT >= Build.VERSION_CODES.Q
+
+    // Version 33
+    public val isAtLeastT: Boolean
+        get() = SDK_INT >= Build.VERSION_CODES.TIRAMISU
 }
