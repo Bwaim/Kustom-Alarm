@@ -16,26 +16,29 @@
 
 package dev.bwaim.kustomalarm.settings
 
+import dev.bwaim.kustomalarm.core.DomainResult
 import dev.bwaim.kustomalarm.core.IODispatcher
+import dev.bwaim.kustomalarm.core.executeCatching
+import dev.bwaim.kustomalarm.settings.appstate.AppStateRepository
 import dev.bwaim.kustomalarm.settings.theme.ThemeRepository
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
 public class SettingsService @Inject public constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val themeRepository: ThemeRepository,
+    private val appStateRepository: AppStateRepository,
 ) {
     public fun observeTheme(): Flow<Theme> {
         return themeRepository.observeTheme().flowOn(ioDispatcher)
     }
 
     public suspend fun setTheme(theme: Theme) {
-        withContext(ioDispatcher) { themeRepository.setTheme(theme) }
+        executeCatching(ioDispatcher) { themeRepository.setTheme(theme) }
     }
 
     public fun getThemes(): List<Theme> = Theme.values().toList()
@@ -46,4 +49,14 @@ public class SettingsService @Inject public constructor(
             Locale.ENGLISH,
             Locale.FRENCH,
         )
+
+    public suspend fun getRingingAlarm(): DomainResult<Int> {
+        return executeCatching(ioDispatcher) {
+            appStateRepository.getAppState().ringingAlarm
+        }
+    }
+
+    public suspend fun setRingingAlarm(ringingAlarm: Int) {
+        executeCatching(ioDispatcher) { appStateRepository.setRingingAlarm(ringingAlarm) }
+    }
 }
