@@ -35,6 +35,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue.StartToEnd
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,6 +64,7 @@ import dev.bwaim.kustomalarm.features.alarm.components.AddAlarmButton
 import dev.bwaim.kustomalarm.features.alarm.components.AlarmRow
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -75,10 +77,18 @@ import java.time.LocalTime
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
-    openRingActivity: (String, String?) -> Unit,
+    openRingActivity: (Int, String?, String?) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
+    val ringingAlarm by viewModel.ringingAlarm.collectAsStateWithLifecycle()
+
+    LaunchedEffect(ringingAlarm, openRingActivity) {
+        val alarmId = ringingAlarm
+        if (alarmId != null && alarmId != DEFAULT_RINGING_ALARM) {
+            openRingActivity(alarmId, null, null)
+        }
+    }
 
     AlarmScreen(
         alarms = alarms,
@@ -92,9 +102,9 @@ internal fun AlarmRoute(
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
         setTemplate = viewModel::setTemplate,
-        previewAlarm = { uri, title ->
+        previewAlarm = { id, uri, title ->
             viewModel.trackPreviewEvent()
-            openRingActivity(uri, title)
+            openRingActivity(id, uri, title)
         },
     )
 }
@@ -107,7 +117,7 @@ private fun AlarmScreen(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (String, String?) -> Unit,
+    previewAlarm: (Int, String, String?) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -167,7 +177,7 @@ private fun AlarmList(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (String, String?) -> Unit,
+    previewAlarm: (Int, String, String?) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -236,7 +246,7 @@ private fun AlarmList(
                         setTemplate = { setTemplate(item) },
                         modifyAlarm = { addAlarm(item.id, false) },
                         duplicateAlarm = { addAlarm(item.id, true) },
-                        previewAlarm = { previewAlarm(item.uri, item.name) },
+                        previewAlarm = { previewAlarm(item.id, item.uri, item.name) },
                     )
                 }
             }
@@ -271,7 +281,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = { _, _ -> },
+            previewAlarm = { _, _, _ -> },
         )
     }
 }
@@ -312,7 +322,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = { _, _ -> },
+            previewAlarm = { _, _, _ -> },
         )
     }
 }

@@ -29,10 +29,14 @@ import dev.bwaim.kustomalarm.analytics.model.AlarmDuplicateEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
+import dev.bwaim.kustomalarm.core.value
+import dev.bwaim.kustomalarm.settings.SettingsService
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,6 +44,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class AlarmViewModel @Inject constructor(
+    settingsService: SettingsService,
     private val alarmService: AlarmService,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
@@ -48,6 +53,15 @@ internal class AlarmViewModel @Inject constructor(
             .observeAlarms()
             .map { it.toPersistentList() }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
+    private val _ringingAlarm: MutableStateFlow<Int?> = MutableStateFlow(null)
+    val ringingAlarm = _ringingAlarm.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            _ringingAlarm.value = settingsService.getRingingAlarm().value
+        }
+    }
 
     fun updateAlarm(alarm: Alarm) {
         viewModelScope.launch {

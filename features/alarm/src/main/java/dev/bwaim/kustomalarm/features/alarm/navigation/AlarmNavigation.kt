@@ -42,7 +42,7 @@ public object AlarmRoute : Route {
 public fun NavGraphBuilder.alarmScreen(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
-    openRingActivity: (String, String?) -> Unit,
+    openRingActivity: (Int, String?, String?) -> Unit,
 ) {
     AlarmRoute.composable {
         AlarmRoute(

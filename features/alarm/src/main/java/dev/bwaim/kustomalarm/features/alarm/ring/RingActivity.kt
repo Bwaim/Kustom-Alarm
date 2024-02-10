@@ -39,6 +39,7 @@ import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.alarm.ring.components.RingScreen
 
+public const val ID_RING_ACTIVITY_ARG: String = "ID_RING_ACTIVITY_ARG"
 public const val URI_RING_ACTIVITY_ARG: String = "URI_RING_ACTIVITY_ARG"
 public const val TITLE_RING_ACTIVITY_ARG: String = "TITLE_RING_ACTIVITY_ARG"
 
@@ -88,12 +89,14 @@ public class RingActivity : AppCompatActivity() {
     public companion object {
         public fun createIntent(
             context: Context,
-            uri: String,
+            id: Int,
+            uri: String? = null,
             title: String? = null,
         ): Intent {
             val intent = Intent(context, RingActivity::class.java)
             intent.putExtras(
                 bundleOf(
+                    ID_RING_ACTIVITY_ARG to id,
                     URI_RING_ACTIVITY_ARG to uri,
                     TITLE_RING_ACTIVITY_ARG to title,
                 ),

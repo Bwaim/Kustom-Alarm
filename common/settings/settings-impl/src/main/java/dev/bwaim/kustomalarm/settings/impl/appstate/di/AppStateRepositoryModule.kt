@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.appstate.domain
+package dev.bwaim.kustomalarm.settings.impl.appstate.di
 
-public const val DEFAULT_RINGING_ALARM: Int = 0
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dev.bwaim.kustomalarm.settings.appstate.AppStateRepository
+import dev.bwaim.kustomalarm.settings.impl.appstate.AppStateRepositoryImpl
 
-public data class AppState(
-    val ringingAlarm: Int,
-)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface AppStateRepositoryModule {
+    @Binds fun provideAppStateRepository(it: AppStateRepositoryImpl): AppStateRepository
+}
