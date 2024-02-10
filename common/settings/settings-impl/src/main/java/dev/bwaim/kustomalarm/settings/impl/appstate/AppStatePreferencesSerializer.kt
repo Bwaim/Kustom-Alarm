@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.impl.theme
+package dev.bwaim.kustomalarm.settings.impl.appstate
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
-import dev.bwaim.kustomalarm.settings.impl.appstate.AppStatePreferences
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
+@VisibleForTesting
 public class AppStatePreferencesSerializer @Inject constructor() : Serializer<AppStatePreferences> {
     override val defaultValue: AppStatePreferences
         get() = AppStatePreferences.getDefaultInstance()

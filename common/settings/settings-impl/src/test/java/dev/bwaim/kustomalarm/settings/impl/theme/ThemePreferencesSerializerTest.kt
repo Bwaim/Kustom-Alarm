@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.impl
+package dev.bwaim.kustomalarm.settings.impl.theme
 
 import androidx.datastore.core.CorruptionException
-import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
-import dev.bwaim.kustomalarm.settings.impl.theme.themePreferences
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
