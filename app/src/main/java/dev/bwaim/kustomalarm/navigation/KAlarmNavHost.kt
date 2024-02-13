@@ -45,13 +45,11 @@ internal fun KAlarmNavHost(
     val context = LocalContext.current
     val openRingActivity =
         remember(context) {
-            { alarmId: Int, uri: String?, title: String? ->
+            { alarmId: Int ->
                 val intent =
                     RingActivity.createIntent(
                         context = context,
                         id = alarmId,
-                        uri = uri,
-                        title = title,
                     )
                 context.startActivity(intent)
             }

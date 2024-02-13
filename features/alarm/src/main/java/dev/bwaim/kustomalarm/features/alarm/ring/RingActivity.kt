@@ -40,8 +40,6 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.alarm.ring.components.RingScreen
 
 public const val ID_RING_ACTIVITY_ARG: String = "ID_RING_ACTIVITY_ARG"
-public const val URI_RING_ACTIVITY_ARG: String = "URI_RING_ACTIVITY_ARG"
-public const val TITLE_RING_ACTIVITY_ARG: String = "TITLE_RING_ACTIVITY_ARG"
 
 @AndroidEntryPoint
 public class RingActivity : AppCompatActivity() {
@@ -72,6 +70,7 @@ public class RingActivity : AppCompatActivity() {
                 ) {
                     KaBackground {
                         val currentTime by ringViewModel.currentTime.collectAsStateWithLifecycle()
+                        val alarm by ringViewModel.alarm.collectAsStateWithLifecycle()
 
                         RingScreen(
                             currentTime = currentTime,
@@ -90,15 +89,11 @@ public class RingActivity : AppCompatActivity() {
         public fun createIntent(
             context: Context,
             id: Int,
-            uri: String? = null,
-            title: String? = null,
         ): Intent {
             val intent = Intent(context, RingActivity::class.java)
             intent.putExtras(
                 bundleOf(
                     ID_RING_ACTIVITY_ARG to id,
-                    URI_RING_ACTIVITY_ARG to uri,
-                    TITLE_RING_ACTIVITY_ARG to title,
                 ),
             )
             return intent

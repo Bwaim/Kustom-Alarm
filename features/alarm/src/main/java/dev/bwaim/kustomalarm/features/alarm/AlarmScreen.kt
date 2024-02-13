@@ -77,7 +77,7 @@ import java.time.LocalTime
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
-    openRingActivity: (Int, String?, String?) -> Unit,
+    openRingActivity: (Int) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -86,7 +86,7 @@ internal fun AlarmRoute(
     LaunchedEffect(ringingAlarm, openRingActivity) {
         val alarmId = ringingAlarm
         if (alarmId != null && alarmId != DEFAULT_RINGING_ALARM) {
-            openRingActivity(alarmId, null, null)
+            openRingActivity(alarmId)
         }
     }
 
@@ -102,9 +102,9 @@ internal fun AlarmRoute(
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
         setTemplate = viewModel::setTemplate,
-        previewAlarm = { id, uri, title ->
+        previewAlarm = { id ->
             viewModel.trackPreviewEvent()
-            openRingActivity(id, uri, title)
+            openRingActivity(id)
         },
     )
 }
@@ -117,7 +117,7 @@ private fun AlarmScreen(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (Int, String, String?) -> Unit,
+    previewAlarm: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -177,7 +177,7 @@ private fun AlarmList(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
-    previewAlarm: (Int, String, String?) -> Unit,
+    previewAlarm: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -246,7 +246,7 @@ private fun AlarmList(
                         setTemplate = { setTemplate(item) },
                         modifyAlarm = { addAlarm(item.id, false) },
                         duplicateAlarm = { addAlarm(item.id, true) },
-                        previewAlarm = { previewAlarm(item.id, item.uri, item.name) },
+                        previewAlarm = { previewAlarm(item.id) },
                     )
                 }
             }
@@ -281,7 +281,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = { _, _, _ -> },
+            previewAlarm = {},
         )
     }
 }
@@ -322,7 +322,7 @@ private fun PreviewAlarmScreenWithAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
-            previewAlarm = { _, _, _ -> },
+            previewAlarm = {},
         )
     }
 }

@@ -16,10 +16,13 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.Ringtone
 import android.media.RingtoneManager
+import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -27,17 +30,25 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
+import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.core.ApplicationScope
+import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -57,8 +68,9 @@ internal class RingViewModel @Inject constructor(
 ) : ViewModel() {
     private val args = RingArgs(savedStateHandle)
     private val alarmId = args.id
-    private var uri = args.uri
-    var title = args.title
+
+    private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
+    val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
 
     val selectedTheme: StateFlow<Theme?> =
         settingsService
@@ -73,7 +85,7 @@ internal class RingViewModel @Inject constructor(
 
     private lateinit var timer: Timer
 
-    private var ringtone = uri?.let { getRingtone(it) }
+    private var ringtone: Ringtone? = null
 
     init {
         viewModelScope.launch {
@@ -84,10 +96,16 @@ internal class RingViewModel @Inject constructor(
 
             settingsService.setRingingAlarm(alarmId)
 
-            if (uri == null) {
-                getDeferredAlarm()
-            }
+            getAlarm()
         }
+
+        _alarm
+            .filterNotNull()
+            .onEach {
+                ringtone = getRingtone(it.uri)
+                createRingingAlarmNotification()
+            }
+            .launchIn(viewModelScope)
     }
 
     override fun onCleared() {
@@ -108,15 +126,12 @@ internal class RingViewModel @Inject constructor(
         return LocalTime.now().format(localizedTimeFormatter)
     }
 
-    private suspend fun getDeferredAlarm() {
-        val alarm = alarmService.getAlarm(alarmId).value ?: return
-        uri = alarm.uri
-        title = alarm.name
-        ringtone = getRingtone(alarm.uri)
+    private suspend fun getAlarm() {
+        _alarm.update { alarmService.getAlarm(alarmId).value }
     }
 
-    private fun getRingtone(uri: String) {
-        RingtoneManager.getRingtone(context, uri.toUri())
+    private fun getRingtone(uri: String): Ringtone {
+        return RingtoneManager.getRingtone(context, uri.toUri())
             .apply { buildAudioAttributes() }
     }
 
@@ -136,11 +151,9 @@ internal class RingViewModel @Inject constructor(
     }
 }
 
-private class RingArgs(val id: Int, val uri: String?, val title: String?) {
+private class RingArgs(val id: Int) {
     constructor(savedStateHandle: SavedStateHandle) :
         this(
             id = checkNotNull(savedStateHandle.get<Int>(ID_RING_ACTIVITY_ARG)),
-            uri = savedStateHandle.get<String?>(URI_RING_ACTIVITY_ARG),
-            title = savedStateHandle.get<String?>(TITLE_RING_ACTIVITY_ARG),
         )
 }
