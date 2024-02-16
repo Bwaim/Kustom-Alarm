@@ -19,7 +19,6 @@
 package dev.bwaim.kustomalarm.settings
 
 import app.cash.turbine.test
-import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import dev.bwaim.kustomalarm.testing.repository.TestAppStateRepository
 import dev.bwaim.kustomalarm.testing.repository.TestThemeRepository
@@ -81,13 +80,13 @@ internal class SettingsServiceTest {
     @Test
     fun appStateService_observe_changes() = runTest {
         val defaultRingingAlarm = 0
-
-        val res1 = subject.getRingingAlarm()
-        Assert.assertEquals(defaultRingingAlarm, res1.value)
-
         val ringingAlarmSet = 3
-        subject.setRingingAlarm(ringingAlarmSet)
-        val res2 = subject.getRingingAlarm()
-        Assert.assertEquals(ringingAlarmSet, res2.value)
+
+        subject.observeRingingAlarm().test {
+            Assert.assertEquals(defaultRingingAlarm, awaitItem())
+            subject.setRingingAlarm(ringingAlarmSet)
+            Assert.assertEquals(ringingAlarmSet, awaitItem())
+            cancel()
+        }
     }
 }

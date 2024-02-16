@@ -34,6 +34,9 @@
 
     <string name="notification.channel.alarms.name">Alarmes enclenchées</string>
 
+    <string name="notification.firing.alarm.title">Alarme &#9200;</string>
+    <string name="notification.firing.alarm.description">Appuyez pour afficher l\'alarme.</string>
+
     <string name="permission.global.continue">Continuer</string>
     <string name="permission.global.dismiss">Rejeter</string>
 

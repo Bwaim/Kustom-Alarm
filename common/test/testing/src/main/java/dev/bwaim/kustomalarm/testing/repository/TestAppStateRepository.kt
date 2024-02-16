@@ -18,14 +18,15 @@ package dev.bwaim.kustomalarm.testing.repository
 
 import dev.bwaim.kustomalarm.settings.appstate.AppStateRepository
 import dev.bwaim.kustomalarm.settings.appstate.domain.AppState
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
 public class TestAppStateRepository : AppStateRepository {
     private var appStateStateFlow = MutableStateFlow(AppState(ringingAlarm = 0))
 
-    override suspend fun getAppState(): AppState {
-        return appStateStateFlow.value
+    override fun observeAppState(): Flow<AppState> {
+        return appStateStateFlow
     }
 
     override suspend fun setRingingAlarm(ringingAlarm: Int) {

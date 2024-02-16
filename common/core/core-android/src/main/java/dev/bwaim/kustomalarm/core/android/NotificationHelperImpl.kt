@@ -41,11 +41,15 @@ internal class NotificationHelperImpl @Inject constructor(
         }
     }
 
+    override fun getAlarmNotificationChannelId(): String {
+        return FIRING_ALARM_NOTIFICATION_CHANNEL
+    }
+
     @RequiresApi(VERSION_CODES.O)
     private fun createAlarmNotificationChannel() {
         if (notificationManager.getNotificationChannel(FIRING_ALARM_NOTIFICATION_CHANNEL) == null) {
             val name = context.getString(string.notification_channel_alarms_name)
-            val importance = NotificationManager.IMPORTANCE_HIGH
+            val importance = NotificationManager.IMPORTANCE_LOW
             val channel =
                 NotificationChannel(
                     // id =
@@ -55,6 +59,7 @@ internal class NotificationHelperImpl @Inject constructor(
                     // importance =
                     importance,
                 )
+            channel.setSound(null, null)
             notificationManager.createNotificationChannel(channel)
         }
     }

@@ -16,12 +16,14 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.Ringtone
 import android.media.RingtoneManager
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
@@ -35,6 +37,7 @@ import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.core.ApplicationScope
 import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.core.value
+import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
@@ -57,17 +60,23 @@ import java.util.Timer
 import javax.inject.Inject
 import kotlin.concurrent.timer
 
+internal const val RINGING_ALARM_NOTIFICATION_ID = 100001
+
 @HiltViewModel
 internal class RingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext private val context: Context,
+    @ApplicationContext private val appContext: Context,
     @ApplicationScope private val applicationScope: CoroutineScope,
     private val settingsService: SettingsService,
     private val analyticsService: AnalyticsService,
     private val alarmService: AlarmService,
+    private val notificationHelper: NotificationHelper,
 ) : ViewModel() {
     private val args = RingArgs(savedStateHandle)
     private val alarmId = args.id
+
+    @SuppressLint("StaticFieldLeak")
+    private val context = ContextCompat.getContextForLanguage(appContext)
 
     private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
     val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
@@ -87,14 +96,14 @@ internal class RingViewModel @Inject constructor(
 
     private var ringtone: Ringtone? = null
 
+    private val notificationManager = appContext.getSystemService<NotificationManager>()
+
     init {
         viewModelScope.launch {
             timer =
                 timer(period = 300) {
                     currentTime.value = getTime()
                 }
-
-            settingsService.setRingingAlarm(alarmId)
 
             getAlarm()
         }
@@ -104,6 +113,7 @@ internal class RingViewModel @Inject constructor(
             .onEach {
                 ringtone = getRingtone(it.uri)
                 createRingingAlarmNotification()
+                settingsService.setRingingAlarm(alarmId)
             }
             .launchIn(viewModelScope)
     }
@@ -131,7 +141,7 @@ internal class RingViewModel @Inject constructor(
     }
 
     private fun getRingtone(uri: String): Ringtone {
-        return RingtoneManager.getRingtone(context, uri.toUri())
+        return RingtoneManager.getRingtone(appContext, uri.toUri())
             .apply { buildAudioAttributes() }
     }
 
@@ -146,8 +156,35 @@ internal class RingViewModel @Inject constructor(
     private fun turnOffAlarm() {
         timer.cancel()
         applicationScope.launch {
+            notificationManager?.cancel(RINGING_ALARM_NOTIFICATION_ID)
             settingsService.setRingingAlarm(DEFAULT_RINGING_ALARM)
         }
+    }
+
+    private fun createRingingAlarmNotification() {
+        viewModelScope.launch {
+            if (hasNotificationRights()) {
+                val builder = NotificationCompat.Builder(
+                    appContext,
+                    notificationHelper.getAlarmNotificationChannelId(),
+                )
+                    .setSmallIcon(drawable.ic_notification_klock)
+                    .setContentTitle(context.getString(string.notification_firing_alarm_title))
+                    .setContentText(context.getString(string.notification_firing_alarm_description))
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
+                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setContentIntent(RingActivity.createPendingIntent(appContext, alarmId))
+
+                val notification = builder.build()
+                notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
+
+                notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, notification)
+            }
+        }
+    }
+
+    private fun hasNotificationRights(): Boolean {
+        return notificationManager?.areNotificationsEnabled() ?: false
     }
 }
 

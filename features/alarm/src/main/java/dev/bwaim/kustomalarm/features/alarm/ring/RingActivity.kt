@@ -16,6 +16,9 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -97,6 +100,18 @@ public class RingActivity : AppCompatActivity() {
                 ),
             )
             return intent
+        }
+
+        internal fun createPendingIntent(context: Context, alarmId: Int): PendingIntent {
+            val intent = createIntent(context, alarmId).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            val stackBuilder = TaskStackBuilder.create(context).apply {
+                addNextIntentWithParentStack(intent)
+            }
+            // requestCode should not be null for flags working correctly
+            return stackBuilder.getPendingIntent(1, PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+            // TODO : check when launching alarm to no have the backstack
         }
     }
 }

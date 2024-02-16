@@ -16,9 +16,11 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
@@ -29,14 +31,16 @@ import dev.bwaim.kustomalarm.analytics.model.AlarmDuplicateEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
-import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.SettingsService
+import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -44,7 +48,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class AlarmViewModel @Inject constructor(
-    settingsService: SettingsService,
+    @ApplicationContext private val appContext: Context,
+    private val settingsService: SettingsService,
     private val alarmService: AlarmService,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
@@ -54,12 +59,13 @@ internal class AlarmViewModel @Inject constructor(
             .map { it.toPersistentList() }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    private val _ringingAlarm: MutableStateFlow<Int?> = MutableStateFlow(null)
+    private val _ringingAlarm: MutableStateFlow<Int> = MutableStateFlow(DEFAULT_RINGING_ALARM)
     val ringingAlarm = _ringingAlarm.asStateFlow()
 
-    init {
+    fun checkRingingAlarm() {
         viewModelScope.launch {
-            _ringingAlarm.value = settingsService.getRingingAlarm().value
+            delay(1000L) // Delay to let time to update when going back from RingActivity
+            _ringingAlarm.value = settingsService.observeRingingAlarm().first()
         }
     }
 

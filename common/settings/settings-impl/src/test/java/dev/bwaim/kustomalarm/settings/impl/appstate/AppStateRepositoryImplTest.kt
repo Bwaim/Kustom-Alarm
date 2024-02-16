@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.settings.impl.appstate
 
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.test.android.di.testAppStatePreferencesDataStore
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -34,24 +35,17 @@ internal class AppStateRepositoryImplTest {
         subject = AppStateRepositoryImpl(tmpFolder.testAppStatePreferencesDataStore())
     }
 
-    @Test
-    fun firstRingingAlarm_isRingingAlarmPreferenceDefaultValue() = runTest {
-        val ringingAlarm = 0
-
-        Assert.assertEquals(
-            ringingAlarm,
-            subject.getAppState().ringingAlarm,
-        )
-    }
-
     // This test fails on Windows : https://github.com/android/nowinandroid/issues/98
     @Test
-    fun getRingingAlarm_outputsRingingAlarmPreference() = runTest {
-        val ringingAlarm = 1
+    fun ringingAlarm_observeChanges() = runTest {
+        val defaultRingingAlarm = 0
+        val alarmSet = 5
 
-        assert(subject.getAppState().ringingAlarm == 0)
-
-        subject.setRingingAlarm(ringingAlarm)
-        assert(subject.getAppState().ringingAlarm == ringingAlarm)
+        subject.observeAppState().test {
+            Assert.assertEquals(defaultRingingAlarm, awaitItem().ringingAlarm)
+            subject.setRingingAlarm(alarmSet)
+            Assert.assertEquals(alarmSet, awaitItem().ringingAlarm)
+            cancel()
+        }
     }
 }

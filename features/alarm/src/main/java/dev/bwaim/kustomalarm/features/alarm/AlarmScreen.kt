@@ -84,10 +84,13 @@ internal fun AlarmRoute(
     val ringingAlarm by viewModel.ringingAlarm.collectAsStateWithLifecycle()
 
     LaunchedEffect(ringingAlarm, openRingActivity) {
-        val alarmId = ringingAlarm
-        if (alarmId != null && alarmId != DEFAULT_RINGING_ALARM) {
-            openRingActivity(alarmId)
+        if (ringingAlarm != DEFAULT_RINGING_ALARM) {
+            openRingActivity(ringingAlarm)
         }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.checkRingingAlarm()
     }
 
     AlarmScreen(

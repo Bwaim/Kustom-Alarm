@@ -19,14 +19,16 @@ package dev.bwaim.kustomalarm.settings.impl.appstate
 import androidx.datastore.core.DataStore
 import dev.bwaim.kustomalarm.settings.appstate.AppStateRepository
 import dev.bwaim.kustomalarm.settings.appstate.domain.AppState
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 internal class AppStateRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<AppStatePreferences>,
 ) : AppStateRepository {
-    override suspend fun getAppState(): AppState {
-        return dataStore.data.first().run { AppState(ringingAlarm = ringingAlarm) }
+    override fun observeAppState(): Flow<AppState> {
+        return dataStore.data.distinctUntilChanged().map { AppState(ringingAlarm = it.ringingAlarm) }
     }
 
     override suspend fun setRingingAlarm(ringingAlarm: Int) {

@@ -16,7 +16,6 @@
 
 package dev.bwaim.kustomalarm.settings
 
-import dev.bwaim.kustomalarm.core.DomainResult
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.executeCatching
 import dev.bwaim.kustomalarm.settings.appstate.AppStateRepository
@@ -25,6 +24,7 @@ import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import java.util.Locale
 import javax.inject.Inject
 
@@ -50,10 +50,10 @@ public class SettingsService @Inject public constructor(
             Locale.FRENCH,
         )
 
-    public suspend fun getRingingAlarm(): DomainResult<Int> {
-        return executeCatching(ioDispatcher) {
-            appStateRepository.getAppState().ringingAlarm
-        }
+    public fun observeRingingAlarm(): Flow<Int> {
+        return appStateRepository.observeAppState()
+            .map { it.ringingAlarm }
+            .flowOn(ioDispatcher)
     }
 
     public suspend fun setRingingAlarm(ringingAlarm: Int) {

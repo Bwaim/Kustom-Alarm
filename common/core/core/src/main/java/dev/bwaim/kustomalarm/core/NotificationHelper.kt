@@ -18,4 +18,6 @@ package dev.bwaim.kustomalarm.core
 
 public interface NotificationHelper {
     public fun setUpNotificationChannels()
+
+    public fun getAlarmNotificationChannelId(): String
 }

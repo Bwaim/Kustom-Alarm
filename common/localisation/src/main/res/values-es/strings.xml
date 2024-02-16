@@ -34,8 +34,11 @@
 
     <string name="notification.channel.alarms.name">Alarmas activadas</string>
 
+    <string name="notification.firing.alarm.title">Alarma &#9200;</string>
+    <string name="notification.firing.alarm.description">Seleccione para mostrar la alarma.</string>
+
     <string name="permission.global.continue">Continuar</string>
-    <string name="permission.global.dismiss">Despedir</string>
+    <string name="permission.global.dismiss">Descartar</string>
 
     <string name="permission.notification.titre">Por que notificaciones</string>
     <string name="permission.notification.rationale">Mostramos notificaciones para recordarte las alarmas configuradas.</string>
@@ -56,7 +59,7 @@
     <string name="sound_selection.screen.no_volume_message">Sube el volumen para escuchar</string>
 
     <string name="ring.screen.repeat">Repetir</string>
-    <string name="ring.screen.turn_off">Apagar</string>
+    <string name="ring.screen.turn_off">Descartar</string>
 
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>
