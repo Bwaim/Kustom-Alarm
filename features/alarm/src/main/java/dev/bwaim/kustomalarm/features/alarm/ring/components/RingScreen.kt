@@ -82,15 +82,13 @@ internal fun RingScreen(
 
         Card(
             onClick = { /*TODO*/ },
-            colors =
-                CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                ),
-            modifier =
-                Modifier
-                    .padding(top = 20.dp, bottom = 16.dp)
-                    .fillMaxWidth(0.8f)
-                    .height(70.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            ),
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 16.dp)
+                .fillMaxWidth(0.8f)
+                .height(70.dp),
         ) {
             Text(
                 text = stringResource(id = string.ring_screen_turn_off),

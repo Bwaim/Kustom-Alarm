@@ -78,9 +78,8 @@ public class RingActivity : AppCompatActivity() {
                         RingScreen(
                             currentTime = currentTime,
                             name = "name",
-                            modifier =
-                                Modifier
-                                    .windowInsetsPadding(WindowInsets.safeContent),
+                            modifier = Modifier
+                                .windowInsetsPadding(WindowInsets.safeContent),
                         )
                     }
                 }
@@ -110,7 +109,10 @@ public class RingActivity : AppCompatActivity() {
                 addNextIntentWithParentStack(intent)
             }
             // requestCode should not be null for flags working correctly
-            return stackBuilder.getPendingIntent(1, PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+            return stackBuilder.getPendingIntent(
+                1,
+                PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+            )
             // TODO : check when launching alarm to no have the backstack
         }
     }
