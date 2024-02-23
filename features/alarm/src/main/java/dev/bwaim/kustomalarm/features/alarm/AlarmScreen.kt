@@ -77,15 +77,15 @@ import java.time.LocalTime
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
-    openRingActivity: (Int) -> Unit,
+    previewAlarm: (Int) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
     val ringingAlarm by viewModel.ringingAlarm.collectAsStateWithLifecycle()
 
-    LaunchedEffect(ringingAlarm, openRingActivity) {
+    LaunchedEffect(ringingAlarm, previewAlarm) {
         if (ringingAlarm != DEFAULT_RINGING_ALARM) {
-            openRingActivity(ringingAlarm)
+            previewAlarm(ringingAlarm)
         }
     }
 
@@ -107,7 +107,7 @@ internal fun AlarmRoute(
         setTemplate = viewModel::setTemplate,
         previewAlarm = { id ->
             viewModel.trackPreviewEvent()
-            openRingActivity(id)
+            previewAlarm(id)
         },
     )
 }

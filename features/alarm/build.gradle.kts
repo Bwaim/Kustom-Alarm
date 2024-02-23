@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraint.layout.compose)
+    implementation(libs.androidx.lifecycle.service)
 
     implementation(libs.accompanist.permissions)
 }

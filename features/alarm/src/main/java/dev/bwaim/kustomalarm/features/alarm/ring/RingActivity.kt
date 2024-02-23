@@ -42,19 +42,11 @@ import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.alarm.ring.components.RingScreen
 
-public const val ID_RING_ACTIVITY_ARG: String = "ID_RING_ACTIVITY_ARG"
+public const val ID_RING_ALARM_ARG: String = "ID_RING_ALARM_ARG"
 
 @AndroidEntryPoint
 public class RingActivity : AppCompatActivity() {
     private val ringViewModel: RingViewModel by viewModels()
-
-    private val uri: String? by lazy(NONE) {
-        intent.extras?.getString(URI_RING_ACTIVITY_ARG)
-    }
-
-    private val title: String? by lazy(NONE) {
-        intent.extras?.getString(TITLE_RING_ACTIVITY_ARG)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +69,11 @@ public class RingActivity : AppCompatActivity() {
 
                         RingScreen(
                             currentTime = currentTime,
-                            name = "name",
+                            name = alarm?.name,
+                            turnOff = {
+                                ringViewModel.turnOffAlarm()
+                                finish()
+                            },
                             modifier = Modifier
                                 .windowInsetsPadding(WindowInsets.safeContent),
                         )
@@ -91,27 +87,31 @@ public class RingActivity : AppCompatActivity() {
         public fun createIntent(
             context: Context,
             id: Int,
+            flags: Int,
         ): Intent {
-            val intent = Intent(context, RingActivity::class.java)
-            intent.putExtras(
-                bundleOf(
-                    ID_RING_ACTIVITY_ARG to id,
-                ),
-            )
-            return intent
+            return Intent(context, RingActivity::class.java).apply {
+                this.flags = flags
+                putExtras(
+                    bundleOf(
+                        ID_RING_ALARM_ARG to id,
+                    ),
+                )
+            }
         }
 
         internal fun createPendingIntent(context: Context, alarmId: Int): PendingIntent {
-            val intent = createIntent(context, alarmId).apply {
-                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+            val intent = createIntent(
+                context = context,
+                id = alarmId,
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
+            )
             val stackBuilder = TaskStackBuilder.create(context).apply {
                 addNextIntentWithParentStack(intent)
             }
             // requestCode should not be null for flags working correctly
             return stackBuilder.getPendingIntent(
                 1,
-                PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT,
             )
             // TODO : check when launching alarm to no have the backstack
         }

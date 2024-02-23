@@ -27,7 +27,7 @@ import androidx.navigation.compose.NavHost
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.editAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.navigateToEditAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
-import dev.bwaim.kustomalarm.features.alarm.ring.RingActivity
+import dev.bwaim.kustomalarm.features.alarm.ring.RingingAlarmService
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.navigateToSoundSelectionScreen
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.soundSelectionScreen
 import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
@@ -43,15 +43,16 @@ internal fun KAlarmNavHost(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val openRingActivity =
+    val previewAlarm =
         remember(context) {
             { alarmId: Int ->
                 val intent =
-                    RingActivity.createIntent(
+                    RingingAlarmService.createIntent(
                         context = context,
-                        id = alarmId,
+                        alarmId = alarmId,
                     )
-                context.startActivity(intent)
+                context.startService(intent)
+                Unit
             }
         }
 
@@ -65,7 +66,7 @@ internal fun KAlarmNavHost(
         alarmScreen(
             openDrawer = openDrawer,
             addAlarm = navController::navigateToEditAlarmScreen,
-            openRingActivity = openRingActivity,
+            previewAlarm = previewAlarm,
         )
 
         settingsScreen(
@@ -75,7 +76,7 @@ internal fun KAlarmNavHost(
         editAlarmScreen(
             close = navigateUp,
             onSoundSelectionClick = navController::navigateToSoundSelectionScreen,
-            openRingActivity = openRingActivity,
+            previewAlarm = previewAlarm,
         )
 
         soundSelectionScreen(

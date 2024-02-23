@@ -43,6 +43,7 @@ import dev.bwaim.kustomalarm.localisation.R.string
 internal fun RingScreen(
     currentTime: String,
     name: String?,
+    turnOff: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -81,7 +82,7 @@ internal fun RingScreen(
         }
 
         Card(
-            onClick = { /*TODO*/ },
+            onClick = turnOff,
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.tertiaryContainer,
             ),
@@ -110,6 +111,7 @@ private fun PreviewRingScreen() {
         RingScreen(
             currentTime = "09:00",
             name = "alarm name",
+            turnOff = {},
         )
     }
 }
