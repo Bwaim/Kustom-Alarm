@@ -64,12 +64,12 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     private val notificationManager by lazy { getSystemService<NotificationManager>() }
 
-    private lateinit var ringtone: Ringtone
+    private var ringtone: Ringtone? = null
 
     private var alarmId: Int = DEFAULT_RINGING_ALARM
 
     override fun onDestroy() {
-        ringtone.stop()
+        ringtone?.stop()
         super.onDestroy()
     }
 
@@ -120,7 +120,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     private fun startAlarm(alarm: Alarm) {
         ringtone = getRingtone(alarm.uri)
-        ringtone.play()
+        ringtone?.play()
 
         val intent = RingActivity.createIntent(
             context = this,
