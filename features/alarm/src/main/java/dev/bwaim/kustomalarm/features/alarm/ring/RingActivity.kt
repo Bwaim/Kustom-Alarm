@@ -18,7 +18,6 @@ package dev.bwaim.kustomalarm.features.alarm.ring
 
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -32,6 +31,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.app.TaskStackBuilder
 import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,19 +99,28 @@ public class RingActivity : AppCompatActivity() {
             }
         }
 
-        internal fun createPendingIntent(context: Context, alarmId: Int): PendingIntent {
+        internal fun createPendingIntent(context: Context, alarmId: Int, withBackstack: Boolean = false): PendingIntent {
             val intent = createIntent(
                 context = context,
                 id = alarmId,
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
             )
-            val stackBuilder = TaskStackBuilder.create(context).apply {
-                addNextIntentWithParentStack(intent)
+
+            if (withBackstack) {
+                val stackBuilder = TaskStackBuilder.create(context).apply {
+                    addNextIntentWithParentStack(intent)
+                }
+                // requestCode should not be null for flags working correctly
+                return stackBuilder.getPendingIntent(
+                    1,
+                    PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT,
+                )!! // Can't be null because we don't use the flag PendingIntent.FLAG_NO_CREATE
             }
-            // requestCode should not be null for flags working correctly
-            return stackBuilder.getPendingIntent(
+            return PendingIntent.getActivity(
+                context,
                 1,
-                PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT,
+                intent,
+                FLAG_UPDATE_CURRENT,
             )
             // TODO : check when launching alarm to no have the backstack
         }

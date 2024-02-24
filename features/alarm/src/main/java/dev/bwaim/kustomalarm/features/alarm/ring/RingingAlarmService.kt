@@ -56,13 +56,26 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     private lateinit var ringtone: Ringtone
 
+    private var alarmId: Int = DEFAULT_ALARM_ID
+
     override fun onDestroy() {
         ringtone.stop()
         super.onDestroy()
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        // When the app is killed, we want to create the backstack when it's reopened from the notification
+        if (alarmId != DEFAULT_ALARM_ID) {
+            val notification = createRingingAlarmNotification(alarmId, withBackstack = true)
+            notification?.let {
+                notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, it)
+            }
+        }
+        super.onTaskRemoved(rootIntent)
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val alarmId = intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_ALARM_ID) ?: DEFAULT_ALARM_ID
+        alarmId = intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_ALARM_ID) ?: DEFAULT_ALARM_ID
 
         if (alarmId != DEFAULT_ALARM_ID) {
             getAlarm(alarmId)
@@ -113,7 +126,10 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             .build()
     }
 
-    private fun createRingingAlarmNotification(alarmId: Int): Notification? {
+    private fun createRingingAlarmNotification(
+        alarmId: Int,
+        withBackstack: Boolean = false,
+    ): Notification? {
         if (hasNotificationRights()) {
             val builder = NotificationCompat.Builder(
                 this,
@@ -122,14 +138,21 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
                 .setSmallIcon(drawable.ic_notification_klock)
                 .setContentTitle(getString(string.notification_firing_alarm_title))
                 .setContentText(getString(string.notification_firing_alarm_description))
-                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setContentIntent(RingActivity.createPendingIntent(context = this@RingingAlarmService, alarmId = alarmId))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSound(null)
+                .setContentIntent(
+                    RingActivity.createPendingIntent(
+                        context = this@RingingAlarmService,
+                        alarmId = alarmId,
+                        withBackstack = withBackstack,
+                    ),
+                )
 
             val notification = builder.build()
             notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
 
-            notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, notification)
             return notification
         }
         return null
