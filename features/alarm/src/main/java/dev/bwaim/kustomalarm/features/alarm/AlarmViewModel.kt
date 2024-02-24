@@ -17,6 +17,7 @@
 package dev.bwaim.kustomalarm.features.alarm
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,17 +32,17 @@ import dev.bwaim.kustomalarm.analytics.model.AlarmDuplicateEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
+import dev.bwaim.kustomalarm.features.alarm.ring.RingActivity
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -59,14 +60,22 @@ internal class AlarmViewModel @Inject constructor(
             .map { it.toPersistentList() }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    private val _ringingAlarm: MutableStateFlow<Int> = MutableStateFlow(DEFAULT_RINGING_ALARM)
-    val ringingAlarm = _ringingAlarm.asStateFlow()
+    private var checkingAlarmJob: Job? = null
 
-    fun checkRingingAlarm() {
-        viewModelScope.launch {
-            delay(1000L) // Delay to let time to update when going back from RingActivity
-            _ringingAlarm.value = settingsService.observeRingingAlarm().first()
-        }
+    init {
+        checkingAlarmJob = settingsService.observeRingingAlarm()
+            .onEach {
+                if (it != DEFAULT_RINGING_ALARM) {
+                    val intent = RingActivity.createIntent(
+                        context = appContext,
+                        alarmId = it,
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK,
+                    )
+                    appContext.startActivity(intent)
+                }
+                checkingAlarmJob?.cancel()
+            }
+            .launchIn(viewModelScope)
     }
 
     fun updateAlarm(alarm: Alarm) {

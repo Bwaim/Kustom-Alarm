@@ -86,14 +86,14 @@ public class RingActivity : AppCompatActivity() {
     public companion object {
         public fun createIntent(
             context: Context,
-            id: Int,
+            alarmId: Int,
             flags: Int,
         ): Intent {
             return Intent(context, RingActivity::class.java).apply {
                 this.flags = flags
                 putExtras(
                     bundleOf(
-                        ID_RING_ALARM_ARG to id,
+                        ID_RING_ALARM_ARG to alarmId,
                     ),
                 )
             }
@@ -102,7 +102,7 @@ public class RingActivity : AppCompatActivity() {
         internal fun createPendingIntent(context: Context, alarmId: Int, withBackstack: Boolean = false): PendingIntent {
             val intent = createIntent(
                 context = context,
-                id = alarmId,
+                alarmId = alarmId,
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
             )
 

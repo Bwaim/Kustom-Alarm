@@ -31,16 +31,19 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
+import dev.bwaim.kustomalarm.core.ApplicationScope
 import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.settings.SettingsService
+import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal const val ID_RING_ALARM_EXTRA: String =
     "dev.bwaim.kustomalarm.features.alarm.ring.ID_RING_ALARM_EXTRA"
-private const val DEFAULT_ALARM_ID: Int = -1
 
 private const val RINGING_ALARM_NOTIFICATION_ID = 100001
 
@@ -50,13 +53,20 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     internal lateinit var alarmService: AlarmService
 
     @Inject
+    internal lateinit var settingsService: SettingsService
+
+    @Inject
+    @ApplicationScope
+    internal lateinit var applicationScope: CoroutineScope
+
+    @Inject
     internal lateinit var notificationHelper: NotificationHelper
 
     private val notificationManager by lazy { getSystemService<NotificationManager>() }
 
     private lateinit var ringtone: Ringtone
 
-    private var alarmId: Int = DEFAULT_ALARM_ID
+    private var alarmId: Int = DEFAULT_RINGING_ALARM
 
     override fun onDestroy() {
         ringtone.stop()
@@ -65,19 +75,25 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         // When the app is killed, we want to create the backstack when it's reopened from the notification
-        if (alarmId != DEFAULT_ALARM_ID) {
+        if (alarmId != DEFAULT_RINGING_ALARM) {
             val notification = createRingingAlarmNotification(alarmId, withBackstack = true)
             notification?.let {
                 notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, it)
             }
         }
+
+        // To be able to redirect to the ringing alarm screen when the app is killed
+        applicationScope.launch {
+            settingsService.setRingingAlarm(alarmId)
+        }
+
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        alarmId = intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_ALARM_ID) ?: DEFAULT_ALARM_ID
+        alarmId = intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_RINGING_ALARM) ?: DEFAULT_RINGING_ALARM
 
-        if (alarmId != DEFAULT_ALARM_ID) {
+        if (alarmId != DEFAULT_RINGING_ALARM) {
             getAlarm(alarmId)
             val notification = createRingingAlarmNotification(alarmId)
             notification?.let {
@@ -108,7 +124,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
         val intent = RingActivity.createIntent(
             context = this,
-            id = alarm.id,
+            alarmId = alarm.id,
             flags = Intent.FLAG_ACTIVITY_NEW_TASK,
         )
         startActivity(intent)

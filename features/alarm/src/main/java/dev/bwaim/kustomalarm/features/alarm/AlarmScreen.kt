@@ -35,7 +35,6 @@ import androidx.compose.material3.SwipeToDismissBoxValue.StartToEnd
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,7 +63,6 @@ import dev.bwaim.kustomalarm.features.alarm.components.AddAlarmButton
 import dev.bwaim.kustomalarm.features.alarm.components.AlarmRow
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
 import dev.bwaim.kustomalarm.localisation.R.string
-import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -81,17 +79,6 @@ internal fun AlarmRoute(
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
-    val ringingAlarm by viewModel.ringingAlarm.collectAsStateWithLifecycle()
-
-    LaunchedEffect(ringingAlarm, previewAlarm) {
-        if (ringingAlarm != DEFAULT_RINGING_ALARM) {
-            previewAlarm(ringingAlarm)
-        }
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.checkRingingAlarm()
-    }
 
     AlarmScreen(
         alarms = alarms,
