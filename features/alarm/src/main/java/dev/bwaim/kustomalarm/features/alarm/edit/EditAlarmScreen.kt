@@ -125,15 +125,19 @@ internal fun EditAlarmRoute(
         title = context.getString(string.permission_notification_titre),
         rationale = context.getString(string.permission_notification_rationale),
         isApplicable = BuildWrapper.isAtLeastT,
-        onPermissionResult = { editViewModel.saveAlarm() },
     ) { permissionTrigger ->
+
+        LaunchedEffect(Unit) {
+            permissionTrigger()
+        }
+
         EditAlarmScreen(
             alarmUi = alarm,
             errorMessage = errorMessage,
             showModificationMessage = showModificationMessage,
             close = internalClose,
             onSoundSelectionClick = onSoundSelectionClick,
-            onSave = permissionTrigger,
+            onSave = editViewModel::saveAlarm,
             updateAlarmName = editViewModel::updateAlarmName,
             updateAlarmTime = editViewModel::updateAlarmTime,
             updateAlarmDays = editViewModel::updateAlarmDays,
