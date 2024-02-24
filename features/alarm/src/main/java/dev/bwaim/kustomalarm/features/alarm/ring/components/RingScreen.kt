@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring.components
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -46,6 +47,10 @@ internal fun RingScreen(
     turnOff: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    BackHandler {
+        turnOff()
+    }
+
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
