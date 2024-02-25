@@ -120,7 +120,7 @@ public class RingActivity : AppCompatActivity() {
                 context,
                 1,
                 intent,
-                FLAG_UPDATE_CURRENT,
+                PendingIntent.FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT,
             )
             // TODO : check when launching alarm to no have the backstack
         }
