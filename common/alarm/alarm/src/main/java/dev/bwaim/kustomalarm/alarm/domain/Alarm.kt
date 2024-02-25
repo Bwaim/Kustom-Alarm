@@ -19,6 +19,8 @@ package dev.bwaim.kustomalarm.alarm.domain
 import java.time.DayOfWeek
 import java.time.LocalTime
 
+public const val TEMPORAL_ALARM_ID: Int = -1
+
 public data class Alarm(
     val id: Int = 0,
     val name: String?,

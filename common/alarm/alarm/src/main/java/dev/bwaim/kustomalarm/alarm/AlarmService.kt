@@ -18,6 +18,7 @@ package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.core.DomainResult
 import dev.bwaim.kustomalarm.core.IODispatcher
 import dev.bwaim.kustomalarm.core.executeCatching
@@ -44,6 +45,11 @@ public class AlarmService @Inject constructor(
 
     public suspend fun saveAlarm(alarm: Alarm): DomainResult<Unit> =
         executeCatching(ioDispatcher) { alarmRepository.saveAlarm(alarm.completeDefault()) }
+
+    public suspend fun saveTemporalAlarm(alarm: Alarm): DomainResult<Unit> =
+        executeCatching(ioDispatcher) {
+            alarmRepository.saveAlarm(alarm.copy(id = TEMPORAL_ALARM_ID).completeDefault())
+        }
 
     public suspend fun deleteAlarm(alarmId: Int): DomainResult<Unit> =
         executeCatching(ioDispatcher) { alarmRepository.deleteAlarm(alarmId = alarmId) }

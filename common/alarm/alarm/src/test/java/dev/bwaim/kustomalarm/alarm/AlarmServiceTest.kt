@@ -20,6 +20,7 @@ package dev.bwaim.kustomalarm.alarm
 
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
 import dev.bwaim.kustomalarm.testing.repository.defaultTemplate
@@ -153,6 +154,25 @@ internal class AlarmServiceTest {
             Assert.assertEquals(
                 template.toAlarm(),
                 resAlarm2.value,
+            )
+        }
+
+    @Test
+    fun alarmService_insert_temporal_alarm() =
+        runTest {
+            val alarm = Alarm(
+                name = "alarm",
+                time = LocalTime.of(10, 45),
+                weekDays = setOf(DayOfWeek.MONDAY),
+                uri = "uri",
+            )
+            subject.saveTemporalAlarm(alarm)
+
+            val result = subject.getAlarm(TEMPORAL_ALARM_ID)
+
+            Assert.assertEquals(
+                alarm.copy(id = TEMPORAL_ALARM_ID),
+                result.value,
             )
         }
 }
