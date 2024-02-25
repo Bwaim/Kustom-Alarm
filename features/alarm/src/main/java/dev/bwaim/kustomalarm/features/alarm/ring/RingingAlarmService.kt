@@ -69,6 +69,9 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     private var alarmId: Int = DEFAULT_RINGING_ALARM
 
     override fun onDestroy() {
+        applicationScope.launch {
+            settingsService.setRingingAlarm(DEFAULT_RINGING_ALARM)
+        }
         ringtone?.stop()
         super.onDestroy()
     }
@@ -77,28 +80,20 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         // When the app is killed, we want to create the backstack when it's reopened from the notification
         if (alarmId != DEFAULT_RINGING_ALARM) {
             val notification = createRingingAlarmNotification(alarmId, withBackstack = true)
-            notification?.let {
-                notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, it)
-            }
-        }
-
-        // To be able to redirect to the ringing alarm screen when the app is killed
-        applicationScope.launch {
-            settingsService.setRingingAlarm(alarmId)
+            notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, notification)
         }
 
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        alarmId = intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_RINGING_ALARM) ?: DEFAULT_RINGING_ALARM
+        alarmId =
+            intent?.getIntExtra(ID_RING_ALARM_EXTRA, DEFAULT_RINGING_ALARM) ?: DEFAULT_RINGING_ALARM
 
         if (alarmId != DEFAULT_RINGING_ALARM) {
             getAlarm(alarmId)
             val notification = createRingingAlarmNotification(alarmId)
-            notification?.let {
-                startForeground(RINGING_ALARM_NOTIFICATION_ID, notification)
-            } ?: stopSelf()
+            startForeground(RINGING_ALARM_NOTIFICATION_ID, notification)
         } else {
             stopSelf()
         }
@@ -145,37 +140,30 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     private fun createRingingAlarmNotification(
         alarmId: Int,
         withBackstack: Boolean = false,
-    ): Notification? {
-        if (hasNotificationRights()) {
-            val builder = NotificationCompat.Builder(
-                this,
-                notificationHelper.getAlarmNotificationChannelId(),
+    ): Notification {
+        val builder = NotificationCompat.Builder(
+            this,
+            notificationHelper.getAlarmNotificationChannelId(),
+        )
+            .setSmallIcon(drawable.ic_notification_klock)
+            .setContentTitle(getString(string.notification_firing_alarm_title))
+            .setContentText(getString(string.notification_firing_alarm_description))
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setSound(null)
+            .setContentIntent(
+                RingActivity.createPendingIntent(
+                    context = this@RingingAlarmService,
+                    alarmId = alarmId,
+                    withBackstack = withBackstack,
+                ),
             )
-                .setSmallIcon(drawable.ic_notification_klock)
-                .setContentTitle(getString(string.notification_firing_alarm_title))
-                .setContentText(getString(string.notification_firing_alarm_description))
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSound(null)
-                .setContentIntent(
-                    RingActivity.createPendingIntent(
-                        context = this@RingingAlarmService,
-                        alarmId = alarmId,
-                        withBackstack = withBackstack,
-                    ),
-                )
 
-            val notification = builder.build()
-            notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
+        val notification = builder.build()
+        notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
 
-            return notification
-        }
-        return null
-    }
-
-    private fun hasNotificationRights(): Boolean {
-        return notificationManager?.areNotificationsEnabled() ?: false
+        return notification
     }
 
     public companion object {

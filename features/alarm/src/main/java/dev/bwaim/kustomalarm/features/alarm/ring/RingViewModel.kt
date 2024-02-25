@@ -29,7 +29,6 @@ import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.core.ApplicationScope
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.SettingsService
-import dev.bwaim.kustomalarm.settings.appstate.domain.DEFAULT_RINGING_ALARM
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,8 +82,7 @@ internal class RingViewModel @Inject constructor(
 
             getAlarm()
 
-            // The ringing screen is opened, we don't need to keep a track of the ringing alarm
-            settingsService.setRingingAlarm(DEFAULT_RINGING_ALARM)
+            settingsService.setRingingAlarm(alarmId)
         }
     }
 
