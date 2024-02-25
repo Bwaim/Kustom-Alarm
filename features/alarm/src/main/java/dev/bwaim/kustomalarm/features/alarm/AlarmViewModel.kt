@@ -34,7 +34,7 @@ import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
 import dev.bwaim.kustomalarm.features.alarm.ring.RingActivity
 import dev.bwaim.kustomalarm.settings.SettingsService
-import dev.bwaim.kustomalarm.settings.appstate.domain.NO_RINGING_ALARM_ID
+import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
@@ -65,7 +65,7 @@ internal class AlarmViewModel @Inject constructor(
     init {
         checkingAlarmJob = settingsService.observeRingingAlarm()
             .onEach {
-                if (it != NO_RINGING_ALARM_ID) {
+                if (it != NOT_SAVED_ALARM_ID) {
                     val intent = RingActivity.createIntent(
                         context = appContext,
                         alarmId = it,

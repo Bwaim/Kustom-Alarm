@@ -28,6 +28,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.analytics.model.AlarmAddEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
@@ -102,6 +103,7 @@ internal class EditViewModel @Inject constructor(
                                 alarm.value
                             }
                                 ?.toAlarmUi(context)
+
                         is Error -> {
                             displayError()
                             it
@@ -143,6 +145,17 @@ internal class EditViewModel @Inject constructor(
                         is Error -> SaveEvents.Failure(context.getString(string.edit_alarm_screen_saving_error))
                     }
                 _saveEventsFlow.tryEmit(event)
+            }
+        }
+    }
+
+    fun saveTemporalAlarm(endAction: () -> Unit) {
+        alarm.value?.let { alarm ->
+            viewModelScope.launch {
+                val result = alarmService.saveTemporalAlarm(alarm.toAlarm().copy(id = TEMPORAL_ALARM_ID))
+                if (result is Success) {
+                    endAction()
+                }
             }
         }
     }

@@ -35,7 +35,12 @@ internal class AlarmRepositoryImpl @Inject constructor(
 ) : AlarmRepository {
     override fun observeAlarms(): Flow<List<Alarm>> {
         return alarmDao.observeAlarms()
-            .map { it.map(AlarmEntity::toDomain).sortedBy { alarm -> alarm.time } }
+            .map {
+                it
+                    .filter { alarm -> alarm.id > 0 } // Filter out the temporal alarm
+                    .map(AlarmEntity::toDomain)
+                    .sortedBy { alarm -> alarm.time }
+            }
     }
 
     override suspend fun getAlarm(alarmId: Int): Alarm? {

@@ -36,7 +36,7 @@ import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.SettingsService
-import dev.bwaim.kustomalarm.settings.appstate.domain.NO_RINGING_ALARM_ID
+import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -66,11 +66,11 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     private var ringtone: Ringtone? = null
 
-    private var alarmId: Int = NO_RINGING_ALARM_ID
+    private var alarmId: Int = NOT_SAVED_ALARM_ID
 
     override fun onDestroy() {
         applicationScope.launch {
-            settingsService.setRingingAlarm(NO_RINGING_ALARM_ID)
+            settingsService.setRingingAlarm(NOT_SAVED_ALARM_ID)
         }
         ringtone?.stop()
         super.onDestroy()
@@ -78,7 +78,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         // When the app is killed, we want to create the backstack when it's reopened from the notification
-        if (alarmId != NO_RINGING_ALARM_ID) {
+        if (alarmId != NOT_SAVED_ALARM_ID) {
             val notification = createRingingAlarmNotification(alarmId, withBackstack = true)
             notificationManager?.notify(RINGING_ALARM_NOTIFICATION_ID, notification)
         }
@@ -88,9 +88,9 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         alarmId =
-            intent?.getIntExtra(ID_RING_ALARM_EXTRA, NO_RINGING_ALARM_ID) ?: NO_RINGING_ALARM_ID
+            intent?.getIntExtra(ID_RING_ALARM_EXTRA, NOT_SAVED_ALARM_ID) ?: NOT_SAVED_ALARM_ID
 
-        if (alarmId != NO_RINGING_ALARM_ID) {
+        if (alarmId != NOT_SAVED_ALARM_ID) {
             getAlarm(alarmId)
             val notification = createRingingAlarmNotification(alarmId)
             startForeground(RINGING_ALARM_NOTIFICATION_ID, notification)

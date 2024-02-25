@@ -16,7 +16,7 @@
 
 package dev.bwaim.kustomalarm.settings.appstate.domain
 
-public const val NO_RINGING_ALARM_ID: Int = 0
+public const val NOT_SAVED_ALARM_ID: Int = 0
 
 public data class AppState(
     val ringingAlarm: Int,

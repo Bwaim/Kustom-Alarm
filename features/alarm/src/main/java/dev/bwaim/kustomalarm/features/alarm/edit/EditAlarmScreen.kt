@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaConfirmDiscardChangesAlertDialog
@@ -64,6 +65,7 @@ import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector
 import dev.bwaim.kustomalarm.features.alarm.edit.domain.AlarmUi
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
 import java.time.DayOfWeek
@@ -151,7 +153,13 @@ internal fun EditAlarmRoute(
                 val alarmTmp = alarm
                 alarmTmp?.let {
                     editViewModel.preview()
-                    previewAlarm(alarmTmp.id)
+                    if (it.id == NOT_SAVED_ALARM_ID) {
+                        editViewModel.saveTemporalAlarm(
+                            endAction = { previewAlarm(TEMPORAL_ALARM_ID) },
+                        )
+                    } else {
+                        previewAlarm(it.id)
+                    }
                 }
             },
         )
