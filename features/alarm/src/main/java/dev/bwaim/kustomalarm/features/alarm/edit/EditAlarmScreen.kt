@@ -130,7 +130,10 @@ internal fun EditAlarmRoute(
     ) { permissionTrigger ->
 
         LaunchedEffect(Unit) {
-            permissionTrigger()
+            if (editViewModel.permissionNotShown) {
+                editViewModel.permissionNotShown = false
+                permissionTrigger()
+            }
         }
 
         EditAlarmScreen(

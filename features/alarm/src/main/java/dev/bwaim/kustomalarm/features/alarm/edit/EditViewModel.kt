@@ -83,6 +83,8 @@ internal class EditViewModel @Inject constructor(
     private val _errorMessage: MutableStateFlow<String?> = MutableStateFlow(null)
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
+    var permissionNotShown = true
+
     init {
         viewModelScope.launch {
             _alarm.update {
