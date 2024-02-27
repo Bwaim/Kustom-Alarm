@@ -18,10 +18,12 @@ package dev.bwaim.kustomalarm.alarm.domain
 
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration
 
 public data class AlarmTemplate(
     val name: String?,
     val time: LocalTime,
     val weekDays: Set<DayOfWeek>,
     val uri: String,
+    val postponeDuration: Duration,
 )

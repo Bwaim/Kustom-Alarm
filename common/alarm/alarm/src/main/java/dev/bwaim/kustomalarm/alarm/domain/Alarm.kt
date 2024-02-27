@@ -31,5 +31,6 @@ public data class Alarm(
     val isOnce: Boolean = false,
     val isActivated: Boolean = true,
     val uri: String,
-    val postponeDuration: Duration = 10.minutes,
+    val postponeDuration: Duration = 1.minutes,
+    val postponeTime: LocalTime? = null,
 )

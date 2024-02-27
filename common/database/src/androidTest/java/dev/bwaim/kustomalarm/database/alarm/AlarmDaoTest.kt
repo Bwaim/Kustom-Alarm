@@ -28,6 +28,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 internal class AlarmDaoTest {
     private lateinit var alarmDao: AlarmDao
@@ -101,6 +102,7 @@ internal class AlarmDaoTest {
                     isOnce = false,
                     isActivated = true,
                     uri = "uri1",
+                    postponeDuration = 10.minutes,
                 ),
                 alarmRetrieved,
             )
@@ -156,6 +158,7 @@ private fun testAlarm(
     isOnce = false,
     isActivated = true,
     uri = uri,
+    postponeDuration = 10.minutes,
 )
 
 private fun testAlarmTemplate(
@@ -168,4 +171,5 @@ private fun testAlarmTemplate(
     time = time,
     weekDays = weekDays.joinToString { it.value.toString() },
     uri = uri,
+    postponeDuration = 10.minutes,
 )

@@ -20,6 +20,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalTime
+import kotlin.time.Duration
 
 @Entity("ALARM_ENTITY")
 public data class AlarmEntity(
@@ -30,4 +31,6 @@ public data class AlarmEntity(
     @ColumnInfo(name = "IS_ONCE") val isOnce: Boolean,
     @ColumnInfo(name = "IS_ACTIVATED") val isActivated: Boolean,
     @ColumnInfo(name = "ALARM_URI") val uri: String,
+    @ColumnInfo(name = "POSTPONE_DURATION") val postponeDuration: Duration,
+    @ColumnInfo(name = "POSTPONE_TIME") val postponeTime: LocalTime? = null,
 )

@@ -36,6 +36,7 @@ import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 internal class AlarmServiceTest {
     private lateinit var subject: AlarmService
@@ -89,7 +90,7 @@ internal class AlarmServiceTest {
                 Alarm(
                     id = 1,
                     name = "",
-                    time = adjustedNow.minusHours(1),
+                    time = adjustedNow.minusMinutes(1),
                     weekDays = setOf(),
                     uri = "uri1",
                 )
@@ -97,7 +98,7 @@ internal class AlarmServiceTest {
                 Alarm(
                     id = 2,
                     name = null,
-                    time = adjustedNow.plusHours(1),
+                    time = adjustedNow.plusMinutes(1),
                     weekDays = setOf(),
                     uri = "uri2",
                 )
@@ -148,6 +149,7 @@ internal class AlarmServiceTest {
                     time = LocalTime.of(16, 54),
                     weekDays = emptySet(),
                     uri = "defaultUri",
+                    postponeDuration = 10.minutes,
                 )
             subject.saveTemplate(template)
             val resAlarm2 = subject.getDefaultAlarm()

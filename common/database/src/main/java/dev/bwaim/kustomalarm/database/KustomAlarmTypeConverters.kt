@@ -21,6 +21,8 @@ import androidx.room.TypeConverter
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @ProvidedTypeConverter
 internal class KustomAlarmTypeConverters @Inject constructor() {
@@ -29,4 +31,16 @@ internal class KustomAlarmTypeConverters @Inject constructor() {
 
     @TypeConverter
     fun toLocalTime(value: String): LocalTime = LocalTime.parse(value, DateTimeFormatter.ISO_LOCAL_TIME)
+
+    @TypeConverter
+    fun fromNullableLocalTime(localTime: LocalTime?): String? = localTime?.format(DateTimeFormatter.ISO_LOCAL_TIME)
+
+    @TypeConverter
+    fun toNullableLocalTime(value: String?): LocalTime? = value ?.let { LocalTime.parse(value, DateTimeFormatter.ISO_LOCAL_TIME) }
+
+    @TypeConverter
+    fun fromDuration(duration: Duration): Long = duration.inWholeMilliseconds
+
+    @TypeConverter
+    fun toDuration(milliseconds: Long): Duration = milliseconds.milliseconds
 }

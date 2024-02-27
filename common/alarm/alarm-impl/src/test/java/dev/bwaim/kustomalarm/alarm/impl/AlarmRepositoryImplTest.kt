@@ -29,6 +29,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 internal class AlarmRepositoryImplTest {
     private val testScope = TestScope(UnconfinedTestDispatcher())
@@ -100,6 +101,7 @@ internal class AlarmRepositoryImplTest {
                     time = LocalTime.of(7, 0),
                     weekDays = emptySet(),
                     uri = "defaultUri",
+                    postponeDuration = 10.minutes,
                 )
 
             val first = subject.getTemplate()

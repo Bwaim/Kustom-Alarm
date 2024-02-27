@@ -28,6 +28,9 @@ import kotlinx.coroutines.flow.map
 import java.time.DayOfWeek
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
+
+private val DEFAULT_POSTPONE_DURATION = 10.minutes
 
 internal class AlarmRepositoryImpl @Inject constructor(
     private val alarmDao: AlarmDao,
@@ -69,6 +72,7 @@ internal class AlarmRepositoryImpl @Inject constructor(
             time = LocalTime.of(7, 0),
             weekDays = emptySet(),
             uri = ringtoneUtils.getDefaultRingtoneUri(),
+            postponeDuration = DEFAULT_POSTPONE_DURATION,
         )
 }
 
@@ -99,6 +103,8 @@ private fun Alarm.toEntity(): AlarmEntity =
         isOnce = isOnce,
         isActivated = isActivated,
         uri = uri,
+        postponeDuration = postponeDuration,
+        postponeTime = postponeTime,
     )
 
 private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
@@ -107,6 +113,7 @@ private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
         time = time,
         weekDays = weekDays.toWeekDays(),
         uri = uri,
+        postponeDuration = postponeDuration,
     )
 
 private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
@@ -115,4 +122,5 @@ private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
         time = time,
         weekDays = weekDays.joinToString { it.value.toString() },
         uri = uri,
+        postponeDuration = postponeDuration,
     )
