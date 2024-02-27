@@ -74,6 +74,7 @@ public class RingActivity : AppCompatActivity() {
                                 ringViewModel.turnOffAlarm()
                                 finish()
                             },
+                            postponeAlarm = ringViewModel::postponeAlarm,
                             modifier = Modifier
                                 .windowInsetsPadding(WindowInsets.safeContent),
                         )

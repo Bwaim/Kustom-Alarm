@@ -16,8 +16,12 @@
 
 package dev.bwaim.kustomalarm.features.alarm.ring
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.getSystemService
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -109,6 +113,36 @@ internal class RingViewModel @Inject constructor(
         applicationScope.launch {
             stopAlarmService()
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun postponeAlarm() {
+        stopAlarmService()
+        val alarmManager = appContext.getSystemService<AlarmManager>()
+        val intent = AlarmBroadcastReceiver.createIntent(appContext, alarmId)
+        val pendingIntent = PendingIntent.getBroadcast(
+            /* context = */
+            appContext,
+            /* requestCode = */
+            alarmId,
+            /* intent = */
+            intent,
+            /* flags = */
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+
+        val alarmClockInfo = AlarmManager.AlarmClockInfo(
+            /* triggerTime = */
+            System.currentTimeMillis() + 5000,
+            /* showIntent = */
+            pendingIntent,
+        )
+        alarmManager?.setAlarmClock(
+            /* info = */
+            alarmClockInfo,
+            /* operation = */
+            pendingIntent,
+        )
     }
 
     private fun stopAlarmService() {

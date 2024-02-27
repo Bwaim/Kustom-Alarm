@@ -45,6 +45,7 @@ internal fun RingScreen(
     currentTime: String,
     name: String?,
     turnOff: () -> Unit,
+    postponeAlarm: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BackHandler {
@@ -70,7 +71,7 @@ internal fun RingScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         Card(
-            onClick = { /*TODO*/ },
+            onClick = postponeAlarm,
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(200.dp),
@@ -117,6 +118,7 @@ private fun PreviewRingScreen() {
             currentTime = "09:00",
             name = "alarm name",
             turnOff = {},
+            postponeAlarm = {},
         )
     }
 }
