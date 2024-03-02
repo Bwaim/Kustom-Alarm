@@ -5,7 +5,7 @@ import kotlinOptions
 import org.gradle.api.Project
 
 fun Project.configureFeatureAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
         kotlinOptions {
