@@ -242,4 +242,5 @@ internal fun AlarmUi.toTemplate(): AlarmTemplate =
         time = time,
         weekDays = weekDays,
         uri = uri,
+        postponeDuration = postponeDuration,
     )

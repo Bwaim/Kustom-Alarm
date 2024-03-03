@@ -85,6 +85,8 @@ private fun AlarmEntity.toDomain(): Alarm =
         isOnce = isOnce,
         isActivated = isActivated,
         uri = uri,
+        postponeDuration = postponeDuration,
+        postponeTime = postponeTime,
     )
 
 private fun String.toWeekDays(): Set<DayOfWeek> =

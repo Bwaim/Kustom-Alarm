@@ -50,7 +50,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AlarmViewModel @Inject constructor(
     @ApplicationContext private val appContext: Context,
-    private val settingsService: SettingsService,
+    settingsService: SettingsService,
     private val alarmService: AlarmService,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
@@ -124,4 +124,5 @@ internal fun Alarm.toTemplate(): AlarmTemplate =
         time = time,
         weekDays = weekDays,
         uri = uri,
+        postponeDuration = postponeDuration,
     )

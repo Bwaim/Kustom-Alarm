@@ -62,6 +62,8 @@ internal class AlarmRepositoryImplTest {
                     time = LocalTime.of(10, 45),
                     weekDays = setOf(DayOfWeek.MONDAY),
                     uri = "uri1",
+                    postponeDuration = 5.minutes,
+                    postponeTime = LocalTime.of(10, 50),
                 )
             val alarm2 =
                 Alarm(
@@ -69,6 +71,8 @@ internal class AlarmRepositoryImplTest {
                     time = LocalTime.of(8, 15),
                     weekDays = setOf(DayOfWeek.SATURDAY),
                     uri = "uri2",
+                    postponeDuration = 10.minutes,
+                    postponeTime = LocalTime.of(8, 25),
                 )
 
             subject.saveAlarm(alarm1)

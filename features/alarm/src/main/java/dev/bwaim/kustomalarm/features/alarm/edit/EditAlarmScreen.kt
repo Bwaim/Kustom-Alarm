@@ -70,6 +70,7 @@ import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 @SuppressLint("InlinedApi")
 @Composable
@@ -341,6 +342,7 @@ private fun PreviewEditAlarmScreen() {
                 weekDays = persistentSetOf(),
                 uri = "uri1",
                 ringtoneTitle = "Sound title",
+                postponeDuration = 10.minutes,
             ),
             errorMessage = null,
             showModificationMessage = false,
