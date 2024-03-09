@@ -16,6 +16,7 @@
 
 package dev.bwaim.kustomalarm.alarm.impl
 
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.alarm.impl.testdoubles.TestAlarmDao
@@ -94,6 +95,50 @@ internal class AlarmRepositoryImplTest {
                 listOf(alarm2.copy(id = 2)),
                 subject.observeAlarms().first(),
             )
+        }
+
+    @Test
+    fun alarmRepository_snoozed_is_backed_by_alarm_dao() =
+        testScope.runTest {
+            val alarm1 =
+                Alarm(
+                    id = 1,
+                    name = "alarm1",
+                    time = LocalTime.of(10, 45),
+                    weekDays = setOf(DayOfWeek.MONDAY),
+                    uri = "uri1",
+                    postponeDuration = 5.minutes,
+                )
+            val alarm2 =
+                Alarm(
+                    id = 2,
+                    name = "alarm2",
+                    time = LocalTime.of(8, 15),
+                    weekDays = setOf(DayOfWeek.SATURDAY),
+                    uri = "uri2",
+                    postponeDuration = 10.minutes,
+                )
+
+            subject.saveAlarm(alarm1)
+            subject.saveAlarm(alarm2)
+
+            subject.observeSnoozedAlarm()
+                .test {
+                    Assert.assertNull(awaitItem())
+
+                    var alarmPostponed = alarm1.copy(postponeTime = LocalTime.now())
+                    subject.saveAlarm(alarmPostponed)
+                    Assert.assertEquals(
+                        alarmPostponed,
+                        awaitItem(),
+                    )
+
+                    alarmPostponed = alarm1.copy(postponeTime = null)
+                    subject.saveAlarm(alarmPostponed)
+                    Assert.assertNull(awaitItem())
+
+                    expectNoEvents()
+                }
         }
 
     @Test

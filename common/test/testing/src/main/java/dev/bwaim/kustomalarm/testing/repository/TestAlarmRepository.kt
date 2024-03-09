@@ -44,6 +44,10 @@ public class TestAlarmRepository : AlarmRepository {
 
     override fun observeAlarms(): Flow<List<Alarm>> = alarmStateFlow.map { it.sortedBy { alarm -> alarm.id } }
 
+    override fun observeSnoozedAlarm(): Flow<Alarm?> {
+        return alarmStateFlow.map { it.firstOrNull { alarm -> alarm.postponeTime != null } }
+    }
+
     override suspend fun getAlarm(alarmId: Int): Alarm? = alarmStateFlow.value.firstOrNull { it.id == alarmId }
 
     override suspend fun saveAlarm(alarm: Alarm) {

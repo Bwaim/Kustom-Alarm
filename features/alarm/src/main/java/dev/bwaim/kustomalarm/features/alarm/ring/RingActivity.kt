@@ -43,6 +43,7 @@ import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.alarm.ring.components.RingScreen
 
 public const val ID_RING_ALARM_ARG: String = "ID_RING_ALARM_ARG"
+public const val WITH_BACKSTACK_ARG: String = "WITH_BACKSTACK_ARG"
 
 @AndroidEntryPoint
 public class RingActivity : AppCompatActivity() {
@@ -65,10 +66,12 @@ public class RingActivity : AppCompatActivity() {
                 ) {
                     KaBackground {
                         val currentTime by ringViewModel.currentTime.collectAsStateWithLifecycle()
+                        val snoozedTime by ringViewModel.snoozedTime.collectAsStateWithLifecycle()
                         val alarm by ringViewModel.alarm.collectAsStateWithLifecycle()
 
                         RingScreen(
                             currentTime = currentTime,
+                            snoozedTime = snoozedTime,
                             name = alarm?.name,
                             turnOff = {
                                 ringViewModel.turnOffAlarm()
@@ -88,6 +91,7 @@ public class RingActivity : AppCompatActivity() {
         public fun createIntent(
             context: Context,
             alarmId: Int,
+            withBackstack: Boolean = false,
             flags: Int,
         ): Intent {
             return Intent(context, RingActivity::class.java).apply {
@@ -95,6 +99,7 @@ public class RingActivity : AppCompatActivity() {
                 putExtras(
                     bundleOf(
                         ID_RING_ALARM_ARG to alarmId,
+                        WITH_BACKSTACK_ARG to withBackstack,
                     ),
                 )
             }
@@ -104,6 +109,7 @@ public class RingActivity : AppCompatActivity() {
             val intent = createIntent(
                 context = context,
                 alarmId = alarmId,
+                withBackstack = withBackstack,
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
             )
 

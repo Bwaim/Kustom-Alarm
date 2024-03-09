@@ -31,6 +31,7 @@ import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.core.ApplicationScope
+import dev.bwaim.kustomalarm.core.extentions.toMinutesSeconds
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
@@ -45,24 +46,33 @@ import kotlinx.coroutines.launch
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle.SHORT
+import java.time.temporal.ChronoUnit
 import java.util.Timer
 import javax.inject.Inject
 import kotlin.concurrent.timer
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+
+private const val TIMER = 300L
 
 @HiltViewModel
 internal class RingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    settingsService: SettingsService,
     @ApplicationContext private val appContext: Context,
     @ApplicationScope private val applicationScope: CoroutineScope,
+    private val settingsService: SettingsService,
     private val analyticsService: AnalyticsService,
     private val alarmService: AlarmService,
 ) : ViewModel() {
     private val args = RingArgs(savedStateHandle)
     private val alarmId = args.id
 
+    private val alarmManager by lazy { appContext.getSystemService<AlarmManager>() }
+
     private val _alarm: MutableStateFlow<Alarm?> = MutableStateFlow(null)
     val alarm: StateFlow<Alarm?> = _alarm.asStateFlow()
+
+    private val snoozedDuration: MutableStateFlow<Duration?> = MutableStateFlow(null)
 
     val selectedTheme: StateFlow<Theme?> =
         settingsService
@@ -74,19 +84,29 @@ internal class RingViewModel @Inject constructor(
             )
 
     val currentTime: MutableStateFlow<String> = MutableStateFlow(getTime())
+    val snoozedTime: MutableStateFlow<String?> = MutableStateFlow(null)
 
     private lateinit var timer: Timer
 
     init {
         viewModelScope.launch {
             timer =
-                timer(period = 300) {
+                timer(period = TIMER) {
                     currentTime.value = getTime()
+                    snoozedTime.value = snoozedTime()
+                    snoozedDuration.update { duration ->
+                        duration?.let {
+                            val newDuration = duration.minus(TIMER.milliseconds)
+                            if (newDuration.inWholeMilliseconds <= 0) {
+                                null
+                            } else {
+                                newDuration
+                            }
+                        }
+                    }
                 }
 
             getAlarm()
-
-            settingsService.setRingingAlarm(alarmId)
         }
     }
 
@@ -99,41 +119,76 @@ internal class RingViewModel @Inject constructor(
         }
     }
 
-    private fun getTime(): String {
+    private fun getTime(localTime: LocalTime = LocalTime.now()): String {
         val localizedTimeFormatter = DateTimeFormatter.ofLocalizedTime(SHORT)
-        return LocalTime.now().format(localizedTimeFormatter)
+        return localTime.format(localizedTimeFormatter)
+    }
+
+    private fun snoozedTime(): String? {
+        return snoozedDuration.value?.toMinutesSeconds()
     }
 
     private suspend fun getAlarm() {
-        _alarm.update { alarmService.getAlarm(alarmId).value }
+        _alarm.update {
+            alarmService.getAlarm(alarmId).value
+                .also { alarm ->
+                    alarm?.let {
+                        if (it.postponeTime == null) {
+                            // Alarm is ringing
+                            settingsService.setRingingAlarm(alarmId)
+                        } else {
+                            snoozedDuration.value = computeRemainingSnoozeDuration(it)
+                            snoozedDuration.value?.let { duration ->
+                                val snoozedTime =
+                                    LocalTime.now().plusSeconds(duration.inWholeSeconds)
+                                startSnoozeService(
+                                    snoozedTime = getTime(snoozedTime),
+                                    withBackstack = false,
+                                )
+                            }
+                        }
+                    }
+                }
+        }
     }
 
     fun turnOffAlarm() {
         timer.cancel()
         applicationScope.launch {
             stopAlarmService()
+            alarm.value?.let { alarmService.saveAlarm(it.copy(postponeTime = null)) }
+            val pendingIntent = createSnoozeIntent()
+            alarmManager?.cancel(pendingIntent)
         }
     }
 
-    @SuppressLint("MissingPermission")
     fun postponeAlarm() {
-        stopAlarmService()
-        val alarmManager = appContext.getSystemService<AlarmManager>()
-        val intent = AlarmBroadcastReceiver.createIntent(appContext, alarmId)
-        val pendingIntent = PendingIntent.getBroadcast(
-            /* context = */
-            appContext,
-            /* requestCode = */
-            alarmId,
-            /* intent = */
-            intent,
-            /* flags = */
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
+        viewModelScope.launch {
+            stopAlarmService()
+            alarm.value?.let {
+                scheduleAlarm(it.postponeDuration)
+                val snoozedAt = LocalTime.now()
+                alarmService.saveAlarm(it.copy(postponeTime = snoozedAt))
+                snoozedDuration.value = it.postponeDuration
+            }
+        }
+    }
+
+    private fun stopAlarmService() {
+        val intent = Intent(appContext, RingingAlarmService::class.java)
+        appContext.stopService(intent)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun scheduleAlarm(delay: Duration) {
+        val triggerTime = System.currentTimeMillis() + delay.inWholeMilliseconds
+        val snoozedTime = LocalTime.now().plusMinutes(delay.inWholeMinutes)
+
+        val pendingIntent = createSnoozeIntent()
 
         val alarmClockInfo = AlarmManager.AlarmClockInfo(
             /* triggerTime = */
-            System.currentTimeMillis() + 5000,
+            triggerTime,
             /* showIntent = */
             pendingIntent,
         )
@@ -143,17 +198,55 @@ internal class RingViewModel @Inject constructor(
             /* operation = */
             pendingIntent,
         )
+
+        startSnoozeService(snoozedTime = getTime(snoozedTime))
     }
 
-    private fun stopAlarmService() {
-        val intent = Intent(appContext, RingingAlarmService::class.java)
-        appContext.stopService(intent)
+    private fun createSnoozeIntent(): PendingIntent {
+        val intent = AlarmBroadcastReceiver.createIntent(appContext, alarmId)
+        return PendingIntent.getBroadcast(
+            /* context = */
+            appContext,
+            /* requestCode = */
+            alarmId,
+            /* intent = */
+            intent,
+            /* flags = */
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+    }
+
+    private fun computeRemainingSnoozeDuration(alarm: Alarm): Duration? {
+        val now = LocalTime.now()
+        val snoozeTime = alarm.postponeTime ?: now
+        val initialSnoozeDuration = alarm.postponeDuration
+        val elapsedDuration = snoozeTime.until(now, ChronoUnit.MILLIS).milliseconds
+        val remainingSnoozeDuration = initialSnoozeDuration - elapsedDuration
+        return if (remainingSnoozeDuration.inWholeMilliseconds <= 0) {
+            null
+        } else {
+            remainingSnoozeDuration
+        }
+    }
+
+    private fun startSnoozeService(
+        snoozedTime: String,
+        withBackstack: Boolean = args.withBackstack,
+    ) {
+        val intent = SnoozedAlarmService.createIntent(
+            context = appContext,
+            alarmId = alarmId,
+            snoozedTime = snoozedTime,
+            withBackstack = withBackstack,
+        )
+        appContext.startService(intent)
     }
 }
 
-private class RingArgs(val id: Int) {
+private class RingArgs(val id: Int, val withBackstack: Boolean) {
     constructor(savedStateHandle: SavedStateHandle) :
         this(
             id = checkNotNull(savedStateHandle.get<Int>(ID_RING_ALARM_ARG)),
+            withBackstack = checkNotNull(savedStateHandle.get<Boolean>(WITH_BACKSTACK_ARG)),
         )
 }

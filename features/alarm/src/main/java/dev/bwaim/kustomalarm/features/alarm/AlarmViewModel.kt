@@ -40,6 +40,7 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -63,7 +64,16 @@ internal class AlarmViewModel @Inject constructor(
     private var checkingAlarmJob: Job? = null
 
     init {
-        checkingAlarmJob = settingsService.observeRingingAlarm()
+        checkingAlarmJob = combine(
+            settingsService.observeRingingAlarm(),
+            alarmService.observeSnoozedAlarm(),
+        ) { ringingAlarmId, snoozedAlarm ->
+            if (ringingAlarmId != NOT_SAVED_ALARM_ID) {
+                ringingAlarmId
+            } else {
+                snoozedAlarm?.id ?: NOT_SAVED_ALARM_ID
+            }
+        }
             .onEach {
                 if (it != NOT_SAVED_ALARM_ID) {
                     val intent = RingActivity.createIntent(

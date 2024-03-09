@@ -35,7 +35,10 @@
     <string name="notification.channel.alarms.name">Alarmas activadas</string>
 
     <string name="notification.firing.alarm.title">Alarma &#9200;</string>
-    <string name="notification.firing.alarm.description">Seleccione para mostrar la alarma.</string>
+    <string name="notification.firing.alarm.description">Seleccione para mostrar la alarma</string>
+
+    <string name="notification.snooze.alarm.title">Alarma (Dormitar) &#9200;</string>
+    <string name="notification.snooze.alarm.description">Alarma programada a las %1$s</string>
 
     <string name="permission.global.continue">Continuar</string>
     <string name="permission.global.dismiss">Descartar</string>
@@ -58,7 +61,7 @@
     <string name="sound_selection.screen.label">Selección de sonido</string>
     <string name="sound_selection.screen.no_volume_message">Sube el volumen para escuchar</string>
 
-    <string name="ring.screen.repeat">Repetir</string>
+    <string name="ring.screen.snooze">Dormitar</string>
     <string name="ring.screen.turn_off">Descartar</string>
 
     <string name="settings.screen.label">Configuraciones</string>

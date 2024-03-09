@@ -35,7 +35,10 @@
     <string name="notification.channel.alarms.name">Alarmes enclenchées</string>
 
     <string name="notification.firing.alarm.title">Alarme &#9200;</string>
-    <string name="notification.firing.alarm.description">Appuyez pour afficher l\'alarme.</string>
+    <string name="notification.firing.alarm.description">Appuyez pour afficher l\'alarme</string>
+
+    <string name="notification.snooze.alarm.title">Alarme (Rappel) &#9200;</string>
+    <string name="notification.snooze.alarm.description">Alarme prévue à %1$s</string>
 
     <string name="permission.global.continue">Continuer</string>
     <string name="permission.global.dismiss">Rejeter</string>
@@ -58,7 +61,7 @@
     <string name="sound_selection.screen.label">Sélection du son</string>
     <string name="sound_selection.screen.no_volume_message">Montez le volume pour écouter</string>
 
-    <string name="ring.screen.repeat">Répéter</string>
+    <string name="ring.screen.snooze">Rappel</string>
     <string name="ring.screen.turn_off">Eteindre</string>
 
     <string name="settings.screen.label">Paramètres</string>

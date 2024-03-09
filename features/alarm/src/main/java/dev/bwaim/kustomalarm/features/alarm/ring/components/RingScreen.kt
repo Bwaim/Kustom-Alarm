@@ -43,6 +43,7 @@ import dev.bwaim.kustomalarm.localisation.R.string
 @Composable
 internal fun RingScreen(
     currentTime: String,
+    snoozedTime: String?,
     name: String?,
     turnOff: () -> Unit,
     postponeAlarm: () -> Unit,
@@ -56,57 +57,81 @@ internal fun RingScreen(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            text = currentTime,
-            fontSize = 80.sp,
-            modifier = Modifier.padding(top = 150.dp),
-        )
+        Timer(currentTime)
 
-        name?.let {
-            Text(
-                text = name,
-            )
-        }
+        AlarmName(name)
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Card(
-            onClick = postponeAlarm,
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(200.dp),
-        ) {
-            Text(
-                text = stringResource(id = string.ring_screen_repeat),
-                style = MaterialTheme.typography.displayLarge,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
-            )
+        if (snoozedTime == null) {
+            PostponeCard(postponeAlarm)
+        } else {
+            Timer(snoozedTime)
         }
 
-        Card(
-            onClick = turnOff,
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            ),
+        TurnOffCard(turnOff)
+    }
+}
+
+@Composable
+private fun Timer(currentTime: String) {
+    Text(
+        text = currentTime,
+        fontSize = 80.sp,
+        modifier = Modifier.padding(top = 150.dp),
+    )
+}
+
+@Composable
+private fun AlarmName(name: String?) {
+    name?.let {
+        Text(
+            text = name,
+        )
+    }
+}
+
+@Composable
+private fun PostponeCard(postponeAlarm: () -> Unit) {
+    Card(
+        onClick = postponeAlarm,
+        modifier = Modifier
+            .fillMaxWidth(0.8f)
+            .height(200.dp),
+    ) {
+        Text(
+            text = stringResource(id = string.ring_screen_snooze),
+            style = MaterialTheme.typography.displayLarge,
+            textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(top = 20.dp, bottom = 16.dp)
-                .fillMaxWidth(0.8f)
-                .height(70.dp),
-        ) {
-            Text(
-                text = stringResource(id = string.ring_screen_turn_off),
-                style = MaterialTheme.typography.displayMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .wrapContentHeight(Alignment.CenterVertically),
-            )
-        }
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .wrapContentHeight(Alignment.CenterVertically),
+        )
+    }
+}
+
+@Composable
+private fun TurnOffCard(turnOff: () -> Unit) {
+    Card(
+        onClick = turnOff,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+        ),
+        modifier = Modifier
+            .padding(top = 20.dp, bottom = 16.dp)
+            .fillMaxWidth(0.8f)
+            .height(70.dp),
+    ) {
+        Text(
+            text = stringResource(id = string.ring_screen_turn_off),
+            style = MaterialTheme.typography.displayMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .wrapContentHeight(Alignment.CenterVertically),
+        )
     }
 }
 
@@ -116,6 +141,7 @@ private fun PreviewRingScreen() {
     KustomAlarmThemePreview {
         RingScreen(
             currentTime = "09:00",
+            snoozedTime = null,
             name = "alarm name",
             turnOff = {},
             postponeAlarm = {},

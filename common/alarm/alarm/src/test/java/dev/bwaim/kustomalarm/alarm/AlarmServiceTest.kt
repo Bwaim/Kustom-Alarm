@@ -18,6 +18,7 @@
 
 package dev.bwaim.kustomalarm.alarm
 
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
 import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
@@ -77,6 +78,30 @@ internal class AlarmServiceTest {
                 testAlarms[2],
                 alarmRetrieved.value,
             )
+        }
+
+    @Test
+    fun alarmService_observe_snoozed_alarms() =
+        runTest {
+            testAlarms.forEach { alarm -> subject.saveAlarm(alarm) }
+
+            subject.observeSnoozedAlarm()
+                .test {
+                    Assert.assertNull(awaitItem())
+
+                    var postponedAlarm = testAlarms[0].copy(postponeTime = LocalTime.now())
+                    subject.saveAlarm(postponedAlarm)
+                    Assert.assertEquals(
+                        postponedAlarm,
+                        awaitItem(),
+                    )
+
+                    postponedAlarm = testAlarms[0].copy(postponeTime = null)
+                    subject.saveAlarm(postponedAlarm)
+                    Assert.assertNull(awaitItem())
+
+                    expectNoEvents()
+                }
         }
 
     @Test

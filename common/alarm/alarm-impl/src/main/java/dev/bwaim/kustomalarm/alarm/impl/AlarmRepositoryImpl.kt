@@ -46,6 +46,10 @@ internal class AlarmRepositoryImpl @Inject constructor(
             }
     }
 
+    override fun observeSnoozedAlarm(): Flow<Alarm?> {
+        return alarmDao.observeSnoozedAlarm().map { it.firstOrNull()?.toDomain() }
+    }
+
     override suspend fun getAlarm(alarmId: Int): Alarm? {
         return alarmDao.getAlarm(id = alarmId)?.toDomain()
     }

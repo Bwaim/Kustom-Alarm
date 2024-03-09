@@ -35,7 +35,10 @@
     <string name="notification.channel.alarms.name">Firing alarms</string>
 
     <string name="notification.firing.alarm.title">Alarm &#9200;</string>
-    <string name="notification.firing.alarm.description">Select to show the alarm.</string>
+    <string name="notification.firing.alarm.description">Select to show the alarm</string>
+
+    <string name="notification.snooze.alarm.title">Alarm (Snooze) &#9200;</string>
+    <string name="notification.snooze.alarm.description">Alarm scheduled at %1$s</string>
 
     <string name="permission.global.continue">Continue</string>
     <string name="permission.global.dismiss">Dismiss</string>
@@ -58,7 +61,7 @@
     <string name="sound_selection.screen.label">Sound selection</string>
     <string name="sound_selection.screen.no_volume_message">Turn up the volume to listen</string>
 
-    <string name="ring.screen.repeat">Repeat</string>
+    <string name="ring.screen.snooze">Snooze</string>
     <string name="ring.screen.turn_off">Turn off</string>
 
     <string name="settings.screen.label">Settings</string>

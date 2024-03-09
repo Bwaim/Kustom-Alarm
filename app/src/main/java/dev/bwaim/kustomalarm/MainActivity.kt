@@ -16,13 +16,17 @@
 
 package dev.bwaim.kustomalarm
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.LocalLogScreenView
@@ -60,6 +64,13 @@ internal class MainActivity : AppCompatActivity() {
                     )
                 }
             }
+        }
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName"),
+            )
+            ActivityCompat.startActivityForResult(this, intent, 0, null)
         }
     }
 }

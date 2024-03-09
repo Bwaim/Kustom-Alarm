@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.database.alarm
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.database.KustomAlarmRoomDatabase
 import dev.bwaim.kustomalarm.database.KustomAlarmTypeConverters
 import kotlinx.coroutines.flow.first
@@ -73,6 +74,43 @@ internal class AlarmDaoTest {
                 listOf("alarm2"),
                 savedAlarms.map { it.name },
             )
+        }
+
+    @Test
+    fun alarmDao_observes_snoozed_alarms() =
+        runTest {
+            val alarms =
+                listOf(
+                    testAlarm(id = 1, name = "alarm1", uri = "uri1"),
+                    testAlarm(id = 2, name = "alarm2", uri = "uri2"),
+                )
+
+            alarms.forEach { alarmDao.upsertAlarm(it) }
+
+            alarmDao
+                .observeSnoozedAlarm()
+                .test {
+                    Assert.assertEquals(
+                        true,
+                        awaitItem().isEmpty(),
+                    )
+
+                    alarmDao.upsertAlarm(alarms[0].copy(postponeTime = LocalTime.now()))
+
+                    Assert.assertEquals(
+                        1,
+                        awaitItem().size,
+                    )
+
+                    alarmDao.upsertAlarm(alarms[0].copy(postponeTime = null))
+
+                    Assert.assertEquals(
+                        true,
+                        awaitItem().isEmpty(),
+                    )
+
+                    expectNoEvents()
+                }
         }
 
     @Test

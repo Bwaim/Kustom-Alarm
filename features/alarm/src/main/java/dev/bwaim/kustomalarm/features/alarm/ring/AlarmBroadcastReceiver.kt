@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import dagger.hilt.android.AndroidEntryPoint
+import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 
 private const val EXTRA_ALARM_ID: String = "EXTRA_ALARM_ID"
@@ -33,7 +34,12 @@ public class AlarmBroadcastReceiver : BroadcastReceiver() {
 
     private fun startAlarmService(context: Context, alarmId: Int) {
         val intent = RingingAlarmService.createIntent(context, alarmId)
-        context.startService(intent)
+
+        if (BuildWrapper.isAtLeastO) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
     }
 
     public companion object {
