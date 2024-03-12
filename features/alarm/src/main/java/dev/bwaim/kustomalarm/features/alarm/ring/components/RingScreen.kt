@@ -18,6 +18,7 @@ package dev.bwaim.kustomalarm.features.alarm.ring.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,7 +47,7 @@ internal fun RingScreen(
     snoozedTime: String?,
     name: String?,
     turnOff: () -> Unit,
-    postponeAlarm: () -> Unit,
+    snoozeAlarm: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BackHandler {
@@ -64,9 +65,9 @@ internal fun RingScreen(
         Spacer(modifier = Modifier.weight(1f))
 
         if (snoozedTime == null) {
-            PostponeCard(postponeAlarm)
+            SnoozeCard(snoozeAlarm)
         } else {
-            Timer(snoozedTime)
+            SnoozedInfo(snoozedTime)
         }
 
         TurnOffCard(turnOff)
@@ -92,9 +93,9 @@ private fun AlarmName(name: String?) {
 }
 
 @Composable
-private fun PostponeCard(postponeAlarm: () -> Unit) {
+private fun SnoozeCard(snoozeAlarm: () -> Unit) {
     Card(
-        onClick = postponeAlarm,
+        onClick = snoozeAlarm,
         modifier = Modifier
             .fillMaxWidth(0.8f)
             .height(200.dp),
@@ -109,6 +110,18 @@ private fun PostponeCard(postponeAlarm: () -> Unit) {
                 .wrapContentHeight(Alignment.CenterVertically),
         )
     }
+}
+
+@Composable
+private fun ColumnScope.SnoozedInfo(snoozedTime: String) {
+    Text(
+        text = snoozedTime,
+        fontSize = 40.sp,
+        modifier = Modifier.padding(top = 150.dp),
+    )
+    Text(
+        text = stringResource(id = string.ring_screen_snoozed),
+    )
 }
 
 @Composable
@@ -144,7 +157,21 @@ private fun PreviewRingScreen() {
             snoozedTime = null,
             name = "alarm name",
             turnOff = {},
-            postponeAlarm = {},
+            snoozeAlarm = {},
+        )
+    }
+}
+
+@Composable
+@PreviewsKAlarm
+private fun PreviewSnoozedRingScreen() {
+    KustomAlarmThemePreview {
+        RingScreen(
+            currentTime = "09:00",
+            snoozedTime = "0:04:50",
+            name = "alarm name",
+            turnOff = {},
+            snoozeAlarm = {},
         )
     }
 }

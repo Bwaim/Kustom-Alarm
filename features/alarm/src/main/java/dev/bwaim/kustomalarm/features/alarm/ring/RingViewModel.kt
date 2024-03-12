@@ -31,7 +31,7 @@ import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
 import dev.bwaim.kustomalarm.core.ApplicationScope
-import dev.bwaim.kustomalarm.core.extentions.toMinutesSeconds
+import dev.bwaim.kustomalarm.core.extentions.toHoursMinutesSeconds
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
@@ -125,7 +125,7 @@ internal class RingViewModel @Inject constructor(
     }
 
     private fun snoozedTime(): String? {
-        return snoozedDuration.value?.toMinutesSeconds()
+        return snoozedDuration.value?.toHoursMinutesSeconds()
     }
 
     private suspend fun getAlarm() {
@@ -162,7 +162,7 @@ internal class RingViewModel @Inject constructor(
         }
     }
 
-    fun postponeAlarm() {
+    fun snoozeAlarm() {
         viewModelScope.launch {
             stopAlarmService()
             alarm.value?.let {

@@ -63,6 +63,7 @@
 
     <string name="ring.screen.snooze">Snooze</string>
     <string name="ring.screen.turn_off">Turn off</string>
+    <string name="ring.screen.snoozed">Snoozed</string>
 
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>

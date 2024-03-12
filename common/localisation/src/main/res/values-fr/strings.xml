@@ -63,6 +63,7 @@
 
     <string name="ring.screen.snooze">Rappel</string>
     <string name="ring.screen.turn_off">Eteindre</string>
+    <string name="ring.screen.snoozed">Rappel</string>
 
     <string name="settings.screen.label">Paramètres</string>
     <string name="settings.screen.theme.light_label">Clair</string>

@@ -17,10 +17,20 @@
 package dev.bwaim.kustomalarm.core.extentions
 
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 
 public fun Duration.toMinutesSeconds(): String {
     val minutes = inWholeMinutes
     val seconds = minus(minutes.minutes).inWholeSeconds
     return "%02d:%02d".format(minutes, seconds)
+}
+
+public fun Duration.toHoursMinutesSeconds(): String {
+    val hours = inWholeHours
+    var remaining = minus(hours.hours)
+    val minutes = remaining.inWholeMinutes
+    remaining = minus(minutes.minutes)
+    val seconds = remaining.inWholeSeconds
+    return "%01d:%02d:%02d".format(hours, minutes, seconds)
 }

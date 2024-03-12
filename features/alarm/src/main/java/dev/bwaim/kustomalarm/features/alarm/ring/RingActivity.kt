@@ -77,7 +77,7 @@ public class RingActivity : AppCompatActivity() {
                                 ringViewModel.turnOffAlarm()
                                 finish()
                             },
-                            postponeAlarm = ringViewModel::postponeAlarm,
+                            snoozeAlarm = ringViewModel::snoozeAlarm,
                             modifier = Modifier
                                 .windowInsetsPadding(WindowInsets.safeContent),
                         )
