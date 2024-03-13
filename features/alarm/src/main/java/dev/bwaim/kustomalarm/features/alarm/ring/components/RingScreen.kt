@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalAnimationGraphicsApi::class)
+
 package dev.bwaim.kustomalarm.features.alarm.ring.components
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.graphics.ExperimentalAnimationGraphicsApi
+import androidx.compose.animation.graphics.res.animatedVectorResource
+import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+import androidx.compose.animation.graphics.vector.AnimatedImageVector
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -31,8 +38,15 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,6 +54,8 @@ import androidx.compose.ui.unit.sp
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.ui.resources.R.drawable
+import kotlinx.coroutines.delay
 
 @Composable
 internal fun RingScreen(
@@ -114,13 +130,34 @@ private fun SnoozeCard(snoozeAlarm: () -> Unit) {
 
 @Composable
 private fun ColumnScope.SnoozedInfo(snoozedTime: String) {
+    SleepAnimation()
     Text(
         text = snoozedTime,
         fontSize = 40.sp,
-        modifier = Modifier.padding(top = 150.dp),
+        modifier = Modifier.padding(top = 50.dp),
     )
     Text(
         text = stringResource(id = string.ring_screen_snoozed),
+    )
+}
+
+@Composable
+private fun SleepAnimation() {
+    val image = AnimatedImageVector.animatedVectorResource(drawable.avd_z_anim)
+    var atEnd by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            atEnd = !atEnd
+            delay(1000) // delay between animations
+        }
+    }
+
+    Image(
+        painter = rememberAnimatedVectorPainter(image, atEnd),
+        contentDescription = null,
+        modifier = Modifier.scale(2f),
+        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.tertiaryContainer),
     )
 }
 

@@ -41,5 +41,7 @@ dependencies {
     implementation(libs.androidx.constraint.layout.compose)
     implementation(libs.androidx.lifecycle.service)
 
+    implementation(libs.compose.animation.graphics)
+
     implementation(libs.accompanist.permissions)
 }

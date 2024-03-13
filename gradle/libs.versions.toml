@@ -84,6 +84,7 @@ androidx-tracing = { group = "androidx.tracing", name = "tracing-ktx", version.r
 cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose" }
 compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
