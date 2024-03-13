@@ -23,6 +23,8 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.Ringtone
 import android.media.RingtoneManager
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -33,6 +35,7 @@ import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.core.ApplicationScope
 import dev.bwaim.kustomalarm.core.NotificationHelper
+import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.settings.SettingsService
@@ -63,6 +66,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     internal lateinit var notificationHelper: NotificationHelper
 
     private val notificationManager by lazy { getSystemService<NotificationManager>() }
+    private val vibrator by lazy { getSystemService<Vibrator>() }
 
     private var ringtone: Ringtone? = null
 
@@ -73,6 +77,8 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             settingsService.setRingingAlarm(NOT_SAVED_ALARM_ID)
         }
         ringtone?.stop()
+        mediaPlayer.stop()
+        vibrator?.cancel()
         super.onDestroy()
     }
 
@@ -123,6 +129,8 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK,
         )
         startActivity(intent)
+
+        setVibration()
     }
 
     private fun getRingtone(uri: String): Ringtone {
@@ -135,6 +143,16 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             .setUsage(AudioAttributes.USAGE_MEDIA)
             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
             .build()
+    }
+
+    private fun setVibration() {
+        if (BuildWrapper.isAtLeastO) {
+            val timings: LongArray = longArrayOf(150, 200, 150, 500)
+            val amplitudes: IntArray = intArrayOf(64, 128, 64, 0)
+            val repeat = 0
+            val repeatingEffect = VibrationEffect.createWaveform(timings, amplitudes, repeat)
+            vibrator?.vibrate(repeatingEffect)
+        }
     }
 
     private fun createRingingAlarmNotification(
