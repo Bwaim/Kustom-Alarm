@@ -21,8 +21,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
-import android.media.Ringtone
-import android.media.RingtoneManager
+import android.media.MediaPlayer
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.core.app.NotificationCompat
@@ -42,6 +41,7 @@ import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -68,7 +68,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     private val notificationManager by lazy { getSystemService<NotificationManager>() }
     private val vibrator by lazy { getSystemService<Vibrator>() }
 
-    private var ringtone: Ringtone? = null
+    private val mediaPlayer by lazy { MediaPlayer().also { it.isLooping = true } }
 
     private var alarmId: Int = NOT_SAVED_ALARM_ID
 
@@ -76,7 +76,6 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         applicationScope.launch {
             settingsService.setRingingAlarm(NOT_SAVED_ALARM_ID)
         }
-        ringtone?.stop()
         mediaPlayer.stop()
         vibrator?.cancel()
         super.onDestroy()
@@ -120,8 +119,12 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     }
 
     private fun startAlarm(alarm: Alarm) {
-        ringtone = getRingtone(alarm.uri)
-        ringtone?.play()
+        mediaPlayer.setDataSource(this, alarm.uri.toUri())
+        mediaPlayer.setAudioAttributes(buildAudioAttributes())
+        mediaPlayer.setOnPreparedListener {
+            alarmVolumeVariations()
+        }
+        mediaPlayer.prepareAsync()
 
         val intent = RingActivity.createIntent(
             context = this,
@@ -133,16 +136,31 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         setVibration()
     }
 
-    private fun getRingtone(uri: String): Ringtone {
-        return RingtoneManager.getRingtone(this, uri.toUri())
-            .apply { buildAudioAttributes() }
-    }
-
-    private fun Ringtone.buildAudioAttributes() {
-        audioAttributes = AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_MEDIA)
+    private fun buildAudioAttributes(): AudioAttributes {
+        return AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ALARM)
             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
             .build()
+    }
+
+    private fun alarmVolumeVariations() {
+        var volume = 0.01f
+        mediaPlayer.setVolume(volume)
+        mediaPlayer.start()
+        lifecycleScope.launch {
+            delay(5000)
+            volume = 0.05f
+            mediaPlayer.setVolume(volume)
+            repeat(10) {
+                delay(1000)
+                volume += 0.01f
+                mediaPlayer.setVolume(volume)
+            }
+        }
+    }
+
+    private fun MediaPlayer.setVolume(volume: Float) {
+        setVolume(volume, volume)
     }
 
     private fun setVibration() {
