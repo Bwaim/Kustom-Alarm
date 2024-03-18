@@ -30,7 +30,7 @@ public fun Duration.toHoursMinutesSeconds(): String {
     val hours = inWholeHours
     var remaining = minus(hours.hours)
     val minutes = remaining.inWholeMinutes
-    remaining = minus(minutes.minutes)
+    remaining = remaining.minus(minutes.minutes)
     val seconds = remaining.inWholeSeconds
     return "%01d:%02d:%02d".format(hours, minutes, seconds)
 }

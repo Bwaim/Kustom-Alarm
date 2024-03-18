@@ -34,4 +34,17 @@ internal class DurationTest {
             result,
         )
     }
+
+    @Test
+    fun duration_to_hours_minutes_seconds() {
+        val duration = 3665.seconds
+        val expected = "1:01:05"
+
+        val result = duration.toHoursMinutesSeconds()
+
+        Assert.assertEquals(
+            expected,
+            result,
+        )
+    }
 }
