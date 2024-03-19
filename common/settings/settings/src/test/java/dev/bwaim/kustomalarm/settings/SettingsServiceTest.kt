@@ -20,6 +20,7 @@ package dev.bwaim.kustomalarm.settings
 
 import app.cash.turbine.test
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
+import dev.bwaim.kustomalarm.testing.repository.TestAppStateRepository
 import dev.bwaim.kustomalarm.testing.repository.TestThemeRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -38,6 +39,7 @@ internal class SettingsServiceTest {
             SettingsService(
                 ioDispatcher = UnconfinedTestDispatcher(),
                 themeRepository = TestThemeRepository(),
+                appStateRepository = TestAppStateRepository(),
             )
     }
 
@@ -73,5 +75,18 @@ internal class SettingsServiceTest {
         val result = subject.getLocales()
 
         Assert.assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun appStateService_observe_changes() = runTest {
+        val defaultRingingAlarm = 0
+        val ringingAlarmSet = 3
+
+        subject.observeRingingAlarm().test {
+            Assert.assertEquals(defaultRingingAlarm, awaitItem())
+            subject.setRingingAlarm(ringingAlarmSet)
+            Assert.assertEquals(ringingAlarmSet, awaitItem())
+            cancel()
+        }
     }
 }

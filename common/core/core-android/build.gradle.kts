@@ -29,6 +29,7 @@ jacocoKustomConfig {
 
 dependencies {
     implementation(projects.common.core.core)
+    implementation(projects.common.localisation)
 
     implementation(libs.kotlin.coroutines.android)
     implementation(libs.kotlin.coroutines.core)

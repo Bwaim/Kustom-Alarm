@@ -16,25 +16,24 @@
 
 package dev.bwaim.kustomalarm
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.activity.SystemBarStyle
+import android.provider.Settings
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.LocalLogScreenView
+import dev.bwaim.kustomalarm.compose.configureEdgeToEdge
+import dev.bwaim.kustomalarm.compose.isDarkTheme
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import dev.bwaim.kustomalarm.settings.theme.domain.Theme
-import dev.bwaim.kustomalarm.settings.theme.domain.Theme.DARK
-import dev.bwaim.kustomalarm.settings.theme.domain.Theme.LIGHT
 import kotlinx.collections.immutable.toPersistentList
 import javax.inject.Inject
 
@@ -54,25 +53,7 @@ internal class MainActivity : AppCompatActivity() {
             val selectedTheme by mainViewModel.selectedTheme.collectAsStateWithLifecycle()
             val isDarkTheme = selectedTheme.isDarkTheme()
 
-            DisposableEffect(isDarkTheme) {
-                enableEdgeToEdge(
-                    statusBarStyle =
-                        SystemBarStyle.auto(
-                            android.graphics.Color.TRANSPARENT,
-                            android.graphics.Color.TRANSPARENT,
-                        ) {
-                            isDarkTheme
-                        },
-                    navigationBarStyle =
-                        SystemBarStyle.auto(
-                            lightScrim,
-                            darkScrim,
-                        ) {
-                            isDarkTheme
-                        },
-                )
-                onDispose {}
-            }
+            configureEdgeToEdge(isDarkTheme)
 
             CompositionLocalProvider(LocalLogScreenView provides mainViewModel::logScreenView) {
                 KustomAlarmTheme(
@@ -84,17 +65,12 @@ internal class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-}
-
-private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
-private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)
-
-@Composable
-private fun Theme?.isDarkTheme(): Boolean {
-    return when (this) {
-        LIGHT -> false
-        DARK -> true
-        else -> isSystemInDarkTheme()
+        if (!Settings.canDrawOverlays(this)) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName"),
+            )
+            ActivityCompat.startActivityForResult(this, intent, 0, null)
+        }
     }
 }

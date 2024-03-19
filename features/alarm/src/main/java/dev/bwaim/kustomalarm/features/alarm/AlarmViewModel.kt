@@ -16,9 +16,12 @@
 
 package dev.bwaim.kustomalarm.features.alarm
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
@@ -27,62 +30,103 @@ import dev.bwaim.kustomalarm.analytics.model.AlarmDeleteEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDisableEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmDuplicateEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmEnableEvent
+import dev.bwaim.kustomalarm.analytics.model.AlarmPreviewEvent
 import dev.bwaim.kustomalarm.analytics.model.AlarmSetTemplateEvent
+import dev.bwaim.kustomalarm.features.alarm.ring.RingActivity
+import dev.bwaim.kustomalarm.settings.SettingsService
+import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class AlarmViewModel
-    @Inject
-    constructor(
-        private val alarmService: AlarmService,
-        private val analyticsService: AnalyticsService,
-    ) : ViewModel() {
-        val alarms: StateFlow<PersistentList<Alarm>?> =
-            alarmService
-                .observeAlarms()
-                .map { it.toPersistentList() }
-                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+internal class AlarmViewModel @Inject constructor(
+    @ApplicationContext private val appContext: Context,
+    settingsService: SettingsService,
+    private val alarmService: AlarmService,
+    private val analyticsService: AnalyticsService,
+) : ViewModel() {
+    val alarms: StateFlow<PersistentList<Alarm>?> =
+        alarmService
+            .observeAlarms()
+            .map { it.toPersistentList() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-        fun updateAlarm(alarm: Alarm) {
-            viewModelScope.launch {
-                alarmService.saveAlarm(alarm = alarm)
-                analyticsService.logEvent(
-                    if (alarm.isActivated) {
-                        AlarmEnableEvent
-                    } else {
-                        AlarmDisableEvent
-                    },
-                )
+    private var checkingAlarmJob: Job? = null
+
+    init {
+        checkingAlarmJob = combine(
+            settingsService.observeRingingAlarm(),
+            alarmService.observeSnoozedAlarm(),
+        ) { ringingAlarmId, snoozedAlarm ->
+            if (ringingAlarmId != NOT_SAVED_ALARM_ID) {
+                ringingAlarmId
+            } else {
+                snoozedAlarm?.id ?: NOT_SAVED_ALARM_ID
             }
         }
-
-        fun deleteAlarm(alarmId: Int) {
-            viewModelScope.launch {
-                alarmService.deleteAlarm(alarmId)
-                analyticsService.logEvent(AlarmDeleteEvent)
+            .onEach {
+                if (it != NOT_SAVED_ALARM_ID) {
+                    val intent = RingActivity.createIntent(
+                        context = appContext,
+                        alarmId = it,
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK,
+                    )
+                    appContext.startActivity(intent)
+                }
+                checkingAlarmJob?.cancel()
             }
-        }
+            .launchIn(viewModelScope)
+    }
 
-        fun logDuplicateEvent() {
-            viewModelScope.launch {
-                analyticsService.logEvent(AlarmDuplicateEvent)
-            }
-        }
-
-        fun setTemplate(alarm: Alarm) {
-            viewModelScope.launch {
-                alarmService.saveTemplate(alarm.toTemplate())
-                analyticsService.logEvent(AlarmSetTemplateEvent)
-            }
+    fun updateAlarm(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmService.saveAlarm(alarm = alarm)
+            analyticsService.logEvent(
+                if (alarm.isActivated) {
+                    AlarmEnableEvent
+                } else {
+                    AlarmDisableEvent
+                },
+            )
         }
     }
+
+    fun deleteAlarm(alarmId: Int) {
+        viewModelScope.launch {
+            alarmService.deleteAlarm(alarmId)
+            analyticsService.logEvent(AlarmDeleteEvent)
+        }
+    }
+
+    fun logDuplicateEvent() {
+        viewModelScope.launch {
+            analyticsService.logEvent(AlarmDuplicateEvent)
+        }
+    }
+
+    fun setTemplate(alarm: Alarm) {
+        viewModelScope.launch {
+            alarmService.saveTemplate(alarm.toTemplate())
+            analyticsService.logEvent(AlarmSetTemplateEvent)
+        }
+    }
+
+    fun trackPreviewEvent() {
+        viewModelScope.launch {
+            analyticsService.logEvent(AlarmPreviewEvent)
+        }
+    }
+}
 
 internal fun Alarm.toTemplate(): AlarmTemplate =
     AlarmTemplate(
@@ -90,4 +134,5 @@ internal fun Alarm.toTemplate(): AlarmTemplate =
         time = time,
         weekDays = weekDays,
         uri = uri,
+        postponeDuration = postponeDuration,
     )

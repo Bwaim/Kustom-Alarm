@@ -16,6 +16,10 @@
 
 package dev.bwaim.kustomalarm.features.alarm.edit
 
+import android.Manifest.permission
+import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Column
@@ -24,6 +28,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,9 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.compose.KaCloseErrorMessage
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaConfirmDiscardChangesAlertDialog
@@ -48,7 +55,9 @@ import dev.bwaim.kustomalarm.compose.KaTimePicker
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
 import dev.bwaim.kustomalarm.compose.PrimaryButton
 import dev.bwaim.kustomalarm.compose.SaveEventsEffect
+import dev.bwaim.kustomalarm.compose.permissions.PermissionScreen
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
+import dev.bwaim.kustomalarm.core.android.BuildWrapper
 import dev.bwaim.kustomalarm.core.android.extensions.getAppLocale
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.edit.components.AlarmMoreMenu
@@ -56,17 +65,21 @@ import dev.bwaim.kustomalarm.features.alarm.edit.components.KaDaySelector
 import dev.bwaim.kustomalarm.features.alarm.edit.components.SoundSelector
 import dev.bwaim.kustomalarm.features.alarm.edit.domain.AlarmUi
 import dev.bwaim.kustomalarm.localisation.R.string
+import dev.bwaim.kustomalarm.settings.appstate.domain.NOT_SAVED_ALARM_ID
 import kotlinx.collections.immutable.persistentSetOf
 import kotlinx.collections.immutable.toPersistentSet
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
+@SuppressLint("InlinedApi")
 @Composable
 internal fun EditAlarmRoute(
     selectedUri: String?,
     cleanBackstack: () -> Unit,
     close: () -> Unit,
     onSoundSelectionClick: (String) -> Unit,
+    previewAlarm: (Int) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = selectedUri, cleanBackstack) {
@@ -106,23 +119,55 @@ internal fun EditAlarmRoute(
             }
         }
 
-    EditAlarmScreen(
-        alarmUi = alarm,
-        errorMessage = errorMessage,
-        showModificationMessage = showModificationMessage,
-        close = internalClose,
-        onSoundSelectionClick = onSoundSelectionClick,
-        onSave = editViewModel::saveAlarm,
-        updateAlarmName = editViewModel::updateAlarmName,
-        updateAlarmTime = editViewModel::updateAlarmTime,
-        updateAlarmDays = editViewModel::updateAlarmDays,
-        hideModificationMessage = { showModificationMessage = false },
-        deleteAlarm = {
-            editViewModel.deleteAlarm()
-            close()
-        },
-        setTemplate = editViewModel::setTemplate,
-    )
+    BackHandler {
+        internalClose()
+    }
+
+    PermissionScreen(
+        permission = permission.POST_NOTIFICATIONS,
+        title = context.getString(string.permission_notification_titre),
+        rationale = context.getString(string.permission_notification_rationale),
+        isApplicable = BuildWrapper.isAtLeastT,
+    ) { permissionTrigger ->
+
+        LaunchedEffect(Unit) {
+            if (editViewModel.permissionNotShown) {
+                editViewModel.permissionNotShown = false
+                permissionTrigger()
+            }
+        }
+
+        EditAlarmScreen(
+            alarmUi = alarm,
+            errorMessage = errorMessage,
+            showModificationMessage = showModificationMessage,
+            close = internalClose,
+            onSoundSelectionClick = onSoundSelectionClick,
+            onSave = editViewModel::saveAlarm,
+            updateAlarmName = editViewModel::updateAlarmName,
+            updateAlarmTime = editViewModel::updateAlarmTime,
+            updateAlarmDays = editViewModel::updateAlarmDays,
+            hideModificationMessage = { showModificationMessage = false },
+            deleteAlarm = {
+                editViewModel.deleteAlarm()
+                close()
+            },
+            setTemplate = editViewModel::setTemplate,
+            previewAlarm = {
+                val alarmTmp = alarm
+                alarmTmp?.let {
+                    editViewModel.preview()
+                    if (it.id == NOT_SAVED_ALARM_ID) {
+                        editViewModel.saveTemporalAlarm(
+                            endAction = { previewAlarm(TEMPORAL_ALARM_ID) },
+                        )
+                    } else {
+                        previewAlarm(it.id)
+                    }
+                }
+            },
+        )
+    }
 }
 
 @Composable
@@ -139,12 +184,18 @@ private fun EditAlarmScreen(
     hideModificationMessage: () -> Unit,
     deleteAlarm: () -> Unit,
     setTemplate: () -> Unit,
+    previewAlarm: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             KaCloseTopAppBar(
                 onClickNavigation = close,
                 actions = {
+                    Text(
+                        text = stringResource(id = string.global_action_preview),
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable { previewAlarm() },
+                    )
                     AlarmMoreMenu(
                         deleteAlarm = deleteAlarm,
                         setTemplate = setTemplate,
@@ -158,19 +209,17 @@ private fun EditAlarmScreen(
                 KaCloseErrorMessage(
                     errorMessage = errorMessage,
                     close = close,
-                    modifier =
-                        Modifier
-                            .padding(padding)
-                            .padding(horizontal = 16.dp)
-                            .fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(padding)
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(),
                 )
 
             alarmUi == null ->
                 KaLoader(
-                    modifier =
-                        Modifier
-                            .padding(padding)
-                            .fillMaxSize(),
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize(),
                 )
 
             else ->
@@ -217,10 +266,9 @@ private fun AlarmDetails(
         }
 
     Column(
-        modifier =
-            modifier
-                .fillMaxHeight()
-                .padding(horizontal = 16.dp),
+        modifier = modifier
+            .fillMaxHeight()
+            .padding(horizontal = 16.dp),
     ) {
         AlarmName(
             name = alarmUi.name,
@@ -245,10 +293,9 @@ private fun AlarmDetails(
         )
 
         PrimaryButton(
-            modifier =
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 40.dp),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 40.dp),
             text = stringResource(id = string.global_action_save),
             onClick = onSave,
         )
@@ -289,14 +336,14 @@ private fun AlarmName(
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(
-            alarmUi =
-                AlarmUi(
-                    name = null,
-                    time = LocalTime.of(7, 0),
-                    weekDays = persistentSetOf(),
-                    uri = "uri1",
-                    ringtoneTitle = "Sound title",
-                ),
+            alarmUi = AlarmUi(
+                name = null,
+                time = LocalTime.of(7, 0),
+                weekDays = persistentSetOf(),
+                uri = "uri1",
+                ringtoneTitle = "Sound title",
+                postponeDuration = 10.minutes,
+            ),
             errorMessage = null,
             showModificationMessage = false,
             close = {},
@@ -308,6 +355,7 @@ private fun PreviewEditAlarmScreen() {
             hideModificationMessage = {},
             deleteAlarm = {},
             setTemplate = {},
+            previewAlarm = {},
         )
     }
 }

@@ -39,6 +39,10 @@ internal class TestAlarmDao : AlarmDao {
         return entitiesStateFlow.map { it.sortedBy { alarm -> alarm.id } }
     }
 
+    override fun observeSnoozedAlarm(): Flow<List<AlarmEntity>> {
+        return entitiesStateFlow.map { it.filter { alarm -> alarm.postponeTime != null } }
+    }
+
     override suspend fun getAlarm(id: Int): AlarmEntity? {
         return entitiesStateFlow.value.firstOrNull { it.id == id }
     }

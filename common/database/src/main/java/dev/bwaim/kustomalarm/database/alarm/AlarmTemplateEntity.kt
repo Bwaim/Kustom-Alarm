@@ -20,6 +20,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalTime
+import kotlin.time.Duration
 
 @Entity("ALARM_TEMPLATE_ENTITY")
 public data class AlarmTemplateEntity(
@@ -28,4 +29,5 @@ public data class AlarmTemplateEntity(
     @ColumnInfo(name = "ALARM_TIME") val time: LocalTime,
     @ColumnInfo(name = "WEEKDAYS") val weekDays: String,
     @ColumnInfo(name = "ALARM_URI") val uri: String,
+    @ColumnInfo(name = "POSTPONE_DURATION") val postponeDuration: Duration,
 )

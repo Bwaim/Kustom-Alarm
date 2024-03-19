@@ -18,6 +18,10 @@ package dev.bwaim.kustomalarm.alarm.domain
 
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+
+public const val TEMPORAL_ALARM_ID: Int = -1
 
 public data class Alarm(
     val id: Int = 0,
@@ -27,4 +31,6 @@ public data class Alarm(
     val isOnce: Boolean = false,
     val isActivated: Boolean = true,
     val uri: String,
+    val postponeDuration: Duration = 1.minutes,
+    val postponeTime: LocalTime? = null,
 )

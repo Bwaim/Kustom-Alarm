@@ -20,16 +20,31 @@
     <string name="navigation.close.content_description">Cerrar</string>
 
     <string name="global.action.save">Guardar</string>
-    <string name="global.action.ignore">Ignorar</string>
+    <string name="global.action.ignore">Descartar</string>
     <string name="global.action.more">Más</string>
-    <string name="global.action.delete">Borrar</string>
-    <string name="global.action.modify">Modificar</string>
+    <string name="global.action.delete">Eliminar</string>
+    <string name="global.action.modify">Editar</string>
     <string name="global.action.duplicate">Duplicar</string>
     <string name="global.action.set_template">Establecer como plantilla</string>
+    <string name="global.action.preview">Vista previa</string>
     <string name="global.save.modifications_message">Guardar las modificaciones?</string>
 
     <string name="global.today">Hoy</string>
     <string name="global.tomorrow">Mañana</string>
+
+    <string name="notification.channel.alarms.name">Alarmas activadas</string>
+
+    <string name="notification.firing.alarm.title">Alarma &#9200;</string>
+    <string name="notification.firing.alarm.description">Seleccione para mostrar la alarma</string>
+
+    <string name="notification.snooze.alarm.title">Alarma (Dormitar) &#9200;</string>
+    <string name="notification.snooze.alarm.description">Alarma programada a las %1$s</string>
+
+    <string name="permission.global.continue">Continuar</string>
+    <string name="permission.global.dismiss">Descartar</string>
+
+    <string name="permission.notification.titre">Por que notificaciones</string>
+    <string name="permission.notification.rationale">Mostramos notificaciones para recordarte las alarmas configuradas.</string>
 
     <string name="alarm.screen.titre">Alarmas</string>
     <string name="alarm.screen.no_alarm.msg">Ninguna alarma creada</string>
@@ -45,6 +60,10 @@
 
     <string name="sound_selection.screen.label">Selección de sonido</string>
     <string name="sound_selection.screen.no_volume_message">Sube el volumen para escuchar</string>
+
+    <string name="ring.screen.snooze">Postponer</string>
+    <string name="ring.screen.turn_off">Descartar</string>
+    <string name="ring.screen.snoozed">Pospuesta</string>
 
     <string name="settings.screen.label">Configuraciones</string>
     <string name="settings.screen.theme.light_label">Claro</string>

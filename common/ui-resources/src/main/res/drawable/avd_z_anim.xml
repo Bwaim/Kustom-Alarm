@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2024 Dev Bwaim team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="32dp"
+            android:height="72dp"
+            android:viewportWidth="32"
+            android:viewportHeight="72">
+            <group
+                android:name="first_1"
+                android:pivotX="20"
+                android:pivotY="66"
+                android:translateX="-4"
+                android:translateY="48">
+                <path
+                    android:name="first"
+                    android:fillColor="#CDC0E9"
+                    android:pathData="M 4.5 4 L 19.5 4 L 19.5 7 L 7.5 17.5 L 19.5 17.5 L 19.5 20.5 L 4.5 20.5 L 4.5 17.5 L 16.5 7 L 4.5 7 Z" />
+            </group>
+            <group
+                android:name="second_1"
+                android:pivotX="8"
+                android:pivotY="42"
+                android:translateX="4"
+                android:translateY="24">
+                <path
+                    android:name="second"
+                    android:fillAlpha="0"
+                    android:fillColor="#CDC0E9"
+                    android:pathData="M 4.5 4 L 19.5 4 L 19.5 7 L 7.5 17.5 L 19.5 17.5 L 19.5 20.5 L 4.5 20.5 L 4.5 17.5 L 16.5 7 L 4.5 7 Z" />
+            </group>
+            <group
+                android:name="third_1"
+                android:pivotX="24"
+                android:pivotY="20"
+                android:translateX="-4">
+                <path
+                    android:name="third"
+                    android:fillAlpha="0"
+                    android:fillColor="#CDC0E9"
+                    android:pathData="M 4.5 4 L 19.5 4 L 19.5 7 L 7.5 17.5 L 19.5 17.5 L 19.5 20.5 L 4.5 20.5 L 4.5 17.5 L 16.5 7 L 4.5 7 Z" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="first_1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="200"
+                android:interpolator="@android:anim/linear_interpolator"
+                android:propertyName="rotation"
+                android:startOffset="100"
+                android:valueFrom="0"
+                android:valueTo="10"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="second_1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="200"
+                android:interpolator="@android:anim/linear_interpolator"
+                android:propertyName="rotation"
+                android:startOffset="300"
+                android:valueFrom="0"
+                android:valueTo="-10"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="second">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="200"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="fillAlpha"
+                android:startOffset="225"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="third_1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="200"
+                    android:interpolator="@android:anim/linear_interpolator"
+                    android:propertyName="rotation"
+                    android:startOffset="500"
+                    android:valueFrom="0"
+                    android:valueTo="10"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="200"
+                    android:interpolator="@android:anim/linear_interpolator"
+                    android:propertyName="translateX"
+                    android:startOffset="500"
+                    android:valueFrom="-4"
+                    android:valueTo="4"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="third">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="200"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="fillAlpha"
+                android:startOffset="425"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+    <target android:name="first">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="100"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                android:propertyName="fillAlpha"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType" />
+        </aapt:attr>
+    </target>
+</animated-vector>

@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.bwaim.kustomalarm.analytics.AnalyticsService
+import dev.bwaim.kustomalarm.core.NotificationHelper
 import dev.bwaim.kustomalarm.settings.SettingsService
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,27 +30,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class MainViewModel
-    @Inject
-    constructor(
-        settingsService: SettingsService,
-        private val analyticsService: AnalyticsService,
-    ) : ViewModel() {
-        val selectedTheme: StateFlow<Theme?> =
-            settingsService
-                .observeTheme()
-                .stateIn(
-                    viewModelScope,
-                    SharingStarted.WhileSubscribed(5_000),
-                    null,
-                )
+internal class MainViewModel @Inject constructor(
+    settingsService: SettingsService,
+    notificationHelper: NotificationHelper,
+    private val analyticsService: AnalyticsService,
+) : ViewModel() {
+    val selectedTheme: StateFlow<Theme?> =
+        settingsService
+            .observeTheme()
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5_000),
+                null,
+            )
 
-        fun logScreenView(
-            screenName: String,
-            screenClass: String,
-        ) {
-            viewModelScope.launch {
-                analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
-            }
+    init {
+        viewModelScope.launch {
+            notificationHelper.setUpNotificationChannels()
         }
     }
+
+    fun logScreenView(
+        screenName: String,
+        screenClass: String,
+    ) {
+        viewModelScope.launch {
+            analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
+        }
+    }
+}

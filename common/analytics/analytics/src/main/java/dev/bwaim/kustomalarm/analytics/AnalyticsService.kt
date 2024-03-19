@@ -22,24 +22,22 @@ import dev.bwaim.kustomalarm.core.executeCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-public class AnalyticsService
-    @Inject
-    constructor(
-        @IODispatcher private val ioDispatcher: CoroutineDispatcher,
-        private val analyticsRepository: AnalyticsRepository,
+public class AnalyticsService @Inject constructor(
+    @IODispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val analyticsRepository: AnalyticsRepository,
+) {
+    public suspend fun logScreenView(
+        screenName: String,
+        screenClass: String,
     ) {
-        public suspend fun logScreenView(
-            screenName: String,
-            screenClass: String,
-        ) {
-            executeCatching(ioDispatcher) {
-                analyticsRepository.logScreenView(screenName = screenName, screenClass = screenClass)
-            }
-        }
-
-        public suspend fun logEvent(event: KaEvent) {
-            executeCatching(ioDispatcher) {
-                analyticsRepository.logEvent(event)
-            }
+        executeCatching(ioDispatcher) {
+            analyticsRepository.logScreenView(screenName = screenName, screenClass = screenClass)
         }
     }
+
+    public suspend fun logEvent(event: KaEvent) {
+        executeCatching(ioDispatcher) {
+            analyticsRepository.logEvent(event)
+        }
+    }
+}

@@ -19,12 +19,15 @@ package dev.bwaim.kustomalarm.navigation
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.editAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.navigateToEditAlarmScreen
 import dev.bwaim.kustomalarm.features.alarm.navigation.alarmScreen
+import dev.bwaim.kustomalarm.features.alarm.ring.RingingAlarmService
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.navigateToSoundSelectionScreen
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.soundSelectionScreen
 import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
@@ -39,6 +42,20 @@ internal fun KAlarmNavHost(
     backWithResult: (backData: List<BackResultArgument<Any>>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val previewAlarm =
+        remember(context) {
+            { alarmId: Int ->
+                val intent =
+                    RingingAlarmService.createIntent(
+                        context = context,
+                        alarmId = alarmId,
+                    )
+                context.startService(intent)
+                Unit
+            }
+        }
+
     NavHost(
         navController = navController,
         startDestination = startRoute,
@@ -49,6 +66,7 @@ internal fun KAlarmNavHost(
         alarmScreen(
             openDrawer = openDrawer,
             addAlarm = navController::navigateToEditAlarmScreen,
+            previewAlarm = previewAlarm,
         )
 
         settingsScreen(
@@ -58,6 +76,7 @@ internal fun KAlarmNavHost(
         editAlarmScreen(
             close = navigateUp,
             onSoundSelectionClick = navController::navigateToSoundSelectionScreen,
+            previewAlarm = previewAlarm,
         )
 
         soundSelectionScreen(

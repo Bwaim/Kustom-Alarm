@@ -26,10 +26,25 @@
     <string name="global.action.modify">Modify</string>
     <string name="global.action.duplicate">Duplicate</string>
     <string name="global.action.set_template">Set as template</string>
+    <string name="global.action.preview">Preview</string>
     <string name="global.save.modifications_message">Save the modifications?</string>
 
     <string name="global.today">Today</string>
     <string name="global.tomorrow">Tomorrow</string>
+
+    <string name="notification.channel.alarms.name">Firing alarms</string>
+
+    <string name="notification.firing.alarm.title">Alarm &#9200;</string>
+    <string name="notification.firing.alarm.description">Select to show the alarm</string>
+
+    <string name="notification.snooze.alarm.title">Alarm (Snooze) &#9200;</string>
+    <string name="notification.snooze.alarm.description">Alarm scheduled at %1$s</string>
+
+    <string name="permission.global.continue">Continue</string>
+    <string name="permission.global.dismiss">Dismiss</string>
+
+    <string name="permission.notification.titre">Why notifications</string>
+    <string name="permission.notification.rationale">We display notifications to remind you the alarms set.</string>
 
     <string name="alarm.screen.titre">Alarms</string>
     <string name="alarm.screen.no_alarm.msg">No alarm created</string>
@@ -45,6 +60,10 @@
 
     <string name="sound_selection.screen.label">Sound selection</string>
     <string name="sound_selection.screen.no_volume_message">Turn up the volume to listen</string>
+
+    <string name="ring.screen.snooze">Snooze</string>
+    <string name="ring.screen.turn_off">Turn off</string>
+    <string name="ring.screen.snoozed">Snoozed</string>
 
     <string name="settings.screen.label">Settings</string>
     <string name="settings.screen.theme.light_label">Light</string>

@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 public val defaultTemplate: AlarmTemplate =
     AlarmTemplate(
@@ -31,6 +32,7 @@ public val defaultTemplate: AlarmTemplate =
         time = LocalTime.of(7, 0),
         weekDays = emptySet(),
         uri = "defaultUri",
+        postponeDuration = 10.minutes,
     )
 
 public class TestAlarmRepository : AlarmRepository {
@@ -41,6 +43,10 @@ public class TestAlarmRepository : AlarmRepository {
         MutableStateFlow(defaultTemplate)
 
     override fun observeAlarms(): Flow<List<Alarm>> = alarmStateFlow.map { it.sortedBy { alarm -> alarm.id } }
+
+    override fun observeSnoozedAlarm(): Flow<Alarm?> {
+        return alarmStateFlow.map { it.firstOrNull { alarm -> alarm.postponeTime != null } }
+    }
 
     override suspend fun getAlarm(alarmId: Int): Alarm? = alarmStateFlow.value.firstOrNull { it.id == alarmId }
 

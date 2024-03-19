@@ -18,6 +18,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name=".KAlarmApplication"
         android:allowBackup="true"
@@ -45,6 +50,23 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".features.alarm.ring.RingActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"
+            android:showWhenLocked="true"
+            android:theme="@style/Theme.Ka"
+            android:turnScreenOn="true" />
+
+        <receiver android:name=".features.alarm.ring.AlarmBroadcastReceiver"
+            android:exported="false">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--                <action android:name="android.intent.action.TIME_SET" />-->
+<!--                <action android:name="android.intent.action.TIMEZONE_CHANGED" />-->
+<!--            </intent-filter>-->
+        </receiver>
+
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"
@@ -53,6 +75,10 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+
+        <service android:name=".features.alarm.ring.RingingAlarmService" />
+
+        <service android:name=".features.alarm.ring.SnoozedAlarmService" />
 
         <meta-data
             android:name="google_analytics_automatic_screen_reporting_enabled"

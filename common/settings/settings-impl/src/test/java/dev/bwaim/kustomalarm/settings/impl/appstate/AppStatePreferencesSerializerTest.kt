@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dev Bwaim team
+ * Copyright 2024 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,53 +14,50 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.impl
+package dev.bwaim.kustomalarm.settings.impl.appstate
 
 import androidx.datastore.core.CorruptionException
-import dev.bwaim.kustomalarm.settings.impl.theme.ThemePreferencesSerializer
-import dev.bwaim.kustomalarm.settings.impl.theme.themePreferences
-import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Test
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-internal class ThemePreferencesSerializerTest {
-    private val themePreferencesSerializer = ThemePreferencesSerializer()
+internal class AppStatePreferencesSerializerTest {
+    private val appStatePreferencesSerializer = AppStatePreferencesSerializer()
 
     @Test
-    fun defaultThemePreferences_isEmpty() {
+    fun defaultAppStatePreferences_isEmpty() {
         Assert.assertEquals(
-            themePreferencesSerializer.defaultValue,
-            themePreferences {
+            appStatePreferencesSerializer.defaultValue,
+            appStatePreferences {
                 // Default value
             },
         )
     }
 
     @Test
-    fun writingAndReadingThemePreferences_outputsCorrectValue() =
+    fun writingAndReadingAppStatePreferences_outputsCorrectValue() =
         runTest {
-            val expectedThemePreferences = themePreferences { theme = Theme.DARK.value }
+            val expectedAppStatePreferences = appStatePreferences { ringingAlarm = -1 }
 
             val outputStream = ByteArrayOutputStream()
 
-            expectedThemePreferences.writeTo(outputStream)
+            expectedAppStatePreferences.writeTo(outputStream)
 
             val inputStream = ByteArrayInputStream(outputStream.toByteArray())
 
-            val actualThemePreferences = themePreferencesSerializer.readFrom(inputStream)
+            val actualAppStatePreferences = appStatePreferencesSerializer.readFrom(inputStream)
 
             Assert.assertEquals(
-                expectedThemePreferences,
-                actualThemePreferences,
+                expectedAppStatePreferences,
+                actualAppStatePreferences,
             )
         }
 
     @Test(expected = CorruptionException::class)
-    fun readingInvalidThemePreferences_throwsCorruptionException() =
+    fun readingInvalidAppStatePreferences_throwsCorruptionException() =
         runTest {
-            themePreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
+            appStatePreferencesSerializer.readFrom(ByteArrayInputStream(byteArrayOf(0)))
         }
 }

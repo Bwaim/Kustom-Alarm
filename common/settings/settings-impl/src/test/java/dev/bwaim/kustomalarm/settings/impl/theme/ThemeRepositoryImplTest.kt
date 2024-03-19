@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.settings.impl
+package dev.bwaim.kustomalarm.settings.impl.theme
 
 import app.cash.turbine.test
 import dev.bwaim.kustomalarm.core.android.BuildWrapper
-import dev.bwaim.kustomalarm.settings.impl.theme.ThemeHelper
-import dev.bwaim.kustomalarm.settings.impl.theme.ThemeRepositoryImpl
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme
 import dev.bwaim.kustomalarm.test.android.di.testThemePreferencesDataStore
 import io.mockk.every

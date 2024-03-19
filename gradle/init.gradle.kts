@@ -22,6 +22,11 @@ rootProject {
                 targetExclude("**/build/**/*.kt")
                 ktlint(ktlintVersion)
                     .setEditorConfigPath("$rootDir/config/.editorconfig")
+                    .editorConfigOverride(
+                        mapOf(
+                            "android" to true,
+                        )
+                    )
                     .customRuleSets(
                         listOf(
                             "io.nlopez.compose.rules:ktlint:$composeRulesVersion"

@@ -67,10 +67,9 @@ public fun KaTimePicker(
         ) {
             // Invisible row for sizing the Surface
             Row(
-                modifier =
-                    Modifier
-                        .alpha(0f)
-                        .padding(horizontal = 10.dp),
+                modifier = Modifier
+                    .alpha(0f)
+                    .padding(horizontal = 10.dp),
             ) {
                 TimeLabel(value = 23)
                 TimeSeparator()

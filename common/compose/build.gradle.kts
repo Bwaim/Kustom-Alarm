@@ -29,10 +29,12 @@ jacocoKustomConfig {
 
 dependencies {
     implementation(projects.common.localisation)
+    implementation(projects.common.settings.settings)
     implementation(projects.common.uiResources)
 
     implementation(libs.kotlinx.collections.immutable)
 
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.core)
 
     implementation(libs.compose.material3)
@@ -40,6 +42,8 @@ dependencies {
     implementation(libs.compose.ui.tooling.preview)
 
     debugImplementation(libs.compose.ui.tooling)
+
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.snapper)
 

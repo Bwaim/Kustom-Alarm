@@ -19,6 +19,7 @@ package dev.bwaim.kustomalarm.database.alarm
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.database.KustomAlarmRoomDatabase
 import dev.bwaim.kustomalarm.database.KustomAlarmTypeConverters
 import kotlinx.coroutines.flow.first
@@ -28,6 +29,7 @@ import org.junit.Before
 import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 internal class AlarmDaoTest {
     private lateinit var alarmDao: AlarmDao
@@ -75,6 +77,43 @@ internal class AlarmDaoTest {
         }
 
     @Test
+    fun alarmDao_observes_snoozed_alarms() =
+        runTest {
+            val alarms =
+                listOf(
+                    testAlarm(id = 1, name = "alarm1", uri = "uri1"),
+                    testAlarm(id = 2, name = "alarm2", uri = "uri2"),
+                )
+
+            alarms.forEach { alarmDao.upsertAlarm(it) }
+
+            alarmDao
+                .observeSnoozedAlarm()
+                .test {
+                    Assert.assertEquals(
+                        true,
+                        awaitItem().isEmpty(),
+                    )
+
+                    alarmDao.upsertAlarm(alarms[0].copy(postponeTime = LocalTime.now()))
+
+                    Assert.assertEquals(
+                        1,
+                        awaitItem().size,
+                    )
+
+                    alarmDao.upsertAlarm(alarms[0].copy(postponeTime = null))
+
+                    Assert.assertEquals(
+                        true,
+                        awaitItem().isEmpty(),
+                    )
+
+                    expectNoEvents()
+                }
+        }
+
+    @Test
     fun alarmDao_insert_right_data() =
         runTest {
             val alarms =
@@ -101,6 +140,7 @@ internal class AlarmDaoTest {
                     isOnce = false,
                     isActivated = true,
                     uri = "uri1",
+                    postponeDuration = 10.minutes,
                 ),
                 alarmRetrieved,
             )
@@ -156,6 +196,7 @@ private fun testAlarm(
     isOnce = false,
     isActivated = true,
     uri = uri,
+    postponeDuration = 10.minutes,
 )
 
 private fun testAlarmTemplate(
@@ -168,4 +209,5 @@ private fun testAlarmTemplate(
     time = time,
     weekDays = weekDays.joinToString { it.value.toString() },
     uri = uri,
+    postponeDuration = 10.minutes,
 )

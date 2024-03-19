@@ -61,6 +61,7 @@ public fun AlarmRow(
     setTemplate: () -> Unit,
     modifyAlarm: () -> Unit,
     duplicateAlarm: () -> Unit,
+    previewAlarm: () -> Unit,
     modifier: Modifier = Modifier,
     locale: Locale = Locale.ENGLISH,
 ) {
@@ -81,13 +82,12 @@ public fun AlarmRow(
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             )
             Text(
-                text =
-                    alarm.weekDays.toLabel(
-                        context = LocalContext.current,
-                        locale = locale,
-                        time = alarm.time,
-                        isOnce = alarm.isOnce,
-                    ).uppercase(),
+                text = alarm.weekDays.toLabel(
+                    context = LocalContext.current,
+                    locale = locale,
+                    time = alarm.time,
+                    isOnce = alarm.isOnce,
+                ).uppercase(),
                 style = MaterialTheme.typography.labelSmall,
             )
         }
@@ -109,6 +109,7 @@ public fun AlarmRow(
             setTemplate = setTemplate,
             duplicateAlarm = duplicateAlarm,
             modifyAlarm = modifyAlarm,
+            preview = previewAlarm,
         )
     }
 }
@@ -158,125 +159,125 @@ private fun PreviewAlarmRow() {
         LazyColumn {
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = "alarm1",
-                            time = LocalTime.of(7, 35),
-                            weekDays = setOf(MONDAY, TUESDAY),
-                            isOnce = false,
-                            isActivated = false,
-                            uri = "uri1",
-                        ),
+                    alarm = Alarm(
+                        id = 1,
+                        name = "alarm1",
+                        time = LocalTime.of(7, 35),
+                        weekDays = setOf(MONDAY, TUESDAY),
+                        isOnce = false,
+                        isActivated = false,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = "long long long long long long long long",
-                            time = LocalTime.of(8, 35),
-                            weekDays = setOf(),
-                            isOnce = true,
-                            uri = "uri1",
-                        ),
+                    alarm = Alarm(
+                        id = 1,
+                        name = "long long long long long long long long",
+                        time = LocalTime.of(8, 35),
+                        weekDays = setOf(),
+                        isOnce = true,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = null,
-                            time = LocalTime.of(9, 35),
-                            weekDays = setOf(WEDNESDAY),
-                            isOnce = false,
-                            uri = "uri1",
-                        ),
+                    alarm = Alarm(
+                        id = 1,
+                        name = null,
+                        time = LocalTime.of(9, 35),
+                        weekDays = setOf(WEDNESDAY),
+                        isOnce = false,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = null,
-                            time = LocalTime.of(11, 35),
-                            weekDays = setOf(SATURDAY, SUNDAY),
-                            isOnce = false,
-                            uri = "uri1",
-                        ),
+                    alarm = Alarm(
+                        id = 1,
+                        name = null,
+                        time = LocalTime.of(11, 35),
+                        weekDays = setOf(SATURDAY, SUNDAY),
+                        isOnce = false,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = null,
-                            time = LocalTime.of(12, 35),
-                            weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
-                            isOnce = false,
-                            uri = "uri1",
-                        ),
+                    alarm = Alarm(
+                        id = 1,
+                        name = null,
+                        time = LocalTime.of(12, 35),
+                        weekDays = setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY),
+                        isOnce = false,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
 
             item {
                 AlarmRow(
-                    alarm =
-                        Alarm(
-                            id = 1,
-                            name = null,
-                            time = LocalTime.of(13, 35),
-                            weekDays =
-                                setOf(
-                                    MONDAY,
-                                    TUESDAY,
-                                    WEDNESDAY,
-                                    THURSDAY,
-                                    FRIDAY,
-                                    SATURDAY,
-                                    SUNDAY,
-                                ),
-                            isOnce = false,
-                            uri = "uri1",
+                    alarm = Alarm(
+                        id = 1,
+                        name = null,
+                        time = LocalTime.of(13, 35),
+                        weekDays =
+                        setOf(
+                            MONDAY,
+                            TUESDAY,
+                            WEDNESDAY,
+                            THURSDAY,
+                            FRIDAY,
+                            SATURDAY,
+                            SUNDAY,
                         ),
+                        isOnce = false,
+                        uri = "uri1",
+                    ),
                     updateAlarm = {},
                     deleteAlarm = {},
                     setTemplate = {},
                     modifyAlarm = {},
                     duplicateAlarm = {},
+                    previewAlarm = {},
                 )
             }
         }

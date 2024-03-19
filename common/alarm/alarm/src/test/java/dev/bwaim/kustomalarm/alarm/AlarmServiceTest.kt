@@ -18,8 +18,10 @@
 
 package dev.bwaim.kustomalarm.alarm
 
+import app.cash.turbine.test
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import dev.bwaim.kustomalarm.alarm.domain.AlarmTemplate
+import dev.bwaim.kustomalarm.alarm.domain.TEMPORAL_ALARM_ID
 import dev.bwaim.kustomalarm.core.value
 import dev.bwaim.kustomalarm.testing.repository.TestAlarmRepository
 import dev.bwaim.kustomalarm.testing.repository.defaultTemplate
@@ -35,6 +37,7 @@ import org.junit.Test
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
+import kotlin.time.Duration.Companion.minutes
 
 internal class AlarmServiceTest {
     private lateinit var subject: AlarmService
@@ -78,6 +81,30 @@ internal class AlarmServiceTest {
         }
 
     @Test
+    fun alarmService_observe_snoozed_alarms() =
+        runTest {
+            testAlarms.forEach { alarm -> subject.saveAlarm(alarm) }
+
+            subject.observeSnoozedAlarm()
+                .test {
+                    Assert.assertNull(awaitItem())
+
+                    var postponedAlarm = testAlarms[0].copy(postponeTime = LocalTime.now())
+                    subject.saveAlarm(postponedAlarm)
+                    Assert.assertEquals(
+                        postponedAlarm,
+                        awaitItem(),
+                    )
+
+                    postponedAlarm = testAlarms[0].copy(postponeTime = null)
+                    subject.saveAlarm(postponedAlarm)
+                    Assert.assertNull(awaitItem())
+
+                    expectNoEvents()
+                }
+        }
+
+    @Test
     fun alarmService_insert_one_time_alarm() =
         runTest {
             val now = LocalTime.now()
@@ -88,7 +115,7 @@ internal class AlarmServiceTest {
                 Alarm(
                     id = 1,
                     name = "",
-                    time = adjustedNow.minusHours(1),
+                    time = adjustedNow.minusMinutes(1),
                     weekDays = setOf(),
                     uri = "uri1",
                 )
@@ -96,7 +123,7 @@ internal class AlarmServiceTest {
                 Alarm(
                     id = 2,
                     name = null,
-                    time = adjustedNow.plusHours(1),
+                    time = adjustedNow.plusMinutes(1),
                     weekDays = setOf(),
                     uri = "uri2",
                 )
@@ -147,12 +174,32 @@ internal class AlarmServiceTest {
                     time = LocalTime.of(16, 54),
                     weekDays = emptySet(),
                     uri = "defaultUri",
+                    postponeDuration = 10.minutes,
                 )
             subject.saveTemplate(template)
             val resAlarm2 = subject.getDefaultAlarm()
             Assert.assertEquals(
                 template.toAlarm(),
                 resAlarm2.value,
+            )
+        }
+
+    @Test
+    fun alarmService_insert_temporal_alarm() =
+        runTest {
+            val alarm = Alarm(
+                name = "alarm",
+                time = LocalTime.of(10, 45),
+                weekDays = setOf(DayOfWeek.MONDAY),
+                uri = "uri",
+            )
+            subject.saveTemporalAlarm(alarm)
+
+            val result = subject.getAlarm(TEMPORAL_ALARM_ID)
+
+            Assert.assertEquals(
+                alarm.copy(id = TEMPORAL_ALARM_ID),
+                result.value,
             )
         }
 }

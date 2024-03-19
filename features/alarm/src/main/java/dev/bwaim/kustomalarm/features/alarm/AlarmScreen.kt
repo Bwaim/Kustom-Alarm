@@ -75,6 +75,7 @@ import java.time.LocalTime
 internal fun AlarmRoute(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
+    previewAlarm: (Int) -> Unit,
     viewModel: AlarmViewModel = hiltViewModel(),
 ) {
     val alarms by viewModel.alarms.collectAsStateWithLifecycle()
@@ -91,6 +92,10 @@ internal fun AlarmRoute(
         updateAlarm = viewModel::updateAlarm,
         deleteAlarm = viewModel::deleteAlarm,
         setTemplate = viewModel::setTemplate,
+        previewAlarm = { id ->
+            viewModel.trackPreviewEvent()
+            previewAlarm(id)
+        },
     )
 }
 
@@ -102,6 +107,7 @@ private fun AlarmScreen(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
+    previewAlarm: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -124,10 +130,9 @@ private fun AlarmScreen(
             when {
                 alarms == null ->
                     KaLoader(
-                        modifier =
-                            Modifier
-                                .size(50.dp)
-                                .align(Alignment.CenterHorizontally),
+                        modifier = Modifier
+                            .size(50.dp)
+                            .align(Alignment.CenterHorizontally),
                     )
 
                 alarms.isEmpty() -> NoAlarm(addAlarm = { addAlarm(it, false) })
@@ -138,6 +143,7 @@ private fun AlarmScreen(
                         updateAlarm = updateAlarm,
                         deleteAlarm = deleteAlarm,
                         setTemplate = setTemplate,
+                        previewAlarm = previewAlarm,
                     )
             }
         }
@@ -161,6 +167,7 @@ private fun AlarmList(
     updateAlarm: (Alarm) -> Unit,
     deleteAlarm: (Int) -> Unit,
     setTemplate: (Alarm) -> Unit,
+    previewAlarm: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -175,15 +182,14 @@ private fun AlarmList(
         val (alarmList, addButton) = createRefs()
 
         LazyColumn(
-            modifier =
-                Modifier
-                    .constrainAs(alarmList) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        height = Dimension.preferredWrapContent
-                    },
+            modifier = Modifier
+                .constrainAs(alarmList) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    height = Dimension.preferredWrapContent
+                },
         ) {
             items(
                 count = alarms.size,
@@ -219,18 +225,18 @@ private fun AlarmList(
                         }
                     AlarmRow(
                         alarm = item,
-                        modifier =
-                            Modifier
-                                .clickable { addAlarm(item.id, false) }
-                                .background(MaterialTheme.colorScheme.background)
-                                .padding(horizontal = 16.dp)
-                                .padding(bottom = bottomPadding),
+                        modifier = Modifier
+                            .clickable { addAlarm(item.id, false) }
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = bottomPadding),
                         locale = currentLocale,
                         updateAlarm = updateAlarm,
                         deleteAlarm = { deleteAlarm(item.id) },
                         setTemplate = { setTemplate(item) },
                         modifyAlarm = { addAlarm(item.id, false) },
                         duplicateAlarm = { addAlarm(item.id, true) },
+                        previewAlarm = { previewAlarm(item.id) },
                     )
                 }
             }
@@ -238,19 +244,18 @@ private fun AlarmList(
 
         AddAlarmButton(
             addAlarm = { addAlarm(NO_ALARM, false) },
-            modifier =
-                Modifier
-                    .padding(bottom = addButtonBottomPadding)
-                    .onGloballyPositioned {
-                        with(density) {
-                            addButtonHeight = it.size.height.toDp()
-                        }
+            modifier = Modifier
+                .padding(bottom = addButtonBottomPadding)
+                .onGloballyPositioned {
+                    with(density) {
+                        addButtonHeight = it.size.height.toDp()
                     }
-                    .constrainAs(addButton) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
-                    },
+                }
+                .constrainAs(addButton) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                },
         )
     }
 }
@@ -266,6 +271,7 @@ private fun PreviewAlarmScreenNoAlarms() {
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
+            previewAlarm = {},
         )
     }
 }
@@ -275,38 +281,38 @@ private fun PreviewAlarmScreenNoAlarms() {
 private fun PreviewAlarmScreenWithAlarms() {
     KustomAlarmThemePreview {
         AlarmScreen(
-            alarms =
-                persistentListOf(
-                    Alarm(
-                        id = 2,
-                        name = null,
-                        time = LocalTime.of(10, 0),
-                        weekDays = setOf(SATURDAY),
-                        isOnce = false,
-                        uri = "uri2",
-                    ),
-                    Alarm(
-                        id = 1,
-                        name = "alarm1",
-                        time = LocalTime.of(7, 35),
-                        weekDays = setOf(MONDAY, TUESDAY),
-                        isOnce = false,
-                        uri = "uri1",
-                    ),
-                    Alarm(
-                        id = 3,
-                        name = null,
-                        time = LocalTime.of(16, 45),
-                        weekDays = setOf(),
-                        isOnce = true,
-                        uri = "uri3",
-                    ),
+            alarms = persistentListOf(
+                Alarm(
+                    id = 2,
+                    name = null,
+                    time = LocalTime.of(10, 0),
+                    weekDays = setOf(SATURDAY),
+                    isOnce = false,
+                    uri = "uri2",
                 ),
+                Alarm(
+                    id = 1,
+                    name = "alarm1",
+                    time = LocalTime.of(7, 35),
+                    weekDays = setOf(MONDAY, TUESDAY),
+                    isOnce = false,
+                    uri = "uri1",
+                ),
+                Alarm(
+                    id = 3,
+                    name = null,
+                    time = LocalTime.of(16, 45),
+                    weekDays = setOf(),
+                    isOnce = true,
+                    uri = "uri3",
+                ),
+            ),
             openDrawer = {},
             addAlarm = { _, _ -> },
             updateAlarm = {},
             deleteAlarm = {},
             setTemplate = {},
+            previewAlarm = {},
         )
     }
 }

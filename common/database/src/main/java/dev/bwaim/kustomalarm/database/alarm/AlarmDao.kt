@@ -26,6 +26,9 @@ public interface AlarmDao {
     @Query("SELECT * FROM ALARM_ENTITY")
     public fun observeAlarms(): Flow<List<AlarmEntity>>
 
+    @Query("SELECT * FROM ALARM_ENTITY WHERE POSTPONE_TIME != 0")
+    public fun observeSnoozedAlarm(): Flow<List<AlarmEntity>>
+
     @Query("SELECT * FROM ALARM_ENTITY WHERE _id = :id")
     public suspend fun getAlarm(id: Int): AlarmEntity?
 

@@ -22,6 +22,7 @@ import androidx.core.net.toUri
 import dev.bwaim.kustomalarm.alarm.domain.Alarm
 import java.time.DayOfWeek
 import java.time.LocalTime
+import kotlin.time.Duration
 
 internal data class AlarmUi(
     val id: Int = 0,
@@ -32,6 +33,7 @@ internal data class AlarmUi(
     val isActivated: Boolean = true,
     val uri: String,
     val ringtoneTitle: String,
+    val postponeDuration: Duration,
 )
 
 internal fun Alarm.toAlarmUi(context: Context) =
@@ -44,6 +46,7 @@ internal fun Alarm.toAlarmUi(context: Context) =
         isActivated = isActivated,
         uri = uri,
         ringtoneTitle = RingtoneManager.getRingtone(context, uri.toUri()).getTitle(context),
+        postponeDuration = postponeDuration,
     )
 
 internal fun AlarmUi.toAlarm(): Alarm =
@@ -55,4 +58,5 @@ internal fun AlarmUi.toAlarm(): Alarm =
         isOnce = isOnce,
         isActivated = isActivated,
         uri = uri,
+        postponeDuration = postponeDuration,
     )

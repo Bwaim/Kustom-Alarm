@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2023 Dev Bwaim team
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="57.150"
+    android:viewportHeight="57.150">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28.575 3.043A25.532 25.532 90 0 0 3.043 28.575a25.532 25.532 90 0 0 25.532 25.532 25.532 25.532 90 0 0 25.532-25.532A25.532 25.532 90 0 0 28.575 3.043zM22.509 15.63h2.502v13.51l9.135-13.51h3.032L28.777 27.8l8.793 13.72h-3.248l-7.441-11.528-1.87 2.747v8.78H22.51V15.63z"
+        android:strokeWidth="0.177674" />
+</vector>

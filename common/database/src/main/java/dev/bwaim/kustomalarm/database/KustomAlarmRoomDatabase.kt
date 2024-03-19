@@ -26,11 +26,10 @@ import dev.bwaim.kustomalarm.database.alarm.AlarmTemplateEntity
 internal const val DATABASE_VERSION = 1
 
 @Database(
-    entities =
-        [
-            AlarmEntity::class,
-            AlarmTemplateEntity::class,
-        ],
+    entities = [
+        AlarmEntity::class,
+        AlarmTemplateEntity::class,
+    ],
     version = DATABASE_VERSION,
     exportSchema = true,
     autoMigrations = [],

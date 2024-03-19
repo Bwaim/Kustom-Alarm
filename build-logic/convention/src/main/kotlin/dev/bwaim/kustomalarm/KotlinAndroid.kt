@@ -29,6 +29,11 @@ fun Project.configureKotlinAndroid(
             targetCompatibility = JavaVersion.VERSION_17
             isCoreLibraryDesugaringEnabled = true
         }
+
+        lint {
+            // TODO remove when this bug is fixed : https://issuetracker.google.com/issues/196406778
+            disable.add("Instantiatable")
+        }
     }
 
     // TODO remove this when the bug is fixed

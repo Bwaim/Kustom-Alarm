@@ -28,46 +28,57 @@ import kotlinx.coroutines.flow.map
 import java.time.DayOfWeek
 import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 
-internal class AlarmRepositoryImpl
-    @Inject
-    constructor(
-        private val alarmDao: AlarmDao,
-        private val ringtoneUtils: RingtoneUtils,
-    ) : AlarmRepository {
-        override fun observeAlarms(): Flow<List<Alarm>> {
-            return alarmDao.observeAlarms()
-                .map { it.map(AlarmEntity::toDomain).sortedBy { alarm -> alarm.time } }
-        }
+private val DEFAULT_POSTPONE_DURATION = 10.minutes
 
-        override suspend fun getAlarm(alarmId: Int): Alarm? {
-            return alarmDao.getAlarm(id = alarmId)?.toDomain()
-        }
-
-        override suspend fun saveAlarm(alarm: Alarm) {
-            alarmDao.upsertAlarm(alarm.toEntity())
-        }
-
-        override suspend fun deleteAlarm(alarmId: Int) {
-            alarmDao.deleteAlarm(alarmId = alarmId)
-        }
-
-        override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
-            alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
-        }
-
-        override suspend fun getTemplate(): AlarmTemplate {
-            return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
-        }
-
-        private fun getDefaultTemplate(): AlarmTemplate =
-            AlarmTemplate(
-                name = null,
-                time = LocalTime.of(7, 0),
-                weekDays = emptySet(),
-                uri = ringtoneUtils.getDefaultRingtoneUri(),
-            )
+internal class AlarmRepositoryImpl @Inject constructor(
+    private val alarmDao: AlarmDao,
+    private val ringtoneUtils: RingtoneUtils,
+) : AlarmRepository {
+    override fun observeAlarms(): Flow<List<Alarm>> {
+        return alarmDao.observeAlarms()
+            .map {
+                it
+                    .filter { alarm -> alarm.id > 0 } // Filter out the temporal alarm
+                    .map(AlarmEntity::toDomain)
+                    .sortedBy { alarm -> alarm.time }
+            }
     }
+
+    override fun observeSnoozedAlarm(): Flow<Alarm?> {
+        return alarmDao.observeSnoozedAlarm().map { it.firstOrNull()?.toDomain() }
+    }
+
+    override suspend fun getAlarm(alarmId: Int): Alarm? {
+        return alarmDao.getAlarm(id = alarmId)?.toDomain()
+    }
+
+    override suspend fun saveAlarm(alarm: Alarm) {
+        alarmDao.upsertAlarm(alarm.toEntity())
+    }
+
+    override suspend fun deleteAlarm(alarmId: Int) {
+        alarmDao.deleteAlarm(alarmId = alarmId)
+    }
+
+    override suspend fun saveTemplate(alarmTemplate: AlarmTemplate) {
+        alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
+    }
+
+    override suspend fun getTemplate(): AlarmTemplate {
+        return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
+    }
+
+    private fun getDefaultTemplate(): AlarmTemplate =
+        AlarmTemplate(
+            name = null,
+            time = LocalTime.of(7, 0),
+            weekDays = emptySet(),
+            uri = ringtoneUtils.getDefaultRingtoneUri(),
+            postponeDuration = DEFAULT_POSTPONE_DURATION,
+        )
+}
 
 private fun AlarmEntity.toDomain(): Alarm =
     Alarm(
@@ -78,6 +89,8 @@ private fun AlarmEntity.toDomain(): Alarm =
         isOnce = isOnce,
         isActivated = isActivated,
         uri = uri,
+        postponeDuration = postponeDuration,
+        postponeTime = postponeTime,
     )
 
 private fun String.toWeekDays(): Set<DayOfWeek> =
@@ -96,6 +109,8 @@ private fun Alarm.toEntity(): AlarmEntity =
         isOnce = isOnce,
         isActivated = isActivated,
         uri = uri,
+        postponeDuration = postponeDuration,
+        postponeTime = postponeTime,
     )
 
 private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
@@ -104,6 +119,7 @@ private fun AlarmTemplateEntity.toDomain(): AlarmTemplate =
         time = time,
         weekDays = weekDays.toWeekDays(),
         uri = uri,
+        postponeDuration = postponeDuration,
     )
 
 private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
@@ -112,4 +128,5 @@ private fun AlarmTemplate.toEntity(): AlarmTemplateEntity =
         time = time,
         weekDays = weekDays.joinToString { it.value.toString() },
         uri = uri,
+        postponeDuration = postponeDuration,
     )
