@@ -1,0 +1,40 @@
+appId: dev.bwaim.kustomalarm.debug
+env:
+    ALARM_NAME: Alarm test
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: ../SubFlows/resetApp.yaml
+- assertVisible: "Aucune alarme créée"
+- tapOn: "Ajouter"
+- assertVisible: "Nom de l'alarme"
+- tapOn: "Nom de l'alarme"
+- inputText: ${ALARM_NAME}
+- hideKeyboard
+- tapOn: "Enregistrer"
+- tapOn: ${ALARM_NAME}
+- assertNotVisible:
+    id: MONDAY
+    checked: true
+- assertNotVisible:
+    id: TUESDAY
+    checked: true
+- assertNotVisible:
+    id: WEDNESDAY
+    checked: true
+- assertNotVisible:
+    id: THURSDAY
+    checked: true
+- assertNotVisible:
+    id: FRIDAY
+    checked: true
+- assertNotVisible:
+    id: SATURDAY
+    checked: true
+- assertNotVisible:
+    id: SUNDAY
+    checked: true
+- tapOn: fermer
+# Clean
+- runFlow: ../SubFlows/deleteAlarm.yaml

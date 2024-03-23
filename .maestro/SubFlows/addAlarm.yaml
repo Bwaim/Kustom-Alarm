@@ -1,0 +1,10 @@
+appId: dev.bwaim.kustomalarm.debug
+# env:
+    # ALARM_NAME: Alarm name
+---
+# Check open Menu
+- tapOn: "Ajouter"
+- tapOn: "Nom de l'alarme"
+- inputText: ${ALARM_NAME}
+- hideKeyboard
+- tapOn: "Enregistrer"

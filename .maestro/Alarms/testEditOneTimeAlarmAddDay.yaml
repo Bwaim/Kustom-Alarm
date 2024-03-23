@@ -1,0 +1,23 @@
+appId: dev.bwaim.kustomalarm.debug
+env:
+    ALARM_NAME: Alarm test
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: ../SubFlows/resetApp.yaml
+- assertVisible: "Aucune alarme créée"
+# Bug edit a one time alarm set the day
+- tapOn: "Ajouter"
+- assertVisible: "Nom de l'alarme"
+- tapOn: "Nom de l'alarme"
+- inputText: ${ALARM_NAME}
+- hideKeyboard
+- tapOn: "Enregistrer"
+- tapOn: ${ALARM_NAME}
+- tapOn:
+    id: MONDAY
+- tapOn: "Enregistrer"
+- assertVisible: "LUNDI"
+# Clean
+- runFlow: ../SubFlows/deleteAlarm.yaml

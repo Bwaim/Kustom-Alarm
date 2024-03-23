@@ -1,0 +1,6 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+# Check open Settings
+- runFlow: openMenu.yaml
+- tapOn: "Paramètres"
+- assertVisible: "Paramètres"

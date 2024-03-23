@@ -1,0 +1,36 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: SubFlows/resetApp.yaml
+- runFlow: SubFlows/openSettings.yaml
+# Check changing theme
+- tapOn: "Choisir un thème"
+- assertVisible: "Choisir un thème"
+- tapOn: "Clair"
+- assertVisible: "Clair"
+- tapOn: "Choisir un thème"
+- tapOn: "Sombre"
+- assertVisible: "Sombre"
+- tapOn: "Choisir un thème"
+- tapOn: "Annuler"
+- assertVisible: "Sombre"
+# reset to system
+- tapOn: "Choisir un thème"
+- tapOn: "Utiliser le thème du système"
+# Check changing language
+- tapOn: "Choisir la langue"
+- assertVisible: "Choisir la langue"
+- tapOn: "español"
+- assertVisible: "Escoge idioma"
+- tapOn: "Escoge idioma"
+- tapOn: "English"
+- assertVisible: "Choose language"
+- tapOn: "Choose language"
+- tapOn: "français"
+- assertVisible: "Choisir la langue"
+- tapOn: "Choisir la langue"
+- tapOn: "Annuler"
+- assertVisible: "Choisir la langue"
+- back

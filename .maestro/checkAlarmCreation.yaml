@@ -1,0 +1,75 @@
+appId: dev.bwaim.kustomalarm.debug
+env:
+    ALARM_NAME: Alarm test
+    TEST_TEMPLATE_NAME: Alarm template test
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: SubFlows/resetApp.yaml
+- assertVisible: "Aucune alarme créée"
+# Check open alarm creation
+- tapOn: "Ajouter"
+- assertVisible: "Nom de l'alarme"
+# Check close without modification
+- tapOn: "fermer"
+- assertVisible: "Aucune alarme créée"
+# Check close with modification
+- tapOn: "Ajouter"
+- tapOn: "Nom de l'alarme"
+- inputText: ${ALARM_NAME}
+- tapOn: "fermer"
+- assertVisible: "Enregistrer les modifications ?"
+- tapOn: "Ignorer"
+- assertVisible: "Aucune alarme créée"
+# Check close with modification and save
+- tapOn: "Ajouter"
+- tapOn: "Nom de l'alarme"
+- inputText: ${ALARM_NAME}
+- tapOn: "fermer"
+- tapOn: "Enregistrer"
+- assertVisible: ${ALARM_NAME}
+# Check Swipe to delete
+- swipe:
+    from:
+      text: ${ALARM_NAME}
+    direction: RIGHT
+- assertVisible: "Aucune alarme créée"
+# Check save with default values
+- tapOn: "Ajouter"
+- inputText: ${ALARM_NAME}
+- tapOn: "Enregistrer"
+- assertVisible: "Alarme enregistrée pour.*"
+# Check Select a ringtone
+- tapOn: "Ajouter"
+- tapOn:
+    id: sound_selector
+- assertVisible: "Sélection du son"
+- tapOn:
+    id: item_2
+- tapOn: "fermer"
+- assertVisible: "Enregistrer"
+# Check save as template
+- tapOn: "Nom de l'alarme"
+- inputText: ${TEST_TEMPLATE_NAME}
+- tapOn: "Plus"
+- tapOn: "Définir comme modèle"
+- tapOn: "Enregistrer"
+- assertVisible: ${TEST_TEMPLATE_NAME}
+# check delete from edit screen
+- tapOn: ${TEST_TEMPLATE_NAME}
+- assertVisible: ${TEST_TEMPLATE_NAME}
+- tapOn: "Plus"
+- tapOn: "Supprimer"
+- assertVisible: Alarmes
+- assertNotVisible: ${TEST_TEMPLATE_NAME}
+- runFlow: SubFlows/saveTemplate.yaml
+# Check preview from edit screen
+- tapOn: "Ajouter"
+- tapOn: "Aperçu"
+- assertVisible: "Rappel"
+- tapOn: "Eteindre"
+- assertVisible: "Nom de l'alarme"
+- tapOn: "fermer"
+# Clean
+- runFlow: SubFlows/deleteAlarm.yaml
