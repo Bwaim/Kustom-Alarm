@@ -79,7 +79,7 @@ internal fun EditAlarmRoute(
     cleanBackstack: () -> Unit,
     close: () -> Unit,
     onSoundSelectionClick: (String) -> Unit,
-    previewAlarm: (Int) -> Unit,
+    previewAlarm: (Int, String) -> Unit,
     editViewModel: EditViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = selectedUri, cleanBackstack) {
@@ -159,10 +159,10 @@ internal fun EditAlarmRoute(
                     editViewModel.preview()
                     if (it.id == NOT_SAVED_ALARM_ID) {
                         editViewModel.saveTemporalAlarm(
-                            endAction = { previewAlarm(TEMPORAL_ALARM_ID) },
+                            endAction = { previewAlarm(TEMPORAL_ALARM_ID, it.uri) },
                         )
                     } else {
-                        previewAlarm(it.id)
+                        previewAlarm(it.id, it.uri)
                     }
                 }
             },

@@ -45,11 +45,12 @@ internal fun KAlarmNavHost(
     val context = LocalContext.current
     val previewAlarm =
         remember(context) {
-            { alarmId: Int ->
+            { alarmId: Int, uri: String? ->
                 val intent =
                     RingingAlarmService.createIntent(
                         context = context,
                         alarmId = alarmId,
+                        alarmUri = uri,
                     )
                 context.startService(intent)
                 Unit
@@ -66,7 +67,7 @@ internal fun KAlarmNavHost(
         alarmScreen(
             openDrawer = openDrawer,
             addAlarm = navController::navigateToEditAlarmScreen,
-            previewAlarm = previewAlarm,
+            previewAlarm = { previewAlarm(it, null) },
         )
 
         settingsScreen(
