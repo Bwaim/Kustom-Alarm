@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.KaFilterChip
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.extentions.shortName
 import kotlinx.collections.immutable.PersistentSet
@@ -42,6 +43,7 @@ internal fun KaDaySelector(
     modifier: Modifier = Modifier,
     initialValue: PersistentSet<DayOfWeek> = persistentSetOf(),
     locale: Locale = Locale.ENGLISH,
+    isOnce: Boolean = false,
     onValueChanged: (Set<DayOfWeek>) -> Unit = {},
 ) {
     val daysLabel =
@@ -60,6 +62,7 @@ internal fun KaDaySelector(
     ) {
         daysLabel.forEach { (value, label) ->
             KaFilterChip(
+                modifier = Modifier.testIdentifier(value.name),
                 label = { labelModifier ->
                     Text(
                         modifier = labelModifier,
@@ -67,7 +70,7 @@ internal fun KaDaySelector(
                         style = MaterialTheme.typography.labelSmall,
                     )
                 },
-                initialSelected = selectedDays.contains(value),
+                initialSelected = !isOnce && selectedDays.contains(value),
                 onClick = {
                     if (selectedDays.contains(value)) {
                         selectedDays.remove(value)

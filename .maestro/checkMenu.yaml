@@ -1,0 +1,22 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: SubFlows/resetApp.yaml
+# Check open settings
+- runFlow: SubFlows/openSettings.yaml
+# Check back
+- tapOn: "retour"
+- assertVisible: "Alarmes"
+# Check click on Klock go back home
+- runFlow: SubFlows/openMenu.yaml
+- tapOn: "Klock"
+- assertVisible: "Alarmes"
+# Check open/close with swipe
+- swipe:
+    direction: RIGHT
+- assertVisible: "Klock"
+- swipe:
+    direction: LEFT
+- assertVisible: "Alarmes"

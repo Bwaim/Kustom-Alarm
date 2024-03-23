@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Dev Bwaim team
+ * Copyright 2024 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.navigation
+@file:OptIn(ExperimentalComposeUiApi::class)
 
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NavController
+package dev.bwaim.kustomalarm.compose.extensions
 
-public interface NavigationDrawerItem {
-    public val id: String
-    public val labelRes: Int
-    public val icon: ImageVector
-    public val action: (NavController) -> Unit
-    public val testIdentifier: String
-}
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
+
+public fun Modifier.testIdentifier(identifier: String): Modifier =
+    this
+        .semantics { testTagsAsResourceId = true }
+        .testTag(identifier)

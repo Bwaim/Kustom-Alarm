@@ -47,6 +47,8 @@ import javax.inject.Inject
 
 internal const val ID_RING_ALARM_EXTRA: String =
     "dev.bwaim.kustomalarm.features.alarm.ring.ID_RING_ALARM_EXTRA"
+internal const val ALARM_SONG_EXTRA: String =
+    "dev.bwaim.kustomalarm.features.alarm.ring.ALARM_SONG_EXTRA"
 
 private const val RINGING_ALARM_NOTIFICATION_ID = 100001
 
@@ -94,9 +96,10 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         alarmId =
             intent?.getIntExtra(ID_RING_ALARM_EXTRA, NOT_SAVED_ALARM_ID) ?: NOT_SAVED_ALARM_ID
+        val uriParam = intent?.getStringExtra(ALARM_SONG_EXTRA)
 
         if (alarmId != NOT_SAVED_ALARM_ID) {
-            getAlarm(alarmId)
+            getAlarm(alarmId = alarmId, uriParam = uriParam)
             val notification = createRingingAlarmNotification(alarmId)
             startForeground(RINGING_ALARM_NOTIFICATION_ID, notification)
         } else {
@@ -107,11 +110,11 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         return START_REDELIVER_INTENT
     }
 
-    private fun getAlarm(alarmId: Int) {
+    private fun getAlarm(alarmId: Int, uriParam: String?) {
         lifecycleScope.launch {
             val alarm = alarmService.getAlarm(alarmId).value
             if (alarm != null) {
-                startAlarm(alarm)
+                startAlarm(alarm.copy(uri = uriParam?.let { uriParam } ?: alarm.uri))
             } else {
                 stopSelf()
             }
@@ -206,9 +209,11 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         public fun createIntent(
             context: Context,
             alarmId: Int,
+            alarmUri: String?,
         ): Intent {
             return Intent(context, RingingAlarmService::class.java).apply {
                 putExtra(ID_RING_ALARM_EXTRA, alarmId)
+                putExtra(ALARM_SONG_EXTRA, alarmUri)
             }
         }
     }

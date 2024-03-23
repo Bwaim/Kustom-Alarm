@@ -1,0 +1,10 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- runFlow: SubFlows/initApp.yaml
+- runFlow: checkMenu.yaml
+- runFlow: checkSettings.yaml
+- runFlow: checkAlarmCreation.yaml
+- runFlow: checkAlarmMenu.yaml
+- runFlow: checkAlarmPreview.yaml
+- runFlow: Alarms/launchAlarms.yaml
+- clearState

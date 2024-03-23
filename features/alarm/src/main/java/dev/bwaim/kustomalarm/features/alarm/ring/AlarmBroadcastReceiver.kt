@@ -33,7 +33,11 @@ public class AlarmBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun startAlarmService(context: Context, alarmId: Int) {
-        val intent = RingingAlarmService.createIntent(context, alarmId)
+        val intent = RingingAlarmService.createIntent(
+            context = context,
+            alarmId = alarmId,
+            alarmUri = null,
+        )
 
         if (BuildWrapper.isAtLeastO) {
             context.startForegroundService(intent)

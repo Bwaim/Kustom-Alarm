@@ -1,0 +1,61 @@
+appId: dev.bwaim.kustomalarm.debug
+env:
+    ALARM_NAME: Alarm test
+    TEMPLATE_SUFFIX: " Template"
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: SubFlows/resetApp.yaml
+- runFlow:
+    file: SubFlows/addAlarm.yaml
+    env:
+        ALARM_NAME: ${ALARM_NAME}
+- assertVisible: ${ALARM_NAME}
+# Check modify menu
+- tapOn: "Plus"
+- tapOn: "Modifier"
+- assertVisible: ${ALARM_NAME}
+- tapOn: "fermer"
+# Check duplicate menu
+- tapOn: "Plus"
+- tapOn: "Dupliquer"
+- assertVisible: ${ALARM_NAME}
+- tapOn: "Enregistrer"
+- assertVisible:
+    text: ${ALARM_NAME}
+    index: 1
+# Check delete menu
+- tapOn: 
+    text: "Plus"
+    index: 1
+- tapOn: "Supprimer"
+- assertVisible:
+    text: ${ALARM_NAME}
+    index: 0
+- assertNotVisible:
+    text: ${ALARM_NAME}
+    index: 1
+# Check define as template
+- tapOn: "Plus"
+- tapOn: "Dupliquer"
+- tapOn: ${ALARM_NAME}
+- inputText: ${TEMPLATE_SUFFIX}
+- hideKeyboard
+- tapOn: "Enregistrer"
+- tapOn: 
+    text: "Plus"
+    index: 1
+- tapOn: "Définir comme modèle"
+- tapOn: "Ajouter"
+- assertVisible: ${ALARM_NAME}${TEMPLATE_SUFFIX}
+- tapOn: "fermer"
+# Clean
+- tapOn: ${ALARM_NAME}
+- tapOn: ${ALARM_NAME}
+- eraseText
+- tapOn: "fermer"
+- tapOn: "Enregistrer"
+- runFlow: SubFlows/saveTemplate.yaml
+- runFlow: SubFlows/deleteAlarm.yaml
+- runFlow: SubFlows/deleteAlarm.yaml

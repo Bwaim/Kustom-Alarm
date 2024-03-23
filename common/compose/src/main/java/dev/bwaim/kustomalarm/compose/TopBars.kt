@@ -35,6 +35,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.icons.Save
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.localisation.R.string
@@ -98,6 +99,7 @@ private fun DefaultNavigationIcon(onClick: () -> Unit = {}) {
         Icon(
             imageVector = Icons.Filled.Menu,
             contentDescription = stringResource(id = string.navigation_menu_content_description),
+            modifier = Modifier.testIdentifier("navigation_menu"),
         )
     }
 }
@@ -149,7 +151,7 @@ public fun MoreActionIcon(
     ) {
         Icon(
             imageVector = Icons.Filled.MoreVert,
-            contentDescription = stringResource(id = string.global_action_save),
+            contentDescription = stringResource(id = string.global_action_more),
         )
     }
 }

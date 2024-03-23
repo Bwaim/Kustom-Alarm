@@ -1,0 +1,5 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- runFlow: testEditOneTimeAlarm.yaml
+- runFlow: testEditOneTimeAlarmAddDay.yaml
+- runFlow: testSavingTemplateFromOneTimeAlarm.yaml

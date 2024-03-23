@@ -1,0 +1,4 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- launchApp:
+    clearState: true

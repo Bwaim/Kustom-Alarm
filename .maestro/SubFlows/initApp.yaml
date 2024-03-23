@@ -1,0 +1,21 @@
+appId: dev.bwaim.kustomalarm.debug
+---
+- launchApp:
+    clearState: true
+# Set language to french and theme to system
+- runFlow: openMenu.yaml
+- tapOn: 
+    id: settings_navigation
+- tapOn: 
+    id: theme_preference
+- tapOn:
+    id: item_2
+- tapOn:
+    point: 10%, 10%
+- tapOn: 
+    id: locale_preference
+- tapOn:
+    id: item_2
+- tapOn:
+    point: 10%, 10%
+- back

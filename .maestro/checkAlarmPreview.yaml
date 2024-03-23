@@ -1,0 +1,48 @@
+appId: dev.bwaim.kustomalarm.debug
+env:
+    ALARM_NAME: Alarm test
+---
+- runFlow:
+    when:
+      true: ${RESET}
+    file: SubFlows/resetApp.yaml
+- runFlow:
+    file: SubFlows/addAlarm.yaml
+    env:
+        ALARM_NAME: ${ALARM_NAME}
+- assertVisible: ${ALARM_NAME}
+# Check modify menu
+- tapOn: "Plus"
+- tapOn: "Aperçu"
+- assertVisible: "Rappel"
+# Check turn off
+- tapOn: "Eteindre"
+- assertVisible: Alarmes
+# Check back turn off
+- tapOn: "Plus"
+- tapOn: "Aperçu"
+- back
+- assertVisible: Alarmes
+# Check notification
+- tapOn: "Plus"
+- tapOn: "Aperçu"
+- swipe:
+    start: 50%, 1%
+    end: 50%, 50%
+- assertVisible: "Appuyez pour afficher l'alarme"
+- tapOn: "Appuyez pour afficher l'alarme"
+- tapOn: "Eteindre"
+- assertVisible: Alarmes
+# Check snooze
+- tapOn: "Plus"
+- tapOn: "Aperçu"
+- tapOn: "Rappel"
+- swipe:
+    start: 50%, 1%
+    end: 50%, 50%
+- assertVisible: "Alarme prévue à .*"
+- tapOn: "Alarme prévue à .*"
+- tapOn: "Eteindre"
+- assertVisible: Alarmes
+# Clean
+- runFlow: SubFlows/deleteAlarm.yaml

@@ -58,6 +58,7 @@ public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDraw
     override val action: (NavController) -> Unit = { navController ->
         navController.navigateToSettings()
     }
+    override val testIdentifier: String = "settings_navigation"
 }
 
 public fun NavController.navigateToSettings(navOptions: NavOptions? = buildSettingsNavOptions()) {
