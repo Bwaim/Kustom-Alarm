@@ -48,6 +48,7 @@ import dev.bwaim.kustomalarm.R.string
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.KaHorizontalDivider
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmTheme
 import dev.bwaim.kustomalarm.features.settings.navigation.SettingsNavigationDrawerItem
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
@@ -95,8 +96,10 @@ internal fun KaNavigationDrawer(
                             }
                             scope.launch { drawerState.close() }
                         },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                            .padding(top = 12.dp),
+                        modifier = Modifier
+                            .padding(NavigationDrawerItemDefaults.ItemPadding)
+                            .padding(top = 12.dp)
+                            .testIdentifier(item.testIdentifier),
                     )
                 }
             }

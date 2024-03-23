@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.ui.resources.R.drawable
 
 @Composable
@@ -45,7 +46,9 @@ internal fun SoundSelector(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 5.dp, vertical = 16.dp),
+            modifier = Modifier
+                .padding(horizontal = 5.dp, vertical = 16.dp)
+                .testIdentifier("sound_selector"),
         ) {
             Image(
                 painter = painterResource(id = drawable.alarm_clock),

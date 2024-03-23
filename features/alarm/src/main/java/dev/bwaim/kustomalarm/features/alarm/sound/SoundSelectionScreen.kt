@@ -32,15 +32,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.compose.KaCloseTopAppBar
 import dev.bwaim.kustomalarm.compose.KaLoader
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.android.extensions.toast
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SELECTED_URI_ARG
+import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
@@ -82,7 +85,7 @@ private fun SoundSelectionScreen(
             KaCloseTopAppBar(
                 onClickNavigation = close,
                 title = {
-                    Text(text = "Sound selection")
+                    Text(text = stringResource(id = string.sound_selection_screen_label))
                 },
             )
         },
@@ -125,7 +128,8 @@ private fun SoundList(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { play(item.second) },
+                    .clickable { play(item.second) }
+                    .testIdentifier("item_$index"),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(selected = item.second == selectedUri, onClick = { })

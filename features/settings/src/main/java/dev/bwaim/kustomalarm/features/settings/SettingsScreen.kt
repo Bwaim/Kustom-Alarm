@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.bwaim.kustomalarm.compose.KaBackTopAppBar
 import dev.bwaim.kustomalarm.compose.KaBackground
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.compose.preference.ui.ListPreferenceWidget
@@ -95,12 +96,14 @@ private fun SettingsScreen(
                 preferences = themes,
                 currentValue = selectedTheme,
                 onValueChanged = onThemeChanged,
+                modifier = Modifier.testIdentifier("theme_preference"),
             )
 
             ListPreferenceWidget(
                 preferences = locales,
                 currentValue = getCurrentLocale(),
                 onValueChanged = onLocaleChanged,
+                modifier = Modifier.testIdentifier("locale_preference"),
             )
         }
     }

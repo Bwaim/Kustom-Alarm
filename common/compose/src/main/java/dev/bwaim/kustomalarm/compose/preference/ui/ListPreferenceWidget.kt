@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.preference.model.ListPreferenceValues
 import dev.bwaim.kustomalarm.compose.preference.model.Preference
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
@@ -65,9 +66,12 @@ private fun <T> ListPreferenceUi(
 ) {
     var isDialogShown by remember { mutableStateOf(false) }
     Column(
-        modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp).clickable {
-            isDialogShown = true
-        },
+        modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .clickable {
+                isDialogShown = true
+            },
     ) {
         Text(
             text = preferences.title,
@@ -109,6 +113,7 @@ private fun <T> ListPreferenceDialog(
             Column(
                 Modifier.fillMaxWidth(),
             ) {
+                var index = 0
                 preferences.entries.forEach { preference ->
                     val isSelected = preference.key == currentValue.label
                     val onSelectedAction = {
@@ -117,11 +122,13 @@ private fun <T> ListPreferenceDialog(
                         }
                     }
                     Row(
-                        Modifier.fillMaxWidth()
+                        Modifier
+                            .fillMaxWidth()
                             .selectable(
                                 selected = isSelected,
                                 onClick = { onSelectedAction() },
-                            ),
+                            )
+                            .testIdentifier("item_${index++}"),
                     ) {
                         RadioButton(
                             selected = isSelected,
@@ -138,7 +145,9 @@ private fun <T> ListPreferenceDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismiss,
-                modifier = Modifier.padding(horizontal = 24.dp),
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .testIdentifier("cancel_button"),
             ) {
                 Text(
                     text = stringResource(android.R.string.cancel),

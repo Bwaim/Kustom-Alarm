@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.bwaim.kustomalarm.compose.KaFilterChip
 import dev.bwaim.kustomalarm.compose.PreviewsKAlarm
+import dev.bwaim.kustomalarm.compose.extensions.testIdentifier
 import dev.bwaim.kustomalarm.compose.theme.KustomAlarmThemePreview
 import dev.bwaim.kustomalarm.core.extentions.shortName
 import kotlinx.collections.immutable.PersistentSet
@@ -60,6 +61,7 @@ internal fun KaDaySelector(
     ) {
         daysLabel.forEach { (value, label) ->
             KaFilterChip(
+                modifier = Modifier.testIdentifier(value.name),
                 label = { labelModifier ->
                     Text(
                         modifier = labelModifier,
