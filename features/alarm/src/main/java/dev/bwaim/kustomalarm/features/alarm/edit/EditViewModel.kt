@@ -154,7 +154,8 @@ internal class EditViewModel @Inject constructor(
     fun saveTemporalAlarm(endAction: () -> Unit) {
         alarm.value?.let { alarm ->
             viewModelScope.launch {
-                val result = alarmService.saveTemporalAlarm(alarm.toAlarm().copy(id = TEMPORAL_ALARM_ID))
+                val result =
+                    alarmService.saveTemporalAlarm(alarm.toAlarm().copy(id = TEMPORAL_ALARM_ID))
                 if (result is Success) {
                     endAction()
                 }

@@ -56,7 +56,7 @@ internal fun AlarmUi.toAlarm(): Alarm =
         time = time,
         weekDays = weekDays,
         isOnce = weekDays.isEmpty(),
-        isActivated = isActivated,
+        isActivated = true,
         uri = uri,
         postponeDuration = postponeDuration,
     )
