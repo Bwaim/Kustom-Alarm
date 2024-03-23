@@ -43,6 +43,7 @@ internal fun KaDaySelector(
     modifier: Modifier = Modifier,
     initialValue: PersistentSet<DayOfWeek> = persistentSetOf(),
     locale: Locale = Locale.ENGLISH,
+    isOnce: Boolean = false,
     onValueChanged: (Set<DayOfWeek>) -> Unit = {},
 ) {
     val daysLabel =
@@ -69,7 +70,7 @@ internal fun KaDaySelector(
                         style = MaterialTheme.typography.labelSmall,
                     )
                 },
-                initialSelected = selectedDays.contains(value),
+                initialSelected = !isOnce && selectedDays.contains(value),
                 onClick = {
                     if (selectedDays.contains(value)) {
                         selectedDays.remove(value)

@@ -285,6 +285,7 @@ private fun AlarmDetails(
         KaDaySelector(
             locale = currentLocale,
             initialValue = alarmUi.weekDays.toPersistentSet(),
+            isOnce = alarmUi.isOnce,
             onValueChanged = { updateAlarmDays(it.toPersistentSet()) },
         )
         SoundSelector(
