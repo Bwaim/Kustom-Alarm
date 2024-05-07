@@ -29,6 +29,7 @@ jacocoKustomConfig {
 dependencies {
     implementation(libs.androidx.startup)
 
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics.library)
 
     implementation(libs.timber)

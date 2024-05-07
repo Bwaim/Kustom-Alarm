@@ -27,10 +27,8 @@ benManesVersion = "0.51.0"
 compose = "1.6.7"
 composeCompiler = "1.5.13"
 coroutines = "1.8.0"
-firebaseAnalytics = "22.0.0"
-firebaseCrashlytics = "18.6.4"
+firebaseBom = "32.8.1"
 firebaseCrashlyticsPlugin = "2.9.9"
-firebasePerf = "20.5.2"
 firebasePerfPlugin = "1.4.2"
 gmsPlugin = "4.4.1"
 googleOss = "17.0.1"
@@ -97,9 +95,10 @@ compose-ui-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 
 dagger = { module = "com.google.dagger:dagger", version.ref = "hilt" }
 
-firebase-analytics-library = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
-firebase-crashlytics-library = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlytics" }
-firebase-perf-library = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebasePerf" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics-library = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics-library = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-perf-library = { module = "com.google.firebase:firebase-perf-ktx" }
 
 google-oss-licenses = { group = "com.google.android.gms", name = "play-services-oss-licenses", version.ref = "googleOss" }
 google-oss-licenses-plugin = { group = "com.google.android.gms", name = "oss-licenses-plugin", version.ref = "googleOssPlugin" }
