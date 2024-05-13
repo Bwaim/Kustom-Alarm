@@ -1,5 +1,5 @@
 val ktlintVersion = "1.0.1"
-val composeRulesVersion = "0.3.20"
+val composeRulesVersion = "0.3.21"
 
 initscript {
     val spotlessVersion = "6.25.0"
