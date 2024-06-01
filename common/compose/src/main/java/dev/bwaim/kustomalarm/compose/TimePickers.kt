@@ -48,13 +48,13 @@ import java.time.LocalTime
 public fun KaTimePicker(
     modifier: Modifier = Modifier,
     initialValue: LocalTime = LocalTime.of(7, 0),
-    onValueChanged: (LocalTime) -> Unit = {},
+    onValueChange: (LocalTime) -> Unit = {},
 ) {
     var hours by remember { mutableIntStateOf(initialValue.hour) }
     var minutes by remember { mutableIntStateOf(initialValue.minute) }
 
-    LaunchedEffect(hours, minutes, onValueChanged) {
-        onValueChanged(LocalTime.of(hours, minutes))
+    LaunchedEffect(hours, minutes, onValueChange) {
+        onValueChange(LocalTime.of(hours, minutes))
     }
 
     Box(
@@ -86,7 +86,7 @@ public fun KaTimePicker(
                 items = (0..23).toPersistentList(),
                 nbVisibleItems = 3,
                 startIndex = hours,
-                onValueChanged = { hour -> hours = hour },
+                onValueChange = { hour -> hours = hour },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)
             }
@@ -97,7 +97,7 @@ public fun KaTimePicker(
                 items = (0..59).toPersistentList(),
                 nbVisibleItems = 3,
                 startIndex = minutes,
-                onValueChanged = { minute -> minutes = minute },
+                onValueChange = { minute -> minutes = minute },
             ) { item, itemModifier ->
                 TimeLabel(value = item, modifier = itemModifier)
             }

@@ -280,13 +280,13 @@ private fun AlarmDetails(
         KaTimePicker(
             modifier = Modifier.padding(vertical = 5.dp),
             initialValue = alarmUi.time,
-            onValueChanged = updateAlarmTime,
+            onValueChange = updateAlarmTime,
         )
         KaDaySelector(
             locale = currentLocale,
             initialValue = alarmUi.weekDays.toPersistentSet(),
             isOnce = alarmUi.isOnce,
-            onValueChanged = { updateAlarmDays(it.toPersistentSet()) },
+            onValueChange = { updateAlarmDays(it.toPersistentSet()) },
         )
         SoundSelector(
             title = alarmUi.ringtoneTitle,
