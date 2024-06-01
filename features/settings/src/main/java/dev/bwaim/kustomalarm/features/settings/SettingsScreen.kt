@@ -65,8 +65,8 @@ internal fun SettingsRoute(
         themes = themes,
         locales = locales,
         onClose = onClose,
-        onThemeChanged = viewModel::setTheme,
-        onLocaleChanged = {
+        onThemeChange = viewModel::setTheme,
+        onLocaleChange = {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.create(it.value))
         },
     )
@@ -78,8 +78,8 @@ private fun SettingsScreen(
     themes: ListPreferenceValues<Theme>,
     locales: ListPreferenceValues<Locale>,
     onClose: () -> Unit,
-    onThemeChanged: (Preference<Theme>) -> Unit,
-    onLocaleChanged: (Preference<Locale>) -> Unit,
+    onThemeChange: (Preference<Theme>) -> Unit,
+    onLocaleChange: (Preference<Locale>) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -95,14 +95,14 @@ private fun SettingsScreen(
             ListPreferenceWidget(
                 preferences = themes,
                 currentValue = selectedTheme,
-                onValueChanged = onThemeChanged,
+                onValueChange = onThemeChange,
                 modifier = Modifier.testIdentifier("theme_preference"),
             )
 
             ListPreferenceWidget(
                 preferences = locales,
                 currentValue = getCurrentLocale(),
-                onValueChanged = onLocaleChanged,
+                onValueChange = onLocaleChange,
                 modifier = Modifier.testIdentifier("locale_preference"),
             )
         }
@@ -200,8 +200,8 @@ private fun PreviewSettingsScreen() {
                 themes = listPreference,
                 locales = listLocalesPreference,
                 onClose = {},
-                onThemeChanged = {},
-                onLocaleChanged = {},
+                onThemeChange = {},
+                onLocaleChange = {},
             )
         }
     }

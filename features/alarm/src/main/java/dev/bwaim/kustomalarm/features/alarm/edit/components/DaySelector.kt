@@ -44,7 +44,7 @@ internal fun KaDaySelector(
     initialValue: PersistentSet<DayOfWeek> = persistentSetOf(),
     locale: Locale = Locale.ENGLISH,
     isOnce: Boolean = false,
-    onValueChanged: (Set<DayOfWeek>) -> Unit = {},
+    onValueChange: (Set<DayOfWeek>) -> Unit = {},
 ) {
     val daysLabel =
         remember {
@@ -77,7 +77,7 @@ internal fun KaDaySelector(
                     } else {
                         selectedDays.add(value)
                     }
-                    onValueChanged(selectedDays)
+                    onValueChange(selectedDays)
                 },
             )
         }

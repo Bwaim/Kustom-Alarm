@@ -46,14 +46,14 @@ import kotlinx.collections.immutable.persistentMapOf
 public fun <T> ListPreferenceWidget(
     preferences: ListPreferenceValues<T>,
     currentValue: Preference<T>,
-    onValueChanged: (value: Preference<T>) -> Unit,
+    onValueChange: (value: Preference<T>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     ListPreferenceUi(
         modifier = modifier,
         preferences = preferences,
         currentValue = currentValue,
-        onValueChanged = onValueChanged,
+        onValueChange = onValueChange,
     )
 }
 
@@ -62,7 +62,7 @@ private fun <T> ListPreferenceUi(
     preferences: ListPreferenceValues<T>,
     currentValue: Preference<T>,
     modifier: Modifier = Modifier,
-    onValueChanged: (value: Preference<T>) -> Unit,
+    onValueChange: (value: Preference<T>) -> Unit,
 ) {
     var isDialogShown by remember { mutableStateOf(false) }
     Column(
@@ -86,8 +86,8 @@ private fun <T> ListPreferenceUi(
             preferences = preferences,
             currentValue = currentValue,
             onDismiss = { isDialogShown = false },
-            onSelected = { preference ->
-                onValueChanged(preference)
+            onSelect = { preference ->
+                onValueChange(preference)
                 isDialogShown = false
             },
         )
@@ -99,7 +99,7 @@ private fun <T> ListPreferenceDialog(
     preferences: ListPreferenceValues<T>,
     currentValue: Preference<T>,
     onDismiss: () -> Unit,
-    onSelected: (Preference<T>) -> Unit,
+    onSelect: (Preference<T>) -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -118,7 +118,7 @@ private fun <T> ListPreferenceDialog(
                     val isSelected = preference.key == currentValue.label
                     val onSelectedAction = {
                         if (!isSelected) {
-                            onSelected(preference.value)
+                            onSelect(preference.value)
                         }
                     }
                     Row(
@@ -176,7 +176,7 @@ private fun PreviewListPreference() {
         ListPreferenceWidget(
             preferences = listPreference,
             currentValue = currentValue,
-            onValueChanged = {},
+            onValueChange = {},
         )
     }
 }
@@ -201,7 +201,7 @@ private fun PreviewAlertListPref() {
             preferences = listPreference,
             currentValue = currentValue,
             onDismiss = {},
-            onSelected = {},
+            onSelect = {},
         )
     }
 }

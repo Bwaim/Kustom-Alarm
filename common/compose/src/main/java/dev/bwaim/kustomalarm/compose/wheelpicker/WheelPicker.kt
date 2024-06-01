@@ -45,7 +45,7 @@ public fun <T : Any> WheelPicker(
     modifier: Modifier = Modifier,
     nbVisibleItems: Int = 3,
     startIndex: Int = 0,
-    onValueChanged: (T) -> Unit = {},
+    onValueChange: (T) -> Unit = {},
     elementContent: @Composable (T, Modifier) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -53,12 +53,12 @@ public fun <T : Any> WheelPicker(
 
     LaunchedEffect(Unit) { lazyListState.scrollToItem(calculateFirstIndex(startIndex, items.size)) }
 
-    LaunchedEffect(lazyListState.isScrollInProgress, onValueChanged) {
+    LaunchedEffect(lazyListState.isScrollInProgress, onValueChange) {
         if (!lazyListState.isScrollInProgress) {
             layoutInfo.currentItem?.let { item ->
                 val selectedIndex = item.index % items.size
                 val selectedItem = items[selectedIndex]
-                onValueChanged(selectedItem)
+                onValueChange(selectedItem)
             }
         }
     }
