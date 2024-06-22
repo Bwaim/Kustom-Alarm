@@ -53,12 +53,15 @@ internal fun SoundSelector(
             Image(
                 painter = painterResource(id = drawable.alarm_clock),
                 contentDescription = null,
-                modifier = Modifier.weight(0.33f),
+                modifier = Modifier.weight(PERCENT_33),
             )
             Text(
                 text = title,
-                modifier = Modifier.weight(0.66f),
+                modifier = Modifier.weight(PERCENT_66),
             )
         }
     }
 }
+
+private const val PERCENT_33 = 0.33f
+private const val PERCENT_66 = 0.66f

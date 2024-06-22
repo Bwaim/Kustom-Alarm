@@ -142,7 +142,7 @@ private fun Set<DayOfWeek>.toLabel(
             context.getString(string.alarm_screen_alarms_days_week)
         }
 
-        size == 7 -> {
+        size == NUM_DAYS_IN_WEEK -> {
             context.getString(string.alarm_screen_alarms_days_all)
         }
 
@@ -283,3 +283,5 @@ private fun PreviewAlarmRow() {
         }
     }
 }
+
+private const val NUM_DAYS_IN_WEEK = 7

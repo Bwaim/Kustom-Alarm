@@ -117,7 +117,8 @@ private fun Theme.getLabel(context: Context): String =
         Theme.BATTERY_SAVER -> context.getString(string.settings_screen_theme_battery_label)
     }
 
-private fun Theme.toPreference(context: Context): Preference<Theme> = Preference(label = this.getLabel(context), value = this)
+private fun Theme.toPreference(context: Context): Preference<Theme> =
+    Preference(label = this.getLabel(context), value = this)
 
 private fun List<Theme>.toThemeListPreferences(context: Context): ListPreferenceValues<Theme> =
     ListPreferenceValues(
@@ -139,9 +140,11 @@ private fun Theme.isAvailable(): Boolean =
     }
 
 @Composable
-private fun getCurrentLocale(): Preference<Locale> = (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
+private fun getCurrentLocale(): Preference<Locale> =
+    (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
 
 private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
+    @Suppress("SpreadOperator")
     val applicationLocales =
         LocaleListCompat.create(
             *(this.toTypedArray()),

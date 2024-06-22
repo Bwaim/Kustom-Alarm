@@ -159,6 +159,7 @@ private fun <T : Any> MyWheel(
     }
 }
 
+@Suppress("MagicNumber")
 private fun calculateAlpha(
     snapperLayoutInfo: SnapperLayoutInfo,
     oneItemHeight: Float,
@@ -173,6 +174,7 @@ private fun calculateAlpha(
     }
 }
 
+@Suppress("MagicNumber", "UnusedPrivateMember")
 private fun calculateRotationX(
     snapperLayoutInfo: SnapperLayoutInfo,
     oneItemHeight: Float,

@@ -44,6 +44,7 @@ android {
     }
 
     buildTypes {
+        @Suppress("UnusedPrivateProperty")
         val debug by getting {
             extra.set("enableCrashlytics", true)
 

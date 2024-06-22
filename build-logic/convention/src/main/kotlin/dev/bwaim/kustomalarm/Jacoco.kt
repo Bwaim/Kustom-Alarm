@@ -11,14 +11,6 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-private val coverageExclusions = listOf(
-    // Android
-    "**/R.class",
-    "**/R\$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*"
-)
-
 interface JacocoKustomExtension {
     var hasTests: Boolean
 }

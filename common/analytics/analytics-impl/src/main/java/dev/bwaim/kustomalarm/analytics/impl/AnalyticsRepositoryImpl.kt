@@ -46,7 +46,7 @@ internal class AnalyticsRepositoryImpl @Inject constructor() : AnalyticsReposito
                     is Double -> param(name, value)
                     is Long -> param(name, value)
                     is String -> param(name, value)
-                    else -> throw RuntimeException("Wrong type for event parameter : ${value::class.java}")
+                    else -> throw IllegalArgumentException("Wrong type for event parameter : ${value::class.java}")
                 }
             }
         }

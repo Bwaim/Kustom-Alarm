@@ -70,6 +70,7 @@ internal class AlarmRepositoryImpl @Inject constructor(
         return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
     }
 
+    @Suppress("MagicNumber")
     private fun getDefaultTemplate(): AlarmTemplate =
         AlarmTemplate(
             name = null,

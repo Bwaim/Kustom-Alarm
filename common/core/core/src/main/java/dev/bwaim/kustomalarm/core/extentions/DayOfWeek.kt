@@ -41,5 +41,7 @@ public fun Set<DayOfWeek>.areWeekendDays(): Boolean {
 }
 
 public fun Set<DayOfWeek>.areWeekDays(): Boolean {
-    return size == 5 && this.containsAll(setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY))
+    return size == NUM_WORKING_DAYS && this.containsAll(setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY))
 }
+
+private const val NUM_WORKING_DAYS = 5

@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 /**
  * Configure base Kotlin with Android options
  */
+@Suppress("MagicNumber")
 fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>? = null,
@@ -43,9 +44,10 @@ fun Project.configureKotlinAndroid(
     androidComponentsExtension?.apply {
         onVariants { variant ->
             afterEvaluate {
-                // This is a workaround for https://github.com/google/ksp/issues/1590 (follow also https://issuetracker.google.com/301245705) which depends on internal
-                // implementations of the android gradle plugin and the ksp gradle plugin which might change in the future
-                // in an unpredictable way.
+                // This is a workaround for https://github.com/google/ksp/issues/1590
+                // (follow also https://issuetracker.google.com/301245705) which depends on internal
+                // implementations of the android gradle plugin and the ksp gradle plugin
+                // which might change in the future in an unpredictable way.
                 val variantNameCapitalized = variant.name.replaceFirstChar { it.uppercase() }
                 val protoTaskName = "generate${variantNameCapitalized}Proto"
 
@@ -54,9 +56,8 @@ fun Project.configureKotlinAndroid(
 
                     tasks.getByName("ksp${variantNameCapitalized}Kotlin") {
                         dependsOn(protoTask)
-                        (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>).setSource(
-                            protoTask.outputBaseDir
-                        )
+                        (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>)
+                            .setSource(protoTask.outputBaseDir)
                     }
                 }
             }

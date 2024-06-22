@@ -7,6 +7,7 @@ import org.gradle.kotlin.dsl.invoke
 /**
  * Configure project for Gradle managed devices
  */
+@Suppress("MagicNumber")
 internal fun configureGradleManagedDevices(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {

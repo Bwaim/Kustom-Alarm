@@ -146,6 +146,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             .build()
     }
 
+    @Suppress("MagicNumber")
     private fun alarmVolumeVariations() {
         var volume = 0.01f
         mediaPlayer.setVolume(volume)
@@ -166,6 +167,7 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         setVolume(volume, volume)
     }
 
+    @Suppress("MagicNumber")
     private fun setVibration() {
         if (BuildWrapper.isAtLeastO) {
             val timings: LongArray = longArrayOf(150, 200, 150, 500)

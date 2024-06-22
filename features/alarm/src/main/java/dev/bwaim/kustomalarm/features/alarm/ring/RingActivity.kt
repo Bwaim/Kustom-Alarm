@@ -105,7 +105,11 @@ public class RingActivity : AppCompatActivity() {
             }
         }
 
-        internal fun createPendingIntent(context: Context, alarmId: Int, withBackstack: Boolean = false): PendingIntent {
+        internal fun createPendingIntent(
+            context: Context,
+            alarmId: Int,
+            withBackstack: Boolean = false
+        ): PendingIntent {
             val intent = createIntent(
                 context = context,
                 alarmId = alarmId,
