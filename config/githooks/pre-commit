@@ -36,6 +36,7 @@ if [ ! -z "$stagedKotlinFiles" ]; then
         showFailureNotification "Detekt failed" "failed: $?"
         exitWithMessage "Detekt failed"
     fi
+    #You can also git add . if you linter autocorrect
 
     showSuccessNotification "Code sanitized with success"
 else
