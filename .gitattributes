@@ -1,0 +1,2 @@
+ktlint-compose-*.jar filter=lfs diff=lfs merge=lfs -text
+detekt-compose-*.jar filter=lfs diff=lfs merge=lfs -text
