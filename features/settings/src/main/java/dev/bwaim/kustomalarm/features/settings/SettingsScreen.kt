@@ -118,17 +118,21 @@ private fun Theme.getLabel(context: Context): String =
     }
 
 private fun Theme.toPreference(context: Context): Preference<Theme> =
-    Preference(label = this.getLabel(context), value = this)
+    Preference(
+        label = this.getLabel(context),
+        value = this,
+    )
 
 private fun List<Theme>.toThemeListPreferences(context: Context): ListPreferenceValues<Theme> =
     ListPreferenceValues(
         title = context.getString(string.settings_screen_theme_title),
-        entries = this.filter { it.isAvailable() }
-            .associate {
-                val preference = it.toPreference(context)
-                preference.label to preference
-            }
-            .toImmutableMap(),
+        entries =
+            this
+                .filter { it.isAvailable() }
+                .associate {
+                    val preference = it.toPreference(context)
+                    preference.label to preference
+                }.toImmutableMap(),
     )
 
 private fun Theme.isAvailable(): Boolean =
@@ -141,7 +145,10 @@ private fun Theme.isAvailable(): Boolean =
 
 @Composable
 private fun getCurrentLocale(): Preference<Locale> =
-    (AppCompatDelegate.getApplicationLocales()[0] ?: Locale.getDefault()).toPreference()
+    (
+        AppCompatDelegate.getApplicationLocales()[0]
+            ?: Locale.getDefault()
+    ).toPreference()
 
 private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
     @Suppress("SpreadOperator")

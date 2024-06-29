@@ -66,10 +66,11 @@ internal class MainActivity : AppCompatActivity() {
             }
         }
         if (!Settings.canDrawOverlays(this)) {
-            val intent = Intent(
-                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:$packageName"),
-            )
+            val intent =
+                Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName"),
+                )
             ActivityCompat.startActivityForResult(this, intent, 0, null)
         }
     }

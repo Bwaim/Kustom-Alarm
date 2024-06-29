@@ -28,12 +28,11 @@ internal object ThemeHelper {
                 Theme.BATTERY_SAVER
             }
 
-    fun fromPreferences(value: String): Theme {
-        return when {
+    fun fromPreferences(value: String): Theme =
+        when {
             value.isEmpty() -> defaultTheme
             value == Theme.SYSTEM.value && BuildWrapper.isAtLeastQ.not() -> Theme.BATTERY_SAVER
             value == Theme.BATTERY_SAVER.value && BuildWrapper.isAtLeastQ -> Theme.SYSTEM
             else -> Theme.from(value)
         }
-    }
 }

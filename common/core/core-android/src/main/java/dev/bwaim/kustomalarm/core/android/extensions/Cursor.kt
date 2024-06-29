@@ -19,6 +19,6 @@ package dev.bwaim.kustomalarm.core.android.extensions
 import android.database.Cursor
 import android.media.RingtoneManager
 
-public fun Cursor.toRingtoneUri(): String {
-    return "${getString(RingtoneManager.URI_COLUMN_INDEX)}/${getInt(RingtoneManager.ID_COLUMN_INDEX)}"
-}
+public fun Cursor.toRingtoneUri(): String =
+    getString(RingtoneManager.URI_COLUMN_INDEX) +
+        "/${getInt(RingtoneManager.ID_COLUMN_INDEX)}"

@@ -33,11 +33,9 @@ public class AlarmService @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher,
     private val alarmRepository: AlarmRepository,
 ) {
-    public fun observeAlarms(): Flow<List<Alarm>> =
-        alarmRepository.observeAlarms().flowOn(ioDispatcher)
+    public fun observeAlarms(): Flow<List<Alarm>> = alarmRepository.observeAlarms().flowOn(ioDispatcher)
 
-    public fun observeSnoozedAlarm(): Flow<Alarm?> =
-        alarmRepository.observeSnoozedAlarm().flowOn(ioDispatcher)
+    public fun observeSnoozedAlarm(): Flow<Alarm?> = alarmRepository.observeSnoozedAlarm().flowOn(ioDispatcher)
 
     public suspend fun getAlarm(alarmId: Int): DomainResult<Alarm?> =
         executeCatching(ioDispatcher) { alarmRepository.getAlarm(alarmId = alarmId) }

@@ -209,17 +209,19 @@ private fun EditAlarmScreen(
                 KaCloseErrorMessage(
                     errorMessage = errorMessage,
                     close = close,
-                    modifier = Modifier
-                        .padding(padding)
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
                 )
 
             alarmUi == null ->
                 KaLoader(
-                    modifier = Modifier
-                        .padding(padding)
-                        .fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .fillMaxSize(),
                 )
 
             else ->
@@ -266,9 +268,10 @@ private fun AlarmDetails(
         }
 
     Column(
-        modifier = modifier
-            .fillMaxHeight()
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .padding(horizontal = 16.dp),
     ) {
         AlarmName(
             name = alarmUi.name,
@@ -294,9 +297,10 @@ private fun AlarmDetails(
         )
 
         PrimaryButton(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 40.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 40.dp),
             text = stringResource(id = string.global_action_save),
             onClick = onSave,
         )
@@ -337,14 +341,15 @@ private fun AlarmName(
 private fun PreviewEditAlarmScreen() {
     KustomAlarmThemePreview {
         EditAlarmScreen(
-            alarmUi = AlarmUi(
-                name = null,
-                time = LocalTime.of(7, 0),
-                weekDays = persistentSetOf(),
-                uri = "uri1",
-                ringtoneTitle = "Sound title",
-                postponeDuration = 10.minutes,
-            ),
+            alarmUi =
+                AlarmUi(
+                    name = null,
+                    time = LocalTime.of(7, 0),
+                    weekDays = persistentSetOf(),
+                    uri = "uri1",
+                    ringtoneTitle = "Sound title",
+                    postponeDuration = 10.minutes,
+                ),
             errorMessage = null,
             showModificationMessage = false,
             close = {},

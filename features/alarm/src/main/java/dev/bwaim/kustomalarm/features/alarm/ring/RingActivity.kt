@@ -78,8 +78,9 @@ public class RingActivity : AppCompatActivity() {
                                 finish()
                             },
                             snoozeAlarm = ringViewModel::snoozeAlarm,
-                            modifier = Modifier
-                                .windowInsetsPadding(WindowInsets.safeContent),
+                            modifier =
+                                Modifier
+                                    .windowInsetsPadding(WindowInsets.safeContent),
                         )
                     }
                 }
@@ -93,8 +94,8 @@ public class RingActivity : AppCompatActivity() {
             alarmId: Int,
             withBackstack: Boolean = false,
             flags: Int,
-        ): Intent {
-            return Intent(context, RingActivity::class.java).apply {
+        ): Intent =
+            Intent(context, RingActivity::class.java).apply {
                 this.flags = flags
                 putExtras(
                     bundleOf(
@@ -103,24 +104,25 @@ public class RingActivity : AppCompatActivity() {
                     ),
                 )
             }
-        }
 
         internal fun createPendingIntent(
             context: Context,
             alarmId: Int,
-            withBackstack: Boolean = false
+            withBackstack: Boolean = false,
         ): PendingIntent {
-            val intent = createIntent(
-                context = context,
-                alarmId = alarmId,
-                withBackstack = withBackstack,
-                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
-            )
+            val intent =
+                createIntent(
+                    context = context,
+                    alarmId = alarmId,
+                    withBackstack = withBackstack,
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP,
+                )
 
             if (withBackstack) {
-                val stackBuilder = TaskStackBuilder.create(context).apply {
-                    addNextIntentWithParentStack(intent)
-                }
+                val stackBuilder =
+                    TaskStackBuilder.create(context).apply {
+                        addNextIntentWithParentStack(intent)
+                    }
                 // requestCode should not be null for flags working correctly
                 return stackBuilder.getPendingIntent(
                     1,

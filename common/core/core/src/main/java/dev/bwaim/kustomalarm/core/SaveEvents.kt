@@ -19,7 +19,11 @@ package dev.bwaim.kustomalarm.core
 public sealed class SaveEvents(
     public open val text: String,
 ) {
-    public data class Success(override val text: String) : SaveEvents(text)
+    public data class Success(
+        override val text: String,
+    ) : SaveEvents(text)
 
-    public data class Failure(override val text: String) : SaveEvents(text)
+    public data class Failure(
+        override val text: String,
+    ) : SaveEvents(text)
 }

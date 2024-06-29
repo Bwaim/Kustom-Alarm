@@ -16,7 +16,9 @@
 
 package dev.bwaim.kustomalarm.settings.theme.domain
 
-public enum class Theme(public val value: String) {
+public enum class Theme(
+    public val value: String,
+) {
     LIGHT("light"),
     DARK("dark"),
     SYSTEM("system"),
@@ -24,8 +26,6 @@ public enum class Theme(public val value: String) {
     ;
 
     public companion object {
-        public fun from(value: String): Theme {
-            return values().first { it.value == value }
-        }
+        public fun from(value: String): Theme = values().first { it.value == value }
     }
 }

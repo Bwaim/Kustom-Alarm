@@ -23,10 +23,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 public val Icons.Filled.Save: ImageVector
     get() {
-        if (_save != null) {
-            return _save!!
+        if (save != null) {
+            return save!!
         }
-        _save =
+        save =
             materialIcon(name = "Filled.Save") {
                 materialPath {
                     moveTo(17.0f, 3.0f)
@@ -53,8 +53,8 @@ public val Icons.Filled.Save: ImageVector
                     close()
                 }
             }
-        return _save!!
+        return save!!
     }
 
 @Suppress("ktlint:standard:property-naming")
-private var _save: ImageVector? = null
+private var save: ImageVector? = null

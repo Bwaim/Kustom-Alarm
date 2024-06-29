@@ -93,7 +93,11 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         super.onTaskRemoved(rootIntent)
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
         alarmId =
             intent?.getIntExtra(ID_RING_ALARM_EXTRA, NOT_SAVED_ALARM_ID) ?: NOT_SAVED_ALARM_ID
         val uriParam = intent?.getStringExtra(ALARM_SONG_EXTRA)
@@ -110,7 +114,10 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         return START_REDELIVER_INTENT
     }
 
-    private fun getAlarm(alarmId: Int, uriParam: String?) {
+    private fun getAlarm(
+        alarmId: Int,
+        uriParam: String?,
+    ) {
         lifecycleScope.launch {
             val alarm = alarmService.getAlarm(alarmId).value
             if (alarm != null) {
@@ -129,22 +136,23 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         }
         mediaPlayer.prepareAsync()
 
-        val intent = RingActivity.createIntent(
-            context = this,
-            alarmId = alarm.id,
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK,
-        )
+        val intent =
+            RingActivity.createIntent(
+                context = this,
+                alarmId = alarm.id,
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK,
+            )
         startActivity(intent)
 
         setVibration()
     }
 
-    private fun buildAudioAttributes(): AudioAttributes {
-        return AudioAttributes.Builder()
+    private fun buildAudioAttributes(): AudioAttributes =
+        AudioAttributes
+            .Builder()
             .setUsage(AudioAttributes.USAGE_ALARM)
             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
             .build()
-    }
 
     @Suppress("MagicNumber")
     private fun alarmVolumeVariations() {
@@ -182,24 +190,25 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
         alarmId: Int,
         withBackstack: Boolean = false,
     ): Notification {
-        val builder = NotificationCompat.Builder(
-            this,
-            notificationHelper.getAlarmNotificationChannelId(),
-        )
-            .setSmallIcon(drawable.ic_notification_klock)
-            .setContentTitle(getString(string.notification_firing_alarm_title))
-            .setContentText(getString(string.notification_firing_alarm_description))
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setCategory(NotificationCompat.CATEGORY_ALARM)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setSound(null)
-            .setContentIntent(
-                RingActivity.createPendingIntent(
-                    context = this@RingingAlarmService,
-                    alarmId = alarmId,
-                    withBackstack = withBackstack,
-                ),
-            )
+        val builder =
+            NotificationCompat
+                .Builder(
+                    this,
+                    notificationHelper.getAlarmNotificationChannelId(),
+                ).setSmallIcon(drawable.ic_notification_klock)
+                .setContentTitle(getString(string.notification_firing_alarm_title))
+                .setContentText(getString(string.notification_firing_alarm_description))
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSound(null)
+                .setContentIntent(
+                    RingActivity.createPendingIntent(
+                        context = this@RingingAlarmService,
+                        alarmId = alarmId,
+                        withBackstack = withBackstack,
+                    ),
+                )
 
         val notification = builder.build()
         notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
@@ -212,11 +221,10 @@ public class RingingAlarmService @Inject constructor() : LifecycleService() {
             context: Context,
             alarmId: Int,
             alarmUri: String?,
-        ): Intent {
-            return Intent(context, RingingAlarmService::class.java).apply {
+        ): Intent =
+            Intent(context, RingingAlarmService::class.java).apply {
                 putExtra(ID_RING_ALARM_EXTRA, alarmId)
                 putExtra(ALARM_SONG_EXTRA, alarmUri)
             }
-        }
     }
 }

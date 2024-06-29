@@ -96,10 +96,11 @@ internal fun KaNavigationDrawer(
                             }
                             scope.launch { drawerState.close() }
                         },
-                        modifier = Modifier
-                            .padding(NavigationDrawerItemDefaults.ItemPadding)
-                            .padding(top = 12.dp)
-                            .testIdentifier(item.testIdentifier),
+                        modifier =
+                            Modifier
+                                .padding(NavigationDrawerItemDefaults.ItemPadding)
+                                .padding(top = 12.dp)
+                                .testIdentifier(item.testIdentifier),
                     )
                 }
             }
@@ -114,10 +115,12 @@ internal fun KaNavigationDrawer(
 @Composable
 private fun AppDrawerItem(onClick: () -> Unit = {}) {
     Row(
-        modifier = Modifier.height(56.dp)
-            .clickable { onClick() }
-            .padding(NavigationDrawerItemDefaults.ItemPadding)
-            .padding(start = 16.dp, end = 24.dp),
+        modifier =
+            Modifier
+                .height(56.dp)
+                .clickable { onClick() }
+                .padding(NavigationDrawerItemDefaults.ItemPadding)
+                .padding(start = 16.dp, end = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -138,9 +141,10 @@ private fun AppDrawerItem(onClick: () -> Unit = {}) {
 private fun PreviewKaNavigationDrawer() {
     KustomAlarmTheme {
         KaNavigationDrawer(
-            navigationDrawerItems = persistentListOf(
-                SettingsNavigationDrawerItem(),
-            ),
+            navigationDrawerItems =
+                persistentListOf(
+                    SettingsNavigationDrawerItem(),
+                ),
             selectedNavigationDrawerId = null,
             navController = rememberNavController(),
             drawerState = DrawerState(Open),

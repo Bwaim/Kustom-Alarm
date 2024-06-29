@@ -18,7 +18,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(
                     commonExtension = this,
-                    androidComponentsExtension = extensions.getByType<ApplicationAndroidComponentsExtension>()
+                    androidComponentsExtension = extensions.getByType<ApplicationAndroidComponentsExtension>(),
                 )
                 defaultConfig.targetSdk = 35
             }

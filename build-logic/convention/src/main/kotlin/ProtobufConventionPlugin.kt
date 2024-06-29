@@ -46,5 +46,5 @@ private fun Provider<MinimalExternalModuleDependency>.toArtifactSpec(): String {
     val group = module.group
     val name = module.name
     val version = externalModuleDependency.versionConstraint.displayName
-    return "${group}:${name}:${version}"
+    return "$group:$name:$version"
 }

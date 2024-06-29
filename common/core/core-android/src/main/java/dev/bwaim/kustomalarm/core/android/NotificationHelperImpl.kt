@@ -43,9 +43,7 @@ internal class NotificationHelperImpl @Inject constructor(
         }
     }
 
-    override fun getAlarmNotificationChannelId(): String {
-        return FIRING_ALARM_NOTIFICATION_CHANNEL
-    }
+    override fun getAlarmNotificationChannelId(): String = FIRING_ALARM_NOTIFICATION_CHANNEL
 
     @RequiresApi(VERSION_CODES.O)
     private fun createAlarmNotificationChannel() {

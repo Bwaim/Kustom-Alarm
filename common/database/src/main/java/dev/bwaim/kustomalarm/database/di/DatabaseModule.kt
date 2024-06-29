@@ -46,12 +46,12 @@ internal abstract class DatabaseModule {
             typeConverters: KustomAlarmTypeConverters,
         ): KustomAlarmRoomDatabase {
             val roomExecutor = ioDispatchers.asExecutor()
-            return Room.databaseBuilder(
-                context,
-                KustomAlarmRoomDatabase::class.java,
-                KustomAlarmRoomDatabase.DATABASE_NAME,
-            )
-                .addTypeConverter(typeConverters)
+            return Room
+                .databaseBuilder(
+                    context,
+                    KustomAlarmRoomDatabase::class.java,
+                    KustomAlarmRoomDatabase.DATABASE_NAME,
+                ).addTypeConverter(typeConverters)
                 .setQueryExecutor(roomExecutor)
                 .setTransactionExecutor(roomExecutor)
                 .build()

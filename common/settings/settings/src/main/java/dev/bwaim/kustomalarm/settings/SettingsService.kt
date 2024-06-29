@@ -33,9 +33,7 @@ public class SettingsService @Inject public constructor(
     private val themeRepository: ThemeRepository,
     private val appStateRepository: AppStateRepository,
 ) {
-    public fun observeTheme(): Flow<Theme> {
-        return themeRepository.observeTheme().flowOn(ioDispatcher)
-    }
+    public fun observeTheme(): Flow<Theme> = themeRepository.observeTheme().flowOn(ioDispatcher)
 
     public suspend fun setTheme(theme: Theme) {
         executeCatching(ioDispatcher) { themeRepository.setTheme(theme) }
@@ -50,11 +48,11 @@ public class SettingsService @Inject public constructor(
             Locale.FRENCH,
         )
 
-    public fun observeRingingAlarm(): Flow<Int> {
-        return appStateRepository.observeAppState()
+    public fun observeRingingAlarm(): Flow<Int> =
+        appStateRepository
+            .observeAppState()
             .map { it.ringingAlarm }
             .flowOn(ioDispatcher)
-    }
 
     public suspend fun setRingingAlarm(ringingAlarm: Int) {
         executeCatching(ioDispatcher) { appStateRepository.setRingingAlarm(ringingAlarm) }

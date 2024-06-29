@@ -37,7 +37,9 @@ internal class KustomAlarmTypeConverters @Inject constructor() {
 
     @TypeConverter
     fun toNullableLocalTime(value: String?): LocalTime? =
-        value ?.let { LocalTime.parse(value, DateTimeFormatter.ISO_LOCAL_TIME) }
+        value?.let {
+            LocalTime.parse(value, DateTimeFormatter.ISO_LOCAL_TIME)
+        }
 
     @TypeConverter
     fun fromDuration(duration: Duration): Long = duration.inWholeMilliseconds

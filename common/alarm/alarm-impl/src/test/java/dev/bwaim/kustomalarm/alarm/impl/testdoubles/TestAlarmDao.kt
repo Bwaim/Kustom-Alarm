@@ -35,17 +35,12 @@ internal class TestAlarmDao : AlarmDao {
     private var templateStateFlow: MutableStateFlow<AlarmTemplateEntity?> =
         MutableStateFlow(null)
 
-    override fun observeAlarms(): Flow<List<AlarmEntity>> {
-        return entitiesStateFlow.map { it.sortedBy { alarm -> alarm.id } }
-    }
+    override fun observeAlarms(): Flow<List<AlarmEntity>> = entitiesStateFlow.map { it.sortedBy { alarm -> alarm.id } }
 
-    override fun observeSnoozedAlarm(): Flow<List<AlarmEntity>> {
-        return entitiesStateFlow.map { it.filter { alarm -> alarm.postponeTime != null } }
-    }
+    override fun observeSnoozedAlarm(): Flow<List<AlarmEntity>> =
+        entitiesStateFlow.map { it.filter { alarm -> alarm.postponeTime != null } }
 
-    override suspend fun getAlarm(id: Int): AlarmEntity? {
-        return entitiesStateFlow.value.firstOrNull { it.id == id }
-    }
+    override suspend fun getAlarm(id: Int): AlarmEntity? = entitiesStateFlow.value.firstOrNull { it.id == id }
 
     override suspend fun upsertAlarm(alarmEntity: AlarmEntity) {
         val updatedAlarm =
@@ -68,7 +63,5 @@ internal class TestAlarmDao : AlarmDao {
         templateStateFlow.value = alarmTemplateEntity
     }
 
-    override suspend fun getAlarmTemplate(): AlarmTemplateEntity? {
-        return templateStateFlow.value
-    }
+    override suspend fun getAlarmTemplate(): AlarmTemplateEntity? = templateStateFlow.value
 }

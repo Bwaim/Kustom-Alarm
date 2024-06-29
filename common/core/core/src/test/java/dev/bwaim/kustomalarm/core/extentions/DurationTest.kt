@@ -21,7 +21,6 @@ import org.junit.Test
 import kotlin.time.Duration.Companion.seconds
 
 internal class DurationTest {
-
     @Test
     fun duration_to_minutes_seconds() {
         val duration = 65.seconds

@@ -21,7 +21,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(
                     commonExtension = this,
-                    androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>()
+                    androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>(),
                 )
                 defaultConfig.targetSdk = 35
             }
@@ -43,5 +43,4 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
         }
     }
-
 }

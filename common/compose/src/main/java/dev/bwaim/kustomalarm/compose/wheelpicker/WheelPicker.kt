@@ -193,9 +193,7 @@ private fun calculateRotationX(
 private fun oneItemHeight(
     layoutInfo: LazyListLayoutInfo,
     nbItems: Int,
-): Float {
-    return layoutInfo.viewportSize.height.toFloat() / nbItems
-}
+): Float = layoutInfo.viewportSize.height.toFloat() / nbItems
 
 private fun calculateFirstIndex(
     targetIndex: Int,

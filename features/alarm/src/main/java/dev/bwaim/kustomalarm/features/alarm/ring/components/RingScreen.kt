@@ -112,18 +112,20 @@ private fun AlarmName(name: String?) {
 private fun SnoozeCard(snoozeAlarm: () -> Unit) {
     Card(
         onClick = snoozeAlarm,
-        modifier = Modifier
-            .fillMaxWidth(0.8f)
-            .height(200.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth(0.8f)
+                .height(200.dp),
     ) {
         Text(
             text = stringResource(id = string.ring_screen_snooze),
             style = MaterialTheme.typography.displayLarge,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .wrapContentHeight(Alignment.CenterVertically),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .wrapContentHeight(Alignment.CenterVertically),
         )
     }
 }
@@ -165,22 +167,25 @@ private fun SleepAnimation() {
 private fun TurnOffCard(turnOff: () -> Unit) {
     Card(
         onClick = turnOff,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
-        modifier = Modifier
-            .padding(top = 20.dp, bottom = 16.dp)
-            .fillMaxWidth(0.8f)
-            .height(70.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            ),
+        modifier =
+            Modifier
+                .padding(top = 20.dp, bottom = 16.dp)
+                .fillMaxWidth(0.8f)
+                .height(70.dp),
     ) {
         Text(
             text = stringResource(id = string.ring_screen_turn_off),
             style = MaterialTheme.typography.displayMedium,
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .wrapContentHeight(Alignment.CenterVertically),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .wrapContentHeight(Alignment.CenterVertically),
         )
     }
 }

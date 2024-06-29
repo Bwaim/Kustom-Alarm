@@ -57,10 +57,11 @@ public fun NavGraphBuilder.editAlarmScreen(
     composable<EditAlarmRoute>(
         screenName = EDIT_ALARM_SCREEN_NAME,
     ) { backStackEntry ->
-        val uriSelected: String? by backStackEntry.savedStateHandle.getStateFlow(
-            SELECTED_URI_ARG,
-            null,
-        ).collectAsStateWithLifecycle()
+        val uriSelected: String? by backStackEntry.savedStateHandle
+            .getStateFlow(
+                SELECTED_URI_ARG,
+                null,
+            ).collectAsStateWithLifecycle()
 
         EditAlarmRoute(
             selectedUri = uriSelected,

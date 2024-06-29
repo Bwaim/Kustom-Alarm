@@ -72,17 +72,18 @@ internal class SoundSelectionViewModel @Inject constructor(
                 it.setType(RingtoneManager.TYPE_ALARM or RingtoneManager.TYPE_RINGTONE)
             }
         val cursor = ringtoneManager.cursor
-        viewModelScope.launch {
-            val tmpList = mutableListOf<Pair<String, String>>()
-            while (cursor.moveToNext()) {
-                val title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX)
-                val uri = cursor.toRingtoneUri()
-                tmpList.add(title to uri)
+        viewModelScope
+            .launch {
+                val tmpList = mutableListOf<Pair<String, String>>()
+                while (cursor.moveToNext()) {
+                    val title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX)
+                    val uri = cursor.toRingtoneUri()
+                    tmpList.add(title to uri)
+                }
+                _soundList.value = tmpList.toPersistentList()
+            }.invokeOnCompletion {
+                cursor?.close()
             }
-            _soundList.value = tmpList.toPersistentList()
-        }.invokeOnCompletion {
-            cursor?.close()
-        }
     }
 
     override fun onCleared() {
@@ -108,12 +109,12 @@ internal class SoundSelectionViewModel @Inject constructor(
         ringtone?.audioAttributes = buildAlarmAudioAttribute()
     }
 
-    private fun buildAlarmAudioAttribute(): AudioAttributes {
-        return AudioAttributes.Builder()
+    private fun buildAlarmAudioAttribute(): AudioAttributes =
+        AudioAttributes
+            .Builder()
             .setUsage(AudioAttributes.USAGE_MEDIA)
             .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
             .build()
-    }
 
     private fun play() {
         ringtone?.play().also {

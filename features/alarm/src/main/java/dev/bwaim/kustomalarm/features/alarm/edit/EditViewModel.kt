@@ -104,8 +104,7 @@ internal class EditViewModel @Inject constructor(
                                 alarm.value?.copy(id = 0)
                             } else {
                                 alarm.value
-                            }
-                                ?.toAlarmUi(context)
+                            }?.toAlarmUi(context)
 
                         is Error -> {
                             displayError()
@@ -191,9 +190,7 @@ internal class EditViewModel @Inject constructor(
         }
     }
 
-    fun hasModification(): Boolean {
-        return initialAlarm != _alarm.value
-    }
+    fun hasModification(): Boolean = initialAlarm != _alarm.value
 
     fun deleteAlarm() {
         viewModelScope.launch {

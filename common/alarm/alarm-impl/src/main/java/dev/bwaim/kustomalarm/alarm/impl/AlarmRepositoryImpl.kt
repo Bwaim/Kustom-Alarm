@@ -36,23 +36,22 @@ internal class AlarmRepositoryImpl @Inject constructor(
     private val alarmDao: AlarmDao,
     private val ringtoneUtils: RingtoneUtils,
 ) : AlarmRepository {
-    override fun observeAlarms(): Flow<List<Alarm>> {
-        return alarmDao.observeAlarms()
+    override fun observeAlarms(): Flow<List<Alarm>> =
+        alarmDao
+            .observeAlarms()
             .map {
                 it
                     .filter { alarm -> alarm.id > 0 } // Filter out the temporal alarm
                     .map(AlarmEntity::toDomain)
                     .sortedBy { alarm -> alarm.time }
             }
-    }
 
-    override fun observeSnoozedAlarm(): Flow<Alarm?> {
-        return alarmDao.observeSnoozedAlarm().map { it.firstOrNull()?.toDomain() }
-    }
+    override fun observeSnoozedAlarm(): Flow<Alarm?> =
+        alarmDao
+            .observeSnoozedAlarm()
+            .map { it.firstOrNull()?.toDomain() }
 
-    override suspend fun getAlarm(alarmId: Int): Alarm? {
-        return alarmDao.getAlarm(id = alarmId)?.toDomain()
-    }
+    override suspend fun getAlarm(alarmId: Int): Alarm? = alarmDao.getAlarm(id = alarmId)?.toDomain()
 
     override suspend fun saveAlarm(alarm: Alarm) {
         alarmDao.upsertAlarm(alarm.toEntity())
@@ -66,9 +65,7 @@ internal class AlarmRepositoryImpl @Inject constructor(
         alarmDao.upsertAlarmTemplate(alarmTemplate.toEntity())
     }
 
-    override suspend fun getTemplate(): AlarmTemplate {
-        return alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
-    }
+    override suspend fun getTemplate(): AlarmTemplate = alarmDao.getAlarmTemplate()?.toDomain() ?: getDefaultTemplate()
 
     @Suppress("MagicNumber")
     private fun getDefaultTemplate(): AlarmTemplate =
