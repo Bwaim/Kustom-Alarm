@@ -33,6 +33,7 @@ fun Project.configureKotlinAndroid(
         }
 
         lint {
+            checkGeneratedSources = false
             // TODO remove when this bug is fixed : https://issuetracker.google.com/issues/196406778
             disable.add("Instantiatable")
         }

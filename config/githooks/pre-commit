@@ -1,0 +1,43 @@
+#! /bin/zsh
+
+source "config/toolbox.sh"
+
+version=0.4.12
+hook="Pre-commit check"
+progress "$hook"
+
+if [ ! -z "$stagedKotlinFiles" ]; then
+    #run autoformatter
+    progress "Autoreformatting the code..."
+
+    ktlint -F -R config/rules/ktlint-compose-$version-all.jar --baseline=config/baseline/baseline-ktlint.xml $stagedKotlinFiles
+    if [ $? -eq 0 ]; then
+        printSuccess "Autoreformatting done"
+        # we added changes if success (you can also add them in the autoformatting step)
+        git add .
+    else
+        showFailureNotification "Autoreformatter" "failed: $?"
+        exitWithMessage "Ktlint failed"
+    fi
+
+    #Run linter
+    progress "Detekt lint in progress..."
+
+    # Convert newline-separated list to comma-separated list
+    working_files=$(echo "$stagedKotlinFiles" | tr '\n' ',')
+
+    # Remove trailing comma
+    working_files=${working_files%,}
+
+    detekt -p config/rules/detekt-compose-$version-all.jar -c config/detekt/detekt.yml --baseline config/baseline/baseline.xml -i $working_files
+    if [ $? -eq 0 ]; then
+        printSuccess "Linting done"
+    else
+        showFailureNotification "Detekt failed" "failed: $?"
+        exitWithMessage "Detekt failed"
+    fi
+
+    showSuccessNotification "Code sanitized with success"
+else
+    printWarning "No kotlin files staged, checks skipped"
+fi
