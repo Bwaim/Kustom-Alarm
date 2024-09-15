@@ -39,13 +39,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import dev.bwaim.kustomalarm.compose.KaBackground
-import dev.bwaim.kustomalarm.features.alarm.navigation.ALARM_NAVIGATION_ROUTE
 import dev.bwaim.kustomalarm.features.alarm.navigation.AlarmRoute
 import dev.bwaim.kustomalarm.navigation.KAlarmNavHost
 import dev.bwaim.kustomalarm.navigation.KaNavigationDrawer
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppStateSetter
-import dev.bwaim.kustomalarm.navigation.state.MenuAppState
+import dev.bwaim.kustomalarm.navigation.state.LocalMenuAppArgumentsSetter
+import dev.bwaim.kustomalarm.navigation.state.MenuAppArguments
 import dev.bwaim.kustomalarm.state.KAlarmAppState
 import dev.bwaim.kustomalarm.state.rememberKAlarmAppState
 import kotlinx.collections.immutable.PersistentList
@@ -58,27 +57,27 @@ internal fun KAlarmApp(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var menuAppState by remember { mutableStateOf(MenuAppState()) }
+    var menuAppArguments by remember { mutableStateOf(MenuAppArguments()) }
 
     val openDrawer: () -> Unit = remember(scope) { { scope.launch { drawerState.open() } } }
     val navigateHome: () -> Unit =
         remember {
-            { kAlarmAppState.navController.popBackStack(AlarmRoute.route, inclusive = false) }
+            { kAlarmAppState.navController.popBackStack(route = AlarmRoute(), inclusive = false) }
         }
-    val menuAppStateSetter: (MenuAppState) -> Unit =
+    val menuAppArgumentsSetter: (MenuAppArguments) -> Unit =
         remember {
-            { menuAppStateNew -> menuAppState = menuAppStateNew }
+            { menuAppArgumentsNew -> menuAppArguments = menuAppArgumentsNew }
         }
 
-    CompositionLocalProvider(LocalMenuAppStateSetter provides menuAppStateSetter) {
+    CompositionLocalProvider(LocalMenuAppArgumentsSetter provides menuAppArgumentsSetter) {
         KaNavigationDrawer(
             navigationDrawerItems = navigationDrawerItems,
-            selectedNavigationDrawerId = menuAppState.selectedNavigationDrawerId,
+            selectedNavigationDrawerId = menuAppArguments.selectedNavigationDrawerId,
             navController = kAlarmAppState.navController,
             drawerState = drawerState,
             scope = scope,
             navigateHome = navigateHome,
-            allowToOpen = menuAppState.allowToOpenDrawer,
+            allowToOpen = menuAppArguments.allowToOpenDrawer,
         ) {
             KaBackground {
                 Scaffold(
@@ -98,7 +97,7 @@ internal fun KAlarmApp(
                     ) {
                         KAlarmNavHost(
                             navController = kAlarmAppState.navController,
-                            startRoute = ALARM_NAVIGATION_ROUTE,
+                            startRoute = AlarmRoute::class,
                             openDrawer = openDrawer,
                             navigateUp = kAlarmAppState.navController::navigateUp,
                             backWithResult = kAlarmAppState::backWithResult,

@@ -24,6 +24,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.alarm.AlarmService
@@ -43,7 +44,7 @@ import dev.bwaim.kustomalarm.core.extentions.durationTo
 import dev.bwaim.kustomalarm.features.alarm.edit.domain.AlarmUi
 import dev.bwaim.kustomalarm.features.alarm.edit.domain.toAlarm
 import dev.bwaim.kustomalarm.features.alarm.edit.domain.toAlarmUi
-import dev.bwaim.kustomalarm.features.alarm.edit.navigation.EditAlarmArgs
+import dev.bwaim.kustomalarm.features.alarm.edit.navigation.EditAlarmRoute
 import dev.bwaim.kustomalarm.features.alarm.edit.navigation.NO_ALARM
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -65,7 +66,7 @@ internal class EditViewModel @Inject constructor(
     private val alarmService: AlarmService,
     private val analyticsService: AnalyticsService,
 ) : ViewModel() {
-    private val args = EditAlarmArgs(savedStateHandle)
+    private val args = savedStateHandle.toRoute<EditAlarmRoute>()
     private val alarmId = args.alarmId
     private val duplicate = args.duplicate
 

@@ -50,6 +50,7 @@ import java.time.temporal.ChronoUnit
 import java.util.Timer
 import javax.inject.Inject
 import kotlin.concurrent.timer
+import kotlin.reflect.KClass
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -112,10 +113,13 @@ internal class RingViewModel @Inject constructor(
 
     fun logScreenView(
         screenName: String,
-        screenClass: String,
+        screenClass: KClass<*>,
     ) {
         viewModelScope.launch {
-            analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
+            analyticsService.logScreenView(
+                screenName = screenName,
+                screenClass = screenClass::class.java.simpleName,
+            )
         }
     }
 

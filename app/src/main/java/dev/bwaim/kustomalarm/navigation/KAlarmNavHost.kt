@@ -32,11 +32,12 @@ import dev.bwaim.kustomalarm.features.alarm.sound.navigation.navigateToSoundSele
 import dev.bwaim.kustomalarm.features.alarm.sound.navigation.soundSelectionScreen
 import dev.bwaim.kustomalarm.features.settings.navigation.settingsScreen
 import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
+import kotlin.reflect.KClass
 
 @Composable
 internal fun KAlarmNavHost(
     navController: NavHostController,
-    startRoute: String,
+    startRoute: KClass<*>,
     openDrawer: () -> Unit,
     navigateUp: () -> Unit,
     backWithResult: (backData: List<BackResultArgument<Any>>) -> Unit,

@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package dev.bwaim.kustomalarm.compose
+package dev.bwaim.kustomalarm.navigation.state
 
 import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.staticCompositionLocalOf
-import kotlin.reflect.KClass
 
-public val LocalLogScreenView: ProvidableCompositionLocal<(String, KClass<*>) -> Unit> =
+public open class MenuAppArguments {
+    public open val selectedNavigationDrawerId: String? = null
+    public open val allowToOpenDrawer: Boolean = true
+}
+
+public val LocalMenuAppArgumentsSetter: ProvidableCompositionLocal<(MenuAppArguments) -> Unit> =
     staticCompositionLocalOf {
-        { _, _ -> }
+        {}
     }

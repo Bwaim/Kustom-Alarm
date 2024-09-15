@@ -16,67 +16,36 @@
 
 package dev.bwaim.kustomalarm.features.alarm.sound.navigation
 
-import android.net.Uri
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
 import dev.bwaim.kustomalarm.features.alarm.sound.SoundSelectionRoute
-import dev.bwaim.kustomalarm.navigation.Route
+import dev.bwaim.kustomalarm.navigation.composable
 import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
-import dev.bwaim.kustomalarm.navigation.state.MenuAppState
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
+import dev.bwaim.kustomalarm.navigation.state.MenuAppArguments
+import kotlinx.serialization.Serializable
 
-public const val URI_ARG: String = "URI_ARG"
-
-public const val SOUND_SELECTION_NAVIGATION_ROUTE: String = "alarm/edit/sound_selection"
 private const val SOUND_SELECTION_SCREEN_NAME: String = "Sound selection"
-private const val SOUND_SELECTION_SCREEN_CLASS: String = "SoundSelectionRoute"
 
 public const val SELECTED_URI_ARG: String = "SELECTED_URI_ARG"
 
-internal class SoundSelectionArgs(val uri: String) {
-    constructor(savedStateHandle: SavedStateHandle) :
-        this(
-            uri = Uri.decode(checkNotNull(savedStateHandle[URI_ARG]) as String),
-        )
-}
-
-private object SoundSelectionRoute : Route {
-    override val baseRoutePattern: String = SOUND_SELECTION_NAVIGATION_ROUTE
-    override val mandatoryArguments: PersistentList<NamedNavArgument> =
-        persistentListOf()
-    override val optionalArguments: PersistentList<NamedNavArgument> =
-        persistentListOf(
-            navArgument(URI_ARG) {
-                type = NavType.StringType
-                defaultValue = ""
-            },
-        )
-
-    override val menuAppState: MenuAppState = MenuAppState(allowToOpenDrawer = false)
-
-    override val screenName: String = SOUND_SELECTION_SCREEN_NAME
-    override val screenClass: String = SOUND_SELECTION_SCREEN_CLASS
-}
+@Serializable
+internal class SoundSelectionRoute(
+    val uri: String = "",
+    override val allowToOpenDrawer: Boolean = false,
+) : MenuAppArguments()
 
 public fun NavController.navigateToSoundSelectionScreen(
     uri: String,
     navOptions: NavOptions? = null,
 ) {
-    val optionalParams =
-        persistentListOf(
-            URI_ARG to uri,
-        )
-    this.navigate(SoundSelectionRoute.buildRoute(optionalParams = optionalParams), navOptions)
+    this.navigate(route = SoundSelectionRoute(uri = uri), navOptions = navOptions)
 }
 
 public fun NavGraphBuilder.soundSelectionScreen(close: (backData: List<BackResultArgument<Any>>) -> Unit) {
-    SoundSelectionRoute.composable(this) {
+    composable<SoundSelectionRoute>(
+        screenName = SOUND_SELECTION_SCREEN_NAME,
+    ) {
         SoundSelectionRoute(
             close = close,
         )
