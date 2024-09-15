@@ -6,7 +6,6 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -14,6 +13,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
+                apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("com.google.devtools.ksp")
             }
             extensions.configure<LibraryExtension> {
@@ -40,6 +40,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
                 add("implementation", libs.findLibrary("kotlin.coroutines.android").get())
                 add("implementation", libs.findLibrary("kotlinx.collections.immutable").get())
+                add("implementation", libs.findLibrary("kotlinx.serialization").get())
 
                 add("implementation", libs.findLibrary("hilt.library").get())
                 add("ksp", libs.findLibrary("hilt.compiler").get())
