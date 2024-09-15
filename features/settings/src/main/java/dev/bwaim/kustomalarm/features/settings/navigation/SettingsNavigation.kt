@@ -19,37 +19,24 @@ package dev.bwaim.kustomalarm.features.settings.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import dev.bwaim.kustomalarm.features.settings.SettingsRoute
 import dev.bwaim.kustomalarm.localisation.R.string
 import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
-import dev.bwaim.kustomalarm.navigation.Route
-import dev.bwaim.kustomalarm.navigation.state.MenuAppState
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
+import dev.bwaim.kustomalarm.navigation.composable
+import dev.bwaim.kustomalarm.navigation.state.MenuAppArguments
+import kotlinx.serialization.Serializable
 import javax.inject.Inject
 
-private const val SETTINGS_NAVIGATION_ROUTE: String = "settings"
 private const val NAVIGATION_DRAWER_SETTINGS_ID: String = "NavDrawerSettings"
 private const val SETTINGS_SCREEN_NAME: String = "Settings"
-private const val SETTINGS_SCREEN_CLASS: String = "SettingsRoute"
 
-public object SettingsRoute : Route {
-    override val baseRoutePattern: String = SETTINGS_NAVIGATION_ROUTE
-    override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
-    override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
-
-    override val menuAppState: MenuAppState =
-        MenuAppState(
-            selectedNavigationDrawerId = NAVIGATION_DRAWER_SETTINGS_ID,
-        )
-
-    override val screenName: String = SETTINGS_SCREEN_NAME
-    override val screenClass: String = SETTINGS_SCREEN_CLASS
-}
+@Serializable
+public class SettingsRoute(
+    override val selectedNavigationDrawerId: String = NAVIGATION_DRAWER_SETTINGS_ID,
+) : MenuAppArguments()
 
 public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDrawerItem {
     override val id: String = NAVIGATION_DRAWER_SETTINGS_ID
@@ -63,13 +50,15 @@ public class SettingsNavigationDrawerItem @Inject constructor() : NavigationDraw
 
 public fun NavController.navigateToSettings(navOptions: NavOptions? = buildSettingsNavOptions()) {
     this.navigate(
-        SettingsRoute.buildRoute(),
-        navOptions,
+        route = SettingsRoute(),
+        navOptions = navOptions,
     )
 }
 
 public fun NavGraphBuilder.settingsScreen(onClose: () -> Unit) {
-    SettingsRoute.composable(this) {
+    composable<SettingsRoute>(
+        screenName = SETTINGS_SCREEN_NAME,
+    ) {
         SettingsRoute(
             onClose = onClose,
         )

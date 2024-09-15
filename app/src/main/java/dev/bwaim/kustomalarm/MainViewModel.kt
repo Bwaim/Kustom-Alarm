@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
@@ -52,10 +53,13 @@ internal class MainViewModel @Inject constructor(
 
     fun logScreenView(
         screenName: String,
-        screenClass: String,
+        screenClass: KClass<*>,
     ) {
         viewModelScope.launch {
-            analyticsService.logScreenView(screenName = screenName, screenClass = screenClass)
+            analyticsService.logScreenView(
+                screenName = screenName,
+                screenClass = screenClass::class.java.simpleName,
+            )
         }
     }
 }

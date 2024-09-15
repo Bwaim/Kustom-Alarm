@@ -16,35 +16,25 @@
 
 package dev.bwaim.kustomalarm.features.alarm.navigation
 
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavGraphBuilder
 import dev.bwaim.kustomalarm.features.alarm.AlarmRoute
-import dev.bwaim.kustomalarm.navigation.Route
-import dev.bwaim.kustomalarm.navigation.state.MenuAppState
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.persistentListOf
+import dev.bwaim.kustomalarm.navigation.composable
+import dev.bwaim.kustomalarm.navigation.state.MenuAppArguments
+import kotlinx.serialization.Serializable
 
-public const val ALARM_NAVIGATION_ROUTE: String = "alarm"
 private const val ALARM_SCREEN_NAME: String = "Alarms' list"
-private const val ALARM_SCREEN_CLASS: String = "AlarmRoute"
 
-public object AlarmRoute : Route {
-    override val baseRoutePattern: String = ALARM_NAVIGATION_ROUTE
-    override val mandatoryArguments: PersistentList<NamedNavArgument> = persistentListOf()
-    override val optionalArguments: PersistentList<NamedNavArgument> = persistentListOf()
-
-    override val menuAppState: MenuAppState = MenuAppState()
-
-    override val screenName: String = ALARM_SCREEN_NAME
-    override val screenClass: String = ALARM_SCREEN_CLASS
-}
+@Serializable
+public class AlarmRoute : MenuAppArguments()
 
 public fun NavGraphBuilder.alarmScreen(
     openDrawer: () -> Unit,
     addAlarm: (Int, Boolean) -> Unit,
     previewAlarm: (Int) -> Unit,
 ) {
-    AlarmRoute.composable(this) {
+    composable<AlarmRoute>(
+        screenName = ALARM_SCREEN_NAME,
+    ) {
         AlarmRoute(
             openDrawer = openDrawer,
             addAlarm = addAlarm,

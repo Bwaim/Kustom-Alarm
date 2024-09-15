@@ -26,10 +26,11 @@ import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.bwaim.kustomalarm.core.android.extensions.toRingtoneUri
-import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SoundSelectionArgs
+import dev.bwaim.kustomalarm.features.alarm.sound.navigation.SoundSelectionRoute
 import dev.bwaim.kustomalarm.localisation.R.string
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.toPersistentList
@@ -47,7 +48,7 @@ internal class SoundSelectionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @ApplicationContext private val appContext: Context,
 ) : ViewModel() {
-    private val args = SoundSelectionArgs(savedStateHandle)
+    private val args = savedStateHandle.toRoute<SoundSelectionRoute>()
     private val uri = args.uri
 
     private val _soundList: MutableStateFlow<PersistentList<Pair<String, String>>?> =

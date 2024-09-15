@@ -2,4 +2,4 @@ root = true
 
 [*.{kt,kts}]
 ktlint_function_naming_ignore_when_annotated_with=Composable
-compose_allowed_composition_locals = LocalMenuAppStateSetter,LocalBackgroundTheme,LocalLogScreenView
+compose_allowed_composition_locals = LocalMenuAppArgumentsSetter,LocalBackgroundTheme,LocalLogScreenView

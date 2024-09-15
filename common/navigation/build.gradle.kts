@@ -17,6 +17,7 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.android.library.compose")
     id("kustomalarm.android.library.jacoco")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -37,4 +38,6 @@ dependencies {
     implementation(libs.androidx.navigation.runtime)
 
     implementation(libs.compose.animation)
+
+    implementation(libs.kotlinx.serialization)
 }
