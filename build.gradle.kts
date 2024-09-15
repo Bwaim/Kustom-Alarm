@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.android.cache.fix) apply false
     alias(libs.plugins.android.room) apply false
     alias(libs.plugins.ben.manes.version) apply false
+    alias(libs.plugins.kotlin.compose.compiler) apply false
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.firebase.perf) apply false

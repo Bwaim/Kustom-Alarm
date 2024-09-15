@@ -1,12 +1,12 @@
 
 import com.android.build.gradle.LibraryExtension
-import dev.bwaim.kustomalarm.configureFeatureAndroid
 import dev.bwaim.kustomalarm.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.project
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -17,11 +17,16 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("com.google.devtools.ksp")
             }
             extensions.configure<LibraryExtension> {
-                configureFeatureAndroid(this)
 
                 defaultConfig {
                     testInstrumentationRunner =
                         "dev.bwaim.kustomalarm.test.android.KustomAlarmTestRunner"
+                }
+            }
+
+            extensions.configure<KotlinAndroidProjectExtension> {
+                compilerOptions {
+                    context()
                 }
             }
 
