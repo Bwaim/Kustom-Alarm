@@ -21,9 +21,6 @@ plugins {
 
 android {
     namespace = "dev.bwaim.kustomalarm.navigation"
-    kotlinOptions {
-        context()
-    }
 }
 
 jacocoKustomConfig {

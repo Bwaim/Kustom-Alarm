@@ -69,7 +69,7 @@ public fun NavController.navigateToSettings(navOptions: NavOptions? = buildSetti
 }
 
 public fun NavGraphBuilder.settingsScreen(onClose: () -> Unit) {
-    SettingsRoute.composable {
+    SettingsRoute.composable(this) {
         SettingsRoute(
             onClose = onClose,
         )
