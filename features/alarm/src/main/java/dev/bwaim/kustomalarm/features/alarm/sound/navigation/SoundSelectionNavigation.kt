@@ -76,7 +76,7 @@ public fun NavController.navigateToSoundSelectionScreen(
 }
 
 public fun NavGraphBuilder.soundSelectionScreen(close: (backData: List<BackResultArgument<Any>>) -> Unit) {
-    SoundSelectionRoute.composable {
+    SoundSelectionRoute.composable(this) {
         SoundSelectionRoute(
             close = close,
         )

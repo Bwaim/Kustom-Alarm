@@ -24,12 +24,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 }
             }
 
-            extensions.configure<KotlinAndroidProjectExtension> {
-                compilerOptions {
-                    context()
-                }
-            }
-
             dependencies {
                 add("implementation", project(":common:compose"))
                 add("implementation", project(":common:core:core"))

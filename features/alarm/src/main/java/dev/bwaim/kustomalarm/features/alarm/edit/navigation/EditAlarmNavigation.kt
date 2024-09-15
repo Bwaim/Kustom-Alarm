@@ -93,7 +93,7 @@ public fun NavGraphBuilder.editAlarmScreen(
     onSoundSelectionClick: (String) -> Unit,
     previewAlarm: (Int, String) -> Unit,
 ) {
-    EditAlarmRoute.composable { backStackEntry ->
+    EditAlarmRoute.composable(this) { backStackEntry ->
         val uriSelected: String? by backStackEntry.savedStateHandle.getStateFlow(
             SELECTED_URI_ARG,
             null,

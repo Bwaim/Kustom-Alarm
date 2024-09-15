@@ -71,8 +71,8 @@ public interface Route {
         return finalRoute
     }
 
-    context(NavGraphBuilder)
     public fun composable(
+        navGraphBuilder: NavGraphBuilder,
         deepLinks: List<NavDeepLink> = emptyList(),
         enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? =
             null,
@@ -84,7 +84,7 @@ public interface Route {
             exitTransition,
         content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
     ) {
-        composable(
+        navGraphBuilder.composable(
             route = this@Route.route,
             arguments = mandatoryArguments + optionalArguments + getAppParameters(),
             deepLinks = deepLinks,
