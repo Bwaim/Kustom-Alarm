@@ -22,7 +22,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     commonExtension = this,
                     androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>()
                 )
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = 35
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {

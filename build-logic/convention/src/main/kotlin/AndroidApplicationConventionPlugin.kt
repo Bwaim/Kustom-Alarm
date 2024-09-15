@@ -19,7 +19,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     commonExtension = this,
                     androidComponentsExtension = extensions.getByType<ApplicationAndroidComponentsExtension>()
                 )
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = 35
             }
         }
     }
