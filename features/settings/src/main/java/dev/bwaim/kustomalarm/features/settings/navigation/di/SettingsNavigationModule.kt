@@ -29,5 +29,5 @@ import dev.bwaim.kustomalarm.navigation.NavigationDrawerItem
 internal interface SettingsNavigationModule {
     @Binds
     @IntoSet
-    abstract fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
+    fun bindSettingsNavigationDrawerItem(settingsItem: SettingsNavigationDrawerItem): NavigationDrawerItem
 }

@@ -28,18 +28,16 @@ import java.time.format.TextStyle.FULL
 import java.time.format.TextStyle.SHORT
 import java.util.Locale
 
-public fun DayOfWeek.shortName(locale: Locale): String {
-    return getDisplayName(SHORT, locale).substring(startIndex = 0, endIndex = 2).uppercase()
-}
+public fun DayOfWeek.shortName(locale: Locale): String =
+    getDisplayName(SHORT, locale)
+        .substring(startIndex = 0, endIndex = 2)
+        .uppercase()
 
-public fun DayOfWeek.longName(locale: Locale): String {
-    return getDisplayName(FULL, locale).uppercase()
-}
+public fun DayOfWeek.longName(locale: Locale): String = getDisplayName(FULL, locale).uppercase()
 
-public fun Set<DayOfWeek>.areWeekendDays(): Boolean {
-    return size == 2 && this.containsAll(setOf(SATURDAY, SUNDAY))
-}
+public fun Set<DayOfWeek>.areWeekendDays(): Boolean = size == 2 && this.containsAll(setOf(SATURDAY, SUNDAY))
 
-public fun Set<DayOfWeek>.areWeekDays(): Boolean {
-    return size == 5 && this.containsAll(setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY))
-}
+public fun Set<DayOfWeek>.areWeekDays(): Boolean =
+    size == NUM_WORKING_DAYS && this.containsAll(setOf(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY))
+
+private const val NUM_WORKING_DAYS = 5

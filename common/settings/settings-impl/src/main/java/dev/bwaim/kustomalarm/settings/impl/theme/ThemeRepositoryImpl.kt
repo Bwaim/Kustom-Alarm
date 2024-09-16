@@ -27,11 +27,10 @@ import javax.inject.Inject
 internal class ThemeRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<ThemePreferences>,
 ) : ThemeRepository {
-    override fun observeTheme(): Flow<Theme> {
-        return dataStore.data.distinctUntilChanged().map { prefs ->
+    override fun observeTheme(): Flow<Theme> =
+        dataStore.data.distinctUntilChanged().map { prefs ->
             ThemeHelper.fromPreferences(prefs.theme)
         }
-    }
 
     override suspend fun setTheme(theme: Theme) {
         dataStore.updateData { it.copy { this@copy.theme = theme.value } }

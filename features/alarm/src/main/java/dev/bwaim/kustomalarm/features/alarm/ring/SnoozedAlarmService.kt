@@ -69,7 +69,11 @@ internal class SnoozedAlarmService @Inject constructor() : LifecycleService() {
         super.onTaskRemoved(rootIntent)
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onStartCommand(
+        intent: Intent?,
+        flags: Int,
+        startId: Int,
+    ): Int {
         if (intent == null) {
             stopSelf()
             return super.onStartCommand(intent, flags, startId)
@@ -96,8 +100,7 @@ internal class SnoozedAlarmService @Inject constructor() : LifecycleService() {
             .onEach {
                 notificationManager?.cancel(SNOOZED_ALARM_NOTIFICATION_ID)
                 stopSelf()
-            }
-            .launchIn(lifecycleScope)
+            }.launchIn(lifecycleScope)
     }
 
     private fun createSnoozeAlarmNotification(
@@ -105,24 +108,25 @@ internal class SnoozedAlarmService @Inject constructor() : LifecycleService() {
         snoozedTime: String,
         withBackstack: Boolean,
     ) {
-        val builder = NotificationCompat.Builder(
-            this,
-            notificationHelper.getAlarmNotificationChannelId(),
-        )
-            .setSmallIcon(drawable.ic_notification_klock)
-            .setContentTitle(getString(string.notification_snooze_alarm_title))
-            .setContentText(getString(string.notification_snooze_alarm_description, snoozedTime))
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .setCategory(NotificationCompat.CATEGORY_ALARM)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setSound(null)
-            .setContentIntent(
-                RingActivity.createPendingIntent(
-                    context = this,
-                    alarmId = alarmId,
-                    withBackstack = withBackstack,
-                ),
-            )
+        val builder =
+            NotificationCompat
+                .Builder(
+                    this,
+                    notificationHelper.getAlarmNotificationChannelId(),
+                ).setSmallIcon(drawable.ic_notification_klock)
+                .setContentTitle(getString(string.notification_snooze_alarm_title))
+                .setContentText(getString(string.notification_snooze_alarm_description, snoozedTime))
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setSound(null)
+                .setContentIntent(
+                    RingActivity.createPendingIntent(
+                        context = this,
+                        alarmId = alarmId,
+                        withBackstack = withBackstack,
+                    ),
+                )
 
         val notification = builder.build()
         notification.flags = notification.flags or NotificationCompat.FLAG_NO_CLEAR
@@ -136,12 +140,11 @@ internal class SnoozedAlarmService @Inject constructor() : LifecycleService() {
             alarmId: Int,
             snoozedTime: String?,
             withBackstack: Boolean,
-        ): Intent {
-            return Intent(context, SnoozedAlarmService::class.java).apply {
+        ): Intent =
+            Intent(context, SnoozedAlarmService::class.java).apply {
                 putExtra(ID_SNOOZED_ALARM_EXTRA, alarmId)
                 putExtra(SNOOZED_TIME_EXTRA, snoozedTime)
                 putExtra(WITH_BACKSTACK_EXTRA, withBackstack)
             }
-        }
     }
 }

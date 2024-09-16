@@ -27,17 +27,24 @@ private const val EXTRA_ALARM_ID: String = "EXTRA_ALARM_ID"
 
 @AndroidEntryPoint
 public class AlarmBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent?) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent?,
+    ) {
         val alarmId = intent?.getIntExtra(EXTRA_ALARM_ID, NOT_SAVED_ALARM_ID) ?: return
         startAlarmService(context, alarmId)
     }
 
-    private fun startAlarmService(context: Context, alarmId: Int) {
-        val intent = RingingAlarmService.createIntent(
-            context = context,
-            alarmId = alarmId,
-            alarmUri = null,
-        )
+    private fun startAlarmService(
+        context: Context,
+        alarmId: Int,
+    ) {
+        val intent =
+            RingingAlarmService.createIntent(
+                context = context,
+                alarmId = alarmId,
+                alarmUri = null,
+            )
 
         if (BuildWrapper.isAtLeastO) {
             context.startForegroundService(intent)
@@ -47,10 +54,12 @@ public class AlarmBroadcastReceiver : BroadcastReceiver() {
     }
 
     public companion object {
-        public fun createIntent(context: Context, alarmId: Int): Intent {
-            return Intent(context, AlarmBroadcastReceiver::class.java).apply {
+        public fun createIntent(
+            context: Context,
+            alarmId: Int,
+        ): Intent =
+            Intent(context, AlarmBroadcastReceiver::class.java).apply {
                 putExtra(EXTRA_ALARM_ID, alarmId)
             }
-        }
     }
 }

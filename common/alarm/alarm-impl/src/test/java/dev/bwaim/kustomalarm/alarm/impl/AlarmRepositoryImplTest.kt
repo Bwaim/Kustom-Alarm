@@ -122,7 +122,8 @@ internal class AlarmRepositoryImplTest {
             subject.saveAlarm(alarm1)
             subject.saveAlarm(alarm2)
 
-            subject.observeSnoozedAlarm()
+            subject
+                .observeSnoozedAlarm()
                 .test {
                     Assert.assertNull(awaitItem())
 

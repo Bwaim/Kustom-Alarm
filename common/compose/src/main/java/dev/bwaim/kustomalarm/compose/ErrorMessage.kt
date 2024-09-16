@@ -78,9 +78,10 @@ private fun PreviewKaErrorMessage() {
     KustomAlarmThemePreview {
         KaErrorMessage(
             errorMessage = "Preview error message",
-            modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
             textAlign = TextAlign.Center,
         )
     }
@@ -92,9 +93,10 @@ private fun PreviewKaCloseErrorMessage() {
     KustomAlarmThemePreview {
         KaCloseErrorMessage(
             errorMessage = "Preview close error message",
-            modifier = Modifier
-                .padding(5.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
             close = {},
         )
     }

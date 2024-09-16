@@ -53,21 +53,19 @@ public fun Context.toast(
     Toast.makeText(this, text, duration).show()
 }
 
-public fun Context.localizedHour(): String {
-    return if (BuildWrapper.isAtLeastP) {
+public fun Context.localizedHour(): String =
+    if (BuildWrapper.isAtLeastP) {
         localizedUnit(MeasureUnit.HOUR)
     } else {
         "h"
     }
-}
 
-public fun Context.localizedMinute(): String {
-    return if (BuildWrapper.isAtLeastP) {
+public fun Context.localizedMinute(): String =
+    if (BuildWrapper.isAtLeastP) {
         localizedUnit(MeasureUnit.MINUTE)
     } else {
         "m"
     }
-}
 
 public fun Context.formatDuration(duration: Duration): String {
     val hours = duration.inWholeHours
@@ -77,8 +75,7 @@ public fun Context.formatDuration(duration: Duration): String {
         listOf(
             hours to localizedHour(),
             minutes to localizedMinute(),
-        )
-            .filter { it.first > 0 }
+        ).filter { it.first > 0 }
             .joinToString(separator = " ") { "${it.first} ${it.second}" }
 
     return stringDuration.ifBlank { "0 ${localizedMinute()}" }

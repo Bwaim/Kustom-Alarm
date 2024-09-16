@@ -38,7 +38,6 @@ public fun SaveEventsEffect(
                     is Success -> successAction(event.text)
                     is Failure -> failureAction(event.text)
                 }
-            }
-            .launchIn(this)
+            }.launchIn(this)
     }
 }

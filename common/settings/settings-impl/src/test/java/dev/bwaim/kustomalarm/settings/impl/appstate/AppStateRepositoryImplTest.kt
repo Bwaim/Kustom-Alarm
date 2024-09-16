@@ -37,15 +37,16 @@ internal class AppStateRepositoryImplTest {
 
     // This test fails on Windows : https://github.com/android/nowinandroid/issues/98
     @Test
-    fun ringingAlarm_observeChanges() = runTest {
-        val defaultRingingAlarm = 0
-        val alarmSet = 5
+    fun ringingAlarm_observeChanges() =
+        runTest {
+            val defaultRingingAlarm = 0
+            val alarmSet = 5
 
-        subject.observeAppState().test {
-            Assert.assertEquals(defaultRingingAlarm, awaitItem().ringingAlarm)
-            subject.setRingingAlarm(alarmSet)
-            Assert.assertEquals(alarmSet, awaitItem().ringingAlarm)
-            cancel()
+            subject.observeAppState().test {
+                Assert.assertEquals(defaultRingingAlarm, awaitItem().ringingAlarm)
+                subject.setRingingAlarm(alarmSet)
+                Assert.assertEquals(alarmSet, awaitItem().ringingAlarm)
+                cancel()
+            }
         }
-    }
 }

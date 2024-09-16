@@ -86,7 +86,8 @@ internal fun KAlarmApp(
                     contentWindowInsets = WindowInsets(0, 0, 0, 0),
                 ) { padding ->
                     Row(
-                        Modifier.fillMaxSize()
+                        Modifier
+                            .fillMaxSize()
                             .padding(padding)
                             .consumeWindowInsets(padding)
                             .windowInsetsPadding(

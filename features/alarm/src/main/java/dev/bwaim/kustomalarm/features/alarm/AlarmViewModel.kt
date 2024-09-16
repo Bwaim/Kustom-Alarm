@@ -64,28 +64,28 @@ internal class AlarmViewModel @Inject constructor(
     private var checkingAlarmJob: Job? = null
 
     init {
-        checkingAlarmJob = combine(
-            settingsService.observeRingingAlarm(),
-            alarmService.observeSnoozedAlarm(),
-        ) { ringingAlarmId, snoozedAlarm ->
-            if (ringingAlarmId != NOT_SAVED_ALARM_ID) {
-                ringingAlarmId
-            } else {
-                snoozedAlarm?.id ?: NOT_SAVED_ALARM_ID
-            }
-        }
-            .onEach {
+        checkingAlarmJob =
+            combine(
+                settingsService.observeRingingAlarm(),
+                alarmService.observeSnoozedAlarm(),
+            ) { ringingAlarmId, snoozedAlarm ->
+                if (ringingAlarmId != NOT_SAVED_ALARM_ID) {
+                    ringingAlarmId
+                } else {
+                    snoozedAlarm?.id ?: NOT_SAVED_ALARM_ID
+                }
+            }.onEach {
                 if (it != NOT_SAVED_ALARM_ID) {
-                    val intent = RingActivity.createIntent(
-                        context = appContext,
-                        alarmId = it,
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK,
-                    )
+                    val intent =
+                        RingActivity.createIntent(
+                            context = appContext,
+                            alarmId = it,
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK,
+                        )
                     appContext.startActivity(intent)
                 }
                 checkingAlarmJob?.cancel()
-            }
-            .launchIn(viewModelScope)
+            }.launchIn(viewModelScope)
     }
 
     fun updateAlarm(alarm: Alarm) {

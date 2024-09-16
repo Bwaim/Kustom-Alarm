@@ -33,7 +33,9 @@ internal class NotificationHelperImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : NotificationHelper {
     private val notificationManager: NotificationManager =
-        context.getSystemService<NotificationManager>() ?: throw IllegalStateException()
+        checkNotNull(context.getSystemService<NotificationManager>()) {
+            "Impossible to get the NotficationManager service."
+        }
 
     override fun setUpNotificationChannels() {
         if (BuildWrapper.isAtLeastO) {
@@ -41,9 +43,7 @@ internal class NotificationHelperImpl @Inject constructor(
         }
     }
 
-    override fun getAlarmNotificationChannelId(): String {
-        return FIRING_ALARM_NOTIFICATION_CHANNEL
-    }
+    override fun getAlarmNotificationChannelId(): String = FIRING_ALARM_NOTIFICATION_CHANNEL
 
     @RequiresApi(VERSION_CODES.O)
     private fun createAlarmNotificationChannel() {

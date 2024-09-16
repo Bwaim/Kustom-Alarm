@@ -40,25 +40,30 @@ internal fun SoundSelector(
     Card(
         onClick = onSoundSelectionClick,
         modifier = modifier,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            ),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(horizontal = 5.dp, vertical = 16.dp)
-                .testIdentifier("sound_selector"),
+            modifier =
+                Modifier
+                    .padding(horizontal = 5.dp, vertical = 16.dp)
+                    .testIdentifier("sound_selector"),
         ) {
             Image(
                 painter = painterResource(id = drawable.alarm_clock),
                 contentDescription = null,
-                modifier = Modifier.weight(0.33f),
+                modifier = Modifier.weight(PERCENT_33),
             )
             Text(
                 text = title,
-                modifier = Modifier.weight(0.66f),
+                modifier = Modifier.weight(PERCENT_66),
             )
         }
     }
 }
+
+private const val PERCENT_33 = 0.33f
+private const val PERCENT_66 = 0.66f

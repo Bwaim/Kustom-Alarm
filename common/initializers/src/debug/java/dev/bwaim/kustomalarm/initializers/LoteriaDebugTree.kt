@@ -34,6 +34,7 @@ internal class LoteriaDebugTree : Timber.DebugTree() {
     }
 
     private fun createClassTag(): String {
+        @Suppress("ThrowingExceptionsWithoutMessageOrCause")
         val stackTrace = Throwable().stackTrace
         check(stackTrace.size > CALL_STACK_INDEX) {
             "Synthetic stacktrace didn't have enough elements: are you using proguard?"

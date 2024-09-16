@@ -24,13 +24,12 @@ import androidx.navigation.compose.rememberNavController
 import dev.bwaim.kustomalarm.navigation.domain.BackResultArgument
 
 @Composable
-internal fun rememberKAlarmAppState(navController: NavHostController = rememberNavController()): KAlarmAppState {
-    return remember(
+internal fun rememberKAlarmAppState(navController: NavHostController = rememberNavController()): KAlarmAppState =
+    remember(
         navController,
     ) {
         KAlarmAppState(navController = navController)
     }
-}
 
 @Stable
 internal class KAlarmAppState(

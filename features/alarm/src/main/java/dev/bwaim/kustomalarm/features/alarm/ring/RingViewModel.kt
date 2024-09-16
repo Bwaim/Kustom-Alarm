@@ -128,13 +128,13 @@ internal class RingViewModel @Inject constructor(
         return localTime.format(localizedTimeFormatter)
     }
 
-    private fun snoozedTime(): String? {
-        return snoozedDuration.value?.toHoursMinutesSeconds()
-    }
+    private fun snoozedTime(): String? = snoozedDuration.value?.toHoursMinutesSeconds()
 
     private suspend fun getAlarm() {
         _alarm.update {
-            alarmService.getAlarm(alarmId).value
+            alarmService
+                .getAlarm(alarmId)
+                .value
                 .also { alarm ->
                     alarm?.let {
                         if (it.postponeTime == null) {
@@ -190,16 +190,17 @@ internal class RingViewModel @Inject constructor(
 
         val pendingIntent = createSnoozeIntent()
 
-        val alarmClockInfo = AlarmManager.AlarmClockInfo(
-            /* triggerTime = */
-            triggerTime,
-            /* showIntent = */
-            pendingIntent,
-        )
+        val alarmClockInfo =
+            AlarmManager.AlarmClockInfo(
+                // triggerTime =
+                triggerTime,
+                // showIntent =
+                pendingIntent,
+            )
         alarmManager?.setAlarmClock(
-            /* info = */
+            // info =
             alarmClockInfo,
-            /* operation = */
+            // operation =
             pendingIntent,
         )
 
@@ -209,13 +210,13 @@ internal class RingViewModel @Inject constructor(
     private fun createSnoozeIntent(): PendingIntent {
         val intent = AlarmBroadcastReceiver.createIntent(appContext, alarmId)
         return PendingIntent.getBroadcast(
-            /* context = */
+            // context =
             appContext,
-            /* requestCode = */
+            // requestCode =
             alarmId,
-            /* intent = */
+            // intent =
             intent,
-            /* flags = */
+            // flags =
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
     }
@@ -237,17 +238,21 @@ internal class RingViewModel @Inject constructor(
         snoozedTime: String,
         withBackstack: Boolean = args.withBackstack,
     ) {
-        val intent = SnoozedAlarmService.createIntent(
-            context = appContext,
-            alarmId = alarmId,
-            snoozedTime = snoozedTime,
-            withBackstack = withBackstack,
-        )
+        val intent =
+            SnoozedAlarmService.createIntent(
+                context = appContext,
+                alarmId = alarmId,
+                snoozedTime = snoozedTime,
+                withBackstack = withBackstack,
+            )
         appContext.startService(intent)
     }
 }
 
-private class RingArgs(val id: Int, val withBackstack: Boolean) {
+private class RingArgs(
+    val id: Int,
+    val withBackstack: Boolean,
+) {
     constructor(savedStateHandle: SavedStateHandle) :
         this(
             id = checkNotNull(savedStateHandle.get<Int>(ID_RING_ALARM_ARG)),

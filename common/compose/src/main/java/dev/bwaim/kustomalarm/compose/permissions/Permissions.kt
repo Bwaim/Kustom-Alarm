@@ -51,14 +51,15 @@ public fun PermissionScreen(
     onPermissionResult: (Boolean) -> Unit = {},
     content: @Composable (() -> Unit) -> Unit,
 ) {
-    val permissionState = if (isApplicable) {
-        rememberPermissionState(
-            permission = permission,
-            onPermissionResult = onPermissionResult,
-        )
-    } else {
-        null
-    }
+    val permissionState =
+        if (isApplicable) {
+            rememberPermissionState(
+                permission = permission,
+                onPermissionResult = onPermissionResult,
+            )
+        } else {
+            null
+        }
 
     var permissionScreenState by remember(permissionState) {
         mutableStateOf(
@@ -72,17 +73,18 @@ public fun PermissionScreen(
         )
     }
 
-    val permissionActionTrigger = remember {
-        {
-            permissionScreenState.checkPermission(
-                action = onPermissionResult,
-                onShouldShowRationale = {
-                    permissionScreenState =
-                        permissionScreenState?.copy(showRationale = true)
-                },
-            )
+    val permissionActionTrigger =
+        remember {
+            {
+                permissionScreenState.checkPermission(
+                    action = onPermissionResult,
+                    onShouldShowRationale = {
+                        permissionScreenState =
+                            permissionScreenState?.copy(showRationale = true)
+                    },
+                )
+            }
         }
-    }
 
     content(permissionActionTrigger)
 
@@ -110,11 +112,12 @@ private fun PermissionScreenState?.checkPermission(
     when (permissionState.status) {
         Granted -> action.invoke(true)
 
-        is Denied -> if (permissionState.status.shouldShowRationale) {
-            onShouldShowRationale()
-        } else {
-            permissionState.launchPermissionRequest()
-        }
+        is Denied ->
+            if (permissionState.status.shouldShowRationale) {
+                onShouldShowRationale()
+            } else {
+                permissionState.launchPermissionRequest()
+            }
     }
 }
 

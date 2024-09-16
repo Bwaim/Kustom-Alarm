@@ -1,0 +1,7 @@
+#common tools
+brew 'terminal-notifier'
+brew 'git-lfs'
+
+#android tools
+brew 'detekt'
+brew 'ktlint'

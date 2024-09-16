@@ -85,7 +85,8 @@ internal class AlarmServiceTest {
         runTest {
             testAlarms.forEach { alarm -> subject.saveAlarm(alarm) }
 
-            subject.observeSnoozedAlarm()
+            subject
+                .observeSnoozedAlarm()
                 .test {
                     Assert.assertNull(awaitItem())
 
@@ -187,12 +188,13 @@ internal class AlarmServiceTest {
     @Test
     fun alarmService_insert_temporal_alarm() =
         runTest {
-            val alarm = Alarm(
-                name = "alarm",
-                time = LocalTime.of(10, 45),
-                weekDays = setOf(DayOfWeek.MONDAY),
-                uri = "uri",
-            )
+            val alarm =
+                Alarm(
+                    name = "alarm",
+                    time = LocalTime.of(10, 45),
+                    weekDays = setOf(DayOfWeek.MONDAY),
+                    uri = "uri",
+                )
             subject.saveTemporalAlarm(alarm)
 
             val result = subject.getAlarm(TEMPORAL_ALARM_ID)

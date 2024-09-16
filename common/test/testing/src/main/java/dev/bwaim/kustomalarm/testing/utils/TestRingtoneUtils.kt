@@ -19,7 +19,5 @@ package dev.bwaim.kustomalarm.testing.utils
 import dev.bwaim.kustomalarm.core.RingtoneUtils
 
 public class TestRingtoneUtils : RingtoneUtils {
-    override fun getDefaultRingtoneUri(): String {
-        return "defaultUri"
-    }
+    override fun getDefaultRingtoneUri(): String = "defaultUri"
 }

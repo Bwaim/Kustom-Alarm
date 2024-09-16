@@ -11,14 +11,6 @@ import org.gradle.testing.jacoco.plugins.JacocoPluginExtension
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoReport
 
-private val coverageExclusions = listOf(
-    // Android
-    "**/R.class",
-    "**/R\$*.class",
-    "**/BuildConfig.*",
-    "**/Manifest*.*"
-)
-
 interface JacocoKustomExtension {
     var hasTests: Boolean
 }
@@ -71,13 +63,12 @@ fun Project.configureJacocoLibrary() {
     configureJacocoAfterEvaluate(jacocoKustomExtension)
 }
 
-fun Project.configureJacocoKustomExtension(): JacocoKustomExtension {
-    return extensions.create(
+fun Project.configureJacocoKustomExtension(): JacocoKustomExtension =
+    extensions.create(
         JacocoKustomExtension::class.java,
         "jacocoKustomConfig",
-        JacocoKustomExtensionImpl::class.java
+        JacocoKustomExtensionImpl::class.java,
     )
-}
 
 fun Project.configureJacocoAfterEvaluate(jacocoKustomExtension: JacocoKustomExtension) {
     afterEvaluate {

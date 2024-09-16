@@ -23,10 +23,9 @@ import dev.bwaim.kustomalarm.settings.theme.domain.Theme.DARK
 import dev.bwaim.kustomalarm.settings.theme.domain.Theme.LIGHT
 
 @Composable
-public fun Theme?.isDarkTheme(): Boolean {
-    return when (this) {
+public fun Theme?.isDarkTheme(): Boolean =
+    when (this) {
         LIGHT -> false
         DARK -> true
         else -> isSystemInDarkTheme()
     }
-}

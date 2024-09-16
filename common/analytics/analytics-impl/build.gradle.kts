@@ -17,7 +17,7 @@ plugins {
     id("kustomalarm.android.library")
     id("kustomalarm.hilt")
 
-    id ("kustomalarm.test")
+    id("kustomalarm.test")
 }
 
 android {

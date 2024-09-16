@@ -9,6 +9,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 
+@Suppress("MagicNumber")
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
@@ -20,7 +21,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(
                     commonExtension = this,
-                    androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>()
+                    androidComponentsExtension = extensions.getByType<LibraryAndroidComponentsExtension>(),
                 )
                 defaultConfig.targetSdk = 35
             }
@@ -42,5 +43,4 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
         }
     }
-
 }

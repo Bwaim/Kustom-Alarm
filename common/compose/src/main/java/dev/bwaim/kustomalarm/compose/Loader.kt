@@ -34,9 +34,10 @@ public fun KaLoader(
 ) {
     Box(modifier = modifier) {
         CircularProgressIndicator(
-            modifier = Modifier
-                .size(size)
-                .align(Alignment.Center),
+            modifier =
+                Modifier
+                    .size(size)
+                    .align(Alignment.Center),
         )
     }
 }
@@ -46,8 +47,9 @@ public fun KaLoader(
 private fun PreviewKaLoader() {
     KustomAlarmThemePreview {
         KaLoader(
-            modifier = Modifier
-                .padding(5.dp),
+            modifier =
+                Modifier
+                    .padding(5.dp),
         )
     }
 }

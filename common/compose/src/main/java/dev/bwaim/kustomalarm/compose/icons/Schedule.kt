@@ -23,10 +23,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 public val Icons.Filled.Schedule: ImageVector
     get() {
-        if (_schedule != null) {
-            return _schedule!!
+        if (schedule != null) {
+            return schedule!!
         }
-        _schedule =
+        schedule =
             materialIcon(name = "Filled.Schedule") {
                 materialPath {
                     moveTo(11.99f, 2.0f)
@@ -52,8 +52,8 @@ public val Icons.Filled.Schedule: ImageVector
                     close()
                 }
             }
-        return _schedule!!
+        return schedule!!
     }
 
 @Suppress("ktlint:standard:property-naming")
-private var _schedule: ImageVector? = null
+private var schedule: ImageVector? = null

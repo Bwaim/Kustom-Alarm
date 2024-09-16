@@ -39,11 +39,11 @@ internal class AlarmDaoTest {
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db =
-            Room.inMemoryDatabaseBuilder(
-                context,
-                KustomAlarmRoomDatabase::class.java,
-            )
-                .addTypeConverter(KustomAlarmTypeConverters())
+            Room
+                .inMemoryDatabaseBuilder(
+                    context,
+                    KustomAlarmRoomDatabase::class.java,
+                ).addTypeConverter(KustomAlarmTypeConverters())
                 .build()
         alarmDao = db.alarmDao()
     }

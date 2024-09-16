@@ -27,9 +27,11 @@ import javax.inject.Inject
 internal class AppStateRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<AppStatePreferences>,
 ) : AppStateRepository {
-    override fun observeAppState(): Flow<AppState> {
-        return dataStore.data.distinctUntilChanged().map { AppState(ringingAlarm = it.ringingAlarm) }
-    }
+    override fun observeAppState(): Flow<AppState> =
+        dataStore
+            .data
+            .distinctUntilChanged()
+            .map { AppState(ringingAlarm = it.ringingAlarm) }
 
     override suspend fun setRingingAlarm(ringingAlarm: Int) {
         dataStore.updateData {

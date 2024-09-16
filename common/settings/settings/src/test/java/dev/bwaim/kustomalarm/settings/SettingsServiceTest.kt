@@ -78,15 +78,16 @@ internal class SettingsServiceTest {
     }
 
     @Test
-    fun appStateService_observe_changes() = runTest {
-        val defaultRingingAlarm = 0
-        val ringingAlarmSet = 3
+    fun appStateService_observe_changes() =
+        runTest {
+            val defaultRingingAlarm = 0
+            val ringingAlarmSet = 3
 
-        subject.observeRingingAlarm().test {
-            Assert.assertEquals(defaultRingingAlarm, awaitItem())
-            subject.setRingingAlarm(ringingAlarmSet)
-            Assert.assertEquals(ringingAlarmSet, awaitItem())
-            cancel()
+            subject.observeRingingAlarm().test {
+                Assert.assertEquals(defaultRingingAlarm, awaitItem())
+                subject.setRingingAlarm(ringingAlarmSet)
+                Assert.assertEquals(ringingAlarmSet, awaitItem())
+                cancel()
+            }
         }
-    }
 }

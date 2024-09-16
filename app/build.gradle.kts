@@ -44,6 +44,7 @@ android {
     }
 
     buildTypes {
+        @Suppress("UnusedPrivateProperty")
         val debug by getting {
             extra.set("enableCrashlytics", true)
 
@@ -60,7 +61,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         create("benchmark") {

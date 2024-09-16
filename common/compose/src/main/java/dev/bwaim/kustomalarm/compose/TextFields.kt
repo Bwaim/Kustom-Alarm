@@ -47,14 +47,15 @@ public fun KaLargeTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         textStyle = MaterialTheme.typography.headlineLarge,
-        label = label?.let {
-            {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.headlineLarge,
-                )
-            }
-        },
+        label =
+            label?.let {
+                {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.headlineLarge,
+                    )
+                }
+            },
         interactionSource = interactionSource,
         maxLines = maxLines,
     )

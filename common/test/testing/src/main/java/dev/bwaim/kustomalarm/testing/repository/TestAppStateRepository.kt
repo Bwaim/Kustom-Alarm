@@ -25,9 +25,7 @@ import kotlinx.coroutines.flow.update
 public class TestAppStateRepository : AppStateRepository {
     private var appStateStateFlow = MutableStateFlow(AppState(ringingAlarm = 0))
 
-    override fun observeAppState(): Flow<AppState> {
-        return appStateStateFlow
-    }
+    override fun observeAppState(): Flow<AppState> = appStateStateFlow
 
     override suspend fun setRingingAlarm(ringingAlarm: Int) {
         appStateStateFlow.update { it.copy(ringingAlarm = ringingAlarm) }

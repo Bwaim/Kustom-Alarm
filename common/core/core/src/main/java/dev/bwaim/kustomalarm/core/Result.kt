@@ -26,15 +26,20 @@ import kotlin.coroutines.cancellation.CancellationException
 public typealias DomainResult<T> = Result<T, Error<Any>>
 
 public sealed interface Result<out T : Any?, out E : Any> {
-    public data class Success<T : Any?>(public val value: T) : Result<T, Nothing>
+    public data class Success<T : Any?>(
+        public val value: T,
+    ) : Result<T, Nothing>
 
     public sealed interface Error<E : Any> : Result<Nothing, E> {
         public val error: Throwable
 
-        public data class ApiError(public override val error: DomainException) :
-            Error<DomainException>
+        public data class ApiError(
+            public override val error: DomainException,
+        ) : Error<DomainException>
 
-        public data class UnexpectedError(public override val error: Throwable) : Error<Nothing>
+        public data class UnexpectedError(
+            public override val error: Throwable,
+        ) : Error<Nothing>
     }
 }
 

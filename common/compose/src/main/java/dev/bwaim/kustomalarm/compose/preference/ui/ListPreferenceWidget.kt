@@ -127,8 +127,7 @@ private fun <T> ListPreferenceDialog(
                             .selectable(
                                 selected = isSelected,
                                 onClick = { onSelectedAction() },
-                            )
-                            .testIdentifier("item_${index++}"),
+                            ).testIdentifier("item_${index++}"),
                     ) {
                         RadioButton(
                             selected = isSelected,
@@ -145,9 +144,10 @@ private fun <T> ListPreferenceDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismiss,
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .testIdentifier("cancel_button"),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 24.dp)
+                        .testIdentifier("cancel_button"),
             ) {
                 Text(
                     text = stringResource(android.R.string.cancel),

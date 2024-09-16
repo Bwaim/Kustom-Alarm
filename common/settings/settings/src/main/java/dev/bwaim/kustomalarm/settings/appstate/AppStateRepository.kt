@@ -20,7 +20,6 @@ import dev.bwaim.kustomalarm.settings.appstate.domain.AppState
 import kotlinx.coroutines.flow.Flow
 
 public interface AppStateRepository {
-
     public fun observeAppState(): Flow<AppState>
 
     public suspend fun setRingingAlarm(ringingAlarm: Int)
