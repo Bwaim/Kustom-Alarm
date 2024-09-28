@@ -23,6 +23,9 @@ hook="Pre-commit check"
 progress "$hook"
 
 if [ ! -z "$stagedKotlinFiles" ]; then
+
+    stashTmpChanges
+
     #run autoformatter
     progress "Autoreformatting the code..."
 
@@ -30,9 +33,10 @@ if [ ! -z "$stagedKotlinFiles" ]; then
     if [ $? -eq 0 ]; then
         printSuccess "Autoreformatting done"
         # we added changes if success (you can also add them in the autoformatting step)
-        git add .
+        git add $stagedKotlinFiles
     else
         showFailureNotification "Autoreformatter" "failed: $?"
+        unStashTmpChanges
         exitWithMessage "Ktlint failed"
     fi
 
@@ -50,6 +54,7 @@ if [ ! -z "$stagedKotlinFiles" ]; then
         printSuccess "Linting done"
     else
         showFailureNotification "Detekt failed" "failed: $?"
+        unStashTmpChanges
         exitWithMessage "Detekt failed"
     fi
     #You can also git add . if you linter autocorrect
