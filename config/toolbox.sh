@@ -64,3 +64,19 @@ function showFailureNotification() {
 function showSuccessNotification() {
     terminal-notifier -title "🟢 $1" -message "$2" -sound defaut -group 12 -remove 12  -contentImage android.png -ignoreDnD
 }
+
+function stashTmpChanges() {
+    progress "Stashing untracked files..."
+    git commit --no-verify -m "Temp Commit message" #commit the changes without lint
+    git stash push -u -m "Tmp commit Stash" #stash the untracked changes
+    git reset --soft HEAD~1 #uncommit the changes to apply lint
+}
+
+function unStashTmpChanges() {
+    stashFound=$(git stash list | grep "stash@{0}" | grep "Tmp commit Stash")
+    if [ ! -z "$stashFound" ]; then
+        progress "Temporary stash found, applying it back"
+        git stash pop stash@{0} #pop the stash to get the untracked changes back
+        git stash drop stash@{0}
+    fi
+}
