@@ -45,7 +45,7 @@ protobufPlugin = "0.9.4"
 protobufProtoc = "4.28.2"
 snapper = "0.3.0"
 timber = "5.0.1"
-turbine = "1.1.0"
+turbine = "1.2.0"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
