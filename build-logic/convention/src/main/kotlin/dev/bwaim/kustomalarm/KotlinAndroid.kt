@@ -1,8 +1,23 @@
+/*
+ * Copyright (c) 2025 Dev Bwaim team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package dev.bwaim.kustomalarm
 
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
-import com.google.protobuf.gradle.GenerateProtoTask
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.assign
@@ -40,30 +55,6 @@ fun Project.configureKotlinAndroid(
         }
     }
 
-    // TODO remove this when the bug is fixed
-    androidComponentsExtension?.apply {
-        onVariants { variant ->
-            afterEvaluate {
-                // This is a workaround for https://github.com/google/ksp/issues/1590
-                // (follow also https://issuetracker.google.com/301245705) which depends on internal
-                // implementations of the android gradle plugin and the ksp gradle plugin
-                // which might change in the future in an unpredictable way.
-                val variantNameCapitalized = variant.name.replaceFirstChar { it.uppercase() }
-                val protoTaskName = "generate${variantNameCapitalized}Proto"
-
-                tasks.filter { it.name == protoTaskName }.forEach {
-                    val protoTask = it as GenerateProtoTask
-
-                    tasks.getByName("ksp${variantNameCapitalized}Kotlin") {
-                        dependsOn(protoTask)
-                        (this as org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool<*>)
-                            .setSource(protoTask.outputBaseDir)
-                    }
-                }
-            }
-        }
-    }
-
     configureKotlin()
 
     dependencies {
@@ -93,7 +84,7 @@ private fun Project.configureKotlin() {
                     // Enable experimental coroutines APIs, including Flow
                     "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                     "-opt-in=kotlinx.coroutines.FlowPreview",
-                )
+                ),
             )
         }
     }
