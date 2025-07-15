@@ -33,7 +33,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 @Suppress("MagicNumber")
 fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
-    androidComponentsExtension: AndroidComponentsExtension<*, *, *>? = null,
 ) {
     commonExtension.apply {
         compileSdk = 35
