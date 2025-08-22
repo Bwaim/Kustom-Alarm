@@ -29,7 +29,7 @@ if [ ! -z "$stagedKotlinFiles" ]; then
     #run autoformatter
     progress "Autoreformatting the code..."
 
-    ktlint -F -R config/rules/ktlint-compose-$version-all.jar --baseline=config/baseline/baseline-ktlint.xml "\!**/copyright.kt" $stagedKotlinFiles
+    ktlint --editorconfig=./config/.editorconfig -F -R config/rules/ktlint-compose-$version-all.jar --baseline=config/baseline/baseline-ktlint.xml "\!**/copyright.kt" $stagedKotlinFiles
     if [ $? -eq 0 ]; then
         printSuccess "Autoreformatting done"
         # we added changes if success (you can also add them in the autoformatting step)
