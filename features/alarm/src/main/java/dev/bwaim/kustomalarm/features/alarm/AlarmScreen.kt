@@ -199,49 +199,49 @@ private fun AlarmList(
             ) { index ->
                 val item = alarms[index]
 
-                val dismissState =
-                    rememberSwipeToDismissBoxState(
-                        confirmValueChange = {
-                            when (it) {
-                                StartToEnd -> {
-                                    deleteAlarm(item.id)
-                                    true
-                                }
-
-                                else -> false
-                            }
-                        },
-                        positionalThreshold = { 300.dp.value },
-                    )
-
-                SwipeToDismissBox(
-                    state = dismissState,
-                    backgroundContent = { DismissBackground(dismissState = dismissState) },
-                    enableDismissFromEndToStart = false,
-                ) {
-                    val bottomPadding =
-                        if (index == alarms.lastIndex) {
-                            addButtonHeight + addButtonBottomPadding + 20.dp
-                        } else {
-                            5.dp
-                        }
-                    AlarmRow(
-                        alarm = item,
-                        modifier =
-                            Modifier
-                                .clickable { addAlarm(item.id, false) }
-                                .background(MaterialTheme.colorScheme.background)
-                                .padding(horizontal = 16.dp)
-                                .padding(bottom = bottomPadding),
-                        locale = currentLocale,
-                        updateAlarm = updateAlarm,
-                        deleteAlarm = { deleteAlarm(item.id) },
-                        setTemplate = { setTemplate(item) },
-                        modifyAlarm = { addAlarm(item.id, false) },
-                        duplicateAlarm = { addAlarm(item.id, true) },
-                        previewAlarm = { previewAlarm(item.id) },
-                    )
-                }
+//                val dismissState =
+//                    rememberSwipeToDismissBoxState(
+//                        confirmValueChange = {
+//                            when (it) {
+//                                StartToEnd -> {
+//                                    deleteAlarm(item.id)
+//                                    true
+//                                }
+//
+//                                else -> false
+//                            }
+//                        },
+//                        positionalThreshold = { 300.dp.value },
+//                    )
+//
+//                SwipeToDismissBox(
+//                    state = dismissState,
+//                    backgroundContent = { DismissBackground(dismissState = dismissState) },
+//                    enableDismissFromEndToStart = false,
+//                ) {
+                val bottomPadding =
+                    if (index == alarms.lastIndex) {
+                        addButtonHeight + addButtonBottomPadding + 20.dp
+                    } else {
+                        5.dp
+                    }
+                AlarmRow(
+                    alarm = item,
+                    modifier =
+                        Modifier
+                            .clickable { addAlarm(item.id, false) }
+                            .background(MaterialTheme.colorScheme.background)
+                            .padding(horizontal = 16.dp)
+                            .padding(bottom = bottomPadding),
+                    locale = currentLocale,
+                    updateAlarm = updateAlarm,
+                    deleteAlarm = { deleteAlarm(item.id) },
+                    setTemplate = { setTemplate(item) },
+                    modifyAlarm = { addAlarm(item.id, false) },
+                    duplicateAlarm = { addAlarm(item.id, true) },
+                    previewAlarm = { previewAlarm(item.id) },
+                )
+//                }
             }
         }
 
