@@ -7,7 +7,8 @@ androidxActivity = "1.11.0"
 androidxAppcompat = "1.7.1"
 androidxBenchmarkMacro = "1.4.1"
 androidxConstraintLayoutCompose = "1.1.1"
-androidxComposeMaterial3 = "1.7.8"
+androidxComposeIcon = "1.7.8"
+androidxComposeMaterial3 = "1.4.0"
 androidxCore = "1.17.0"
 androidxCoreSplash = "1.1.0-rc01"
 androidxDataStore = "1.1.7"
@@ -84,7 +85,7 @@ cash-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "tu
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-animation-graphics = { module = "androidx.compose.animation:animation-graphics", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "androidxComposeMaterial3" }
+compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "androidxComposeIcon" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
