@@ -32,7 +32,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -125,8 +124,8 @@ internal fun EditAlarmRoute(
 
     PermissionScreen(
         permission = permission.POST_NOTIFICATIONS,
-        title = context.getString(string.permission_notification_titre),
-        rationale = context.getString(string.permission_notification_rationale),
+        title = stringResource(id = string.permission_notification_titre),
+        rationale = stringResource(id = string.permission_notification_rationale),
         isApplicable = BuildWrapper.isAtLeastT,
     ) { permissionTrigger ->
 
@@ -205,7 +204,7 @@ private fun EditAlarmScreen(
         },
     ) { padding ->
         when {
-            errorMessage != null ->
+            errorMessage != null -> {
                 KaCloseErrorMessage(
                     errorMessage = errorMessage,
                     close = close,
@@ -215,16 +214,18 @@ private fun EditAlarmScreen(
                             .padding(horizontal = 16.dp)
                             .fillMaxWidth(),
                 )
+            }
 
-            alarmUi == null ->
+            alarmUi == null -> {
                 KaLoader(
                     modifier =
                         Modifier
                             .padding(padding)
                             .fillMaxSize(),
                 )
+            }
 
-            else ->
+            else -> {
                 AlarmDetails(
                     alarmUi = alarmUi,
                     onSoundSelectionClick = onSoundSelectionClick,
@@ -234,6 +235,7 @@ private fun EditAlarmScreen(
                     updateAlarmDays = updateAlarmDays,
                     modifier = Modifier.padding(padding),
                 )
+            }
         }
     }
 
@@ -315,16 +317,11 @@ private fun AlarmName(
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    val context = LocalContext.current
-    val label by
-        remember(name) {
-            derivedStateOf {
-                if (name.isNullOrBlank() && isFocused.not()) {
-                    context.getString(string.edit_alarm_screen_alarm_name_label)
-                } else {
-                    null
-                }
-            }
+    val label =
+        if (name.isNullOrBlank() && isFocused.not()) {
+            stringResource(id = string.edit_alarm_screen_alarm_name_label)
+        } else {
+            null
         }
     KaLargeTextField(
         value = name,
