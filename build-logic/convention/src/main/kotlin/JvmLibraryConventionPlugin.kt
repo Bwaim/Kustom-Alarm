@@ -14,24 +14,17 @@
  *  limitations under the License.
  */
 
-
-import dev.bwaim.kustomalarm.libs
+import dev.bwaim.kustomalarm.configureKotlinJvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
 
-class HiltConventionPlugin : Plugin<Project> {
+class JvmLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("dagger.hilt.android.plugin")
-                apply("com.google.devtools.ksp")
+                apply("org.jetbrains.kotlin.jvm")
             }
-
-            dependencies {
-                add("ksp", libs.findLibrary("hilt.compiler").get())
-                add("implementation", libs.findLibrary("hilt.library").get())
-            }
+            configureKotlinJvm()
         }
     }
 }

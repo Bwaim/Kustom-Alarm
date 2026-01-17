@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -92,6 +92,10 @@ gradlePlugin {
         register("hilt") {
             id = "kustomalarm.hilt"
             implementationClass = "HiltConventionPlugin"
+        }
+        register("jvmLibrary") {
+            id = "kustomalarm.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
         }
         register("kotlin") {
             id = "kustomalarm.kotlin.library"
