@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
  *  limitations under the License.
  */
 
-import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.ApplicationExtension
 import dev.bwaim.kustomalarm.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.getByType
 
 @Suppress("MagicNumber")
 class AndroidApplicationConventionPlugin : Plugin<Project> {
@@ -28,10 +26,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
             }
 
-            extensions.configure<BaseAppModuleExtension> {
+            extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(
                     commonExtension = this,
                 )

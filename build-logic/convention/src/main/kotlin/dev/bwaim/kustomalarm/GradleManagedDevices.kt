@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,21 +18,20 @@ package dev.bwaim.kustomalarm
 
 import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.ManagedVirtualDevice
-import org.gradle.api.Incubating
 import org.gradle.kotlin.dsl.invoke
 
 /**
  * Configure project for Gradle managed devices
  */
 @Suppress("MagicNumber")
-internal fun configureGradleManagedDevices(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun configureGradleManagedDevices(commonExtension: CommonExtension) {
     val pixel4 = DeviceConfig("Pixel 4", 30, "aosp-atd")
     val pixel6 = DeviceConfig("Pixel 6", 31, "aosp")
     val pixelC = DeviceConfig("Pixel C", 30, "aosp-atd")
 
     val allDevices = listOf(pixel4, pixel6, pixelC)
 
-    commonExtension.testOptions {
+    commonExtension.testOptions.apply {
         managedDevices {
             allDevices {
                 allDevices.forEach { deviceConfig ->

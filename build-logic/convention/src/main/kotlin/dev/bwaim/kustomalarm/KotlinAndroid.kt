@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +17,36 @@
 package dev.bwaim.kustomalarm
 
 import com.android.build.api.dsl.CommonExtension
-import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Configure base Kotlin with Android options
  */
 @Suppress("MagicNumber")
-fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) {
+internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
     commonExtension.apply {
         compileSdk = 36
 
-        defaultConfig {
+        defaultConfig.apply {
             minSdk = 24
         }
 
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
+        compileOptions.apply {
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
             isCoreLibraryDesugaringEnabled = true
         }
 
-        lint {
+        lint.apply {
             checkGeneratedSources = false
             // TODO remove when this bug is fixed : https://issuetracker.google.com/issues/196406778
             disable.add("Instantiatable")
@@ -62,29 +61,44 @@ fun Project.configureKotlinAndroid(
 }
 
 /**
+ * Configure base Kotlin options for JVM (non-Android)
+ */
+internal fun Project.configureKotlinJvm() {
+    extensions.configure<JavaPluginExtension> {
+        // Up to Java 11 APIs are available through desugaring
+        // https://developer.android.com/studio/write/java11-minimal-support-table
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    configureKotlin(useExperimentalCoroutines = false)
+}
+
+/**
  * Configure base Kotlin options
  */
-private fun Project.configureKotlin() {
+private fun Project.configureKotlin(useExperimentalCoroutines: Boolean = true) {
+    val compilerArgs =
+        buildList {
+            add("-Xexplicit-api=strict")
+            add("-opt-in=kotlin.RequiresOptIn")
+            if (useExperimentalCoroutines) {
+                // Enable experimental coroutines APIs, including Flow
+                add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+                add("-opt-in=kotlinx.coroutines.FlowPreview")
+            }
+        }
     // Use withType to workaround https://youtrack.jetbrains.com/issue/KT-55947
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
-            // Set JVM target to 17
-            jvmTarget.set(JVM_17)
+            jvmTarget.set(JVM_11)
 
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
             val warningsAsErrors: String? by project
             allWarningsAsErrors = warningsAsErrors.toBoolean()
 
-            freeCompilerArgs.addAll(
-                listOf(
-                    "-Xexplicit-api=strict",
-                    "-opt-in=kotlin.RequiresOptIn",
-                    // Enable experimental coroutines APIs, including Flow
-                    "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-opt-in=kotlinx.coroutines.FlowPreview",
-                ),
-            )
+            freeCompilerArgs.addAll(compilerArgs)
         }
     }
 }

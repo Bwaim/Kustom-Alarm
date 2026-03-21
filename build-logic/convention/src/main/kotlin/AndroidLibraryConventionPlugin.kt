@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import dev.bwaim.kustomalarm.configureKotlinAndroid
 import dev.bwaim.kustomalarm.disableUnnecessaryAndroidTests
 import dev.bwaim.kustomalarm.libs
@@ -23,7 +23,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 
 @Suppress("MagicNumber")
 class AndroidLibraryConventionPlugin : Plugin<Project> {
@@ -31,14 +30,12 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
             }
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(
                     commonExtension = this,
                 )
-                defaultConfig.targetSdk = 36
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {

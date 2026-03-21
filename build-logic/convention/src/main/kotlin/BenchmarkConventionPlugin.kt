@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 
 import com.android.build.api.variant.TestAndroidComponentsExtension
-import com.android.build.gradle.TestExtension
+import com.android.build.api.dsl.TestExtension
 import dev.bwaim.kustomalarm.configureGradleManagedDevices
 import dev.bwaim.kustomalarm.configureKotlinAndroid
 import org.gradle.api.Plugin
@@ -32,7 +32,6 @@ class BenchmarkConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.test")
-                apply("org.jetbrains.kotlin.android")
             }
 
             extensions.configure<TestExtension> {
