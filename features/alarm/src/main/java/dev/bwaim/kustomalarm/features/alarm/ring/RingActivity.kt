@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Dev Bwaim team
+ * Copyright (c) 2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7,11 +7,11 @@
  *
  *     https://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package dev.bwaim.kustomalarm.features.alarm.ring
@@ -32,7 +32,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.TaskStackBuilder
-import androidx.core.os.bundleOf
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import dev.bwaim.kustomalarm.compose.KaBackground
@@ -98,10 +97,10 @@ public class RingActivity : AppCompatActivity() {
             Intent(context, RingActivity::class.java).apply {
                 this.flags = flags
                 putExtras(
-                    bundleOf(
-                        ID_RING_ALARM_ARG to alarmId,
-                        WITH_BACKSTACK_ARG to withBackstack,
-                    ),
+                    Bundle().apply {
+                        putInt(ID_RING_ALARM_ARG, alarmId)
+                        putBoolean(WITH_BACKSTACK_ARG, withBackstack)
+                    },
                 )
             }
 
