@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Dev Bwaim team
+ * Copyright (c) 2025-2026 Dev Bwaim team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.core.os.LocaleListCompat
@@ -144,11 +145,7 @@ private fun Theme.isAvailable(): Boolean =
     }
 
 @Composable
-private fun getCurrentLocale(): Preference<Locale> =
-    (
-        AppCompatDelegate.getApplicationLocales()[0]
-            ?: Locale.getDefault()
-    ).toPreference()
+private fun getCurrentLocale(): Preference<Locale> = LocalConfiguration.current.locales[0].toPreference()
 
 private fun List<Locale>.toLocaleListPreferences(context: Context): ListPreferenceValues<Locale> {
     @Suppress("SpreadOperator")
