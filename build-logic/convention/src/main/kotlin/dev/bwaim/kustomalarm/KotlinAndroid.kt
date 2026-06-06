@@ -34,7 +34,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 @Suppress("MagicNumber")
 internal fun Project.configureKotlinAndroid(commonExtension: CommonExtension) {
     commonExtension.apply {
-        compileSdk = 36
+        compileSdk = 37
 
         defaultConfig.apply {
             minSdk = 24
