@@ -36,7 +36,7 @@ class BenchmarkConventionPlugin : Plugin<Project> {
 
             extensions.configure<TestExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 36
+                defaultConfig.targetSdk = 37
                 configureGradleManagedDevices(this)
 
                 defaultConfig {
