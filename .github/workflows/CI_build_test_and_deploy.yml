@@ -35,7 +35,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 25.0.4+101.0.LTS
 
       - name: Generate cache key
         run: ./scripts/checksum.sh checksum.txt
@@ -98,7 +98,7 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 25.0.4+101.0.LTS
 
       - name: Generate cache key
         run: ./scripts/checksum.sh $SAMPLE_PATH checksum.txt
